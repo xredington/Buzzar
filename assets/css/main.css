@@ -1,97 +1,47 @@
 /* ==========================================================================
-   Buzzar — design system
-   Warm paper, deep hive green and honey. "After hours" is the dark theme.
+   Buzzar — design system (white edition)
+   A bright white canvas, deep emerald ink, honey gold and soft pastel glass.
    ========================================================================== */
 
 :root {
-  --paper: #f7f3ea;
-  --paper-2: #efe8d8;
-  --card: #fffdf8;
-  --ink: #15241b;
-  --ink-2: #4b5b51;
-  --ink-3: #7c897f;
-  --line: #e3dac7;
-  --line-2: #d4c8ae;
-  --green: #1d5a39;
-  --green-2: #2c7a4f;
-  --green-soft: #dfeee2;
-  --honey: #e09b2d;
-  --honey-2: #f4c463;
-  --honey-soft: #fbedcc;
-  --honey-ink: #8a5600;
-  --danger: #b4452f;
-  --on-green: #fbf7ee;
+  --paper: #ffffff;
+  --paper-2: #f7f7f3;
+  --card: #ffffff;
+  --ink: #0c1a13;
+  --ink-2: #535f58;
+  --ink-3: #8a948e;
+  --line: #ecece6;
+  --line-2: #dedfd6;
+  --green: #0b4a33;
+  --green-2: #11845a;
+  --green-soft: #e7f6ee;
+  --honey: #f4a51c;
+  --honey-2: #ffc95c;
+  --honey-soft: #fff4dc;
+  --honey-ink: #8a5300;
+  --mint: #3ccf9a;
+  --lilac: #b9a6ff;
+  --sky: #8fd3ff;
+  --danger: #c2412d;
+  --on-green: #ffffff;
 
-  --c-SW: #3a6ea5;
-  --c-DNA: #7a4fb0;
-  --c-CLD: #2b8a9a;
-  --c-SEC: #1d5a39;
-  --c-AI: #c0612b;
+  --c-SW: #2f6fe0;
+  --c-DNA: #7a4fe0;
+  --c-CLD: #0e98ad;
+  --c-SEC: #11845a;
+  --c-AI: #e7701f;
 
-  --shadow-1: 0 1px 2px rgb(40 30 10 / 6%), 0 2px 8px rgb(40 30 10 / 5%);
-  --shadow-2: 0 2px 6px rgb(40 30 10 / 7%), 0 16px 40px -12px rgb(40 30 10 / 18%);
-  --radius: 14px;
-  --radius-s: 9px;
-  --display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
-  --body: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --shadow-1: 0 1px 2px rgb(12 26 19 / 5%), 0 2px 10px rgb(12 26 19 / 4%);
+  --shadow-2: 0 2px 6px rgb(12 26 19 / 5%), 0 24px 60px -18px rgb(12 26 19 / 18%);
+  --shadow-glow: 0 0 0 1px rgb(244 165 28 / 25%), 0 20px 60px -20px rgb(244 165 28 / 45%);
+  --radius: 18px;
+  --radius-s: 10px;
+  --display: 'Geist', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --serif: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
+  --body: 'Geist', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   --hex: polygon(25% 3%, 75% 3%, 100% 50%, 75% 97%, 25% 97%, 0% 50%);
   color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    --paper: #0f1712;
-    --paper-2: #142019;
-    --card: #17251d;
-    --ink: #f1eadb;
-    --ink-2: #b2bcb1;
-    --ink-3: #849186;
-    --line: #25372c;
-    --line-2: #335040;
-    --green: #86cfa2;
-    --green-2: #a5e0bb;
-    --green-soft: #1d3326;
-    --honey: #f2b54e;
-    --honey-2: #f7cd7b;
-    --honey-soft: #33290f;
-    --honey-ink: #f6c76b;
-    --on-green: #0f1712;
-    --c-SW: #7eaee0;
-    --c-DNA: #b896e6;
-    --c-CLD: #6cc6d4;
-    --c-SEC: #86cfa2;
-    --c-AI: #f0a072;
-    --shadow-1: 0 1px 2px rgb(0 0 0 / 30%);
-    --shadow-2: 0 18px 50px -14px rgb(0 0 0 / 60%);
-    color-scheme: dark;
-  }
-}
-:root[data-theme='dark'] {
-  --paper: #0f1712;
-  --paper-2: #142019;
-  --card: #17251d;
-  --ink: #f1eadb;
-  --ink-2: #b2bcb1;
-  --ink-3: #849186;
-  --line: #25372c;
-  --line-2: #335040;
-  --green: #86cfa2;
-  --green-2: #a5e0bb;
-  --green-soft: #1d3326;
-  --honey: #f2b54e;
-  --honey-2: #f7cd7b;
-  --honey-soft: #33290f;
-  --honey-ink: #f6c76b;
-  --on-green: #0f1712;
-  --c-SW: #7eaee0;
-  --c-DNA: #b896e6;
-  --c-CLD: #6cc6d4;
-  --c-SEC: #86cfa2;
-  --c-AI: #f0a072;
-  --shadow-1: 0 1px 2px rgb(0 0 0 / 30%);
-  --shadow-2: 0 18px 50px -14px rgb(0 0 0 / 60%);
-  color-scheme: dark;
 }
 
 /* ---------- base ---------- */

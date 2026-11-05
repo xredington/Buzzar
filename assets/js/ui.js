@@ -160,6 +160,14 @@ export function listingArt(item) {
   </svg>`;
 }
 
+// ---------- imagery ----------
+const CAT_IMG = { CLD: 'cloud', DNA: 'data', AI: 'ai', SEC: 'security', SW: 'software' };
+export const catImg = (code) => `assets/img/${CAT_IMG[code] || 'hero'}.webp`;
+export const IND_IMG = { retail: 'retail', 'financial-services': 'finance', healthcare: 'healthcare', manufacturing: 'manufacturing' };
+export function img(src, alt = '', attrs = {}) {
+  return h('img', { src, alt, loading: 'lazy', decoding: 'async', ...attrs });
+}
+
 // ---------- monogram for providers ----------
 export function monogram(name) {
   const words = name.replace(/[^A-Za-z0-9 ]/g, ' ').split(/\s+/).filter(Boolean);

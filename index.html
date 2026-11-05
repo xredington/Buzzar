@@ -8,23 +8,18 @@
       name="description"
       content="Buzzar is the business solution marketplace. Explore governed products, services and accelerators across cloud, data, AI, security and software, and take the next step with Redington."
     />
-    <meta name="theme-color" content="#f7f3ea" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0f1712" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="color-scheme" content="light" />
     <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap"
     />
     <link rel="stylesheet" href="assets/css/main.css" />
-    <script>
-      // Apply the saved theme before first paint so the page never flashes.
-      try {
-        var t = localStorage.getItem('bz:theme');
-        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
-      } catch (e) {}
-    </script>
+    <link rel="stylesheet" href="assets/css/v2.css" />
+    <link rel="preload" as="image" href="assets/img/hero.webp" />
     <script type="module" src="assets/js/main.js"></script>
   </head>
   <body>
@@ -46,7 +41,7 @@
 
         <form class="hdr-ask" id="hdr-ask" role="search">
           <span class="spark" aria-hidden="true">✦</span>
-          <input id="hdr-ask-input" type="search" placeholder="Ask Buzzar…" aria-label="Ask Buzzar" autocomplete="off" />
+          <input id="hdr-ask-input" type="search" placeholder="Search or ask…" aria-label="Ask Buzzar" autocomplete="off" />
           <kbd aria-hidden="true">/</kbd>
         </form>
 
@@ -59,9 +54,7 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z" /></svg>
             <span class="badge" data-count="saved">0</span>
           </a>
-          <button class="tool" type="button" data-action="theme" aria-label="Switch light or dark theme" title="Theme">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" /></svg>
-          </button>
+          <a class="hdr-sami" href="#/advisor" aria-label="Talk to Sami, the Buzzar advisor"><img src="assets/img/sami.webp" alt="" width="28" height="28" /><span>Talk to Sami</span></a>
           <button class="tool menu-btn" type="button" data-action="menu" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
           </button>
@@ -76,7 +69,7 @@
         <p class="eyebrow">Explore</p>
         <a href="#/">Home</a>
         <a href="#/discover">Guided discovery</a>
-        <a href="#/ask">Ask Buzzar</a>
+        <a href="#/advisor">Talk to Sami (advisor)</a>
         <a href="#/catalogue">Full catalogue</a>
         <a href="#/catalogue?type=product">Products</a>
         <a href="#/catalogue?type=service">Services</a>
@@ -119,7 +112,7 @@
           <div>
             <p class="eyebrow">Find your fit</p>
             <a href="#/discover">Guided discovery</a>
-            <a href="#/ask">Ask Buzzar</a>
+            <a href="#/advisor">Talk to Sami (advisor)</a>
             <a href="#/industries">Industries</a>
             <a href="#/journey">My journey</a>
           </div>
@@ -128,10 +121,10 @@
             <a href="#/how-it-works">How it works</a>
             <a href="#/partners">Partners</a>
             <a href="#/agents">Agents &amp; developers</a>
-            <button type="button" class="linkish" data-action="theme">Switch theme</button>
           </div>
         </div>
       </div>
+      <div class="ftr-giant" aria-hidden="true">Buzzar<i>.</i></div>
     </footer>
 
     <dialog id="dlg" aria-labelledby="dlg-title">

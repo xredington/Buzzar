@@ -1,320 +1,8 @@
-import { h, icon, iconMarkup, hexPath, BEE, countUp, onReveal, fmt } from '../ui.js';
-import { all, getMeta, catLabel, industryLabel, industryIcon, CAT_BLURB, TYPE } from '../data.js';
+import { h, icon, countUp, onReveal, fmt, img, catImg, IND_IMG, monogram } from '../ui.js';
+import { all, getMeta, industryLabel, CAT_BLURB } from '../data.js';
 import { card } from '../components.js';
 import { go } from '../main.js';
 
-const PROMPTS = [
-  'Stop stockouts across 40 stores',
-  'Zero trust for a bank in Riyadh',
-  'Move our ERP to Azure',
-  'A GenAI assistant for our call centre',
-  'Predictive maintenance for a plant',
-  'Prove PDPL compliance',
-];
-
-export default function home() {
-  const meta = getMeta();
-  const items = all();
-  return h(
-    'div',
-    null,
-    hero(meta),
-    marquee(meta),
-    practices(meta),
-    discoverTeaser(),
-    fresh(items),
-    pathSection(),
-    accelerators(items),
-    industries(meta),
-    cta(),
-  );
-}
-
-// ---------- hero ----------
-function hero(meta) {
-  const input = h('input', { type: 'text', 'aria-label': 'Describe what you want to achieve', placeholder: PROMPTS[0], autocomplete: 'off', maxlength: 400 });
-  const form = h(
-    'form',
-    { class: 'ask-box', role: 'search' },
-    h('span', { class: 'spark', 'aria-hidden': 'true' }, '✦'),
-    input,
-    h('button', { class: 'btn primary', type: 'submit' }, 'Ask Buzzar', h('span', { class: 'arr' }, '→')),
-  );
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const q = input.value.trim() || input.placeholder;
-    go('ask?q=' + encodeURIComponent(q));
-  });
-  // rotate the placeholder like a thought passing by
-  let pi = 0;
-  const rot = setInterval(() => {
-    if (!document.body.contains(input)) return clearInterval(rot);
-    if (document.activeElement === input || input.value) return;
-    pi = (pi + 1) % PROMPTS.length;
-    input.placeholder = PROMPTS[pi];
-  }, 3200);
-
-  const providers = meta.providers.length;
-  const stats = [
-    [meta.total, 'governed listings'],
-    [providers, 'providers'],
-    [Object.keys(meta.industries).length, 'industries'],
-    [meta.categories.length, 'practices'],
-  ].map(([n, l]) => {
-    const b = h('b', null, '0');
-    const s = h('div', { class: 'stat' }, b, h('span', null, l));
-    onReveal(s, () => countUp(b, n));
-    return s;
-  });
-
-  const words = (txt, delay0) =>
-    txt.split(' ').map((w, i) => [h('span', { class: 'word', style: { animationDelay: `${delay0 + i * 70}ms` } }, w), ' ']);
-
-  return h(
-    'section',
-    { class: 'hero' },
-    h(
-      'div',
-      { class: 'wrap hero-grid' },
-      h(
-        'div',
-        null,
-        h('p', { class: 'eyebrow' }, 'The business solution marketplace'),
-        h('h1', null, h('span', { class: 'line' }, words('Where expertise', 0)), h('span', { class: 'line' }, words('meets', 140), h('em', { class: 'hl word', style: { animationDelay: '220ms' } }, 'opportunity.'))),
-        h('p', { class: 'lede' }, `Products, services and accelerators across cloud, data, AI, security and software. Every listing is governed by Redington, so you can tell what fits before you talk to anyone.`),
-        form,
-        h('div', { class: 'prompts', 'aria-label': 'Try asking' }, PROMPTS.slice(1, 5).map((p) => h('button', { type: 'button', onclick: () => go('ask?q=' + encodeURIComponent(p)) }, p))),
-        h('div', { class: 'stats' }, stats),
-      ),
-      hive(meta),
-    ),
-  );
-}
-
-function hive(meta) {
-  const R = 74;
-  const cx = 300;
-  const cy = 292;
-  const dy = Math.sqrt(3) * R;
-  const pos = (q, r) => [cx + q * 1.5 * R, cy + (r + q / 2) * dy];
-  const counts = meta.counts.category;
-  // axial neighbours of the centre, clockwise from the top
-  const ring1 = [
-    [0, -1],
-    [1, -1],
-    [1, 0],
-    [0, 1],
-    [-1, 1],
-    [-1, 0],
-  ];
-  const cats = ['AI', 'CLD', 'SEC', 'DNA', 'SW'];
-  const ring2 = [
-    [0, -2],
-    [1, -2],
-    [2, -2],
-    [2, -1],
-    [2, 0],
-    [1, 1],
-    [0, 2],
-    [-1, 2],
-    [-2, 2],
-    [-2, 1],
-    [-2, 0],
-    [-1, -1],
-  ];
-  const svgNS = 'http://www.w3.org/2000/svg';
-  const svg = document.createElementNS(svgNS, 'svg');
-  svg.setAttribute('class', 'comb');
-  svg.setAttribute('viewBox', '0 0 600 584');
-  svg.setAttribute('role', 'group');
-  svg.setAttribute('aria-label', 'Browse by practice');
-
-  const indKeys = ['retail', 'financial-services', 'healthcare', 'public-sector', 'telecommunications', 'logistics'];
-  let html = '';
-  ring2.forEach(([q, r], i) => {
-    const [x, y] = pos(q, r);
-    const ind = i % 2 === 1 ? indKeys[(i - 1) / 2] : null;
-    if (ind) {
-      html += `<g class="cell ind" tabindex="0" role="link" data-go="catalogue?ind=${ind}" data-tip="${industryLabel(ind)} · ${meta.counts.industry[ind] || 0} listings" style="animation-delay:${400 + i * 40}ms;--cat:var(--honey)">
-        <path class="hexp" d="${hexPath(x, y, R - 6)}"/>
-        <g transform="translate(${x - 14} ${y - 14}) scale(1.17)" class="ico" style="stroke:var(--honey-ink)">${iconMarkup(industryIcon(ind))}</g></g>`;
-    } else {
-      html += `<g class="cell ghost" aria-hidden="true" style="animation-delay:${400 + i * 40}ms"><path class="hexp" d="${hexPath(x, y, R - 6)}"/></g>`;
-    }
-  });
-  ring1.forEach(([q, r], i) => {
-    const [x, y] = pos(q, r);
-    if (i === 5) {
-      html += `<g class="cell honeyc" tabindex="0" role="link" data-go="discover" data-tip="Answer three questions, get matches" style="animation-delay:${150 + i * 60}ms;--cat:var(--honey)">
-        <path class="hexp" d="${hexPath(x, y, R - 4)}"/>
-        <text class="t1" x="${x}" y="${y - 2}" style="fill:#1b1405">Discover</text><text class="t2" x="${x}" y="${y + 16}" style="fill:#4a3608">3 questions</text></g>`;
-      return;
-    }
-    const c = cats[i];
-    html += `<g class="cell big" tabindex="0" role="link" data-go="catalogue?cat=${c}" data-tip="${CAT_BLURB[c]}" style="animation-delay:${150 + i * 60}ms;--cat:var(--c-${c})">
-      <path class="hexp" d="${hexPath(x, y, R - 4)}"/>
-      <g transform="translate(${x - 12} ${y - 34})" class="ico">${iconMarkup(c)}</g>
-      <text class="t1" x="${x}" y="${y + 12}">${c === 'DNA' ? 'Data' : catLabel(c).replace('Artificial Intelligence', 'AI')}</text>
-      <text class="t2" x="${x}" y="${y + 30}">${fmt(counts[c] || 0)} listings</text></g>`;
-  });
-  const [x0, y0] = [cx, cy];
-  html += `<g class="cell" tabindex="0" role="link" data-go="catalogue" data-tip="Browse all ${fmt(meta.total)} listings" style="--cat:var(--green)">
-      <path class="hexp" d="${hexPath(x0, y0, R - 4)}" style="fill:var(--green);stroke:var(--green)"/>
-      <text class="t1" x="${x0}" y="${y0 - 4}" style="fill:var(--on-green);font-size:26px">${fmt(meta.total)}</text>
-      <text class="t2" x="${x0}" y="${y0 + 18}" style="fill:var(--on-green);opacity:.8">solutions</text></g>`;
-  // a pollen trail the bee follows, weaving through the comb
-  html += `<path id="flight" class="flight" d="M70 300 C 90 120, 250 40, 330 120 S 560 140, 530 300 S 420 540, 300 480 S 60 470, 110 360 S 210 230, 300 200 S 470 250, 430 380 S 200 420, 70 300"/>`;
-  svg.innerHTML = html;
-
-  const bee = h('div', { class: 'bee', html: BEE });
-  bee.style.animation = 'none';
-  const tip = h('div', { class: 'hive-tip', role: 'tooltip' });
-  const wrap = h('div', { class: 'hive' }, svg, bee, tip);
-
-  svg.addEventListener('click', (e) => {
-    const g = e.target.closest('[data-go]');
-    if (g) go(g.dataset.go);
-  });
-  svg.addEventListener('keydown', (e) => {
-    const g = e.target.closest('[data-go]');
-    if (g && (e.key === 'Enter' || e.key === ' ')) {
-      e.preventDefault();
-      go(g.dataset.go);
-    }
-  });
-  const showTip = (e) => {
-    const g = e.target.closest('[data-tip]');
-    if (!g) return tip.classList.remove('on');
-    const box = g.getBoundingClientRect();
-    const host = wrap.getBoundingClientRect();
-    tip.textContent = g.dataset.tip;
-    tip.style.left = `${box.left - host.left + box.width / 2}px`;
-    tip.style.top = `${box.top - host.top + 8}px`;
-    tip.classList.add('on');
-  };
-  svg.addEventListener('pointerover', showTip);
-  svg.addEventListener('focusin', showTip);
-  svg.addEventListener('pointerleave', () => tip.classList.remove('on'));
-  svg.addEventListener('focusout', () => tip.classList.remove('on'));
-
-  // fly the bee along the trail, in the comb's own coordinates so it scales with the layout
-  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const path = svg.querySelector('#flight');
-    const L = path.getTotalLength();
-    const t0 = performance.now();
-    const frame = (t) => {
-      if (!document.body.contains(wrap)) return;
-      const k = (((t - t0) / 22000) % 1) * L;
-      const p = path.getPointAtLength(k);
-      const q = path.getPointAtLength((k + 2) % L);
-      const scale = wrap.clientWidth / 600;
-      const ang = (Math.atan2(q.y - p.y, q.x - p.x) * 180) / Math.PI;
-      const flip = Math.abs(ang) > 90 ? -1 : 1;
-      bee.style.transform = `translate(${p.x * scale - 23}px, ${p.y * scale - 23}px) rotate(${flip < 0 ? ang + 180 : ang}deg) scaleX(${flip})`;
-      requestAnimationFrame(frame);
-    };
-    requestAnimationFrame(frame);
-  }
-  return wrap;
-}
-
-// ---------- provider marquee ----------
-function marquee(meta) {
-  const top = meta.providers.filter((p) => p.name !== 'Redington').slice(0, 28);
-  const links = top.map((p) => h('a', { href: `#/catalogue?prov=${encodeURIComponent(p.name)}` }, p.name));
-  return h(
-    'div',
-    { class: 'marquee', 'aria-label': 'Providers on Buzzar' },
-    h('div', { class: 'marquee-track' }, links, top.map((p) => h('a', { href: `#/catalogue?prov=${encodeURIComponent(p.name)}`, 'aria-hidden': 'true', tabindex: '-1' }, p.name))),
-  );
-}
-
-// ---------- practices ----------
-function practices(meta) {
-  const subsCount = meta.counts.sub;
-  return h(
-    'section',
-    { class: 'section' },
-    h(
-      'div',
-      { class: 'wrap' },
-      h('div', { class: 'section-head' }, h('div', null, h('p', { class: 'eyebrow' }, 'Five practices, one hive'), h('h2', null, 'Start from the capability you need.')), h('a', { class: 'btn', href: '#/catalogue' }, 'Browse everything', h('span', { class: 'arr' }, '→'))),
-      h(
-        'div',
-        { class: 'cats' },
-        meta.categories.map((c) =>
-          h(
-            'a',
-            { class: 'cat-tile', href: `#/catalogue?cat=${c.code}`, style: { '--cat': `var(--c-${c.code})` } },
-            h('span', { class: 'hexbig' }, icon(c.code)),
-            h('h3', null, c.label),
-            h('span', { class: 'n' }, `${fmt(meta.counts.category[c.code] || 0)} listings`),
-            h(
-              'ul',
-              null,
-              [...c.subs]
-                .sort((a, b) => (subsCount[b.key] || 0) - (subsCount[a.key] || 0))
-                .slice(0, 3)
-                .map((s) => h('li', null, s.label)),
-            ),
-          ),
-        ),
-      ),
-    ),
-  );
-}
-
-// ---------- guided discovery teaser ----------
-function discoverTeaser() {
-  const pickers = ['retail', 'financial-services', 'healthcare', 'public-sector', 'manufacturing', 'telecommunications'];
-  return h(
-    'section',
-    { class: 'section band' },
-    h(
-      'div',
-      { class: 'wrap hero-grid', style: { alignItems: 'start' } },
-      h(
-        'div',
-        null,
-        h('p', { class: 'eyebrow' }, 'Guided discovery'),
-        h('h2', null, 'Not sure what to search for? ', h('em', { class: 'hl' }, 'Start with your world.')),
-        h('p', { class: 'lede' }, 'Three questions: your industry, your perspective and what you want to change. You pick every answer, nothing is saved, and your matches explain why they fit.'),
-        h('a', { class: 'btn primary', href: '#/discover' }, 'Start guided discovery', h('span', { class: 'arr' }, '→')),
-      ),
-      h(
-        'div',
-        null,
-        h('p', { class: 'muted small', style: { marginBottom: '10px' } }, 'What world do you work in?'),
-        h(
-          'div',
-          { class: 'choices', style: { marginTop: 0 } },
-          pickers.map((k, i) => h('a', { class: 'choice', href: `#/discover?industry=${k}`, style: { animationDelay: `${i * 60}ms` } }, h('span', { class: 'ci' }, icon(industryIcon(k))), h('b', null, industryLabel(k)), h('small', null, 'Pick to begin →'))),
-        ),
-      ),
-    ),
-  );
-}
-
-// ---------- fresh listings ----------
-function fresh(items) {
-  const pick = [...items]
-    .filter((x) => x.y !== 'accelerator')
-    .sort((a, b) => (b.u || '').localeCompare(a.u || ''))
-    .filter((x, i, a) => a.findIndex((y) => y.c === x.c && y.y === x.y) === i)
-    .slice(0, 6);
-  return h(
-    'section',
-    { class: 'section' },
-    h(
-      'div',
-      { class: 'wrap' },
-      h('div', { class: 'section-head' }, h('div', null, h('p', { class: 'eyebrow' }, 'Fresh from the hive'), h('h2', null, 'Recently published.')), h('a', { class: 'btn', href: '#/catalogue?sort=new' }, 'See what’s new', h('span', { class: 'arr' }, '→'))),
-      h('div', { class: 'grid' }, pick.map((it) => card(it))),
-    ),
-  );
-}
-
-// ---------- the six-step path ----------
 export const PATH = [
   ['Explore', 'Discover the fit', 'Outcome, audience and what it is not for, published up front.'],
   ['Experience', 'See it working', 'Demos and reference stories in Redington experience centres.'],
@@ -323,70 +11,326 @@ export const PATH = [
   ['Deploy', 'Buy and deploy', 'Marketplace private offers or Redington resale.'],
   ['Adopt', 'Measure the value', 'Track the outcome you agreed, and scale what works.'],
 ];
-function pathSection() {
+
+const ROTATE = ['next move.', 'AI rollout.', 'cloud migration.', 'zero-trust plan.', 'data platform.'];
+const PROMPTS = ['Stop stockouts across 40 stores', 'Zero trust for a bank in Riyadh', 'Move our ERP to Azure', 'A GenAI assistant for our call centre'];
+
+const alive = (el) => document.body.contains(el);
+
+export default function home() {
+  const meta = getMeta();
+  const items = all();
+  return h('div', null, hero(meta), logos(meta), beams(meta), bento(meta), sami(), gallery(meta), journey(), latest(items), tickers(meta), partner());
+}
+
+// ---------- hero ----------
+function hero(meta) {
+  const rot = h('span', { class: 'rot' }, h('span', { class: 'rot-word' }, h('span', { class: 'grad' }, ROTATE[0])));
+  let ri = 0;
+  const timer = setInterval(() => {
+    if (!alive(rot)) return clearInterval(timer);
+    const cur = rot.firstChild;
+    cur.classList.add('out');
+    setTimeout(() => {
+      ri = (ri + 1) % ROTATE.length;
+      rot.replaceChildren(h('span', { class: 'rot-word' }, h('span', { class: 'grad' }, ROTATE[ri])));
+    }, 380);
+  }, 2800);
+
+  const input = h('input', { type: 'text', placeholder: 'Describe the outcome you want…', 'aria-label': 'Describe the outcome you want', autocomplete: 'off', maxlength: 400 });
+  const form = h('form', { class: 'ask-box', role: 'search' }, h('span', { class: 'spark', 'aria-hidden': 'true' }, '✦'), input, h('button', { class: 'btn shimmer', type: 'submit' }, h('span', { class: 'sh-spark' }), 'Ask Sami', h('span', { class: 'arr' }, '→')));
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    go('advisor?q=' + encodeURIComponent(input.value.trim() || PROMPTS[0]));
+  });
+
+  const chip = (style, iconTxt, bg, title, sub, extra = '') => h('div', { class: 'glass-chip ' + extra, style }, h('span', { class: 'ic', style: { background: bg } }, iconTxt), h('div', null, h('b', null, title), h('small', null, sub)));
+
+  return h(
+    'section',
+    { class: 'hero2' },
+    h('div', { class: 'aurora', 'aria-hidden': 'true' }),
+    h('div', { class: 'dots', 'aria-hidden': 'true' }),
+    h(
+      'div',
+      { class: 'wrap hero2-grid' },
+      h(
+        'div',
+        null,
+        h('a', { class: 'hero-pill', href: '#/advisor' }, h('span', { class: 'tag' }, 'New'), h('span', { class: 'text-shimmer' }, 'Meet Sami, your solution advisor'), h('span', { class: 'arr' }, '→')),
+        h('h1', null, 'The right expertise', h('br'), 'for your ', rot),
+        h('p', { class: 'lede' }, `${fmt(meta.total)} governed products, services and accelerators across cloud, data, AI, security and software. Tell Sami what you want to change; get a shortlist that explains itself.`),
+        h('div', { class: 'beam-box' }, form),
+        h('div', { class: 'prompts' }, PROMPTS.slice(1).map((p) => h('button', { type: 'button', onclick: () => go('advisor?q=' + encodeURIComponent(p)) }, p))),
+        h('div', { class: 'trust' }, h('span', null, 'Every claim shows its basis'), h('span', null, 'Nothing you type is stored'), h('span', null, 'Delivered by Redington')),
+      ),
+      h(
+        'div',
+        { class: 'hero-visual' },
+        img('assets/img/hero.webp', 'Glass honeycomb with a golden bee', { class: 'main', loading: 'eager', fetchpriority: 'high', width: 1100, height: 829 }),
+        chip({ left: '-2%', top: '8%', animationDelay: '.3s, 0s' }, '✓', 'var(--green-soft)', 'Strong fit', 'Demand forecasting · Retail'),
+        chip({ right: '-2%', top: '42%', animationDelay: '.6s, 1.2s' }, '◆', 'var(--honey-soft)', `${fmt(meta.providers.length)} providers`, 'Cisco, Fortinet, Dell…'),
+        chip({ left: '6%', bottom: '4%', animationDelay: '.9s, 2s' }, '✦', '#f0ebff', 'Sami asked 2 questions', '43 → 3 matches', 'keep'),
+      ),
+    ),
+  );
+}
+
+// ---------- logo cloud ----------
+function logos(meta) {
+  const top = meta.providers.filter((p) => p.name !== 'Redington').slice(0, 24);
+  const row = (hidden) => top.map((p) => h('a', { href: `#/catalogue?prov=${encodeURIComponent(p.name)}`, 'aria-hidden': hidden ? 'true' : null, tabindex: hidden ? '-1' : null }, p.name));
+  return h('section', { class: 'logos' }, h('p', null, 'Solutions from the vendors you already run on'), h('div', { class: 'marquee' }, h('div', { class: 'marquee-track' }, row(false), row(true))));
+}
+
+// ---------- animated beam: your brief → Sami → providers ----------
+function beams(meta) {
+  const left = [
+    ['bag', 'Retail, 40 stores'],
+    ['target', 'Cut stockouts 20%'],
+    ['CLD', 'Runs on Azure'],
+    ['columns', 'UAE data residency'],
+  ];
+  const right = meta.providers.filter((p) => p.name !== 'Redington').slice(0, 4);
+  const node = (ic, t) => h('div', { class: 'node' }, h('span', { class: 'ni' }, icon(ic)), t);
+  const L = h('div', { class: 'node-col' }, left.map(([i, t]) => node(i, t)));
+  const R = h('div', { class: 'node-col right' }, right.map((p) => h('div', { class: 'node' }, monogram(p.name), p.name)));
+  for (const m of R.querySelectorAll('.mono')) Object.assign(m.style, { width: '30px', height: '33px', fontSize: '.7rem' });
+  const hub = h('div', { class: 'hub' }, img('assets/img/sami.webp', '', { width: 120, height: 120 }), h('span', { class: 'hub-label' }, 'Sami matches'));
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(svgNS, 'svg');
+  svg.setAttribute('class', 'wires');
+  svg.setAttribute('aria-hidden', 'true');
+  const grid = h('div', { class: 'beams-grid' }, svg, L, hub, R);
+
+  // draw curved wires between real element positions; redraw on resize
+  const draw = () => {
+    if (!alive(grid)) return removeEventListener('resize', draw);
+    const g = grid.getBoundingClientRect();
+    const hb = hub.getBoundingClientRect();
+    const hx = hb.left - g.left + hb.width / 2;
+    const hy = hb.top - g.top + hb.height / 2;
+    let html = '<defs>';
+    const colors = [
+      ['#f4a51c', '#3ccf9a'],
+      ['#3ccf9a', '#8fd3ff'],
+      ['#b9a6ff', '#f4a51c'],
+      ['#f07a2a', '#b9a6ff'],
+    ];
+    colors.forEach(([a, b], i) => (html += `<linearGradient id="bg${i}" x1="0" x2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient>`));
+    html += '</defs>';
+    const wire = (x1, y1, x2, y2, i, reverse) => {
+      const mx = (x1 + x2) / 2;
+      const d = `M${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}`;
+      html += `<path class="base" d="${d}"/><path class="pulse" d="${d}" stroke="url(#bg${i % 4})" style="animation-delay:${i * 0.45}s;${reverse ? 'animation-direction:reverse' : ''}"/>`;
+    };
+    [...L.children].forEach((n, i) => {
+      const r = n.getBoundingClientRect();
+      wire(r.right - g.left, r.top - g.top + r.height / 2, hx - hb.width / 2 + 6, hy, i);
+    });
+    [...R.children].forEach((n, i) => {
+      const r = n.getBoundingClientRect();
+      wire(hx + hb.width / 2 - 6, hy, r.left - g.left, r.top - g.top + r.height / 2, i + 2);
+    });
+    svg.innerHTML = html;
+  };
+  requestAnimationFrame(() => requestAnimationFrame(draw));
+  addEventListener('resize', draw);
+  onReveal(grid, draw);
+
+  return h(
+    'section',
+    { class: 'section' },
+    h(
+      'div',
+      { class: 'wrap' },
+      h('div', { class: 'shead' }, h('span', { class: 'kicker' }, 'How matching works'), h('h2', null, 'Your brief in. ', h('span', { class: 'serif' }, 'The right people out.')), h('p', null, 'Sami reads your industry, goal, platform and constraints, then routes you to the listings and providers that actually fit, with the reason for each.')),
+      h('div', { class: 'beams' }, h('div', { class: 'dots' }), grid),
+    ),
+  );
+}
+
+// ---------- bento of practices ----------
+function bento(meta) {
+  const c = meta.counts.category;
+  const subsFor = (code) =>
+    meta.categories
+      .find((x) => x.code === code)
+      .subs.sort((a, b) => (meta.counts.sub[b.key] || 0) - (meta.counts.sub[a.key] || 0))
+      .slice(0, 4)
+      .map((s) => h('span', null, s.label));
+  const cell = (code, size, title, blurb) =>
+    h(
+      'a',
+      { class: `bento-cell spot ${size}`, href: `#/catalogue?cat=${code}`, style: { '--cat': `var(--c-${code})` } },
+      h('span', { class: 'spot-border' }),
+      h('span', { class: 'go', 'aria-hidden': 'true' }, '→'),
+      h('div', null, h('span', { class: 'count' }, `${fmt(c[code] || 0)} listings`), h('h3', null, title), h('p', null, blurb), size === 'b-lg' ? h('div', { class: 'subs' }, subsFor(code)) : null),
+      img(catImg(code), '', { width: 640, height: 640 }),
+    );
+  return h(
+    'section',
+    { class: 'section', style: { paddingTop: 0 } },
+    h(
+      'div',
+      { class: 'wrap' },
+      h('div', { class: 'shead' }, h('span', { class: 'kicker' }, 'Five practices'), h('h2', null, 'Everything your stack needs, ', h('span', { class: 'serif' }, 'in one hive.')), h('p', null, 'Start from the capability. Each practice is curated by Redington specialists and backed by the vendors behind it.')),
+      h(
+        'div',
+        { class: 'bento' },
+        cell('AI', 'b-lg', 'Artificial Intelligence', CAT_BLURB.AI),
+        cell('CLD', 'b-md', 'Cloud', CAT_BLURB.CLD),
+        cell('SEC', 'b-md', 'Security', CAT_BLURB.SEC),
+        cell('DNA', 'b-md', 'Data & Analytics', CAT_BLURB.DNA),
+        cell('SW', 'b-md', 'Software', CAT_BLURB.SW),
+      ),
+    ),
+  );
+}
+
+// ---------- Sami teaser: a chat that plays itself ----------
+const SCRIPT = [
+  ['me', 'We keep running out of fresh produce but still throw away a lot.'],
+  ['sami', 'Sounds like a forecasting and markdown problem. Which industry, and roughly how many stores?'],
+  ['me', 'Grocery retail, about 40 stores in the UAE.'],
+  ['sami', 'Got it. 85 listings fit retail; 3 are a strong fit. Want them ranked by speed to pilot?'],
+];
+function sami() {
+  const thread = h('div', { class: 'thread', style: { gap: '12px', display: 'flex', flexDirection: 'column' } });
+  const box = h('div', { class: 'mock-chat' }, h('div', { class: 'mc-head' }, img('assets/img/sami.webp', '', { width: 34, height: 34 }), h('div', null, h('b', null, 'Sami'), h('small', null, '● Online · Buzzar advisor'))), thread);
+  let i = 0;
+  const play = () => {
+    if (!alive(box)) return;
+    if (i >= SCRIPT.length) {
+      setTimeout(() => {
+        if (!alive(box)) return;
+        thread.replaceChildren();
+        i = 0;
+        play();
+      }, 4000);
+      return;
+    }
+    const [who, text] = SCRIPT[i++];
+    if (who === 'sami') {
+      const t = h('div', { class: 'msg' }, img('assets/img/sami.webp', '', { class: 'av' }), h('div', { class: 'bubble typing' }, h('i'), h('i'), h('i')));
+      thread.append(t);
+      setTimeout(() => {
+        if (!alive(box)) return;
+        t.replaceWith(h('div', { class: 'msg' }, img('assets/img/sami.webp', '', { class: 'av' }), h('div', { class: 'bubble' }, text)));
+        setTimeout(play, 1400);
+      }, 1100);
+    } else {
+      thread.append(h('div', { class: 'msg me' }, h('div', { class: 'bubble' }, text)));
+      setTimeout(play, 1000);
+    }
+  };
+  onReveal(box, play);
   return h(
     'section',
     { class: 'section band' },
     h(
       'div',
-      { class: 'wrap' },
-      h('div', { class: 'section-head' }, h('div', null, h('p', { class: 'eyebrow' }, 'One connected journey'), h('h2', null, 'From first look to measured value.')), h('a', { class: 'btn', href: '#/how-it-works' }, 'How it works', h('span', { class: 'arr' }, '→'))),
+      { class: 'wrap sami-band' },
       h(
         'div',
-        { class: 'path6' },
-        PATH.map(([n, s, p], i) => h('div', { class: 'p6' + (i < 1 ? ' on' : '') }, h('div', { class: 'hx' }, String(i + 1)), h('h4', null, n), h('p', null, h('b', null, s)), h('p', null, p))),
+        null,
+        h('span', { class: 'kicker' }, 'The Sami sandbox'),
+        h('h2', null, 'An advisor that ', h('span', { class: 'serif' }, 'asks before it answers.')),
+        h('p', { class: 'lede' }, 'Describe your problem in plain words, or out loud. Sami asks the two or three questions that matter, shows how your options narrow, then gives a ranked shortlist, the honest gaps, and a mission plan you can take to your board.'),
+        h('ul', { class: 'ticks', style: { gridTemplateColumns: '1fr', margin: '22px 0 28px' } }, h('li', null, 'A live brief that fills in as you talk'), h('li', null, 'Voice in, voice out'), h('li', null, 'Ask follow-up questions about any listing'), h('li', null, 'One-click mission plan from Explore to Adopt')),
+        h('a', { class: 'btn shimmer', href: '#/advisor' }, h('span', { class: 'sh-spark' }), 'Open the sandbox', h('span', { class: 'arr' }, '→')),
       ),
+      box,
     ),
   );
 }
 
-// ---------- accelerators ----------
-function accelerators(items) {
-  const acc = items.filter((x) => x.y === 'accelerator');
-  const pick = acc.filter((x, i, a) => a.findIndex((y) => y.c === x.c) === i).slice(0, 3);
+// ---------- industries gallery ----------
+function gallery(meta) {
+  const feat = Object.keys(IND_IMG);
+  const rest = Object.entries(meta.counts.industry)
+    .filter(([k]) => !feat.includes(k) && meta.industries[k])
+    .sort((a, b) => b[1] - a[1]);
   return h(
     'section',
     { class: 'section' },
     h(
       'div',
       { class: 'wrap' },
+      h('div', { class: 'shead' }, h('span', { class: 'kicker' }, `${Object.keys(meta.industries).length} industries`), h('h2', null, 'Built for the way ', h('span', { class: 'serif' }, 'your sector works.'))),
       h(
         'div',
-        { class: 'section-head' },
-        h('div', null, h('p', { class: 'eyebrow' }, 'Accelerators'), h('h2', null, 'Proven patterns. ', h('em', { class: 'hl' }, 'Weeks, not quarters.')), h('p', { class: 'lede', style: { marginTop: '10px' } }, TYPE.accelerator.blurb)),
-        h('a', { class: 'btn', href: '#/catalogue?type=accelerator' }, `All ${acc.length} accelerators`, h('span', { class: 'arr' }, '→')),
+        { class: 'gallery' },
+        feat.map((k) =>
+          h('a', { class: 'gcard', href: `#/catalogue?ind=${k}` }, img(`assets/img/${IND_IMG[k]}.webp`, industryLabel(k), { width: 820, height: 618 }), h('div', { class: 'gc-body' }, h('div', null, h('h3', null, industryLabel(k)), h('small', null, `${fmt(meta.counts.industry[k] || 0)} solutions`)), h('span', { class: 'round', 'aria-hidden': 'true' }, '→'))),
+        ),
       ),
+      h('div', { class: 'ind-pills' }, rest.map(([k, n]) => h('a', { href: `#/catalogue?ind=${k}` }, industryLabel(k), h('span', null, fmt(n))))),
+    ),
+  );
+}
+
+// ---------- journey told on scroll ----------
+function journey() {
+  const steps = PATH.map(([n, s, p], i) => h('div', { class: 'jstep', 'data-n': String(i + 1) }, h('h3', null, n), h('span', { class: 'sub' }, s), h('p', null, p)));
+  const fill = h('span', { class: 'fill' });
+  const list = h('div', { class: 'jsteps' }, fill, steps);
+  const onScroll = () => {
+    if (!alive(list)) return removeEventListener('scroll', onScroll);
+    const r = list.getBoundingClientRect();
+    const mid = innerHeight * 0.55;
+    const p = Math.max(0, Math.min(1, (mid - r.top) / r.height));
+    fill.style.setProperty('--p', `${p * 100}%`);
+    for (const s of steps) s.classList.toggle('on', s.getBoundingClientRect().top < mid);
+  };
+  addEventListener('scroll', onScroll, { passive: true });
+  requestAnimationFrame(onScroll);
+  return h(
+    'section',
+    { class: 'section band' },
+    h(
+      'div',
+      { class: 'wrap journey2' },
+      h('div', { class: 'sticky' }, h('span', { class: 'kicker' }, 'The Outcome Network'), h('h2', null, 'From first look to ', h('span', { class: 'serif' }, 'measured value.')), h('p', { class: 'lede' }, 'Six stages, one connected journey. Every listing shows how far it has published along the path, so you know whether to plan, pilot or ask more first.'), h('a', { class: 'btn', href: '#/how-it-works' }, 'How it works', h('span', { class: 'arr' }, '→'))),
+      list,
+    ),
+  );
+}
+
+// ---------- latest ----------
+function latest(items) {
+  const pick = [...items]
+    .sort((a, b) => (b.u || '').localeCompare(a.u || ''))
+    .filter((x, i, a) => a.findIndex((y) => y.c === x.c) === i)
+    .slice(0, 3);
+  return h(
+    'section',
+    { class: 'section' },
+    h(
+      'div',
+      { class: 'wrap' },
+      h('div', { class: 'section-head' }, h('div', null, h('span', { class: 'kicker' }, 'Fresh from the hive'), h('h2', null, 'Recently published.')), h('a', { class: 'btn', href: '#/catalogue?sort=new' }, 'Browse all', h('span', { class: 'arr' }, '→'))),
       h('div', { class: 'grid' }, pick.map((it) => card(it))),
     ),
   );
 }
 
-// ---------- industries ----------
-function industries(meta) {
-  const top = Object.entries(meta.counts.industry)
-    .filter(([k]) => k !== 'cross-industry' && meta.industries[k])
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 8);
-  return h(
-    'section',
-    { class: 'section-tight' },
-    h(
-      'div',
-      { class: 'wrap' },
-      h('div', { class: 'section-head' }, h('div', null, h('p', { class: 'eyebrow' }, 'Industries'), h('h2', null, 'Built for the way your sector works.')), h('a', { class: 'btn', href: '#/industries' }, 'All industries', h('span', { class: 'arr' }, '→'))),
-      h(
-        'div',
-        { class: 'ind-grid' },
-        top.map(([k, n]) => h('a', { class: 'ind', href: `#/catalogue?ind=${k}` }, h('span', { class: 'ci' }, icon(industryIcon(k))), h('div', null, h('b', null, industryLabel(k)), h('small', null, `${fmt(n)} listings`)))),
-      ),
-    ),
-  );
+// ---------- number tickers ----------
+function tickers(meta) {
+  const t = (n, label, suffix = '') => {
+    const b = h('b', null, '0');
+    const d = h('div', null, b, h('span', null, label));
+    onReveal(d, () => {
+      countUp(b, n);
+      if (suffix) setTimeout(() => (b.textContent += suffix), 1450);
+    });
+    return d;
+  };
+  return h('section', { class: 'section-tight' }, h('div', { class: 'wrap' }, h('div', { class: 'tickers' }, t(meta.total, 'governed listings'), t(meta.providers.length, 'vendors & partners'), t(meta.counts.type.accelerator || 0, 'accelerators'), t(Object.keys(meta.industries).length, 'industries served'))));
 }
 
-function cta() {
-  const comb = `<svg class="cta-comb" viewBox="0 0 300 300" aria-hidden="true">${[0, 1, 2, 3]
-    .flatMap((c) => [0, 1, 2, 3].map((r) => `<path d="${hexPath(40 + c * 66, 40 + r * 76 + (c % 2) * 38, 40)}"/>`))
-    .join('')}</svg>`;
+// ---------- partner CTA ----------
+function partner() {
   return h(
     'section',
     { class: 'section' },
@@ -395,10 +339,16 @@ function cta() {
       { class: 'wrap' },
       h(
         'div',
-        { class: 'cta' },
-        h('div', { html: comb }),
-        h('div', null, h('p', { class: 'eyebrow', style: { color: 'var(--honey-2)' } }, 'For partners'), h('h2', null, 'Bring your solution to the hive.'), h('p', null, 'List with Redington and reach buyers across the GCC, Africa and India, with the governance that makes enterprise buyers say yes.')),
-        h('div', { class: 'acts' }, h('a', { class: 'btn honey', href: '#/partners' }, 'List your solution', h('span', { class: 'arr' }, '→')), h('a', { class: 'btn ghost', href: '#/agents' }, 'For agents & developers')),
+        { class: 'cta2' },
+        h(
+          'div',
+          null,
+          h('span', { class: 'kicker' }, 'For partners'),
+          h('h2', null, 'Bring your solution ', h('span', { class: 'serif' }, 'to the hive.')),
+          h('p', { class: 'lede' }, 'List with Redington and reach enterprise and public-sector buyers across the GCC, Africa and India, with marketplace private offers and delivery capacity behind you.'),
+          h('div', { class: 'acts' }, h('a', { class: 'btn shimmer', href: '#/partners' }, h('span', { class: 'sh-spark' }), 'List your solution', h('span', { class: 'arr' }, '→')), h('a', { class: 'btn', href: '#/agents' }, 'For agents & developers')),
+        ),
+        img('assets/img/partners.webp', 'Two glass hexagons locking together', { width: 1100, height: 616 }),
       ),
     ),
   );

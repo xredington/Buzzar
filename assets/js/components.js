@@ -1,4 +1,4 @@
-import { h, icon, lists, toast, highlight, openDialog, closeDialog, $ } from './ui.js';
+import { h, icon, lists, toast, highlight, openDialog, closeDialog, $, img, catImg } from './ui.js';
 import { TYPE, catLabel, get, industryLabel } from './data.js';
 
 export const MAX_COMPARE = 3;
@@ -47,16 +47,26 @@ export function card(it, opts = {}) {
   const href = `#/listing/${it.slug}`;
   return h(
     'article',
-    { class: 'card', style: { '--cat': `var(--c-${it.c})` } },
-    h('div', { class: 'card-top' }, catChip(it.c), h('span', { class: 'chip' }, TYPE[it.y]?.label || it.y), it.b ? h('span', { class: 'chip honey' }, 'Marketplace') : null),
-    h('h3', null, h('a', { href }, ...highlight(it.t, terms))),
-    h('p', { class: 'by' }, it.k === 'distributor' ? `Redington` : `By ${it.p}`),
-    h('p', { class: 'sum' }, ...highlight(it.s, terms)),
+    { class: 'card spot', style: { '--cat': `var(--c-${it.c})` } },
+    h('span', { class: 'spot-border', 'aria-hidden': 'true' }),
     h(
       'div',
-      { class: 'card-foot' },
-      h('span', { class: 'meta' }, it.i[0] && it.i[0] !== 'cross-industry' ? industryLabel(it.i[0]) + (it.i.length > 1 ? ` +${it.i.length - 1}` : '') : 'Cross-industry'),
-      h('div', { class: 'card-acts' }, toggleBtn('compare', it.id, true), toggleBtn('saved', it.id, true)),
+      { class: 'card-media' },
+      img(catImg(it.c), '', { width: 140, height: 140 }),
+      h('div', { class: 'card-top' }, catChip(it.c), h('span', { class: 'chip' }, TYPE[it.y]?.label || it.y), it.b ? h('span', { class: 'chip honey' }, 'Marketplace') : null),
+    ),
+    h(
+      'div',
+      { class: 'card-in' },
+      h('h3', null, h('a', { href }, ...highlight(it.t, terms))),
+      h('p', { class: 'by' }, it.k === 'distributor' ? `Redington` : `By ${it.p}`),
+      h('p', { class: 'sum' }, ...highlight(it.s, terms)),
+      h(
+        'div',
+        { class: 'card-foot' },
+        h('span', { class: 'meta' }, it.i[0] && it.i[0] !== 'cross-industry' ? industryLabel(it.i[0]) + (it.i.length > 1 ? ` +${it.i.length - 1}` : '') : 'Cross-industry'),
+        h('div', { class: 'card-acts' }, toggleBtn('compare', it.id, true), toggleBtn('saved', it.id, true)),
+      ),
     ),
   );
 }

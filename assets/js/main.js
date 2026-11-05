@@ -7,7 +7,8 @@ const routes = {
   catalogue: () => import('./views/catalogue.js'),
   listing: () => import('./views/listing.js'),
   discover: () => import('./views/discover.js'),
-  ask: () => import('./views/ask.js'),
+  ask: () => import('./views/advisor.js'),
+  advisor: () => import('./views/advisor.js'),
   compare: () => import('./views/lists.js'),
   saved: () => import('./views/lists.js'),
   journey: () => import('./views/lists.js'),
@@ -69,15 +70,6 @@ function notFound() {
 }
 
 // ---------- chrome ----------
-function setTheme(next) {
-  document.documentElement.dataset.theme = next;
-  try {
-    localStorage.setItem('bz:theme', next);
-  } catch {}
-}
-function currentTheme() {
-  return document.documentElement.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-}
 function openMenu() {
   $('#drawer').hidden = false;
   $('[data-action="menu"]').setAttribute('aria-expanded', 'true');
@@ -110,14 +102,23 @@ function updateBadges(bump) {
 
 function wire() {
   for (const m of $$('.brand-mark')) m.innerHTML = MARK;
+  // spotlight: cards glow where the cursor is
+  document.addEventListener(
+    'pointermove',
+    (e) => {
+      const el = e.target.closest?.('.spot');
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', `${e.clientX - r.left}px`);
+      el.style.setProperty('--my', `${e.clientY - r.top}px`);
+    },
+    { passive: true },
+  );
   document.addEventListener('click', (e) => {
     const a = e.target.closest('[data-action]');
     if (!a) return;
     const act = a.dataset.action;
-    if (act === 'theme') {
-      setTheme(currentTheme() === 'dark' ? 'light' : 'dark');
-      toast(currentTheme() === 'dark' ? 'After hours. Easy on the eyes.' : 'Daylight mode.');
-    } else if (act === 'menu') openMenu();
+    if (act === 'menu') openMenu();
     else if (act === 'menu-close') closeMenu();
   });
   document.addEventListener('keydown', (e) => {
@@ -133,9 +134,9 @@ function wire() {
   $('#hdr-ask').addEventListener('submit', (e) => {
     e.preventDefault();
     const q = $('#hdr-ask-input').value.trim();
-    if (!q) return go('ask');
+    if (!q) return go('advisor');
     $('#hdr-ask-input').value = '';
-    go('ask?q=' + encodeURIComponent(q));
+    go('advisor?q=' + encodeURIComponent(q));
   });
   const hdr = $('#hdr');
   addEventListener('scroll', () => hdr.classList.toggle('scrolled', scrollY > 8), { passive: true });

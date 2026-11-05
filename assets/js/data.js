@@ -108,8 +108,14 @@ export function tokens(q) {
 const SYN = {
   churn: ['retention', 'loyalty', 'customer'],
   stockout: ['inventory', 'replenishment', 'demand', 'forecast'],
-  stock: ['inventory', 'replenishment'],
+  stock: ['inventory', 'replenishment', 'forecasting', 'demand'],
   markdown: ['pricing', 'waste', 'markdown'],
+  throw: ['waste', 'markdown', 'perishable'],
+  waste: ['waste', 'markdown', 'perishable', 'sustainability'],
+  fresh: ['perishable', 'fresh', 'markdown'],
+  food: ['perishable', 'grocery', 'fresh'],
+  grocery: ['perishable', 'grocery', 'fresh', 'demand'],
+  running: ['stockout', 'availability', 'replenishment'],
   fraud: ['fraud', 'anomaly', 'risk'],
   hack: ['security', 'threat', 'incident'],
   breach: ['security', 'incident', 'response', 'threat'],
@@ -272,12 +278,17 @@ function scoreItem(it, u) {
   return { s, why, matched: [...new Set(matched)], indOk };
 }
 
-export function match(q, { limit = 6, filter } = {}) {
-  const u = understand(q);
+export function match(q, opts = {}) {
+  return matchU(understand(q), opts);
+}
+
+// match against an already-understood brief (the advisor fills slots itself)
+export function matchU(u, { limit = 6, filter, boost } = {}) {
   const pool = filter ? catalogue.filter(filter) : catalogue;
   const scored = [];
   for (const it of pool) {
     const r = scoreItem(it, u);
+    if (boost) r.s += boost(it, r) || 0;
     if (r.s > 4) scored.push({ it, ...r });
   }
   scored.sort((a, b) => b.s - a.s || a.it.t.localeCompare(b.it.t));

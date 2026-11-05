@@ -1,4 +1,4 @@
-import { h, icon, listingArt, toast, fmt } from '../ui.js';
+import { h, icon, toast, fmt, img, catImg } from '../ui.js';
 import { getBySlug, get, detail, TYPE, catLabel, industryLabel, label, readiness, all } from '../data.js';
 import { catChip, toggleBtn, card, requestDialog, REQUEST_TYPES } from '../components.js';
 import { lists } from '../ui.js';
@@ -30,7 +30,7 @@ function hero(it, d) {
       /* dismissed */
     }
   });
-  const art = h('div', { class: 'art', style: { '--cat': `var(--c-${it.c})` }, html: listingArt(it) });
+  const art = h('div', { class: 'art spot', style: { '--cat': `var(--c-${it.c})` } }, h('div', { class: 'dots' }), img(catImg(it.c), '', { width: 420, height: 420, loading: 'eager' }));
   return h(
     'section',
     { class: 'lhero' },

@@ -1,5 +1,9 @@
 # Buzzar — the business solution marketplace
 
+> **White edition (this branch).** A brighter, more expressive redesign: an aurora hero with rotating words, floating glass chips over 3D imagery, animated beams, a bento grid of practices, a scroll-told journey, number tickers and a giant footer wordmark. Several component patterns (aurora background, shimmer button, text shimmer, hero pill, floating glass nav) are adapted from [21st.dev](https://github.com/serafimcloud/21st) and rebuilt in plain CSS. The 12 images in `assets/img/` were generated for this site.
+>
+> **The Sami sandbox (`#/advisor`)** is the conversational advisor: describe a problem in your own words (or by voice), and Sami asks the two or three questions that change the ranking most (industry, size, platform, region, timeline). A live brief and a "still in play" counter update as you answer. Sami then gives ranked matches with reasons and honest gaps. You can ask follow-up questions about any listing (duration, deliverables, who it is not for, how to buy, prerequisites, success measure), draft a mission plan and download it as Markdown, and pin listings to a shortlist you can compare. It runs on-device by default. **Live AI** mode sends questions to the Buzzar API's `/api/advisor/match`; it switches on automatically when the site is served from the API's own domain, because that API only answers same-origin requests.
+
 A redesigned front end for the Buzzar catalogue. Buyers can explore 1,265 governed products, services and accelerators across cloud, data, AI, security and software, find what fits their situation, compare options, and take the next step with Redington.
 
 It is a static site: plain HTML, CSS and JavaScript modules, with no build step and no dependencies. It runs on any static host (GitHub Pages, S3 + CloudFront, Netlify, Azure Static Web Apps).
@@ -20,13 +24,13 @@ Then open http://localhost:8080. A local server is needed because the browser bl
 | Catalogue | `#/catalogue?type=&cat=&ind=&plat=&reg=&prov=&sub=&q=&sort=&page=` | Faceted search over the **whole** catalogue. Each facet's counts treat that facet's own selection as unset, so options never disappear when you pick one. Search terms are highlighted, results paginate, and the URL captures the filters so a view can be shared |
 | Listing | `#/listing/{slug}` | Generated hexagon art, outcome and success measure, a readiness ring with a six-stage tracker, benefits labelled with their evidence basis, who it is for and who it is *not* for, scope as numbered steps, deliverables, buying tiers, related listings, a sticky request panel and an on-page table of contents |
 | Guided discovery | `#/discover` | Industry → perspective → challenge → a ranked shortlist with "why it's here" reasons. The state lives in the URL |
-| Ask Buzzar | `#/ask?q=` | Free-text matching. It works out the industry, practice, platform and region from the question, explains every match, and suggests follow-ups that sharpen the shortlist |
+| Sami sandbox | `#/advisor?q=` | Conversational advisor: asks questions, keeps a live brief, answers with ranked matches, gaps, listing Q&A and mission plans. Voice in and out. `#/ask` redirects here |
 | Compare | `#/compare` | Up to 3 side by side. Rows that differ are highlighted |
 | Saved / My journey | `#/saved`, `#/journey` | Saved listings; a board with Exploring, Shortlisted and Talking to Redington columns; and the buyer's requests |
 | Industries, Providers | `#/industries`, `#/providers` | Industry grid with a practice-mix bar; A–Z provider directory with search |
 | How it works, Partners, Agents | `#/how-it-works`, `#/partners`, `#/agents` | Governance explained, partner onboarding, and the public API for agents |
 
-Light and dark ("After hours") themes, keyboard support (press `/` to ask), reduced-motion support, and a layout that works down to 360px.
+A white theme, keyboard support (press `/` to ask), reduced-motion support, and a layout that works down to 360px.
 
 ## Data
 
@@ -64,13 +68,15 @@ Request forms (discovery call, standard proposal, custom proposal, private offer
 
 ## Privacy
 
-Ask Buzzar and guided discovery run entirely in the browser. Questions are never stored or sent anywhere. Saved, compare and journey lists live in `localStorage` on the buyer's device.
+Sami (in on-device mode) and guided discovery run entirely in the browser. Questions are never stored or sent anywhere. Live AI mode sends the brief to the Buzzar API. Saved, compare and journey lists live in `localStorage` on the buyer's device.
 
 ## Structure
 
 ```
 index.html
-assets/css/main.css         design system (tokens, light and dark themes, components)
+assets/css/main.css         base design system
+assets/css/v2.css           white edition: aurora, shimmer, bento, beams, Sami sandbox
+assets/img/                 generated imagery (WebP)
 assets/js/main.js           router, header, theme, badges
 assets/js/data.js           loading, labels, filtering, matching, readiness
 assets/js/ui.js             DOM helper, icons, brand mark, generated art, local lists
