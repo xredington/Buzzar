@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Buzzar — Where expertise meets opportunity</title>
+    <meta
+      name="description"
+      content="Buzzar is the business solution marketplace. Explore governed products, services and accelerators across cloud, data, AI, security and software, and take the next step with Redington."
+    />
+    <meta name="theme-color" content="#f7f3ea" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1712" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <script>
+      // Apply the saved theme before first paint so the page never flashes.
+      try {
+        var t = localStorage.getItem('bz:theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
+    <script type="module" src="assets/js/main.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="hdr" id="hdr">
+      <div class="hdr-in wrap">
+        <a class="brand" href="#/" aria-label="Buzzar home">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-word">Buzzar<i>.</i></span>
+        </a>
+
+        <nav class="nav" aria-label="Marketplace">
+          <a href="#/catalogue?type=product" data-nav="product">Products</a>
+          <a href="#/catalogue?type=service" data-nav="service">Services</a>
+          <a href="#/catalogue?type=accelerator" data-nav="accelerator">Accelerators</a>
+          <a href="#/industries" data-nav="industries">Industries</a>
+        </nav>
+
+        <form class="hdr-ask" id="hdr-ask" role="search">
+          <span class="spark" aria-hidden="true">✦</span>
+          <input id="hdr-ask-input" type="search" placeholder="Ask Buzzar…" aria-label="Ask Buzzar" autocomplete="off" />
+          <kbd aria-hidden="true">/</kbd>
+        </form>
+
+        <div class="hdr-tools">
+          <a class="tool" href="#/compare" aria-label="Compare" title="Compare">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h11M4 12h16M4 17h8" /></svg>
+            <span class="badge" data-count="compare">0</span>
+          </a>
+          <a class="tool" href="#/saved" aria-label="Saved" title="Saved">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z" /></svg>
+            <span class="badge" data-count="saved">0</span>
+          </a>
+          <button class="tool" type="button" data-action="theme" aria-label="Switch light or dark theme" title="Theme">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" /></svg>
+          </button>
+          <button class="tool menu-btn" type="button" data-action="menu" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="drawer" id="drawer" hidden>
+      <div class="drawer-scrim" data-action="menu-close"></div>
+      <nav class="drawer-panel" aria-label="All pages">
+        <button class="drawer-x" type="button" data-action="menu-close" aria-label="Close menu">×</button>
+        <p class="eyebrow">Explore</p>
+        <a href="#/">Home</a>
+        <a href="#/discover">Guided discovery</a>
+        <a href="#/ask">Ask Buzzar</a>
+        <a href="#/catalogue">Full catalogue</a>
+        <a href="#/catalogue?type=product">Products</a>
+        <a href="#/catalogue?type=service">Services</a>
+        <a href="#/catalogue?type=accelerator">Accelerators</a>
+        <a href="#/industries">Industries</a>
+        <a href="#/providers">Providers</a>
+        <p class="eyebrow">Your hive</p>
+        <a href="#/journey">My journey</a>
+        <a href="#/compare">Compare</a>
+        <a href="#/saved">Saved</a>
+        <p class="eyebrow">Buzzar for</p>
+        <a href="#/how-it-works">How it works</a>
+        <a href="#/partners">Partners</a>
+        <a href="#/agents">Agents &amp; developers</a>
+      </nav>
+    </div>
+
+    <main id="main" tabindex="-1"></main>
+
+    <div class="tray" id="compare-tray" hidden></div>
+
+    <footer class="ftr">
+      <div class="wrap ftr-in">
+        <div class="ftr-brand">
+          <a class="brand" href="#/" aria-label="Buzzar home">
+            <span class="brand-mark" aria-hidden="true"></span>
+            <span class="brand-word">Buzzar<i>.</i></span>
+          </a>
+          <p>The right expertise. Your next business move.</p>
+          <p class="muted small" id="ftr-meta"></p>
+        </div>
+        <div class="ftr-cols">
+          <div>
+            <p class="eyebrow">Marketplace</p>
+            <a href="#/catalogue?type=product">Products</a>
+            <a href="#/catalogue?type=service">Services</a>
+            <a href="#/catalogue?type=accelerator">Accelerators</a>
+            <a href="#/providers">Providers</a>
+          </div>
+          <div>
+            <p class="eyebrow">Find your fit</p>
+            <a href="#/discover">Guided discovery</a>
+            <a href="#/ask">Ask Buzzar</a>
+            <a href="#/industries">Industries</a>
+            <a href="#/journey">My journey</a>
+          </div>
+          <div>
+            <p class="eyebrow">Buzzar for</p>
+            <a href="#/how-it-works">How it works</a>
+            <a href="#/partners">Partners</a>
+            <a href="#/agents">Agents &amp; developers</a>
+            <button type="button" class="linkish" data-action="theme">Switch theme</button>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <dialog id="dlg" aria-labelledby="dlg-title">
+      <form method="dialog" class="dlg-x"><button aria-label="Close">×</button></form>
+      <div id="dlg-body"></div>
+    </dialog>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <noscript><p class="wrap">Buzzar needs JavaScript to browse the catalogue.</p></noscript>
+  </body>
+</html>
