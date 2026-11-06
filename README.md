@@ -19,6 +19,10 @@ A redesigned front end for the Buzzar catalogue. Buyers can explore 1,265 govern
 
 It is a static site: plain HTML, CSS and JavaScript modules, with no build step and no dependencies. It runs on any static host (GitHub Pages, S3 + CloudFront, Netlify, Azure Static Web Apps).
 
+## Deploy
+
+Every push to `main` deploys the site to GitHub Pages through `.github/workflows/deploy.yml`. One-time setup: in the repository, Settings → Pages → Source: **GitHub Actions**.
+
 ## Run it
 
 ```bash
