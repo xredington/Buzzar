@@ -70,7 +70,7 @@ const ACT_ICON = {
 };
 function tileAct(kind, id) {
   const isSave = kind === 'saved';
-  const b = h('button', { type: 'button', class: 'act', 'data-act': isSave ? 'save' : 'compare', 'data-id': id, 'aria-pressed': String(lists.has(kind, id)), html: ACT_ICON[isSave ? 'save' : 'compare'] }, isSave ? 'Save' : 'Compare');
+  const b = h('button', { type: 'button', class: 'act', 'data-act': isSave ? 'save' : 'compare', 'data-id': id, 'aria-pressed': String(lists.has(kind, id)), 'aria-label': isSave ? 'Save' : 'Add to compare', title: isSave ? 'Save' : 'Compare', html: ACT_ICON[isSave ? 'save' : 'compare'] }, h('span', { class: 'act-l' }, isSave ? 'Save' : 'Compare'));
   b.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -81,29 +81,43 @@ function tileAct(kind, id) {
   return b;
 }
 
-// The catalogue tile, top to bottom as the handover describes it
+// The catalogue tile: picture first, text last. The summary only appears on hover or focus.
+const PLAT_ICON = { AWS: 'ph-amazon-logo', Azure: 'ph-windows-logo', 'Google Cloud': 'ph-google-logo', Hybrid: 'ph-arrows-split', 'On-premises': 'ph-hard-drives' };
 export function card(it, opts = {}) {
   const terms = opts.terms || [];
   const href = `#/listing/${it.slug}`;
-  const link = h('a', { href }, ...highlight(it.t, terms));
-  // in lists, a plain click opens the quick view; modified clicks still open the full page
+  const link = h('a', { href, class: 't3-link' }, ...highlight(it.t, terms));
   if (opts.quick)
     link.addEventListener('click', (e) => {
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
       e.preventDefault();
       quickView(it);
     });
+  const ind = it.i.filter((x) => x !== 'cross-industry');
   return h(
     'article',
-    { class: `tile k-${it.y}` },
-    h('div', { class: 'tile-top' }, kindTag(it.y), h('i', { class: 'ph ph-arrow-up-right open', 'aria-hidden': 'true' })),
-    h('h3', null, link),
-    it.aws || isNew(it) ? h('div', { class: 'badges' }, it.aws ? h('span', { class: 'badge-sku' }, h('i', { class: 'ph ph-shopping-bag', 'aria-hidden': 'true' }), 'Buyable on AWS Marketplace') : null, isNew(it) ? h('span', { class: 'badge-new' }, 'New') : null) : null,
-    h('p', { class: 'shelf' }, `${catLabel(it.c)} · Version ${it.v || 1}`),
-    h('p', { class: 'fitline' }, fitLine(it)),
-    h('p', { class: 'trustline' }, coin(it.p, 20), h('span', null, providerLine(it))),
-    h('p', { class: 'sum' }, ...highlight(it.s, terms)),
-    h('div', { class: 'tile-acts' }, tileAct('compare', it.id), tileAct('saved', it.id), h('a', { class: 'act view', href }, 'Open', h('i', { class: 'ph ph-arrow-right', 'aria-hidden': 'true' }))),
+    { class: `t3 k-${it.y} c-${it.c}` },
+    h(
+      'div',
+      { class: 't3-art' },
+      img(catImg(it.c), '', { width: 150, height: 150 }),
+      h('span', { class: `t3-kind kind k-${it.y}` }, KIND[it.y].label),
+      it.aws ? h('span', { class: 't3-aws', title: 'Buyable on AWS Marketplace' }, h('i', { class: 'ph ph-shopping-bag', 'aria-hidden': 'true' }), 'AWS Marketplace') : null,
+      h('p', { class: 't3-sum' }, ...highlight(it.s, terms)),
+    ),
+    h(
+      'div',
+      { class: 't3-body' },
+      h('h3', null, link),
+      h(
+        'div',
+        { class: 't3-meta' },
+        h('span', { class: 't3-prov', title: providerLine(it) }, coin(it.p, 22), h('span', null, it.k === 'distributor' ? 'Redington' : it.p.split(' / ').pop())),
+        h('span', { class: 't3-icons' }, it.pl.slice(0, 3).map((p) => h('i', { class: `ph ${PLAT_ICON[p] || 'ph-cloud'}`, title: p, 'aria-label': p })), it.ns ? h('span', { class: 't3-ed', title: `${it.ns} editions to choose from` }, h('i', { class: 'ph ph-stack', 'aria-hidden': 'true' }), it.ns) : null),
+      ),
+      ind.length ? h('span', { class: 't3-ind' }, industryLabel(ind[0]) + (ind.length > 1 ? ` +${ind.length - 1}` : '')) : null,
+    ),
+    h('div', { class: 't3-acts' }, tileAct('compare', it.id), tileAct('saved', it.id)),
   );
 }
 

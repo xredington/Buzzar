@@ -1,4 +1,4 @@
-import { h, fmt, plural, coin } from '../ui.js';
+import { h, fmt, plural, coin, img, catImg } from '../ui.js';
 import { filterItems, facetCounts, getMeta, TYPE, CAT_BLURB, catLabel, industryLabel, subLabel } from '../data.js';
 import { card } from '../components.js';
 
@@ -51,12 +51,12 @@ export default function catalogue(route) {
 
   const head = h(
     'header',
-    { class: 'phead' },
+    { class: 'phead compact' },
     h(
       'div',
       { class: 'wrap' },
       h('nav', { class: 'crumbs', 'aria-label': 'Breadcrumb' }, h('a', { href: '#/' }, 'Home'), h('span', { 'aria-hidden': 'true' }, '/'), h('a', { href: '#/catalogue' }, 'Catalogue'), hd.title !== 'Search the catalogue' ? [h('span', { 'aria-hidden': 'true' }, '/'), h('span', null, hd.title)] : null),
-      h('p', { class: 'eyebrow' }, hd.eyebrow),
+
       s.prov ? h('div', { class: 'provhead' }, coin(s.prov, 64), h('h1', null, hd.title)) : h('h1', null, hd.title),
 
     ),
@@ -73,12 +73,28 @@ export default function catalogue(route) {
       ['new', 'Recently updated'],
     ].map(([v, l]) => h('option', { value: v, selected: s.sort === v }, l)),
   );
-  const filtersEl = h('aside', { class: 'filters', 'aria-label': 'Filters' });
-  const toggleF = h('button', { class: 'btn filters-toggle', type: 'button', 'aria-expanded': 'false' }, 'Filters');
-  toggleF.addEventListener('click', () => {
-    const open = filtersEl.classList.toggle('open');
-    toggleF.setAttribute('aria-expanded', String(open));
-  });
+  const filtersEl = h('div', { class: 'filters-in' });
+  const fCount = h('span', { class: 'fcount', hidden: true });
+  const toggleF = h('button', { class: 'btn ftoggle', type: 'button', 'aria-expanded': 'false', 'aria-controls': 'fdrawer' }, h('i', { class: 'ph ph-sliders-horizontal', 'aria-hidden': 'true' }), 'Filters', fCount);
+  const fDrawer = h(
+    'div',
+    { class: 'fdrawer', id: 'fdrawer', hidden: true, role: 'dialog', 'aria-label': 'Filters' },
+    h('div', { class: 'fd-scrim', onclick: () => closeF() }),
+    h('aside', { class: 'fd-panel' }, h('div', { class: 'fd-head' }, h('b', { class: 'heading-6' }, 'Filters'), h('button', { class: 'tool', type: 'button', 'aria-label': 'Close filters', onclick: () => closeF() }, h('i', { class: 'ph ph-x', 'aria-hidden': 'true' }))), filtersEl, h('div', { class: 'fd-foot' }, h('button', { class: 'btn dark wide', type: 'button', onclick: () => closeF() }, 'Show results'))),
+  );
+  function openF() {
+    fDrawer.hidden = false;
+    requestAnimationFrame(() => requestAnimationFrame(() => fDrawer.classList.add('open')));
+    toggleF.setAttribute('aria-expanded', 'true');
+  }
+  function closeF() {
+    fDrawer.classList.remove('open');
+    toggleF.setAttribute('aria-expanded', 'false');
+    setTimeout(() => !fDrawer.classList.contains('open') && (fDrawer.hidden = true), 500);
+  }
+  toggleF.addEventListener('click', openF);
+  document.addEventListener('keydown', (e) => e.key === 'Escape' && fDrawer.isConnected && closeF());
+  const catStrip = h('div', { class: 'catstrip', role: 'group', 'aria-label': 'Category' });
   const tabsEl = h('div', { class: 'tabs', role: 'group', 'aria-label': 'Offering type' });
   const activeEl = h('div', { class: 'active-f' });
   const spotEl = h('div', { class: 'spotlight' });
@@ -243,10 +259,28 @@ export default function catalogue(route) {
     if (s.buy) pill('Buyable on AWS Marketplace', () => (s.buy = false));
     activeEl.replaceChildren(...pills);
 
-    // provider spotlight for the current view
-    const provTop = Object.entries(facetCounts(rows).prov).sort((a, b) => b[1] - a[1]).slice(0, 4);
+    // provider spotlight for the current view: logos, not words
+    const provTop = Object.entries(facetCounts(rows).prov).sort((a, b) => b[1] - a[1]).slice(0, 8);
     spotEl.hidden = !provTop.length || !!s.prov;
-    spotEl.replaceChildren(h('span', { class: 'label inline' }, 'Provider spotlight'), ...provTop.map(([p, n]) => h('a', { href: `#/catalogue?prov=${encodeURIComponent(p)}` }, p, h('span', null, ` · ${fmt(n)} listing${n === 1 ? '' : 's'} here`))));
+    spotEl.replaceChildren(h('span', { class: 'caption-4' }, 'Top providers here'), ...provTop.map(([p, n]) => h('a', { class: 'spot-coin', href: `#/catalogue?prov=${encodeURIComponent(p)}`, title: `${p} · ${n} listings` }, coin(p, 32), h('small', { class: 'num' }, fmt(n)))));
+
+    // category picture strip
+    const cc = fc('cat').cat;
+    catStrip.replaceChildren(
+      ...meta.categories.map((c) => {
+        const on = s.cat.length === 1 && s.cat[0] === c.code;
+        const b = h('button', { type: 'button', class: 'cchip' + (on ? ' on' : ''), 'aria-pressed': String(on), disabled: !cc[c.code] && !on }, h('span', { class: 'cc-img' }, img(catImg(c.code), '', { width: 44, height: 44 })), h('span', null, h('b', null, c.label.replace('Artificial Intelligence', 'AI').replace('Data and Analytics', 'Data')), h('small', { class: 'num' }, fmt(cc[c.code] || 0))));
+        b.addEventListener('click', () => {
+          s.cat = on ? [] : [c.code];
+          s.page = 1;
+          update();
+        });
+        return b;
+      }),
+    );
+    const nf = s.ind.length + s.plat.length + s.reg.length + (s.sub ? 1 : 0) + (s.prov ? 1 : 0) + (s.buy ? 1 : 0) + Math.max(0, s.cat.length - 1);
+    fCount.hidden = !nf;
+    fCount.textContent = nf;
 
     const pages = Math.max(1, Math.ceil(rows.length / PAGE));
     if (s.page > pages) s.page = pages;
@@ -264,7 +298,14 @@ export default function catalogue(route) {
           h('div', { class: 'chips', style: { justifyContent: 'center' } }, h('button', { class: 'btn', type: 'button', onclick: reset }, 'Clear filters'), h('a', { class: 'btn primary', href: `#/advisor?q=${encodeURIComponent(s.q || '')}` }, 'Ask Sami')),
         ),
       );
+    } else if (s.type === 'accelerator' && !s.q) {
+      gridEl.replaceChildren(...tracks(rows));
+      pagerEl.replaceChildren();
+      barEl.replaceChildren(h('span', null, `${fmt(rows.length)} accelerators in ${fmt(tracks(rows).length)} programmes. Each programme runs in three stages.`));
+      gridEl.className = 'tracks';
+      return;
     } else gridEl.replaceChildren(...slice.map((it) => card(it, { terms, quick: true })));
+    gridEl.className = 'grid';
 
     // pagination with a window around the current page
     pagerEl.replaceChildren();
@@ -298,5 +339,31 @@ export default function catalogue(route) {
 
   update();
 
-  return h('div', null, head, h('div', { class: 'wrap cat-layout' }, filtersEl, h('div', null, searchForm, tabsEl, spotEl, activeEl, barEl, gridEl, pagerEl)));
+  return h('div', null, head, h('div', { class: 'wrap cat-main' }, searchForm, catStrip, h('div', { class: 'cat-row' }, tabsEl, spotEl), activeEl, barEl, gridEl, pagerEl), fDrawer);
+}
+
+// ---------- accelerators as programme tracks ----------
+const STAGE_ICON = ['ph-magnifying-glass', 'ph-flask', 'ph-rocket-launch'];
+function tracks(rows) {
+  const by = new Map();
+  for (const it of rows) {
+    const [prog, stage] = it.t.split(' — ');
+    if (!by.has(prog)) by.set(prog, []);
+    by.get(prog).push({ it, stage: stage || it.t });
+  }
+  const order = ['Assess and Prioritize', 'Pilot and Demonstrate', 'Scale and Operate'];
+  return [...by.entries()].map(([prog, list], k) => {
+    list.sort((a, b) => order.indexOf(a.stage) - order.indexOf(b.stage));
+    const c = list[0].it.c;
+    return h(
+      'article',
+      { class: 'track', style: { animationDelay: `${k * 50}ms` } },
+      h('div', { class: 'tr-head' }, h('span', { class: 'tr-img' }, img(catImg(c), '', { width: 56, height: 56 })), h('div', null, h('h3', null, prog.replace(/ Program$/, '')), h('small', null, `${catLabel(c)} · programme in ${list.length} stages`))),
+      h(
+        'ol',
+        { class: 'tr-stages' },
+        list.map((x, i) => h('li', null, h('a', { href: `#/listing/${x.it.slug}` }, h('span', { class: 'tr-n' }, h('i', { class: `ph ${STAGE_ICON[i] || 'ph-circle'}`, 'aria-hidden': 'true' })), h('b', null, x.stage.replace(' and ', ' & ')), h('small', null, `Stage ${i + 1}`)))),
+      ),
+    );
+  });
 }

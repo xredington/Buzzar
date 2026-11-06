@@ -9,9 +9,9 @@ const bySlug = new Map();
 const detailCache = new Map();
 
 export const TYPE = {
-  product: { label: 'Product', plural: 'Products', blurb: 'Software and platforms from independent vendors, licensed and supported through Redington.' },
-  service: { label: 'Service', plural: 'Services', blurb: 'Delivery by Redington and approved partners: assessments, builds, migrations and managed operations.' },
-  accelerator: { label: 'Accelerator', plural: 'Accelerators', blurb: 'Packaged starting points that take a proven pattern from idea to pilot in weeks, not quarters.' },
+  product: { label: 'Product', plural: 'Products', blurb: 'Software you license from vendors, supported by Redington.' },
+  service: { label: 'Service', plural: 'Services', blurb: 'Work done for you by Redington and its partners.' },
+  accelerator: { label: 'Accelerator', plural: 'Accelerators', blurb: 'Ready programmes that get you from idea to pilot in weeks.' },
 };
 
 export const CAT_BLURB = {
