@@ -1,4 +1,4 @@
-import { h, fmt, plural } from '../ui.js';
+import { h, fmt, plural, coin } from '../ui.js';
 import { filterItems, facetCounts, getMeta, TYPE, CAT_BLURB, catLabel, industryLabel, subLabel } from '../data.js';
 import { card } from '../components.js';
 
@@ -57,7 +57,7 @@ export default function catalogue(route) {
       { class: 'wrap' },
       h('nav', { class: 'crumbs', 'aria-label': 'Breadcrumb' }, h('a', { href: '#/' }, 'Home'), h('span', { 'aria-hidden': 'true' }, '/'), h('a', { href: '#/catalogue' }, 'Catalogue'), hd.title !== 'Search the catalogue' ? [h('span', { 'aria-hidden': 'true' }, '/'), h('span', null, hd.title)] : null),
       h('p', { class: 'eyebrow' }, hd.eyebrow),
-      h('h1', null, hd.title),
+      s.prov ? h('div', { class: 'provhead' }, coin(s.prov, 64), h('h1', null, hd.title)) : h('h1', null, hd.title),
 
     ),
   );

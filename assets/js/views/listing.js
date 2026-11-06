@@ -1,6 +1,6 @@
 // Listing page — a compact header and five tabs instead of one long scroll.
 // Content and order follow the UI & CX handover; layout follows the design skill.
-import { h, toast, img, catImg, lists } from '../ui.js';
+import { h, toast, img, catImg, lists, coin } from '../ui.js';
 import { getBySlug, get, detail, TYPE, catLabel, industryLabel, label, readiness, all, plain } from '../data.js';
 import { card, requestDialog, REQUEST_TYPES, KIND, kindTag, providerLine } from '../components.js';
 import { buildPlan, renderPlan, downloadPlan, scopeSteps, scopeMeta } from '../plan.js';
@@ -70,7 +70,7 @@ export default async function listing(route) {
           null,
           h('div', { class: 'chips', style: { alignItems: 'center', gap: '8px' } }, kindTag(it.y), h('span', { class: 'chip' }, catLabel(it.c)), it._subs[0] ? h('span', { class: 'chip' }, it._subs[0]) : null, h('span', { class: 'chip' }, `Version ${d?.version || it.v || 1}`), it.aws ? h('span', { class: 'badge-sku' }, h('i', { class: 'ph ph-shopping-bag', 'aria-hidden': 'true' }), 'Buyable on AWS Marketplace') : null),
           h('h1', { class: 'grad-text' }, it.t),
-          h('p', { class: 'by' }, providerLine(it)),
+          h('p', { class: 'by withcoin' }, coin(it.p, 28), h('span', null, providerLine(it))),
           h('span', { class: 'review-badge', title: 'Only listings approved by a Buzzar checker are published. A freshness review rechecks claims on a schedule.' }, h('i', { class: 'ph ph-seal-check', 'aria-hidden': 'true' }), h('span', null, h('b', null, 'Approved for publication'), it.rd ? ` · freshness review ${DATE(it.rd)}` : '')),
         ),
         h('div', { class: 'acts' }, toggle('compare'), toggle('saved'), copy, h('button', { class: 'btn dark', type: 'button', onclick: () => requestDialog(it, 'discovery') }, 'Request a discovery call')),

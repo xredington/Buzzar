@@ -3756,3 +3756,524 @@ dialog {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* ==========================================================================
+   Provider coins (logo in a white disc, or a typographic mark)
+   ========================================================================== */
+.coin {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow:
+    0 0 0 1px rgb(18 18 17 / 6%),
+    0 4px 12px -6px rgb(18 18 17 / 25%);
+  overflow: hidden;
+}
+.coin img {
+  width: 62%;
+  height: 62%;
+  object-fit: contain;
+}
+.coin.type {
+  background: var(--surface-2);
+  box-shadow: none;
+}
+.coin.type b {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink-2);
+}
+.coins {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+}
+.coins .coin + .coin {
+  margin-left: -12px;
+  box-shadow:
+    0 0 0 2px #fff,
+    0 4px 12px -6px rgb(18 18 17 / 25%);
+}
+
+/* ==========================================================================
+   Providers: the partner orbit
+   ========================================================================== */
+.prov-hero {
+  padding: var(--s-400) 0 var(--s-300);
+  overflow: hidden;
+}
+.prov-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: var(--s-600);
+  align-items: center;
+}
+.prov-copy h1 {
+  font-size: 60px;
+  line-height: 60px;
+  letter-spacing: -0.045em;
+  margin: 0 0 var(--s-200);
+}
+.prov-copy > p.muted {
+  font-size: 18px;
+  line-height: 28px;
+  max-width: 360px;
+  margin: 0;
+}
+.prov-nums {
+  display: flex;
+  gap: var(--s-400);
+  margin-top: var(--s-500);
+  flex-wrap: wrap;
+}
+.prov-nums b {
+  display: block;
+  font: 600 30px/36px var(--font);
+  letter-spacing: -0.03em;
+}
+.prov-nums span {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--ink-3);
+}
+.orbit {
+  position: relative;
+  width: min(660px, 100%);
+  aspect-ratio: 1;
+  margin-left: auto;
+  container-type: inline-size;
+}
+.otrack,
+.oring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--r) * 200cqw);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+}
+.otrack {
+  border: 1px dashed rgb(18 18 17 / 10%);
+}
+.oring {
+  animation: spin var(--dur) linear infinite;
+}
+.oring.rev {
+  animation-direction: reverse;
+}
+@keyframes spin {
+  to {
+    rotate: 360deg;
+  }
+}
+.oitem {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  padding: 0;
+  border: 0;
+  background: none;
+  transform: translate(-50%, -50%) rotate(var(--a)) translateX(calc(var(--r) * 100cqw)) rotate(calc(var(--a) * -1));
+}
+.oitem .upright {
+  display: grid;
+  justify-items: center;
+  animation: spin var(--dur) linear infinite reverse;
+}
+.oring.rev .oitem .upright {
+  animation-direction: normal;
+}
+.oitem .coin {
+  transition:
+    transform 500ms var(--ease),
+    box-shadow 300ms var(--ease);
+}
+.oitem:hover .coin,
+.oitem:focus-visible .coin {
+  transform: scale(1.18);
+  box-shadow:
+    0 0 0 2px var(--accent),
+    0 12px 28px -10px rgb(18 18 17 / 40%);
+}
+.olabel {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  translate: -50% 0;
+  white-space: nowrap;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: #fff;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms var(--ease);
+  z-index: 3;
+}
+.olabel b {
+  display: block;
+  font: 500 12px/16px var(--font);
+}
+.olabel small {
+  display: block;
+  font: 400 12px/16px var(--font);
+  color: rgb(255 255 255 / 60%);
+}
+.oitem:hover .olabel,
+.oitem:focus-visible .olabel {
+  opacity: 1;
+}
+.oitem:hover,
+.oitem:focus-visible {
+  z-index: 4;
+}
+.orbit:hover .oring,
+.orbit:hover .upright,
+.orbit:focus-within .oring,
+.orbit:focus-within .upright {
+  animation-play-state: paused;
+}
+.dust i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgb(18 18 17 / 18%);
+  transform: translate(-50%, -50%) rotate(var(--a)) translateX(calc(var(--r) * 100cqw));
+}
+.ohub {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  border: 0;
+  background: none;
+  padding: 0;
+  z-index: 2;
+}
+.ohub .coin {
+  box-shadow:
+    0 0 0 10px rgb(31 107 69 / 6%),
+    0 0 0 22px rgb(31 107 69 / 3%),
+    0 16px 40px -16px rgb(18 18 17 / 35%);
+  transition: transform 500ms var(--ease);
+}
+.ohub:hover .coin {
+  transform: scale(1.05);
+}
+.ohub b {
+  margin-top: 12px;
+  font: 600 16px/24px var(--font);
+}
+.ohub small {
+  font: 400 12px/16px var(--font);
+  color: var(--ink-3);
+}
+
+/* logo wall */
+.prov-wall {
+  padding: var(--s-400) 0 var(--s-800);
+}
+.pwall-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--s-100);
+  flex-wrap: wrap;
+  margin-bottom: var(--s-300);
+}
+.pwall-bar h2 {
+  margin: 0 var(--s-200) 0 0;
+}
+.pwall-bar .field {
+  flex: 1;
+  min-width: 200px;
+  height: 40px;
+}
+.pwall-bar .field .ph {
+  color: var(--ink-3);
+}
+.seg {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 10px;
+  background: var(--surface);
+}
+.seg button {
+  border: 0;
+  background: none;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font: 500 13px/20px var(--font);
+  color: var(--ink-2);
+  transition:
+    background-color 300ms var(--ease),
+    color 300ms var(--ease);
+}
+.seg button[aria-pressed='true'] {
+  background: var(--bg);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+}
+.pwall {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  gap: var(--s-75);
+}
+.pcard2 {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  gap: var(--s-100);
+  align-items: center;
+  padding: var(--s-100);
+  border: 0;
+  border-radius: 16px;
+  background: var(--surface);
+  text-align: left;
+  transition:
+    background-color 300ms var(--ease),
+    transform 500ms var(--ease);
+}
+.pcard2:hover {
+  background: var(--surface-2);
+  transform: translateY(-2px);
+}
+.pcard2:active {
+  transform: scale(0.99);
+}
+.pc-txt b {
+  display: block;
+  font: 500 14px/20px var(--font);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pc-txt small {
+  display: block;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--ink-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kbar {
+  display: flex;
+  gap: 2px;
+  height: 4px;
+  margin-top: 8px;
+  border-radius: 2px;
+  overflow: hidden;
+  max-width: 140px;
+}
+.kbar i {
+  display: block;
+  min-width: 4px;
+  background: var(--kc);
+}
+.pcard2 .go {
+  color: var(--ink-3);
+  transition:
+    transform 500ms var(--ease),
+    color 300ms var(--ease);
+}
+.pcard2:hover .go {
+  color: var(--ink);
+  transform: translate(2px, -2px);
+}
+
+/* provider panel */
+.pmix {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-75);
+}
+.pmix > div {
+  padding: var(--s-100) var(--s-200);
+  border-radius: 12px;
+  background: var(--surface);
+}
+.pmix b {
+  display: block;
+  font: 600 30px/36px var(--font);
+  letter-spacing: -0.03em;
+}
+.pcats {
+  display: grid;
+  gap: var(--s-75);
+}
+.pcats > div {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr) 32px;
+  gap: var(--s-100);
+  align-items: center;
+  font-size: 14px;
+  line-height: 20px;
+}
+.pcats i {
+  display: block;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+}
+.pcats i::after {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--w);
+  border-radius: 4px;
+  background: var(--accent);
+}
+.pcats b {
+  font-weight: 500;
+  text-align: right;
+}
+.ptop {
+  display: grid;
+  gap: 2px;
+}
+.ptop a {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  gap: var(--s-100);
+  align-items: center;
+  padding: var(--s-75);
+  border-radius: 12px;
+  transition: background-color 300ms var(--ease);
+}
+.ptop a:hover {
+  background: var(--surface);
+}
+.ptop .thumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--surface);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.ptop .thumb img {
+  width: 48px;
+  mix-blend-mode: multiply;
+}
+.ptop b {
+  display: block;
+  font: 500 14px/20px var(--font);
+}
+.ptop .ph {
+  color: var(--ink-3);
+}
+@media (max-width: 980px) {
+  .prov-hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .orbit {
+    margin: 0 auto;
+  }
+}
+@media (max-width: 640px) {
+  .prov-copy h1 {
+    font-size: 48px;
+    line-height: 48px;
+  }
+  .orbit .oring .upright {
+    scale: 0.7;
+  }
+  .ohub .coin {
+    width: 64px !important;
+    height: 64px !important;
+  }
+  .pcats > div {
+    grid-template-columns: 96px minmax(0, 1fr) 24px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .oring,
+  .oitem .upright {
+    animation: none;
+  }
+}
+
+.trustline,
+.withcoin {
+  display: flex !important;
+  align-items: center;
+  gap: var(--s-75);
+}
+.trustline span,
+.withcoin span {
+  min-width: 0;
+}
+.tile .trustline {
+  margin-top: 2px;
+}
+
+.pcard2 {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+.pcard2 > .coins .coin {
+  width: 40px !important;
+  height: 40px !important;
+}
+@media (max-width: 640px) {
+  .orbit .oring .upright {
+    scale: 0.56;
+  }
+  .ohub b {
+    font-size: 14px;
+    margin-top: 6px;
+  }
+  .ohub small {
+    display: none;
+  }
+  .prov-nums {
+    margin-top: var(--s-300);
+  }
+}
+.phead .provhead {
+  display: flex;
+  align-items: center;
+  gap: var(--s-200);
+}
+.phead .provhead h1 {
+  margin: 0;
+}
+@media (max-width: 640px) {
+  .orbit .oring .upright {
+    scale: 1;
+  }
+  .orbit .r1 .coin {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  .orbit .r2 .coin {
+    width: 28px !important;
+    height: 28px !important;
+  }
+  .orbit .r3 .coin {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  .orbit .r3 .coin b,
+  .orbit .r2 .coin b {
+    font-size: 9px !important;
+  }
+}
+@media (max-width: 640px) {
+  .ohub b {
+    display: none;
+  }
+}

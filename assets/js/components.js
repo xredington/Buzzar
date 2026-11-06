@@ -1,4 +1,4 @@
-import { h, icon, lists, toast, highlight, openDialog, closeDialog, $, img, catImg } from './ui.js';
+import { h, icon, lists, toast, highlight, openDialog, closeDialog, $, img, catImg, coin } from './ui.js';
 import { TYPE, catLabel, get, industryLabel } from './data.js';
 
 export const MAX_COMPARE = 3;
@@ -101,7 +101,7 @@ export function card(it, opts = {}) {
     it.aws || isNew(it) ? h('div', { class: 'badges' }, it.aws ? h('span', { class: 'badge-sku' }, h('i', { class: 'ph ph-shopping-bag', 'aria-hidden': 'true' }), 'Buyable on AWS Marketplace') : null, isNew(it) ? h('span', { class: 'badge-new' }, 'New') : null) : null,
     h('p', { class: 'shelf' }, `${catLabel(it.c)} · Version ${it.v || 1}`),
     h('p', { class: 'fitline' }, fitLine(it)),
-    h('p', { class: 'trustline' }, providerLine(it)),
+    h('p', { class: 'trustline' }, coin(it.p, 20), h('span', null, providerLine(it))),
     h('p', { class: 'sum' }, ...highlight(it.s, terms)),
     h('div', { class: 'tile-acts' }, tileAct('compare', it.id), tileAct('saved', it.id), h('a', { class: 'act view', href }, 'Open', h('i', { class: 'ph ph-arrow-right', 'aria-hidden': 'true' }))),
   );
@@ -131,7 +131,7 @@ export async function quickView(it) {
   const close = h('button', { class: 'tool qv-x', type: 'button', 'aria-label': 'Close quick view', onclick: qvClose }, h('i', { class: 'ph ph-x', 'aria-hidden': 'true' }));
   const fact = (k, v) => (v ? h('div', null, h('dt', null, k), h('dd', null, v)) : null);
   panel.replaceChildren(
-    h('div', { class: 'qv-head' }, h('figure', null, img(catImg(it.c), '', { width: 84, height: 84 })), h('div', null, kindTag(it.y), h('h2', null, it.t), h('p', { class: 'caption-2', style: { margin: 0 } }, providerLine(it))), close),
+    h('div', { class: 'qv-head' }, h('figure', null, img(catImg(it.c), '', { width: 84, height: 84 })), h('div', null, kindTag(it.y), h('h2', null, it.t), h('p', { class: 'caption-2 withcoin', style: { margin: 0 } }, coin(it.p, 22), h('span', null, providerLine(it)))), close),
     h(
       'div',
       { class: 'qv-body' },

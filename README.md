@@ -1,5 +1,7 @@
 # Buzzar — the business solution marketplace
 
+> **Providers: the partner orbit.** Redington sits at the centre and vendors circle it in slow rings sized by their listings; hover pauses and names a logo, a click opens a provider panel (mix of products, services and accelerators, categories, top listings, ask Sami). Below sits a searchable logo wall. About 200 real provider logos live in `assets/logos/` (vector marks from Simple Icons where available, otherwise high resolution site icons; built by `scripts/build-logos.py`) and also appear on catalogue tiles, quick views and listing headers. Providers without a usable logo get a typographic mark.
+>
 > **Latest (this branch): the catalogue field.** The home page is one screen and the catalogue itself is the picture: all 1,265 listings are dots in five category clusters, ringed by kind (accelerators at the core, then products, then services). Type what you want to change and the matching dots light up while the rest fade; hover a dot to name it, click to open a quick view, click a cluster to browse it. Text is cut to a heading, one line and the ask bar; listing explanations are folded into tags and "Read more". Built on the premium edition below.
 >
 > **Premium edition (this branch).** Redesigned with the elayadesign skills ([landing-page-design](https://github.com/elayadesign/ai-design-skills) and [redesign-existing-projects](https://github.com/elayadesign/redesign-skill)) and 21st.dev patterns, on top of the UI & CX handover's content model.

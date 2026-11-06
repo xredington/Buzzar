@@ -1,5 +1,5 @@
-import { $, $$, h, onListChange, fmt, revealIn } from './ui.js';
-import { load, getMeta, all, match, TYPE, catLabel } from './data.js';
+import { $, $$, h, onListChange, fmt, revealIn, bindLogos } from './ui.js';
+import { load, getMeta, all, match, TYPE, catLabel, logoParts } from './data.js';
 import { compareTray, syncToggles } from './components.js';
 
 const routes = {
@@ -13,7 +13,7 @@ const routes = {
   saved: () => import('./views/lists.js'),
   journey: () => import('./views/lists.js'),
   industries: () => import('./views/browse.js'),
-  providers: () => import('./views/browse.js'),
+  providers: () => import('./views/providers.js'),
   'how-it-works': () => import('./views/about.js'),
   partners: () => import('./views/about.js'),
   agents: () => import('./views/about.js'),
@@ -239,6 +239,7 @@ function wire() {
     $('#main').replaceChildren(h('section', { class: 'wrap nf' }, h('div', null, h('h1', { class: 'heading-3' }, 'The catalogue could not load.'), h('p', { class: 'muted' }, 'Serve this folder over HTTP, for example with python3 -m http.server, and reload.'))));
     return;
   }
+  bindLogos(logoParts);
   const m = getMeta();
   // "NEW" only when it distinguishes something (in a bulk import every listing shares one date)
   const latest = all().reduce((a, x) => (x.u > a ? x.u : a), '');

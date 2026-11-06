@@ -2,6 +2,7 @@
 // Everything runs in the browser: no question or choice leaves the device.
 
 let catalogue = [];
+let logos = {};
 let meta = null;
 const byId = new Map();
 const bySlug = new Map();
@@ -47,9 +48,10 @@ export const label = {
 
 export async function load() {
   if (catalogue.length) return;
-  const [c, m] = await Promise.all([fetch('data/catalogue.json').then((r) => r.json()), fetch('data/meta.json').then((r) => r.json())]);
+  const [c, m, l] = await Promise.all([fetch('data/catalogue.json').then((r) => r.json()), fetch('data/meta.json').then((r) => r.json()), fetch('data/logos.json').then((r) => (r.ok ? r.json() : {})).catch(() => ({}))]);
   catalogue = c;
   meta = m;
+  logos = l;
   for (const it of catalogue) {
     byId.set(it.id, it);
     bySlug.set(it.slug, it);
@@ -431,4 +433,31 @@ export function readiness(it, d) {
   for (const s of stages) s.text = s.ok === 1 ? s.msg[0] : s.ok === 0.5 ? s.msg[1] : s.msg[2] || s.msg[1];
   const pct = Math.round((stages.reduce((a, s) => a + s.ok, 0) / stages.length) * 100);
   return { stages, pct };
+}
+
+// ---------- provider logos ----------
+// A provider name may be "Partner / Vendor"; each part can carry its own logo.
+export function logoParts(name) {
+  return String(name)
+    .split(' / ')
+    .map((p) => p.trim())
+    .map((p) => ({ name: p, file: logos[p] ? `assets/logos/${logos[p]}` : null }));
+}
+export const hasLogo = (name) => logoParts(name).some((p) => p.file);
+
+// per provider summary, computed once from the catalogue
+let provCache = null;
+export function providerStats() {
+  if (provCache) return provCache;
+  const m = new Map();
+  for (const it of catalogue) {
+    let r = m.get(it.p);
+    if (!r) m.set(it.p, (r = { name: it.p, kind: it.k, n: 0, y: { product: 0, service: 0, accelerator: 0 }, c: {}, items: [] }));
+    r.n++;
+    r.y[it.y]++;
+    r.c[it.c] = (r.c[it.c] || 0) + 1;
+    r.items.push(it);
+  }
+  provCache = [...m.values()].sort((a, b) => b.n - a.n || a.name.localeCompare(b.name));
+  return provCache;
 }

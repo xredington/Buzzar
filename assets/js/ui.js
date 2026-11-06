@@ -313,3 +313,26 @@ export function onReveal(el, fn) {
   el.addEventListener('reveal', fn, { once: true });
   io.observe(el);
 }
+
+// ---------- provider coin: a logo in a white disc, or a typographic mark ----------
+export const coin = (name, size, opts) => coinSync(name, size, opts);
+let _logoParts = null;
+export function bindLogos(fn) {
+  _logoParts = fn;
+}
+export function coinSync(name, size = 40, { stack = true } = {}) {
+  const parts = _logoParts ? _logoParts(name) : [{ name, file: null }];
+  const withLogo = parts.filter((p) => p.file);
+  const show = stack && withLogo.length > 1 ? withLogo.slice(-2) : [withLogo[withLogo.length - 1] || parts[parts.length - 1]];
+  const one = (p) => {
+    const el = h('span', { class: 'coin' + (p.file ? '' : ' type'), style: { width: size + 'px', height: size + 'px' }, title: p.name });
+    if (p.file) el.append(h('img', { src: p.file, alt: '', loading: 'lazy', decoding: 'async' }));
+    else {
+      const words = p.name.replace(/[^A-Za-z0-9 ]/g, ' ').split(/\s+/).filter(Boolean);
+      el.append(h('b', { style: { fontSize: Math.max(9, Math.round(size * 0.34)) + 'px' } }, ((words[0] || '?')[0] + (words[1] ? words[1][0] : (words[0] || '')[1] || '')).toUpperCase()));
+    }
+    return el;
+  };
+  if (show.length === 1) return one(show[0]);
+  return h('span', { class: 'coins', 'aria-label': name }, show.map(one));
+}
