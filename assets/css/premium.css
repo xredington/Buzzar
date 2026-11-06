@@ -6777,3 +6777,50 @@ a.spart:hover .sp-go .ph {
   .itile:not(.xl) .it-t b,
   .itile:not(.xl):not(.lg) .it-t b { font-size: 13px; }
 }
+
+/* ---------- listing photographs: fill their frame like a stock photo ---------- */
+img[src*='img/prod/'] {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  mix-blend-mode: normal !important;
+}
+.t3-art {
+  height: 180px;
+}
+.t3-art:has(img[src*='img/prod/'])::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(0 0 0 / 14%) 0%, rgb(0 0 0 / 0%) 34%);
+  pointer-events: none;
+}
+.t3:hover .t3-art img[src*='img/prod/'] {
+  transform: scale(1.05);
+}
+.live-item .thumb,
+.qv-head figure,
+.rcard2 .thumb,
+.ptop .thumb,
+.sp-img,
+.sheet-img {
+  overflow: hidden;
+}
+@media (max-width: 640px) {
+  .t3-art {
+    height: auto;
+  }
+}
+.t3-kind,
+.t3-aws {
+  z-index: 2;
+}
+.t3-sum {
+  z-index: 3;
+}
+@media (max-width: 640px) {
+  .t3-art img[src*='img/prod/'] {
+    position: absolute;
+    inset: 0;
+  }
+}

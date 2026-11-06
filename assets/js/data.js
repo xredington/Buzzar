@@ -48,13 +48,21 @@ export const label = {
 
 export async function load() {
   if (catalogue.length) return;
-  const [c, m, l] = await Promise.all([fetch('data/catalogue.json').then((r) => r.json()), fetch('data/meta.json').then((r) => r.json()), fetch('data/logos.json').then((r) => (r.ok ? r.json() : {})).catch(() => ({}))]);
+  const soft = (u) => fetch(u).then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
+  const [c, m, l, ph] = await Promise.all([fetch('data/catalogue.json').then((r) => r.json()), fetch('data/meta.json').then((r) => r.json()), soft('data/logos.json'), soft('data/prodimg.json')]);
   catalogue = c;
   meta = m;
   logos = l;
   for (const it of catalogue) {
     byId.set(it.id, it);
     bySlug.set(it.slug, it);
+    // a photograph chosen by what the listing does and the industry it serves; a few variants share the load
+    const pk = `${(it.sc[0] || 'x').replace(':', '-')}--${it.i[0] || 'cross-industry'}`;
+    if (ph[pk]) {
+      let hsh = 0;
+      for (const ch of it.slug) hsh = (hsh * 31 + ch.charCodeAt(0)) >>> 0;
+      it._img = `assets/img/prod/${pk}-${hsh % ph[pk]}.webp`;
+    }
     it._subs = it.sc.map(subLabel);
     it._ind = it.i.map(industryLabel);
     it._hay = norm([it.t, it.p, it.s, it._subs.join(' '), it._ind.join(' '), it.pr || '', catLabel(it.c), it.pl.join(' ')].join(' '));

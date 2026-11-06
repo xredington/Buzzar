@@ -165,9 +165,12 @@ const CAT_IMG = { CLD: 'cloud', DNA: 'data', AI: 'ai', SEC: 'security', SW: 'sof
 export const catImg = (code) => `assets/img/${CAT_IMG[code] || 'hero'}.webp`;
 // every industry has its own photograph; every sub capability has its own glass object
 export const indImg = (k) => `assets/img/photo/${k}.webp`;
-export const itemImg = (it) => (it?.sc?.[0] ? `assets/img/sub/${it.sc[0].replace(':', '-')}.webp` : catImg(it?.c));
+export const itemImg = (it) => it?._img || (it?.sc?.[0] ? `assets/img/sub/${it.sc[0].replace(':', '-')}.webp` : catImg(it?.c));
 export function img(src, alt = '', attrs = {}) {
-  return h('img', { src, alt, loading: 'lazy', decoding: 'async', ...attrs });
+  const el = h('img', { src, alt, loading: 'lazy', decoding: 'async', ...attrs });
+  // a listing photo that is missing falls back to its capability picture
+  if (src.includes('img/prod/')) el.addEventListener('error', () => (el.src = src.replace(/img\/prod\/(.+?)--.*$/, 'img/sub/$1.webp')), { once: true });
+  return el;
 }
 
 // ---------- monogram for providers ----------

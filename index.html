@@ -29,7 +29,7 @@
           try { done = sessionStorage.getItem('bz:repaired'); } catch (e) {}
           if (done) return false;
           try { sessionStorage.setItem('bz:repaired', '1'); } catch (e) {}
-          var urls = FILES.map(function (f) { return 'assets/js/' + f; }).concat(['assets/css/main.css', 'assets/css/premium.css', 'data/catalogue.json', 'data/meta.json', 'data/logos.json']);
+          var urls = FILES.map(function (f) { return 'assets/js/' + f; }).concat(['assets/css/main.css', 'assets/css/premium.css', 'data/catalogue.json', 'data/meta.json', 'data/logos.json', 'data/prodimg.json']);
           Promise.all(urls.map(function (u) { return fetch(u, { cache: 'reload' }).catch(function () {}); })).then(function () { location.reload(); });
           return true;
         };
