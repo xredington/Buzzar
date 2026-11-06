@@ -6779,7 +6779,8 @@ a.spart:hover .sp-go .ph {
 }
 
 /* ---------- listing photographs: fill their frame like a stock photo ---------- */
-img[src*='img/prod/'] {
+img[src*='img/prod/'],
+img[src*='img/svc/'] {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover;
@@ -6788,14 +6789,15 @@ img[src*='img/prod/'] {
 .t3-art {
   height: 180px;
 }
-.t3-art:has(img[src*='img/prod/'])::after {
+.t3-art:has(img[src*='img/prod/'], img[src*='img/svc/'])::after {
   content: '';
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, rgb(0 0 0 / 14%) 0%, rgb(0 0 0 / 0%) 34%);
   pointer-events: none;
 }
-.t3:hover .t3-art img[src*='img/prod/'] {
+.t3:hover .t3-art img[src*='img/prod/'],
+img[src*='img/svc/'] {
   transform: scale(1.05);
 }
 .live-item .thumb,
@@ -6819,7 +6821,8 @@ img[src*='img/prod/'] {
   z-index: 3;
 }
 @media (max-width: 640px) {
-  .t3-art img[src*='img/prod/'] {
+  .t3-art img[src*='img/prod/'],
+img[src*='img/svc/'] {
     position: absolute;
     inset: 0;
   }

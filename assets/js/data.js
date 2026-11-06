@@ -49,7 +49,7 @@ export const label = {
 export async function load() {
   if (catalogue.length) return;
   const soft = (u) => fetch(u).then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
-  const [c, m, l, ph] = await Promise.all([fetch('data/catalogue.json').then((r) => r.json()), fetch('data/meta.json').then((r) => r.json()), soft('data/logos.json'), soft('data/prodimg.json')]);
+  const [c, m, l, ph, sv] = await Promise.all([fetch('data/catalogue.json').then((r) => r.json()), fetch('data/meta.json').then((r) => r.json()), soft('data/logos.json'), soft('data/prodimg.json'), soft('data/svcimg.json')]);
   catalogue = c;
   meta = m;
   logos = l;
@@ -58,11 +58,11 @@ export async function load() {
     bySlug.set(it.slug, it);
     // a photograph chosen by what the listing does and the industry it serves; a few variants share the load
     const pk = `${(it.sc[0] || 'x').replace(':', '-')}--${it.i[0] || 'cross-industry'}`;
-    if (ph[pk]) {
-      let hsh = 0;
-      for (const ch of it.slug) hsh = (hsh * 31 + ch.charCodeAt(0)) >>> 0;
-      it._img = `assets/img/prod/${pk}-${hsh % ph[pk]}.webp`;
-    }
+    // services show people delivering the work; products and accelerators show the thing itself
+    let hsh = 0;
+    for (const ch of it.slug) hsh = (hsh * 31 + ch.charCodeAt(0)) >>> 0;
+    if (it.y === 'service' && sv[pk]) it._img = `assets/img/svc/${pk}-${hsh % sv[pk]}.webp`;
+    else if (ph[pk]) it._img = `assets/img/prod/${pk}-${hsh % ph[pk]}.webp`;
     it._subs = it.sc.map(subLabel);
     it._ind = it.i.map(industryLabel);
     it._hay = norm([it.t, it.p, it.s, it._subs.join(' '), it._ind.join(' '), it.pr || '', catLabel(it.c), it.pl.join(' ')].join(' '));

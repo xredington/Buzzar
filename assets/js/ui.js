@@ -168,8 +168,13 @@ export const indImg = (k) => `assets/img/photo/${k}.webp`;
 export const itemImg = (it) => it?._img || (it?.sc?.[0] ? `assets/img/sub/${it.sc[0].replace(':', '-')}.webp` : catImg(it?.c));
 export function img(src, alt = '', attrs = {}) {
   const el = h('img', { src, alt, loading: 'lazy', decoding: 'async', ...attrs });
-  // a listing photo that is missing falls back to its capability picture
-  if (src.includes('img/prod/')) el.addEventListener('error', () => (el.src = src.replace(/img\/prod\/(.+?)--.*$/, 'img/sub/$1.webp')), { once: true });
+  // a listing photo that is not there yet falls back: service photo, then product photo, then the capability picture
+  if (src.includes('img/svc/') || src.includes('img/prod/'))
+    el.addEventListener('error', () => {
+      const s = el.getAttribute('src');
+      if (s.includes('img/svc/')) el.src = s.replace('img/svc/', 'img/prod/');
+      else if (s.includes('img/prod/')) el.src = s.replace(/img\/prod\/(.+?)--.*$/, 'img/sub/$1.webp');
+    });
   return el;
 }
 
