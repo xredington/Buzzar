@@ -48,20 +48,12 @@ async function render() {
     console.error(e);
     // a page module failed to load, usually because the browser mixed cached old files with new ones:
     // reload once, bypassing the cache, instead of showing "page not found"
-    try {
-      if (!sessionStorage.getItem('bz:reloaded')) {
-        sessionStorage.setItem('bz:reloaded', '1');
-        location.reload();
-        return;
-      }
-    } catch {}
+    if (window.__bzRepair && window.__bzRepair()) return;
     if (id !== renderId) return;
     main.replaceChildren(h('section', { class: 'wrap nf' }, h('div', null, h('p', { class: 'eyebrow' }, 'Update needed'), h('h1', { class: 'heading-3' }, 'This page could not load.'), h('p', { class: 'muted', style: { margin: '0 0 24px' } }, 'Your browser is holding an older copy of Buzzar. Do a hard refresh: Cmd + Shift + R on Mac, Ctrl + Shift + R on Windows.'), h('button', { class: 'btn primary', type: 'button', onclick: () => location.reload() }, 'Reload'))));
     return;
   }
-  try {
-    sessionStorage.removeItem('bz:reloaded');
-  } catch {}
+
   if (id !== renderId) return;
   const node = view ? await view.default(r) : notFound();
   if (id !== renderId) return;
@@ -80,6 +72,9 @@ async function render() {
   closeMenu();
   compareTray();
   revealIn(wrap);
+  try {
+    sessionStorage.removeItem('bz:repaired');
+  } catch {}
   main.focus({ preventScroll: true });
 }
 
@@ -251,6 +246,7 @@ function wire() {
 }
 
 (async function boot() {
+  window.__bzBooted = true;
   wire();
   $('#main').replaceChildren(h('div', { class: 'wrap', style: { padding: '96px 0' } }, h('div', { class: 'live-skel', style: { height: '48px', width: '50%' } }), h('div', { class: 'live-skel', style: { height: '24px', width: '70%', marginTop: '16px' } }), h('div', { class: 'live-skel', style: { height: '240px', marginTop: '32px' } })));
   try {

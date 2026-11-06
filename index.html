@@ -19,6 +19,29 @@
     <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
     <link rel="stylesheet" href="assets/css/main.css" />
     <link rel="stylesheet" href="assets/css/premium.css" />
+    <script>
+      // Self repair: if the app has not started within a few seconds (usually because the browser
+      // mixed cached old scripts with new ones), re-download every file bypassing the cache, then reload once.
+      (function () {
+        var FILES = ['main.js', 'ui.js', 'data.js', 'components.js', 'config.js', 'orb.js', 'plan.js', 'field.js', 'views/home.js', 'views/catalogue.js', 'views/listing.js', 'views/advisor.js', 'views/browse.js', 'views/providers.js', 'views/lists.js', 'views/discover.js', 'views/about.js'];
+        window.__bzRepair = function () {
+          var done;
+          try { done = sessionStorage.getItem('bz:repaired'); } catch (e) {}
+          if (done) return false;
+          try { sessionStorage.setItem('bz:repaired', '1'); } catch (e) {}
+          var urls = FILES.map(function (f) { return 'assets/js/' + f; }).concat(['assets/css/main.css', 'assets/css/premium.css', 'data/catalogue.json', 'data/meta.json', 'data/logos.json']);
+          Promise.all(urls.map(function (u) { return fetch(u, { cache: 'reload' }).catch(function () {}); })).then(function () { location.reload(); });
+          return true;
+        };
+        setTimeout(function () {
+          if (window.__bzBooted) return;
+          if (!window.__bzRepair()) {
+            var m = document.getElementById('main');
+            if (m) m.innerHTML = '<section class="wrap" style="padding:96px 0;text-align:center"><h1 style="font-size:30px">Buzzar could not start.</h1><p>Your browser is holding old files. Do a hard refresh (Cmd + Shift + R on Mac, Ctrl + Shift + R on Windows) or open the page in a private window.</p></section>';
+          }
+        }, 6000);
+      })();
+    </script>
     <script type="module" src="assets/js/main.js"></script>
   </head>
   <body>
