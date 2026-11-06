@@ -58,8 +58,7 @@ export default function catalogue(route) {
       h('nav', { class: 'crumbs', 'aria-label': 'Breadcrumb' }, h('a', { href: '#/' }, 'Home'), h('span', { 'aria-hidden': 'true' }, '/'), h('a', { href: '#/catalogue' }, 'Catalogue'), hd.title !== 'Search the catalogue' ? [h('span', { 'aria-hidden': 'true' }, '/'), h('span', null, hd.title)] : null),
       h('p', { class: 'eyebrow' }, hd.eyebrow),
       h('h1', null, hd.title),
-      h('p', { class: 'lede' }, hd.lede),
-      h('div', { style: { marginTop: '16px', display: 'flex', gap: '8px', flexWrap: 'wrap' } }, h('a', { class: 'btn primary sm', href: `#/advisor${s.q ? '?q=' + encodeURIComponent(s.q) : ''}` }, 'Ask Sami instead', h('span', { class: 'arr' }, '→')), h('a', { class: 'btn sm', href: '#/discover' }, 'Guided discovery')),
+
     ),
   );
 

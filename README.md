@@ -1,5 +1,7 @@
 # Buzzar — the business solution marketplace
 
+> **Latest (this branch): the catalogue field.** The home page is one screen and the catalogue itself is the picture: all 1,265 listings are dots in five category clusters, ringed by kind (accelerators at the core, then products, then services). Type what you want to change and the matching dots light up while the rest fade; hover a dot to name it, click to open a quick view, click a cluster to browse it. Text is cut to a heading, one line and the ask bar; listing explanations are folded into tags and "Read more". Built on the premium edition below.
+>
 > **Premium edition (this branch).** Redesigned with the elayadesign skills ([landing-page-design](https://github.com/elayadesign/ai-design-skills) and [redesign-existing-projects](https://github.com/elayadesign/redesign-skill)) and 21st.dev patterns, on top of the UI & CX handover's content model.
 > - **Less scrolling:** home is under two screens; listings use tabs; catalogue tiles open a quick view slide over.
 > - **The page answers as you type:** the home live panel matches the catalogue on each keystroke, grouped by kind, and Sami's orb reacts.

@@ -17,6 +17,16 @@ const TABS = [
   ['ready', 'Readiness and plan'],
 ];
 
+function readMore(text) {
+  const p = h('p', { class: 'body-3 muted clamp3', style: { margin: 0, maxWidth: '760px' } }, text);
+  const b = h('button', { type: 'button', class: 'textlink', style: { border: 0, background: 'none', padding: 0, font: 'inherit', fontSize: '14px' } }, 'Read more');
+  b.addEventListener('click', () => {
+    const open = p.classList.toggle('clamp3');
+    b.textContent = open ? 'Read more' : 'Show less';
+  });
+  return h('div', null, p, h('div', { style: { marginTop: '4px' } }, b));
+}
+
 export default async function listing(route) {
   const it = getBySlug(route.args[0] || '');
   if (!it) {
@@ -86,7 +96,7 @@ export default async function listing(route) {
     p.set('tab', k);
     history.replaceState(null, '', `#/listing/${it.slug}?${p}`);
     panelEl.setAttribute('aria-labelledby', 'tab-' + k);
-    panelEl.replaceChildren(...PANELS[k]());
+    panelEl.replaceChildren(...PANELS[k]().filter(Boolean));
     panelEl.style.animation = 'none';
     void panelEl.offsetWidth;
     panelEl.style.animation = '';
@@ -104,12 +114,12 @@ export default async function listing(route) {
     overview: () => [
       it.tw?.length ? h('p', { class: 'twin' }, 'Also on Buzzar: ', it.tw.map(get).filter(Boolean).map((t, i) => [i ? ', ' : '', h('a', { class: 'textlink', href: `#/listing/${t.slug}` }, `this as a ${KIND[t.y].label.toLowerCase()}`), ` from ${t.p}`]), '.') : null,
       h('p', { class: 'outcome' }, d?.outcome || it.s),
-      d?.overview ? h('p', { class: 'body-3 muted', style: { margin: 0, maxWidth: '760px' } }, d.overview) : null,
+      d?.overview ? readMore(d.overview) : null,
       d?.kpi ? h('div', { class: 'pcard' }, h('p', { class: 'caption-4', style: { marginBottom: '4px' } }, 'Main measure of value'), h('p', { class: 'title-2' }, d.kpi[0].toUpperCase() + d.kpi.slice(1))) : null,
       d?.benefits?.length
         ? block(
             'Benefits, with their limits',
-            h('p', { class: 'honest', style: { marginBottom: '8px' } }, h('span', { class: 'tag-estimate', title: 'An estimate is a hypothesis to validate against your own baseline.' }, 'Estimate'), h('span', null, 'Each benefit shows its basis and its limits. No uplift is promised until your pilot measures it.')),
+            h('p', { style: { margin: '0 0 8px' } }, h('span', { class: 'tag-estimate', title: 'Estimates until your own pilot measures them. No uplift is promised.' }, 'Estimates')),
             h('div', { class: 'benefits2' }, d.benefits.map((b) => h('div', null, h('b', null, b.text), h('p', null, b.source || 'Source not stated'), b.limits ? h('p', null, b.limits) : null))),
           )
         : null,
@@ -149,7 +159,7 @@ export default async function listing(route) {
         out.push(
           block(
             'How this service is delivered',
-            dv.sample ? h('p', { class: 'honest', style: { marginBottom: '8px' } }, h('span', { class: 'tag-sample' }, 'Sample'), h('span', null, 'Sample delivery details. Pricing is shown as a type only; amounts are not listed.')) : null,
+            dv.sample ? h('p', { style: { margin: '0 0 8px' } }, h('span', { class: 'tag-sample', title: 'Sample delivery details. Pricing is shown as a type only.' }, 'Sample')) : null,
             kv([dv.model && ['Engagement model', ENGAGE[dv.model] || nice(dv.model)], (dv.weeks || it.db) && ['Duration', dv.weeks ? `${dv.weeks[0]} to ${dv.weeks[1]} weeks` : it.db], dv.method?.length && ['Delivery method', dv.method.map(nice).join(', ')], dv.pricing && ['Pricing model', PRICING[dv.pricing] || nice(dv.pricing)]]),
             dv.prerequisites?.length ? h('ul', { class: 'notfor2', style: { marginTop: '8px' } }, dv.prerequisites.map((p) => h('li', null, h('i', { class: 'ph ph-check-circle', 'aria-hidden': 'true' }), h('span', null, `You provide: ${p[0].toLowerCase() + p.slice(1)}`)))) : null,
           ),
@@ -166,7 +176,7 @@ export default async function listing(route) {
     buy: () =>
       d?.skus?.length
         ? [
-            d.skus.some((s) => s.sample) ? h('p', { class: 'honest' }, h('span', { class: 'tag-sample', title: 'Demonstration data' }, 'Sample'), h('span', null, h('b', null, 'Editions are illustrative. '), 'Prices are shared as a private offer, never as an amount on Buzzar.')) : null,
+            d.skus.some((s) => s.sample) ? h('p', { style: { margin: 0 } }, h('span', { class: 'tag-sample', title: 'Illustrative editions. Prices come as a private offer, never as an amount.' }, 'Sample editions')) : null,
             h(
               'div',
               { class: 'skus2' },
@@ -197,7 +207,7 @@ export default async function listing(route) {
       return [
         h('div', { class: 'ready-sum' }, h('div', null, h('b', null, `${r.pct}%`), h('span', { class: 'caption-2', style: { marginLeft: '8px' } }, r.pct >= 70 ? 'Ready to explore and define' : r.pct >= 45 ? 'Ready to explore' : 'Early: ask before you plan')), next ? h('button', { class: 'btn', type: 'button', onclick: () => requestDialog(it, nextAct[1]) }, `Next step: ${nextAct[0].toLowerCase()}`) : null),
         h('div', { class: 'ready', role: 'list', 'aria-label': 'Outcome Network readiness' }, r.stages.map((s, i) => h('div', { class: s.ok === 1 ? 'on' : s.ok > 0 ? 'part' : '', role: 'listitem' }, h('span', { class: 'n' }, String(i + 1).padStart(2, '0')), h('b', null, s.name), h('small', null, s.prog), h('small', null, s.text), h('span', { class: 'st' }, s.ok === 1 ? 'Ready' : s.ok > 0 ? 'Partly ready' : 'Not published yet')))),
-        block('Draft a mission plan with AI', h('div', { class: 'planbox2' }, h('p', { class: 'body-6 muted', style: { margin: 0 } }, 'Objective, what you need in place, how success is measured, and who does what. Advisory only, built from this published listing.'), ctx, h('div', null, draft), out)),
+        block('Draft a mission plan with AI', h('div', { class: 'planbox2' }, ctx, h('div', null, draft), out)),
       ];
     },
   };
@@ -212,7 +222,6 @@ export default async function listing(route) {
       'div',
       { class: 'box' },
       h('h3', null, 'Work with Redington'),
-      h('p', { class: 'body-6 muted', style: { margin: 0 } }, 'A specialist replies with next steps. Every request carries a CRM reference.'),
       reqType,
       h('button', { class: 'btn primary', type: 'button', onclick: () => requestDialog(it, reqType.querySelector('input:checked').value) }, 'Continue'),
       h('a', { class: 'btn ghost', href: `#/advisor?q=${encodeURIComponent(`Tell me about ${it.t}`)}` }, h('i', { class: 'ph ph-chats-circle', 'aria-hidden': 'true' }), d?.presales ? `Ask ${d.presales.team}` : 'Ask a Redington specialist'),
@@ -220,6 +229,6 @@ export default async function listing(route) {
   );
 
   paintTabs();
-  panelEl.replaceChildren(...PANELS[tab]());
+  panelEl.replaceChildren(...PANELS[tab]().filter(Boolean));
   return h('div', null, head, h('div', { class: 'wrap' }, tabsEl, h('div', { class: 'lgrid' }, panelEl, side)));
 }

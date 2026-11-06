@@ -544,7 +544,7 @@ export default function advisor(route) {
         { class: 'sami-intro' },
         big,
         h('h1', null, 'Talk to Sami'),
-        h('p', null, 'Tell me the change you want to make, in your own words or out loud. I will ask a couple of questions, fill your discovery board, and show you what fits and why.'),
+        h('p', null, 'Say what you want to change. I ask, you answer, and the right fit appears.'),
         h('div', { class: 'starters' }, STARTERS.map(([k, t]) => h('button', { type: 'button', onclick: () => onUser(t) }, h('small', null, k), t))),
       ),
     );
