@@ -19,9 +19,9 @@ A redesigned front end for the Buzzar catalogue. Buyers can explore 1,265 govern
 
 It is a static site: plain HTML, CSS and JavaScript modules, with no build step and no dependencies. It runs on any static host (GitHub Pages, S3 + CloudFront, Netlify, Azure Static Web Apps).
 
-## Deploy
+## Deploy (Vercel)
 
-Every push to `main` deploys the site to GitHub Pages through `.github/workflows/deploy.yml`. One-time setup: in the repository, Settings → Pages → Source: **GitHub Actions**.
+Import the repository at vercel.com/new, keep Framework Preset "Other", no build command, output directory `.` (the repository root). Every push to `main` then redeploys automatically. `vercel.json` sets caching so browsers always get fresh scripts and data.
 
 ## Run it
 
