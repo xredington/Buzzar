@@ -95,6 +95,7 @@ function closeMenu() {
 
 // ---------- command menu (⌘K) ----------
 const PAGES = [
+  ['Ask Buzzar', '#/', 'ph-sparkle', 'Advisor'],
   ['Talk to Sami', '#/advisor', 'ph-chats-circle', 'Advisor'],
   ['Search the catalogue', '#/catalogue', 'ph-squares-four', 'Catalogue'],
   ['Products', '#/catalogue?type=product', 'ph-package', 'Catalogue'],
@@ -188,6 +189,11 @@ function wire() {
     const act = a.dataset.action;
     if (act === 'menu') ($('#drawer').hidden ? openMenu() : closeMenu());
     else if (act === 'cmdk') cmdkOpen();
+    else if (act === 'ask') {
+      e.preventDefault();
+      if (location.hash === '#/' || location.hash === '') render();
+      else location.hash = '#/';
+    }
   });
   $('#drawer').addEventListener('click', (e) => {
     if (e.target.closest('a')) closeMenu();
