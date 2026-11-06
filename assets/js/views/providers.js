@@ -1,6 +1,6 @@
 // Providers — a partner orbit. Redington at the centre; vendors circle it in slow rings, sized by how many
 // listings they bring. Hover pauses and names a logo; click opens the provider panel. Below, a logo wall.
-import { h, fmt, img, catImg, coin } from '../ui.js';
+import { h, fmt, img, catImg, itemImg, coin } from '../ui.js';
 import { providerStats, catLabel, TYPE } from '../data.js';
 import { go } from '../main.js';
 
@@ -214,7 +214,7 @@ export function providerPanel(p) {
         h(
           'div',
           { class: 'ptop' },
-          top.map((it) => h('a', { href: `#/listing/${it.slug}` }, h('span', { class: 'thumb' }, img(catImg(it.c), '', { width: 40, height: 40 })), h('span', null, h('b', null, it.t), h('small', { class: `kind k-${it.y}` }, TYPE[it.y].label)), h('i', { class: 'ph ph-arrow-right', 'aria-hidden': 'true' }))),
+          top.map((it) => h('a', { href: `#/listing/${it.slug}` }, h('span', { class: 'thumb' }, img(itemImg(it), '', { width: 40, height: 40 })), h('span', null, h('b', null, it.t), h('small', { class: `kind k-${it.y}` }, TYPE[it.y].label)), h('i', { class: 'ph ph-arrow-right', 'aria-hidden': 'true' }))),
         ),
       ),
     ),

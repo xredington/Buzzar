@@ -1,7 +1,7 @@
 // Product page — a product sheet. The top screen answers "what is it, who makes it, how do I buy it":
 // key facts on the left, a buy box with every edition on the right. Tabs hold the rest, so nothing
 // needed is omitted and nothing forces a long scroll: Overview, Features, Pricing, Delivery, Fit, Readiness.
-import { h, toast, img, catImg, lists, coin } from '../ui.js';
+import { h, toast, img, catImg, itemImg, lists, coin } from '../ui.js';
 import { getBySlug, get, detail, TYPE, catLabel, industryLabel, label, readiness, all, plain } from '../data.js';
 import { card, requestDialog, KIND, kindTag, providerLine } from '../components.js';
 import { buildPlan, renderPlan, downloadPlan, scopeSteps, scopeMeta, prerequisites } from '../plan.js';
@@ -120,7 +120,7 @@ export default async function listing(route) {
         h(
           'div',
           { class: 'sheet-id' },
-          h('figure', { class: 'sheet-img' }, img(catImg(it.c), '', { width: 120, height: 120, loading: 'eager' })),
+          h('figure', { class: 'sheet-img' }, img(itemImg(it), '', { width: 120, height: 120, loading: 'eager' })),
           h(
             'div',
             null,

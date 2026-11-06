@@ -2,7 +2,7 @@
 //   1. Ask      what do you want to change?
 //   2. Answer   up to three quick questions, as tap targets (skip any)
 //   3. Solution the product, service and accelerator that fit, each with how it is bought, and more matches
-import { h, fmt, img, catImg, coin, lists, toast } from '../ui.js';
+import { h, fmt, img, catImg, itemImg, coin, lists, toast } from '../ui.js';
 import { getMeta, understand, matchU, industryLabel, catLabel, TYPE, detail, label } from '../data.js';
 import { requestDialog, KIND } from '../components.js';
 import { go } from '../main.js';
@@ -275,7 +275,7 @@ export default function home(route) {
       { class: `spart k-${x.y}`, href: `#/listing/${it.slug}` },
       h('div', { class: 'sp-top' }, h('span', { class: `kind k-${x.y}` }, x.title), h('span', { class: 'fitpill ' + x.p.fit }, x.p.fit === 'strong' ? 'Strong fit' : 'Good fit')),
       h('p', { class: 'sp-sub' }, x.sub),
-      h('div', { class: 'sp-main' }, h('span', { class: 'sp-img' }, img(catImg(it.c), '', { width: 64, height: 64 })), h('div', null, h('b', null, it.t), h('span', { class: 'sp-by' }, coin(it.p, 20), it.k === 'distributor' ? 'Redington' : it.p))),
+      h('div', { class: 'sp-main' }, h('span', { class: 'sp-img' }, img(itemImg(it), '', { width: 64, height: 64 })), h('div', null, h('b', null, it.t), h('span', { class: 'sp-by' }, coin(it.p, 20), it.k === 'distributor' ? 'Redington' : it.p))),
       why.length ? h('ul', { class: 'sp-why' }, why.map((w) => h('li', null, h('i', { class: 'ph ph-check', 'aria-hidden': 'true' }), w[0].toUpperCase() + w.slice(1)))) : null,
       h('div', { class: 'sp-buy' }, s ? [h('span', null, h('small', null, 'From edition'), h('b', null, s.edition || s.name)), h('span', null, h('small', null, 'Pricing'), h('b', null, `${label.model(s.model)}`))] : h('span', null, h('small', null, 'Pricing'), h('b', null, 'On request'))),
       h('span', { class: 'sp-go' }, 'See details, pricing and features', h('i', { class: 'ph ph-arrow-right', 'aria-hidden': 'true' })),

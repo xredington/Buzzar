@@ -1,5 +1,5 @@
-import { h, icon, fmt, monogram } from '../ui.js';
-import { getMeta, all, industryLabel, industryIcon } from '../data.js';
+import { h, icon, fmt, monogram, img, indImg, coin } from '../ui.js';
+import { getMeta, all, industryLabel, industryIcon, subLabel } from '../data.js';
 
 export default function browse(route) {
   return route.name === 'industries' ? industries() : providers(route);
@@ -14,42 +14,52 @@ const CATS = ['SW', 'DNA', 'CLD', 'SEC', 'AI'];
 function industries() {
   const meta = getMeta();
   const items = all();
-  const mix = {};
-  for (const it of items) for (const k of it.i) (mix[k] ||= {})[it.c] = (mix[k][it.c] || 0) + 1;
-  const keys = Object.keys(meta.industries).sort((a, b) => (a === 'cross-industry') - (b === 'cross-industry') || (meta.counts.industry[b] || 0) - (meta.counts.industry[a] || 0));
+  const by = {};
+  for (const it of items)
+    for (const k of it.i) {
+      const r = (by[k] ||= { n: 0, c: {}, p: {}, s: {} });
+      r.n++;
+      r.c[it.c] = (r.c[it.c] || 0) + 1;
+      if (it.p !== 'Redington') r.p[it.p] = (r.p[it.p] || 0) + 1;
+      for (const x of it.sc) r.s[x] = (r.s[x] || 0) + 1;
+    }
+  const keys = Object.keys(meta.industries)
+    .filter((k) => k !== 'cross-industry' && by[k])
+    .sort((a, b) => by[b].n - by[a].n);
+  let q = '';
+  const grid = h('div', { class: 'imosaic' });
+  const paint = () => {
+    const rows = keys.filter((k) => !q || industryLabel(k).toLowerCase().includes(q));
+    grid.replaceChildren(...rows.map((k, i) => tile(k, i, !q && i < 2 ? 'xl' : !q && i < 6 ? 'lg' : '')));
+    if (!rows.length) grid.append(h('p', { class: 'muted' }, 'No industry by that name.'));
+  };
+  const tile = (k, i, size) => {
+    const r = by[k];
+    const provs = Object.entries(r.p).sort((a, b) => b[1] - a[1]).slice(0, 4).map(([p]) => p);
+    const subs = Object.entries(r.s).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([x]) => subLabel(x));
+    return h(
+      'a',
+      { class: 'itile ' + size, href: `#/catalogue?ind=${k}`, style: { animationDelay: `${Math.min(i, 12) * 40}ms` } },
+      h('span', { class: 'it-img' }, img(indImg(k), '', { width: 600, height: 450 })),
+      h('span', { class: 'it-mix', 'aria-hidden': 'true' }, CATS.map((c) => (r.c[c] ? h('i', { class: 'cm-' + c, style: { flexGrow: r.c[c] } }) : null))),
+      h('span', { class: 'it-body' }, h('b', null, industryLabel(k)), h('small', { class: 'num' }, `${fmt(r.n)} solutions`)),
+      h('span', { class: 'it-more' }, h('span', { class: 'it-subs' }, subs.map((x) => h('em', null, x))), provs.length ? h('span', { class: 'it-provs' }, provs.map((p) => coin(p, 26))) : null, h('span', { class: 'it-go' }, 'Explore', h('i', { class: 'ph ph-arrow-right', 'aria-hidden': 'true' }))),
+    );
+  };
+  paint();
+  const input = h('input', { type: 'search', placeholder: 'Find your industry', 'aria-label': 'Find your industry' });
+  input.addEventListener('input', () => ((q = input.value.trim().toLowerCase()), paint()));
+  const cross = by['cross-industry']?.n || 0;
   return h(
     'div',
     null,
-    head('Industries', 'Start from the way your industry works.', `${keys.length} industries, each with solutions shaped around its own regulators, data and day-to-day operations. The bar shows the mix of practices.`),
     h(
-      'section',
-      { class: 'wrap', style: { padding: '36px 0 90px' } },
-      h(
-        'div',
-        { class: 'ind-grid' },
-        keys.map((k) => {
-          const n = meta.counts.industry[k] || 0;
-          const m = mix[k] || {};
-          return h(
-            'a',
-            { class: 'ind', href: `#/catalogue?ind=${k}` },
-            h('span', { class: 'ci' }, icon(industryIcon(k))),
-            h(
-              'div',
-              null,
-              h('b', null, industryLabel(k)),
-              h('small', null, `${fmt(n)} listings`),
-              h(
-                'div',
-                { class: 'bars', 'aria-hidden': 'true' },
-                CATS.map((c) => h('i', { style: { width: `${((m[c] || 0) / Math.max(1, n)) * 100}%`, background: `var(--c-${c})` } })),
-              ),
-            ),
-          );
-        }),
-      ),
-      h('p', { class: 'muted small', style: { marginTop: '22px' } }, 'Legend: ', CATS.map((c) => h('span', { class: 'chip cat', style: { '--cat': `var(--c-${c})`, marginRight: '6px' } }, { SW: 'Software', DNA: 'Data', CLD: 'Cloud', SEC: 'Security', AI: 'AI' }[c]))),
+      'header',
+      { class: 'wrap ihead' },
+      h('div', null, h('h1', { class: 'grad-text' }, 'Pick your world.'), h('p', { class: 'muted' }, `${keys.length} industries. Each tile shows what is built for it.`)),
+      h('div', { class: 'ihead-r' }, h('label', { class: 'field' }, h('i', { class: 'ph ph-magnifying-glass', 'aria-hidden': 'true' }), input), h('div', { class: 'ilegend' }, CATS.map((c) => h('span', null, h('i', { class: 'cm-' + c }), { SW: 'Software', DNA: 'Data', CLD: 'Cloud', SEC: 'Security', AI: 'AI' }[c])))),
     ),
+    h('section', { class: 'wrap', style: { paddingBottom: '80px' } }, grid, cross ? h('a', { class: 'icross', href: '#/catalogue?ind=cross-industry' }, h('span', { class: 'it-img' }, img(indImg('cross-industry'), '', { width: 200, height: 150 })), h('span', null, h('b', null, 'Works in any industry'), h('small', null, `${fmt(cross)} cross industry solutions`)), h('i', { class: 'ph ph-arrow-right', 'aria-hidden': 'true' })) : null),
   );
 }
 

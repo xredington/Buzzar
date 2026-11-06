@@ -1,4 +1,4 @@
-import { h, icon, lists, toast, highlight, openDialog, closeDialog, $, img, catImg, coin } from './ui.js';
+import { h, icon, lists, toast, highlight, openDialog, closeDialog, $, img, catImg, itemImg, coin } from './ui.js';
 import { TYPE, catLabel, get, industryLabel } from './data.js';
 
 export const MAX_COMPARE = 3;
@@ -100,7 +100,7 @@ export function card(it, opts = {}) {
     h(
       'div',
       { class: 't3-art' },
-      img(catImg(it.c), '', { width: 150, height: 150 }),
+      img(itemImg(it), '', { width: 150, height: 150 }),
       h('span', { class: `t3-kind kind k-${it.y}` }, KIND[it.y].label),
       it.aws ? h('span', { class: 't3-aws', title: 'Buyable on AWS Marketplace' }, h('i', { class: 'ph ph-shopping-bag', 'aria-hidden': 'true' }), 'AWS Marketplace') : null,
       h('p', { class: 't3-sum' }, ...highlight(it.s, terms)),
@@ -145,7 +145,7 @@ export async function quickView(it) {
   const close = h('button', { class: 'tool qv-x', type: 'button', 'aria-label': 'Close quick view', onclick: qvClose }, h('i', { class: 'ph ph-x', 'aria-hidden': 'true' }));
   const fact = (k, v) => (v ? h('div', null, h('dt', null, k), h('dd', null, v)) : null);
   panel.replaceChildren(
-    h('div', { class: 'qv-head' }, h('figure', null, img(catImg(it.c), '', { width: 84, height: 84 })), h('div', null, kindTag(it.y), h('h2', null, it.t), h('p', { class: 'caption-2 withcoin', style: { margin: 0 } }, coin(it.p, 22), h('span', null, providerLine(it)))), close),
+    h('div', { class: 'qv-head' }, h('figure', null, img(itemImg(it), '', { width: 84, height: 84 })), h('div', null, kindTag(it.y), h('h2', null, it.t), h('p', { class: 'caption-2 withcoin', style: { margin: 0 } }, coin(it.p, 22), h('span', null, providerLine(it)))), close),
     h(
       'div',
       { class: 'qv-body' },
