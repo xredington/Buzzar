@@ -74,11 +74,11 @@ export function createOrb(canvas, { density = 1, halo = true } = {}) {
   });
 
   function colour(p, a) {
-    // AI purple through to Buzzar green, like a hologram catching light
-    const mix = (p.hue + p.ty + 0.5) / 2;
-    const r = Math.round(90 + (34 - 90) * mix);
-    const g = Math.round(62 + (113 - 62) * mix);
-    const b = Math.round(180 + (73 - 180) * mix);
+    // graphite through to Buzzar green, like a hologram catching light (one accent colour)
+    const mix = Math.min(1, Math.max(0, (p.hue + p.ty + 0.5) / 2));
+    const r = Math.round(40 + (31 - 40) * mix);
+    const g = Math.round(42 + (107 - 42) * mix);
+    const b = Math.round(40 + (69 - 40) * mix);
     return `rgba(${r},${g},${b},${a})`;
   }
 
@@ -94,8 +94,8 @@ export function createOrb(canvas, { density = 1, halo = true } = {}) {
     if (halo) {
       const pulse = state === 'talking' ? 0.12 + 0.06 * Math.sin(t * 9) : state === 'listening' ? 0.1 : 0.07;
       const g = ctx.createRadialGradient(cx, cy, S * 0.05, cx, cy, S * 0.5);
-      g.addColorStop(0, `rgba(90,62,180,${pulse})`);
-      g.addColorStop(1, 'rgba(90,62,180,0)');
+      g.addColorStop(0, `rgba(31,107,69,${pulse})`);
+      g.addColorStop(1, 'rgba(31,107,69,0)');
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, S, S);
     }

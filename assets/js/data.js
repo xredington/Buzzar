@@ -42,7 +42,7 @@ export const label = {
   model: (m) => MODEL[m] || nice(m),
   unit: (u) => nice(u),
   term: (t) => (t === 'one_off' ? 'One-off' : nice(t)),
-  size: (s) => ({ smb: 'Small business', 'mid-market': 'Mid-market', enterprise: 'Enterprise' })[s] || nice(s),
+  size: (s) => ({ smb: 'Small business', 'mid-market': 'Mid market', enterprise: 'Enterprise', 'public-sector': 'Public sector' })[s] || nice(s).replace(/-/g, ' '),
 };
 
 export async function load() {
@@ -65,7 +65,9 @@ export const getMeta = () => meta;
 export const get = (id) => byId.get(id);
 export const getBySlug = (s) => bySlug.get(s) || byId.get(s);
 export const catLabel = (c) => meta?.categories.find((x) => x.code === c)?.label || c;
-export const industryLabel = (k) => meta?.industries[k]?.label || k;
+// copy rule: no hyphens in visible text
+export const plain = (s) => String(s ?? '').replace(/e-commerce/gi, 'ecommerce').replace(/(\w)-(\w)/g, '$1 $2');
+export const industryLabel = (k) => plain(meta?.industries[k]?.label || k).replace(/ & /g, ' and ');
 export const industryIcon = (k) => meta?.industries[k]?.icon || 'spark';
 const subMap = new Map();
 export function subLabel(key) {

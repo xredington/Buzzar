@@ -3,85 +3,74 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Buzzar — Where Expertise Meets Opportunity</title>
-    <meta
-      name="description"
-      content="Buzzar is Redington's business solution marketplace. Discover, compare and request governed products, services and accelerators across cloud, data, AI, security and software."
-    />
+    <title>Buzzar · Where expertise meets opportunity</title>
+    <meta name="description" content="Buzzar is the business solution marketplace run by Redington. Describe the change you want, see what fits from 1,265 governed products, services and accelerators, and ask Redington to deliver." />
+    <meta property="og:title" content="Buzzar · Where expertise meets opportunity" />
+    <meta property="og:description" content="Describe the change you want. See what fits, and why. Ask Redington to deliver." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="assets/img/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#ffffff" />
     <meta name="color-scheme" content="light" />
     <link rel="icon" type="image/png" href="assets/img/logo-64.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Avenir Next is the brand face; Nunito Sans is the closest open fallback for systems without it -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" />
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
     <link rel="stylesheet" href="assets/css/main.css" />
-    <link rel="stylesheet" href="assets/css/enterprise.css" />
+    <link rel="stylesheet" href="assets/css/premium.css" />
     <script type="module" src="assets/js/main.js"></script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
 
     <div class="notice" role="note">
-      <div class="wrap"><span><b>Demonstration catalogue.</b> Delivery details and ways to buy are samples</span><span class="hide-sm">· replace with partner data before any external showcase.</span></div>
+      <div class="wrap"><span><b>Demonstration catalogue.</b> Delivery details and ways to buy are samples</span><span class="hide-sm">until partner data replaces them.</span></div>
     </div>
 
     <header class="hdr" id="hdr">
-      <div class="hdr-in wrap">
-        <a class="brand" href="#/" aria-label="Buzzar home"><img src="assets/img/logo.png" alt="" width="30" height="33" /><span class="brand-word">uzzar<i>.</i></span></a>
-
+      <div class="hdr-in">
+        <a class="brand" href="#/" aria-label="Buzzar home"><img src="assets/img/logo.png" alt="" width="24" height="26" /><span class="brand-word">uzzar<i>.</i></span></a>
         <nav class="nav" aria-label="Marketplace">
           <a href="#/catalogue?type=product" data-nav="product">Products</a>
           <a href="#/catalogue?type=service" data-nav="service">Services</a>
           <a href="#/catalogue?type=accelerator" data-nav="accelerator">Accelerators</a>
           <a href="#/industries" data-nav="industries">Industries</a>
-          <a href="#/providers" data-nav="providers">Providers</a>
         </nav>
-
-        <form class="hdr-ask" id="hdr-ask" role="search">
-          <span class="spark" aria-hidden="true">✦</span>
-          <input id="hdr-ask-input" type="search" placeholder="Ask Buzzar" aria-label="Ask Buzzar" autocomplete="off" />
-          <kbd aria-hidden="true">/</kbd>
-        </form>
-
+        <button class="cmdk-btn" type="button" data-action="cmdk" aria-label="Search or jump to (Ctrl K)"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><span>Search or jump to</span><kbd>⌘K</kbd></button>
         <div class="hdr-tools">
           <a class="hdr-sami" href="#/advisor" aria-label="Talk to Sami, the Buzzar advisor"><canvas class="mini-orb" width="56" height="56" aria-hidden="true"></canvas><span>Talk to Sami</span></a>
-          <a class="tool" href="#/compare" aria-label="Compare" title="Compare">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9c2.5-2 5.5-2 8 0s5.5 2 8 0M4 15c2.5-2 5.5-2 8 0s5.5 2 8 0" /></svg>
-            <span class="badge" data-count="compare">0</span>
-          </a>
-          <a class="tool" href="#/saved" aria-label="Saved" title="Saved">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z" /></svg>
-            <span class="badge" data-count="saved">0</span>
-          </a>
+          <a class="tool" href="#/compare" aria-label="Compare" title="Compare"><i class="ph ph-scales" aria-hidden="true"></i><span class="badge" data-count="compare">0</span></a>
+          <a class="tool" href="#/saved" aria-label="Saved" title="Saved"><i class="ph ph-heart" aria-hidden="true"></i><span class="badge" data-count="saved">0</span></a>
           <a class="signin" href="https://xmanr5qvdd.execute-api.us-east-1.amazonaws.com/auth/entra/login" rel="noopener">Sign in</a>
-          <button class="tool menu-btn" type="button" data-action="menu" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
-          </button>
+          <button class="tool menu-btn" type="button" data-action="menu" aria-label="Menu" aria-expanded="false" aria-controls="drawer"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
         </div>
       </div>
     </header>
 
     <div class="drawer" id="drawer" hidden>
-      <div class="drawer-scrim" data-action="menu-close"></div>
       <nav class="drawer-panel" aria-label="All pages">
-        <button class="drawer-x" type="button" data-action="menu-close" aria-label="Close menu">×</button>
-        <p class="eyebrow">Explore</p>
-        <a href="#/">Home</a>
-        <a href="#/discover">Guided discovery</a>
-        <a href="#/advisor">Talk to Sami</a>
-        <a href="#/catalogue">Search the catalogue</a>
-        <a href="#/industries">Industries</a>
-        <a href="#/providers">Providers</a>
-        <a href="#/how-it-works">How it works</a>
-        <p class="eyebrow">Your lists</p>
-        <a href="#/compare">Compare</a>
-        <a href="#/saved">Saved</a>
-        <a href="#/journey">My journey</a>
-        <p class="eyebrow">Buzzar for</p>
-        <a href="#/catalogue">Buyers</a>
-        <a href="#/partners">Partners</a>
-        <a href="#/agents">Agents</a>
+        <div class="col">
+          <p class="eyebrow">Discover</p>
+          <a href="#/advisor">Talk to Sami</a>
+          <a href="#/discover">Guided discovery</a>
+          <a href="#/catalogue">Search the catalogue</a>
+          <a href="#/industries">Industries</a>
+          <a href="#/providers">Providers</a>
+        </div>
+        <div class="col">
+          <p class="eyebrow">Your lists</p>
+          <a href="#/compare">Compare</a>
+          <a href="#/saved">Saved</a>
+          <a href="#/journey">My journey</a>
+          <a href="#/how-it-works">How it works</a>
+        </div>
+        <div class="col">
+          <p class="eyebrow">Buzzar for</p>
+          <a href="#/catalogue">Buyers</a>
+          <a href="#/partners">Partners</a>
+          <a href="#/agents">Agents</a>
+        </div>
       </nav>
     </div>
 
@@ -91,39 +80,30 @@
 
     <footer class="ftr">
       <div class="wrap">
-        <div class="ftr-in">
-          <div class="ftr-brand">
-            <a class="brand" href="#/" aria-label="Buzzar home"><img src="assets/img/logo.png" alt="" width="30" height="33" /><span class="brand-word">uzzar<i>.</i></span></a>
-            <p>The right expertise. Your next business move.</p>
-            <p class="muted small" id="ftr-meta"></p>
-          </div>
-          <div class="ftr-cols">
-            <div>
-              <p class="eyebrow">Discover</p>
-              <a href="#/discover">Guided discovery</a>
-              <a href="#/advisor">Talk to Sami</a>
-              <a href="#/catalogue">Search the catalogue</a>
-              <a href="#/industries">Industries</a>
-            </div>
-            <div>
-              <p class="eyebrow">Compare &amp; connect</p>
-              <a href="#/compare">Compare</a>
-              <a href="#/saved">Saved</a>
-              <a href="#/journey">My journey</a>
-              <a href="#/how-it-works">How it works</a>
-            </div>
-            <div>
-              <p class="eyebrow">Buzzar for</p>
-              <a href="#/catalogue">Buyers</a>
-              <a href="#/partners">Partners</a>
-              <a href="#/agents">Agents</a>
-              <a href="#/providers">Providers</a>
-            </div>
-          </div>
+        <div class="ftr-row">
+          <a class="brand" href="#/" aria-label="Buzzar home"><img src="assets/img/logo.png" alt="" width="24" height="26" /><span class="brand-word">uzzar<i>.</i></span></a>
+          <nav aria-label="Main paths">
+            <a href="#/advisor">Talk to Sami</a>
+            <a href="#/catalogue">Catalogue</a>
+            <a href="#/how-it-works">How it works</a>
+            <a href="#/partners">Partners</a>
+            <a href="#/agents">Agents</a>
+          </nav>
         </div>
-        <div class="ftr-legal"><span>Buzzar is a business solution marketplace run by Redington.</span><span>Prices are never shown as amounts · every request is reviewed by a person</span></div>
+        <div class="ftr-legal">
+          <span id="ftr-meta">Buzzar is a business solution marketplace run by Redington.</span>
+          <nav aria-label="Legal"><a href="#/privacy">Privacy</a><a href="#/terms">Terms</a></nav>
+        </div>
       </div>
     </footer>
+
+    <div class="cmdk" id="cmdk" hidden role="dialog" aria-modal="true" aria-label="Search or jump to">
+      <div class="cmdk-box">
+        <div class="cmdk-in"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input id="cmdk-input" type="text" placeholder="Search listings, pages, or ask Sami" autocomplete="off" aria-controls="cmdk-list" /></div>
+        <div class="cmdk-list" id="cmdk-list" role="listbox"></div>
+        <div class="cmdk-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>↵</kbd> to open</span><span><kbd>esc</kbd> to close</span></div>
+      </div>
+    </div>
 
     <dialog id="dlg" aria-labelledby="dlg-title">
       <form method="dialog" class="dlg-x"><button aria-label="Close">×</button></form>

@@ -6,7 +6,32 @@ import { CONFIG } from '../config.js';
 export default function about(route) {
   if (route.name === 'partners') return partners();
   if (route.name === 'agents') return agents();
+  if (route.name === 'privacy' || route.name === 'terms') return legal(route.name);
   return how();
+}
+
+// ---------- privacy and terms (preview wording, to be replaced by Redington legal) ----------
+function legal(kind) {
+  const rows =
+    kind === 'privacy'
+      ? [
+          ['What stays on your device', 'Compare, Saved, My journey, the Sami discovery board and requests made in this preview are stored in your browser only. Clearing site data removes them.'],
+          ['What Sami does with your words', 'In on device mode, Sami reads your message in your browser and sends nothing anywhere. In Live AI mode, your brief is sent to the Buzzar advisor service to match listings.'],
+          ['When you send a request', 'On Buzzar, requests need Microsoft Entra sign in and are shared with Redington to reply. In this preview they are not sent.'],
+          ['Contact', '{{privacy contact}}'],
+        ]
+      : [
+          ['Advisory only', 'Matches, Solutions and mission plans are generated from published listings. They are not an offer or a commitment by Redington or any provider.'],
+          ['Prices', 'Buzzar never shows price amounts. Pricing is shared as a private offer through your chosen buying route.'],
+          ['Demonstration data', 'Delivery details and ways to buy in this catalogue are samples until partner data replaces them.'],
+          ['Governing terms', '{{terms of use}}'],
+        ];
+  return h(
+    'div',
+    null,
+    head('Legal', kind === 'privacy' ? 'Privacy' : 'Terms of use', 'Preview wording. Redington legal replaces the marked placeholders before launch.'),
+    h('section', { class: 'wrap section-tight', style: { maxWidth: '760px', display: 'grid', gap: '8px' } }, rows.map(([t, p]) => h('div', { class: 'panel', style: { padding: '24px' } }, h('h3', { class: 'heading-6' }, t), h('p', { class: 'body-6 muted', style: { margin: 0 } }, p)))),
+  );
 }
 
 function head(eyebrow, title, lede, extra) {

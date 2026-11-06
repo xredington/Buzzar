@@ -201,7 +201,7 @@ export default function catalogue(route) {
         'Industry',
         'ind',
         Object.entries(meta.industries)
-          .map(([k, v]) => [k, v.label])
+          .map(([k]) => [k, industryLabel(k)])
           .sort((a, b) => (indCounts[b[0]] || 0) - (indCounts[a[0]] || 0)),
         indCounts,
         true,
@@ -209,7 +209,7 @@ export default function catalogue(route) {
       group(
         'Platform',
         'plat',
-        [...['AWS', 'Azure', 'Google Cloud', 'Hybrid', 'On-premises'].map((x) => [x, x]), ['__none', 'Not specified']],
+        [...['AWS', 'Azure', 'Google Cloud', 'Hybrid', 'On-premises'].map((x) => [x, x.replace('-', ' ')]), ['__none', 'Not specified']],
         fc('plat').plat,
       ),
       group(
@@ -265,7 +265,7 @@ export default function catalogue(route) {
           h('div', { class: 'chips', style: { justifyContent: 'center' } }, h('button', { class: 'btn', type: 'button', onclick: reset }, 'Clear filters'), h('a', { class: 'btn primary', href: `#/advisor?q=${encodeURIComponent(s.q || '')}` }, 'Ask Sami')),
         ),
       );
-    } else gridEl.replaceChildren(...slice.map((it) => card(it, { terms })));
+    } else gridEl.replaceChildren(...slice.map((it) => card(it, { terms, quick: true })));
 
     // pagination with a window around the current page
     pagerEl.replaceChildren();

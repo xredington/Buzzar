@@ -53,9 +53,9 @@ export const providerLine = (it) => (it.k === 'distributor' ? 'Provided by Redin
 export function fitLine(it) {
   const parts = [];
   const ind = it.i.filter((x) => x !== 'cross-industry');
-  parts.push(ind.length ? ind.slice(0, 2).map(industryLabel).join(', ') + (ind.length > 2 ? ` +${ind.length - 2}` : '') : 'Cross-industry');
+  parts.push(ind.length ? ind.slice(0, 2).map(industryLabel).join(', ') + (ind.length > 2 ? ` and ${ind.length - 2} more` : '') : 'Cross industry');
   if (it.r.length) parts.push(it.r.join(', '));
-  if (it.pl.length) parts.push(it.pl.slice(0, 3).join(', ') + (it.pl.length > 3 ? ' +' : ''));
+  if (it.pl.length) parts.push(it.pl.slice(0, 3).map((p) => p.replace('-', ' ')).join(', ') + (it.pl.length > 3 ? ' and more' : ''));
   return parts.join(' · ');
 }
 export function isNew(it) {
@@ -85,18 +85,89 @@ function tileAct(kind, id) {
 export function card(it, opts = {}) {
   const terms = opts.terms || [];
   const href = `#/listing/${it.slug}`;
+  const link = h('a', { href }, ...highlight(it.t, terms));
+  // in lists, a plain click opens the quick view; modified clicks still open the full page
+  if (opts.quick)
+    link.addEventListener('click', (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+      e.preventDefault();
+      quickView(it);
+    });
   return h(
     'article',
     { class: `tile k-${it.y}` },
-    h('div', { class: 'tile-top' }, kindTag(it.y), h('span', { class: 'open', 'aria-hidden': 'true' }, '↗')),
-    h('h3', null, h('a', { href }, ...highlight(it.t, terms))),
-    it.aws || isNew(it) ? h('div', { class: 'badges' }, it.aws ? h('span', { class: 'badge-sku' }, 'Buyable on AWS Marketplace') : null, isNew(it) ? h('span', { class: 'badge-new' }, 'NEW') : null) : null,
-    h('p', { class: 'shelf' }, `${catLabel(it.c)} · ${KIND[it.y].label} · Version ${it.v || 1}`),
+    h('div', { class: 'tile-top' }, kindTag(it.y), h('i', { class: 'ph ph-arrow-up-right open', 'aria-hidden': 'true' })),
+    h('h3', null, link),
+    it.aws || isNew(it) ? h('div', { class: 'badges' }, it.aws ? h('span', { class: 'badge-sku' }, h('i', { class: 'ph ph-shopping-bag', 'aria-hidden': 'true' }), 'Buyable on AWS Marketplace') : null, isNew(it) ? h('span', { class: 'badge-new' }, 'New') : null) : null,
+    h('p', { class: 'shelf' }, `${catLabel(it.c)} · Version ${it.v || 1}`),
     h('p', { class: 'fitline' }, fitLine(it)),
     h('p', { class: 'trustline' }, providerLine(it)),
     h('p', { class: 'sum' }, ...highlight(it.s, terms)),
-    h('div', { class: 'tile-acts' }, tileAct('compare', it.id), tileAct('saved', it.id), h('a', { class: 'act view', href }, 'View', h('span', { 'aria-hidden': 'true' }, ' →'))),
+    h('div', { class: 'tile-acts' }, tileAct('compare', it.id), tileAct('saved', it.id), h('a', { class: 'act view', href }, 'Open', h('i', { class: 'ph ph-arrow-right', 'aria-hidden': 'true' }))),
   );
+}
+
+// ---------- quick view: a slide over panel with the essentials ----------
+let qvEl = null;
+let qvReturn = null;
+function qvClose() {
+  if (!qvEl) return;
+  qvEl.classList.remove('open');
+  setTimeout(() => qvEl && !qvEl.classList.contains('open') && (qvEl.hidden = true), 500);
+  qvReturn?.focus?.();
+}
+export async function quickView(it) {
+  const { detail, readiness, label, industryLabel: ind, plain } = await import('./data.js');
+  if (!qvEl) {
+    qvEl = h('div', { class: 'qv', hidden: true, role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Quick view' }, h('div', { class: 'qv-scrim', onclick: qvClose }), h('div', { class: 'qv-panel' }));
+    document.body.append(qvEl);
+    document.addEventListener('keydown', (e) => e.key === 'Escape' && qvClose());
+    addEventListener('hashchange', qvClose);
+  }
+  qvReturn = document.activeElement;
+  const panel = qvEl.querySelector('.qv-panel');
+  const d = await detail(it.id);
+  const rd = readiness(it, d);
+  const close = h('button', { class: 'tool qv-x', type: 'button', 'aria-label': 'Close quick view', onclick: qvClose }, h('i', { class: 'ph ph-x', 'aria-hidden': 'true' }));
+  const fact = (k, v) => (v ? h('div', null, h('dt', null, k), h('dd', null, v)) : null);
+  panel.replaceChildren(
+    h('div', { class: 'qv-head' }, h('figure', null, img(catImg(it.c), '', { width: 84, height: 84 })), h('div', null, kindTag(it.y), h('h2', null, it.t), h('p', { class: 'caption-2', style: { margin: 0 } }, providerLine(it))), close),
+    h(
+      'div',
+      { class: 'qv-body' },
+      h('p', { class: 'body-3', style: { margin: 0 } }, d?.outcome || it.s),
+      h(
+        'dl',
+        { class: 'qv-facts' },
+        fact('Category', catLabel(it.c)),
+        fact('Readiness', `${rd.pct}% published`),
+        fact('Industries', it.i.map(ind).join(', ')),
+        fact('Platforms', it.pl.map(plain).join(', ') || 'Not specified'),
+        fact('Regions', it.r.join(', ') || 'Not specified'),
+        fact('Duration', d?.delivery?.weeks ? `${d.delivery.weeks[0]} to ${d.delivery.weeks[1]} weeks` : it.db || d?.effort?.split(';')[0]),
+      ),
+      d?.skus?.length
+        ? h(
+            'section',
+            null,
+            h('h4', null, `Ways to buy · ${d.skus.length}`),
+            h('div', { class: 'qv-skus' }, d.skus.map((s) => h('div', { class: 'qv-sku' }, h('span', null, h('b', { style: { fontWeight: 500 } }, s.edition || s.name), h('br'), h('code', null, s.code)), h('span', { class: 'caption-2', style: { textAlign: 'right' } }, label.model(s.model), h('br'), 'Price on private offer')))),
+          )
+        : null,
+      d?.notFor?.length ? h('section', null, h('h4', null, 'Not a fit when'), h('ul', { class: 'notfor2' }, d.notFor.slice(0, 2).map((n) => h('li', null, h('i', { class: 'ph ph-minus-circle', 'aria-hidden': 'true' }), h('span', null, n.situation))))) : null,
+    ),
+    h('div', { class: 'qv-foot' }, h('a', { class: 'btn dark', href: `#/listing/${it.slug}` }, 'Open full listing', h('i', { class: 'ph ph-arrow-right arr', 'aria-hidden': 'true' })), h('button', { class: 'btn', type: 'button', onclick: () => requestDialog(it, 'discovery') }, 'Request a discovery call'), tileAct('compare', it.id), tileAct('saved', it.id)),
+  );
+  for (const a of panel.querySelectorAll('.qv-foot .act')) {
+    a.classList.add('btn');
+    a.classList.remove('act');
+    a.setAttribute('aria-label', a.dataset.act === 'save' ? 'Save' : 'Add to compare');
+    a.title = a.getAttribute('aria-label');
+    for (const n of [...a.childNodes]) if (n.nodeType === 3) n.remove();
+  }
+  qvEl.hidden = false;
+  requestAnimationFrame(() => requestAnimationFrame(() => qvEl.classList.add('open')));
+  setTimeout(() => close.focus(), 60);
 }
 
 export function compareTray() {
@@ -117,9 +188,9 @@ export function compareTray() {
 
 export const REQUEST_TYPES = [
   { key: 'discovery', label: 'Request a discovery call', hint: 'Talk your need through with a Redington specialist.' },
-  { key: 'standard', label: 'Request a standard proposal', hint: 'Scope and pricing for the solution as listed.' },
+  { key: 'standard', label: 'Request a standard proposal', hint: 'Scope and pricing for the listing as published.' },
   { key: 'custom', label: 'Submit requirements for a custom proposal', hint: 'Describe what you need changed or combined.' },
-  { key: 'private-offer', label: 'Request a private offer', hint: 'Pricing for a specific tier through your marketplace.' },
+  { key: 'private-offer', label: 'Request a private offer', hint: 'Pricing for one edition through your marketplace.' },
 ];
 
 // opts.bundle: [{ it, sku }] sends a whole Solution as one private-offer request; opts.need prefills the brief
@@ -155,7 +226,7 @@ export function requestDialog(it, preset = 'discovery', sku, opts = {}) {
     lists.addRequest(req);
     for (const x of bundle ? bundle.map((b) => b.it) : [it]) lists.stage(x.id, 'talking');
     closeDialog();
-    toast(`Request ${ref} saved. Track it in My journey.`);
+    toast(`Request ${ref} saved to My journey.`);
   });
   openDialog(h('p', { class: 'eyebrow' }, bundle ? 'Send this solution' : 'Work with Redington'), h('h2', { id: 'dlg-title' }, bundle ? opts.title || 'Your solution' : it.t), sku ? h('p', { class: 'muted small' }, `Edition: ${sku}`) : null, form);
 }

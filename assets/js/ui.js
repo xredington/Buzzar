@@ -287,6 +287,27 @@ const io =
         { threshold: 0.3 },
       )
     : null;
+// rise and fade sections in once as they enter the viewport (skill B7)
+const rio =
+  'IntersectionObserver' in window
+    ? new IntersectionObserver(
+        (es) =>
+          es.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add('in');
+              rio.unobserve(e.target);
+            }
+          }),
+        { threshold: 0.12 },
+      )
+    : null;
+export function revealIn(root) {
+  for (const el of root.querySelectorAll('.reveal')) {
+    if (!rio || matchMedia('(prefers-reduced-motion: reduce)').matches) el.classList.add('in');
+    else rio.observe(el);
+  }
+}
+
 export function onReveal(el, fn) {
   if (!io) return fn();
   el.addEventListener('reveal', fn, { once: true });

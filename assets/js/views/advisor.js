@@ -102,11 +102,11 @@ export default function advisor(route) {
   const form = h('form', null, micBtn, ta, sendBtn);
   const speakBtn = h('button', { class: 'round', type: 'button', 'aria-pressed': 'false', 'aria-label': 'Read replies aloud', title: 'Read replies aloud', html: '<svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/></svg>' });
   const resetBtn = h('button', { class: 'round', type: 'button', 'aria-label': 'Start over', title: 'Start over', html: '<svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>' });
-  const modeEl = h('div', { class: 'mode', role: 'group', 'aria-label': 'Answer mode' }, h('button', { type: 'button', 'data-m': 'local', 'aria-pressed': String(S.mode === 'local') }, 'On-device'), h('button', { type: 'button', 'data-m': 'live', 'aria-pressed': String(S.mode === 'live') }, 'Live AI'));
+  const modeEl = h('div', { class: 'mode', role: 'group', 'aria-label': 'Answer mode' }, h('button', { type: 'button', 'data-m': 'local', 'aria-pressed': String(S.mode === 'local') }, 'On device'), h('button', { type: 'button', 'data-m': 'live', 'aria-pressed': String(S.mode === 'live') }, 'Live AI'));
   modeEl.addEventListener('click', (e) => {
     const b = e.target.closest('[data-m]');
     if (!b) return;
-    if (b.dataset.m === 'live' && !CONFIG.advisorEndpoint) return toast('Live AI runs when this site is served from the Buzzar API domain.');
+    if (b.dataset.m === 'live' && !CONFIG.advisorEndpoint) return toast('Live AI runs when this site is served from the Buzzar API domain');
     S.mode = b.dataset.m;
     for (const x of modeEl.children) x.setAttribute('aria-pressed', String(x.dataset.m === S.mode));
   });
@@ -120,7 +120,7 @@ export default function advisor(route) {
     { class: 'sami-main', 'aria-label': 'Conversation with Sami' },
     h('div', { class: 'sami-bar' }, barOrb, h('div', null, h('b', null, 'Sami'), stateEl), h('div', { class: 'tools' }, h('span', { class: 'advisory' }, 'Advisory only · from published Buzzar listings'), modeEl, speakBtn, resetBtn)),
     scroller,
-    h('div', { class: 'composer' }, form, h('p', { class: 'hint' }, h('span', null, 'Enter to send · Shift+Enter for a new line'), h('span', null, 'On-device answers never leave your browser'))),
+    h('div', { class: 'composer' }, form, h('p', { class: 'hint' }, h('span', null, 'Enter to send · Shift+Enter for a new line'), h('span', null, 'On device answers never leave your browser'))),
   );
   const boardCol = h(
     'aside',
@@ -415,7 +415,7 @@ export default function advisor(route) {
     if (!inCat.length) return;
     lastSolution = items;
     const title = S.b.goal ? S.b.goal.replace(/[.?!…]+$/, '') : 'Your solution';
-    const send = h('button', { class: 'btn primary sm', type: 'button' }, 'Send this solution as one private-offer request');
+    const send = h('button', { class: 'btn primary sm', type: 'button' }, 'Send this solution as one private offer request');
     send.addEventListener('click', () => requestDialog(inCat[0].p.it, 'private-offer', null, { bundle: inCat.map((x) => ({ it: x.p.it, sku: x.sku ? `${x.sku.edition} (${x.sku.code})` : null })), title: 'Solution: ' + title, need: sentence() }));
     say(
       h('p', null, 'Here is the combination I would take to Redington:'),

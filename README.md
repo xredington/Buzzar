@@ -1,8 +1,13 @@
 # Buzzar — the business solution marketplace
 
-> **Enterprise edition (this branch).** Built to the *Buzzar UI & CX handover* (5 Nov 2026): the approved Daylight palette on a white canvas, Avenir Next type, the 3 px green "aisle rule" for "you are here", and the handover's colour key used as quiet accents (Product blue, Service orange, Accelerator teal, Ways to buy navy, Provider and trust pink, Fit green, AI guidance purple, Buyer actions coral). Tiles and listing pages follow the handover's anatomy. "Not specified" filter buckets, whole-catalogue counts, one name per thing (Products · Services · Accelerators; Sami's bundles are "Solutions"), and honest Sample/Estimate labels shown once per section.
+> **Premium edition (this branch).** Redesigned with the elayadesign skills ([landing-page-design](https://github.com/elayadesign/ai-design-skills) and [redesign-existing-projects](https://github.com/elayadesign/redesign-skill)) and 21st.dev patterns, on top of the UI & CX handover's content model.
+> - **Less scrolling:** home is under two screens; listings use tabs; catalogue tiles open a quick view slide over.
+> - **The page answers as you type:** the home live panel matches the catalogue on each keystroke, grouped by kind, and Sami's orb reacts.
+> - **Command menu:** press ⌘K, Ctrl K or / anywhere to search listings, jump to pages or ask Sami.
+> - **Visual system:** Geist only (Geist Mono for codes), named text styles on the Tailwind scale, the 2 to 96px spacing scale, one accent (Buzzar green), flat surfaces with grain, a black to grey text gradient on hero headings only, Phosphor icons, a floating glass nav, a full height menu with staggered links, scroll reveals and a word by word tagline reveal, all on cubic-bezier(0.22, 1, 0.36, 1), with reduced motion respected.
+> - **Ship requirements:** custom 404, privacy and terms pages, og image, skip link, form validation, no hyphens in interface copy.
 >
-> **Talk to Sami (`#/advisor`)** fills the handover's discovery board (Your world · The challenge · The dream · Reality check), asks only the questions that change the answer, answers in three lanes (Products, Services, Accelerators) marked "Advisory only", and ends with a **Solution step**: the product, service and accelerator that fit, each with its first SKU line, sendable as one private-offer request; anything missing is labelled "Not in the catalogue: ask Redington to confirm it in a request". The Sami B orb is the real Buzzar "B" rendered as particles that show listening, thinking and talking. Voice in and out; Live AI mode uses `/api/advisor/match` when served from the Buzzar API domain.
+> **Talk to Sami (`#/advisor`)** keeps the handover's discovery board, three answer lanes and the Solution step with first SKU lines, sendable as one private offer request.
 
 A redesigned front end for the Buzzar catalogue. Buyers can explore 1,265 governed products, services and accelerators across cloud, data, AI, security and software, find what fits their situation, compare options, and take the next step with Redington.
 
@@ -75,7 +80,7 @@ Sami (in on-device mode) and guided discovery run entirely in the browser. Quest
 ```
 index.html
 assets/css/main.css         base design system
-assets/css/enterprise.css   Daylight tokens, colour key, tiles, listing, Sami workspace
+assets/css/premium.css      design tokens, text styles, nav, command menu, home, tiles, quick view, tabs, Sami
 assets/js/orb.js            the Sami B particle orb
 assets/js/plan.js           mission plans (shared by listings and Sami)
 assets/img/                 Buzzar logo, practice and industry imagery (WebP)
