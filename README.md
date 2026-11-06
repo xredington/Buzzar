@@ -93,7 +93,7 @@ assets/css/main.css         base design system
 assets/css/premium.css      design tokens, text styles, nav, command menu, home, tiles, quick view, tabs, Sami
 assets/js/orb.js            the Sami B particle orb
 assets/js/plan.js           mission plans (shared by listings and Sami)
-assets/img/                 Buzzar logo, practice and industry imagery (WebP)
+assets/img/                 Buzzar logo, practice imagery, industry photos (photo/) and capability objects (sub/), all WebP
 assets/js/main.js           router, header, theme, badges
 assets/js/data.js           loading, labels, filtering, matching, readiness
 assets/js/ui.js             DOM helper, icons, brand mark, generated art, local lists

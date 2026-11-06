@@ -163,9 +163,8 @@ export function listingArt(item) {
 // ---------- imagery ----------
 const CAT_IMG = { CLD: 'cloud', DNA: 'data', AI: 'ai', SEC: 'security', SW: 'software' };
 export const catImg = (code) => `assets/img/${CAT_IMG[code] || 'hero'}.webp`;
-export const IND_IMG = { retail: 'retail', 'financial-services': 'finance', healthcare: 'healthcare', manufacturing: 'manufacturing' };
-// every industry has its own diorama; every sub capability has its own glass object
-export const indImg = (k) => (IND_IMG[k] ? `assets/img/${IND_IMG[k]}.webp` : `assets/img/ind/${k}.webp`);
+// every industry has its own photograph; every sub capability has its own glass object
+export const indImg = (k) => `assets/img/photo/${k}.webp`;
 export const itemImg = (it) => (it?.sc?.[0] ? `assets/img/sub/${it.sc[0].replace(':', '-')}.webp` : catImg(it?.c));
 export function img(src, alt = '', attrs = {}) {
   return h('img', { src, alt, loading: 'lazy', decoding: 'async', ...attrs });

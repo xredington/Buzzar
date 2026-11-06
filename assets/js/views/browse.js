@@ -10,6 +10,13 @@ function head(eyebrow, title, lede) {
 }
 
 const CATS = ['SW', 'DNA', 'CLD', 'SEC', 'AI'];
+const IND_PH = {
+  'financial-services': 'ph-bank', retail: 'ph-shopping-cart', healthcare: 'ph-heartbeat', 'life-sciences': 'ph-flask', manufacturing: 'ph-gear-six',
+  media: 'ph-film-slate', 'technology-software': 'ph-cpu', education: 'ph-graduation-cap', telecommunications: 'ph-cell-signal-full',
+  'gaming-and-esports': 'ph-game-controller', 'professional-services': 'ph-briefcase', 'public-sector': 'ph-bank', hospitality: 'ph-bed',
+  logistics: 'ph-truck', aviation: 'ph-airplane-tilt', agriculture: 'ph-plant', automotive: 'ph-car', 'construction-real-estate': 'ph-buildings',
+  'consumer-goods': 'ph-package', utilities: 'ph-lightning', 'oil-gas': 'ph-drop', 'cross-industry': 'ph-globe-hemisphere-east',
+};
 
 function industries() {
   const meta = getMeta();
@@ -41,8 +48,9 @@ function industries() {
       'a',
       { class: 'itile ' + size, href: `#/catalogue?ind=${k}`, style: { animationDelay: `${Math.min(i, 12) * 40}ms` } },
       h('span', { class: 'it-img' }, img(indImg(k), '', { width: 600, height: 450 })),
+      h('span', { class: 'it-shade', 'aria-hidden': 'true' }),
       h('span', { class: 'it-mix', 'aria-hidden': 'true' }, CATS.map((c) => (r.c[c] ? h('i', { class: 'cm-' + c, style: { flexGrow: r.c[c] } }) : null))),
-      h('span', { class: 'it-body' }, h('b', null, industryLabel(k)), h('small', { class: 'num' }, `${fmt(r.n)} solutions`)),
+      h('span', { class: 'it-body' }, h('span', { class: 'it-ic' }, h('i', { class: `ph ${IND_PH[k] || 'ph-buildings'}`, 'aria-hidden': 'true' })), h('span', { class: 'it-t' }, h('b', null, industryLabel(k)), h('small', { class: 'num' }, `${fmt(r.n)} solutions`)), h('span', { class: 'it-arrow' }, h('i', { class: 'ph ph-arrow-right', 'aria-hidden': 'true' }))),
       h('span', { class: 'it-more' }, h('span', { class: 'it-subs' }, subs.map((x) => h('em', null, x))), provs.length ? h('span', { class: 'it-provs' }, provs.map((p) => coin(p, 26))) : null, h('span', { class: 'it-go' }, 'Explore', h('i', { class: 'ph ph-arrow-right', 'aria-hidden': 'true' }))),
     );
   };
@@ -56,7 +64,7 @@ function industries() {
     h(
       'header',
       { class: 'wrap ihead' },
-      h('div', null, h('h1', { class: 'grad-text' }, 'Pick your world.'), h('p', { class: 'muted' }, `${keys.length} industries. Each tile shows what is built for it.`)),
+      h('div', null, h('h1', null, 'Pick your ', h('span', { class: 'accent' }, 'world.')), h('p', { class: 'muted' }, `${keys.length} industries. Each tile shows what is built for it.`)),
       h('div', { class: 'ihead-r' }, h('label', { class: 'field' }, h('i', { class: 'ph ph-magnifying-glass', 'aria-hidden': 'true' }), input), h('div', { class: 'ilegend' }, CATS.map((c) => h('span', null, h('i', { class: 'cm-' + c }), { SW: 'Software', DNA: 'Data', CLD: 'Cloud', SEC: 'Security', AI: 'AI' }[c])))),
     ),
     h('section', { class: 'wrap', style: { paddingBottom: '80px' } }, grid, cross ? h('a', { class: 'icross', href: '#/catalogue?ind=cross-industry' }, h('span', { class: 'it-img' }, img(indImg('cross-industry'), '', { width: 200, height: 150 })), h('span', null, h('b', null, 'Works in any industry'), h('small', null, `${fmt(cross)} cross industry solutions`)), h('i', { class: 'ph ph-arrow-right', 'aria-hidden': 'true' })) : null),
