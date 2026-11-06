@@ -51,18 +51,19 @@ export default function catalogue(route) {
 
   const head = h(
     'header',
-    { class: 'phead compact' },
+    { class: 'phead compact' + (s.type === 'accelerator' && !s.prov ? ' acc-hero' : '') },
     h(
       'div',
       { class: 'wrap' },
       h('nav', { class: 'crumbs', 'aria-label': 'Breadcrumb' }, h('a', { href: '#/' }, 'Home'), h('span', { 'aria-hidden': 'true' }, '/'), h('a', { href: '#/catalogue' }, 'Catalogue'), hd.title !== 'Search the catalogue' ? [h('span', { 'aria-hidden': 'true' }, '/'), h('span', null, hd.title)] : null),
 
       s.prov ? h('div', { class: 'provhead' }, coin(s.prov, 64), h('h1', null, hd.title)) : h('h1', null, hd.title),
+      s.type === 'accelerator' && !s.prov ? h('p', { class: 'lede' }, 'Structured, outcome driven programmes to fast track your technology adoption.') : null,
 
     ),
   );
 
-  const qInput = h('input', { type: 'search', value: s.q, placeholder: 'Try “Kubernetes”, “fraud” or “customer insights”', 'aria-label': 'Search the catalogue' });
+  const qInput = h('input', { type: 'search', value: s.q, placeholder: s.type === 'accelerator' ? 'Try “cloud migration”, “security resilience” or “workflow automation”' : 'Try “Kubernetes”, “fraud” or “customer insights”', 'aria-label': 'Search the catalogue' });
   const sortSel = h(
     'select',
     { class: 'sel', 'aria-label': 'Sort' },
@@ -269,7 +270,7 @@ export default function catalogue(route) {
     catStrip.replaceChildren(
       ...meta.categories.map((c) => {
         const on = s.cat.length === 1 && s.cat[0] === c.code;
-        const b = h('button', { type: 'button', class: 'cchip' + (on ? ' on' : ''), 'aria-pressed': String(on), disabled: !cc[c.code] && !on }, h('span', { class: 'cc-img' }, img(catImg(c.code), '', { width: 44, height: 44 })), h('span', null, h('b', null, c.label.replace('Artificial Intelligence', 'AI').replace('Data and Analytics', 'Data')), h('small', { class: 'num' }, fmt(cc[c.code] || 0))));
+        const b = h('button', { type: 'button', class: `cchip c-${c.code}` + (on ? ' on' : ''), 'aria-pressed': String(on), disabled: !cc[c.code] && !on }, h('span', { class: 'cc-img' }, h('i', { class: `ph ${CAT_PH[c.code] || 'ph-squares-four'}`, 'aria-hidden': 'true' })), h('span', null, h('b', null, c.label.replace('Artificial Intelligence', 'AI').replace('Data and Analytics', 'Data')), h('small', { class: 'num' }, fmt(cc[c.code] || 0))));
         b.addEventListener('click', () => {
           s.cat = on ? [] : [c.code];
           s.page = 1;
@@ -301,7 +302,7 @@ export default function catalogue(route) {
     } else if (s.type === 'accelerator' && !s.q) {
       gridEl.replaceChildren(...tracks(rows));
       pagerEl.replaceChildren();
-      barEl.replaceChildren(h('span', null, `${fmt(rows.length)} accelerators in ${fmt(tracks(rows).length)} programmes. Each programme runs in three stages.`));
+      barEl.replaceChildren(h('span', null, `${fmt(tracks(rows).length)} programmes. 3 stages each. From assessment to scale.`));
       gridEl.className = 'tracks';
       return;
     } else gridEl.replaceChildren(...slice.map((it) => card(it, { terms, quick: true })));
@@ -343,7 +344,21 @@ export default function catalogue(route) {
 }
 
 // ---------- accelerators as programme tracks ----------
+const CAT_PH = { CLD: 'ph-cloud', SEC: 'ph-shield-check', SW: 'ph-stack', AI: 'ph-sparkle', DNA: 'ph-chart-bar' };
 const STAGE_ICON = ['ph-magnifying-glass', 'ph-flask', 'ph-rocket-launch'];
+// what each programme is for, in one line, and what happens at each stage
+const PROG = {
+  'Business Workflow Automation': ['workflow', 'Identify, pilot and scale automation opportunities to drive efficiency, productivity and business agility.', ['Identify opportunities', 'Validate use cases', 'Industrialise and scale']],
+  'Cloud Migration and Modernization': ['cloud', 'Move, optimise and modernise your workloads for scalability, resilience and cost efficiency.', ['Evaluate landscape', 'Migrate and validate', 'Optimise and manage']],
+  'Connected Edge and Industrial Intelligence': ['edge', 'Enable real time visibility, smarter operations and higher asset performance across industrial environments.', ['Identify use cases', 'Deploy and measure', 'Expand across sites'], 'Industry'],
+  'Cyber Defense and Resilience': ['cyber', 'Strengthen your security posture, detect threats faster and build a more resilient, compliant organisation.', ['Identify risks', 'Validate controls', 'Operationalise and monitor']],
+  'Data Foundation and Analytics': ['data', 'Build governed, trusted data and turn it into insight people use every day.', ['Map data estate', 'Prove the platform', 'Roll out insight']],
+  'Disaster Recovery and Business Continuity': ['dr', 'Keep the business running through outages with tested recovery for what matters most.', ['Assess impact', 'Test recovery', 'Run and rehearse']],
+  'GenAI and Agentic Operations': ['genai', 'Put generative AI and agents to work safely, with evaluation and guardrails from day one.', ['Find high value uses', 'Pilot with guardrails', 'Scale with governance'], 'AI'],
+  'Industry Process Improvement': ['process', 'Find the processes that cost the most and fix them with proven, measurable change.', ['Map processes', 'Prove the gain', 'Embed the change'], 'Industry'],
+  'Managed SRE and Reliability': ['sre', 'Set service objectives, cut incidents and keep critical systems reliable around the clock.', ['Baseline reliability', 'Prove the run model', 'Operate and improve']],
+  'Network and Secure Access': ['network', 'Give the right people secure, fast access to what they need, from anywhere.', ['Review access', 'Pilot secure access', 'Roll out and govern'], 'Security'],
+};
 function tracks(rows) {
   const by = new Map();
   for (const it of rows) {
@@ -354,15 +369,24 @@ function tracks(rows) {
   const order = ['Assess and Prioritize', 'Pilot and Demonstrate', 'Scale and Operate'];
   return [...by.entries()].map(([prog, list], k) => {
     list.sort((a, b) => order.indexOf(a.stage) - order.indexOf(b.stage));
+    const name = prog.replace(/ Program$/, '');
     const c = list[0].it.c;
+    const [pic, desc, caps, badge] = PROG[name] || [null, list[0].it.s, []];
     return h(
       'article',
-      { class: 'track', style: { animationDelay: `${k * 50}ms` } },
-      h('div', { class: 'tr-head' }, h('span', { class: 'tr-img' }, img(catImg(c), '', { width: 56, height: 56 })), h('div', null, h('h3', null, prog.replace(/ Program$/, '')), h('small', null, `${catLabel(c)} · programme in ${list.length} stages`))),
+      { class: 'track2', style: { animationDelay: `${k * 50}ms` } },
+      h('a', { class: 'tk-img', href: `#/listing/${list[0].it.slug}`, tabindex: '-1', 'aria-hidden': 'true' }, img(pic ? `assets/img/acc/${pic}.webp` : catImg(c), '', { width: 280, height: 240 })),
       h(
-        'ol',
-        { class: 'tr-stages' },
-        list.map((x, i) => h('li', null, h('a', { href: `#/listing/${x.it.slug}` }, h('span', { class: 'tr-n' }, h('i', { class: `ph ${STAGE_ICON[i] || 'ph-circle'}`, 'aria-hidden': 'true' })), h('b', null, x.stage.replace(' and ', ' & ')), h('small', null, `Stage ${i + 1}`)))),
+        'div',
+        { class: 'tk-body' },
+        h('span', { class: `tk-badge c-${c}` }, `${badge || catLabel(c).replace('Artificial Intelligence', 'AI').replace('Data and Analytics', 'Data')} accelerator`),
+        h('h3', null, h('a', { href: `#/listing/${list[0].it.slug}` }, name)),
+        h('p', null, desc),
+        h(
+          'ol',
+          { class: 'tk-stages' },
+          list.map((x, i) => h('li', null, h('a', { href: `#/listing/${x.it.slug}`, 'aria-label': `${name}, stage ${i + 1}: ${x.stage}` }, h('span', { class: 'tk-n' }, h('i', { class: `ph ${STAGE_ICON[i] || 'ph-circle'}`, 'aria-hidden': 'true' })), h('b', null, x.stage.replace(' and ', ' & ').replace('Prioritize', 'Prioritise')), caps[i] ? h('small', null, caps[i]) : null))),
+        ),
       ),
     );
   });
