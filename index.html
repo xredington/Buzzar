@@ -3,58 +3,58 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Buzzar — Where expertise meets opportunity</title>
+    <title>Buzzar — Where Expertise Meets Opportunity</title>
     <meta
       name="description"
-      content="Buzzar is the business solution marketplace. Explore governed products, services and accelerators across cloud, data, AI, security and software, and take the next step with Redington."
+      content="Buzzar is Redington's business solution marketplace. Discover, compare and request governed products, services and accelerators across cloud, data, AI, security and software."
     />
     <meta name="theme-color" content="#ffffff" />
     <meta name="color-scheme" content="light" />
-    <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
+    <link rel="icon" type="image/png" href="assets/img/logo-64.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap"
-    />
+    <!-- Avenir Next is the brand face; Nunito Sans is the closest open fallback for systems without it -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" />
     <link rel="stylesheet" href="assets/css/main.css" />
-    <link rel="stylesheet" href="assets/css/v2.css" />
-    <link rel="preload" as="image" href="assets/img/hero.webp" />
+    <link rel="stylesheet" href="assets/css/enterprise.css" />
     <script type="module" src="assets/js/main.js"></script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
 
+    <div class="notice" role="note">
+      <div class="wrap"><span><b>Demonstration catalogue.</b> Delivery details and ways to buy are samples</span><span class="hide-sm">· replace with partner data before any external showcase.</span></div>
+    </div>
+
     <header class="hdr" id="hdr">
       <div class="hdr-in wrap">
-        <a class="brand" href="#/" aria-label="Buzzar home">
-          <span class="brand-mark" aria-hidden="true"></span>
-          <span class="brand-word">Buzzar<i>.</i></span>
-        </a>
+        <a class="brand" href="#/" aria-label="Buzzar home"><img src="assets/img/logo.png" alt="" width="30" height="33" /><span class="brand-word">uzzar<i>.</i></span></a>
 
         <nav class="nav" aria-label="Marketplace">
           <a href="#/catalogue?type=product" data-nav="product">Products</a>
           <a href="#/catalogue?type=service" data-nav="service">Services</a>
           <a href="#/catalogue?type=accelerator" data-nav="accelerator">Accelerators</a>
           <a href="#/industries" data-nav="industries">Industries</a>
+          <a href="#/providers" data-nav="providers">Providers</a>
         </nav>
 
         <form class="hdr-ask" id="hdr-ask" role="search">
           <span class="spark" aria-hidden="true">✦</span>
-          <input id="hdr-ask-input" type="search" placeholder="Search or ask…" aria-label="Ask Buzzar" autocomplete="off" />
+          <input id="hdr-ask-input" type="search" placeholder="Ask Buzzar" aria-label="Ask Buzzar" autocomplete="off" />
           <kbd aria-hidden="true">/</kbd>
         </form>
 
         <div class="hdr-tools">
+          <a class="hdr-sami" href="#/advisor" aria-label="Talk to Sami, the Buzzar advisor"><canvas class="mini-orb" width="56" height="56" aria-hidden="true"></canvas><span>Talk to Sami</span></a>
           <a class="tool" href="#/compare" aria-label="Compare" title="Compare">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h11M4 12h16M4 17h8" /></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9c2.5-2 5.5-2 8 0s5.5 2 8 0M4 15c2.5-2 5.5-2 8 0s5.5 2 8 0" /></svg>
             <span class="badge" data-count="compare">0</span>
           </a>
           <a class="tool" href="#/saved" aria-label="Saved" title="Saved">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z" /></svg>
             <span class="badge" data-count="saved">0</span>
           </a>
-          <a class="hdr-sami" href="#/advisor" aria-label="Talk to Sami, the Buzzar advisor"><img src="assets/img/sami.webp" alt="" width="28" height="28" /><span>Talk to Sami</span></a>
+          <a class="signin" href="https://xmanr5qvdd.execute-api.us-east-1.amazonaws.com/auth/entra/login" rel="noopener">Sign in</a>
           <button class="tool menu-btn" type="button" data-action="menu" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
           </button>
@@ -69,21 +69,19 @@
         <p class="eyebrow">Explore</p>
         <a href="#/">Home</a>
         <a href="#/discover">Guided discovery</a>
-        <a href="#/advisor">Talk to Sami (advisor)</a>
-        <a href="#/catalogue">Full catalogue</a>
-        <a href="#/catalogue?type=product">Products</a>
-        <a href="#/catalogue?type=service">Services</a>
-        <a href="#/catalogue?type=accelerator">Accelerators</a>
+        <a href="#/advisor">Talk to Sami</a>
+        <a href="#/catalogue">Search the catalogue</a>
         <a href="#/industries">Industries</a>
         <a href="#/providers">Providers</a>
-        <p class="eyebrow">Your hive</p>
-        <a href="#/journey">My journey</a>
+        <a href="#/how-it-works">How it works</a>
+        <p class="eyebrow">Your lists</p>
         <a href="#/compare">Compare</a>
         <a href="#/saved">Saved</a>
+        <a href="#/journey">My journey</a>
         <p class="eyebrow">Buzzar for</p>
-        <a href="#/how-it-works">How it works</a>
+        <a href="#/catalogue">Buyers</a>
         <a href="#/partners">Partners</a>
-        <a href="#/agents">Agents &amp; developers</a>
+        <a href="#/agents">Agents</a>
       </nav>
     </div>
 
@@ -92,39 +90,39 @@
     <div class="tray" id="compare-tray" hidden></div>
 
     <footer class="ftr">
-      <div class="wrap ftr-in">
-        <div class="ftr-brand">
-          <a class="brand" href="#/" aria-label="Buzzar home">
-            <span class="brand-mark" aria-hidden="true"></span>
-            <span class="brand-word">Buzzar<i>.</i></span>
-          </a>
-          <p>The right expertise. Your next business move.</p>
-          <p class="muted small" id="ftr-meta"></p>
+      <div class="wrap">
+        <div class="ftr-in">
+          <div class="ftr-brand">
+            <a class="brand" href="#/" aria-label="Buzzar home"><img src="assets/img/logo.png" alt="" width="30" height="33" /><span class="brand-word">uzzar<i>.</i></span></a>
+            <p>The right expertise. Your next business move.</p>
+            <p class="muted small" id="ftr-meta"></p>
+          </div>
+          <div class="ftr-cols">
+            <div>
+              <p class="eyebrow">Discover</p>
+              <a href="#/discover">Guided discovery</a>
+              <a href="#/advisor">Talk to Sami</a>
+              <a href="#/catalogue">Search the catalogue</a>
+              <a href="#/industries">Industries</a>
+            </div>
+            <div>
+              <p class="eyebrow">Compare &amp; connect</p>
+              <a href="#/compare">Compare</a>
+              <a href="#/saved">Saved</a>
+              <a href="#/journey">My journey</a>
+              <a href="#/how-it-works">How it works</a>
+            </div>
+            <div>
+              <p class="eyebrow">Buzzar for</p>
+              <a href="#/catalogue">Buyers</a>
+              <a href="#/partners">Partners</a>
+              <a href="#/agents">Agents</a>
+              <a href="#/providers">Providers</a>
+            </div>
+          </div>
         </div>
-        <div class="ftr-cols">
-          <div>
-            <p class="eyebrow">Marketplace</p>
-            <a href="#/catalogue?type=product">Products</a>
-            <a href="#/catalogue?type=service">Services</a>
-            <a href="#/catalogue?type=accelerator">Accelerators</a>
-            <a href="#/providers">Providers</a>
-          </div>
-          <div>
-            <p class="eyebrow">Find your fit</p>
-            <a href="#/discover">Guided discovery</a>
-            <a href="#/advisor">Talk to Sami (advisor)</a>
-            <a href="#/industries">Industries</a>
-            <a href="#/journey">My journey</a>
-          </div>
-          <div>
-            <p class="eyebrow">Buzzar for</p>
-            <a href="#/how-it-works">How it works</a>
-            <a href="#/partners">Partners</a>
-            <a href="#/agents">Agents &amp; developers</a>
-          </div>
-        </div>
+        <div class="ftr-legal"><span>Buzzar is a business solution marketplace run by Redington.</span><span>Prices are never shown as amounts · every request is reviewed by a person</span></div>
       </div>
-      <div class="ftr-giant" aria-hidden="true">Buzzar<i>.</i></div>
     </footer>
 
     <dialog id="dlg" aria-labelledby="dlg-title">

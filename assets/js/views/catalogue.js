@@ -1,5 +1,5 @@
-import { h, icon, fmt, plural, monogram } from '../ui.js';
-import { filterItems, facetCounts, getMeta, TYPE, CAT_BLURB, catLabel, industryLabel, industryIcon, subLabel } from '../data.js';
+import { h, fmt, plural } from '../ui.js';
+import { filterItems, facetCounts, getMeta, TYPE, CAT_BLURB, catLabel, industryLabel, subLabel } from '../data.js';
 import { card } from '../components.js';
 
 const PAGE = 24;
@@ -35,13 +35,13 @@ function writeState(s) {
 function heading(s, meta) {
   if (s.prov) {
     const p = meta.providers.find((x) => x.name === s.prov);
-    return { eyebrow: p?.kind === 'distributor' ? 'Distributor' : 'Provider', title: s.prov, lede: `${plural(p?.n || 0, 'listing')} from ${s.prov} on Buzzar, governed and supported through Redington.`, art: monogram(s.prov) };
+    return { eyebrow: p?.kind === 'distributor' ? 'Distributor' : 'Provider', title: s.prov, lede: `${plural(p?.n || 0, 'listing')} from ${s.prov} on Buzzar, governed and supported through Redington.` };
   }
-  if (s.ind.length === 1 && !s.cat.length && !s.type) return { eyebrow: 'Industry', title: industryLabel(s.ind[0]), lede: `Solutions shaped around ${industryLabel(s.ind[0]).toLowerCase()}, plus cross-industry options that fit.`, iconName: industryIcon(s.ind[0]) };
-  if (s.cat.length === 1 && !s.type) return { eyebrow: 'Practice', title: catLabel(s.cat[0]), lede: CAT_BLURB[s.cat[0]], iconName: s.cat[0], cat: s.cat[0] };
+  if (s.ind.length === 1 && !s.cat.length && !s.type) return { eyebrow: 'Industry', title: industryLabel(s.ind[0]), lede: `Products, services and accelerators shaped around ${industryLabel(s.ind[0]).toLowerCase()}, plus cross-industry options that fit.` };
+  if (s.cat.length === 1 && !s.type) return { eyebrow: 'Category', title: catLabel(s.cat[0]), lede: CAT_BLURB[s.cat[0]] };
   if (s.sub) return { eyebrow: catLabel(s.sub.split(':')[0]), title: subLabel(s.sub), lede: `Listings tagged ${subLabel(s.sub)}.`, iconName: s.sub.split(':')[0], cat: s.sub.split(':')[0] };
-  if (s.type) return { eyebrow: 'The solution bazaar', title: TYPE[s.type].plural, lede: TYPE[s.type].blurb, iconName: { product: 'box', service: 'brief', accelerator: 'rocket' }[s.type] };
-  return { eyebrow: 'The solution bazaar', title: 'Explore the catalogue.', lede: `Every published listing, ${fmt(meta.total)} in all. Filter by practice, industry, platform and region, or just describe what you need.`, iconName: 'spark' };
+  if (s.type) return { eyebrow: 'The solution bazaar', title: TYPE[s.type].plural, lede: TYPE[s.type].blurb };
+  return { eyebrow: 'The solution bazaar', title: 'Search the catalogue', lede: `Every published listing, ${fmt(meta.total)} in all: products, services and accelerators. Filter by category, industry, platform and region, or describe what you need to Sami.` };
 }
 
 export default function catalogue(route) {
@@ -55,14 +55,13 @@ export default function catalogue(route) {
     h(
       'div',
       { class: 'wrap' },
-      h('nav', { class: 'crumbs', 'aria-label': 'Breadcrumb' }, h('a', { href: '#/' }, 'Home'), h('span', { 'aria-hidden': 'true' }, '/'), h('a', { href: '#/catalogue' }, 'Catalogue'), hd.title !== 'Explore the catalogue.' ? [h('span', { 'aria-hidden': 'true' }, '/'), h('span', null, hd.title)] : null),
+      h('nav', { class: 'crumbs', 'aria-label': 'Breadcrumb' }, h('a', { href: '#/' }, 'Home'), h('span', { 'aria-hidden': 'true' }, '/'), h('a', { href: '#/catalogue' }, 'Catalogue'), hd.title !== 'Search the catalogue' ? [h('span', { 'aria-hidden': 'true' }, '/'), h('span', null, hd.title)] : null),
       h('p', { class: 'eyebrow' }, hd.eyebrow),
       h('h1', null, hd.title),
       h('p', { class: 'lede' }, hd.lede),
+      h('div', { style: { marginTop: '16px', display: 'flex', gap: '8px', flexWrap: 'wrap' } }, h('a', { class: 'btn primary sm', href: `#/advisor${s.q ? '?q=' + encodeURIComponent(s.q) : ''}` }, 'Ask Sami instead', h('span', { class: 'arr' }, '→')), h('a', { class: 'btn sm', href: '#/discover' }, 'Guided discovery')),
     ),
-    hd.art ? h('div', { class: 'phead-art', style: { width: '120px' } }, hd.art) : h('div', { class: 'phead-art', style: { color: hd.cat ? `var(--c-${hd.cat})` : 'var(--honey)' } }, bigHex(hd.iconName)),
   );
-  if (hd.art) Object.assign(hd.art.style, { width: '120px', height: '132px', fontSize: '2.6rem' });
 
   const qInput = h('input', { type: 'search', value: s.q, placeholder: 'Try “Kubernetes”, “fraud” or “customer insights”', 'aria-label': 'Search the catalogue' });
   const sortSel = h(
@@ -83,6 +82,7 @@ export default function catalogue(route) {
   });
   const tabsEl = h('div', { class: 'tabs', role: 'group', 'aria-label': 'Offering type' });
   const activeEl = h('div', { class: 'active-f' });
+  const spotEl = h('div', { class: 'spotlight' });
   const barEl = h('div', { class: 'result-bar', 'aria-live': 'polite' });
   const gridEl = h('div', { class: 'grid' });
   const pagerEl = h('nav', { class: 'pager', 'aria-label': 'Pages' });
@@ -127,10 +127,36 @@ export default function catalogue(route) {
         s.page = 1;
         update();
       });
-      box.append(h('label', { class: 'fopt' + (n ? '' : ' zero') }, cb, h('span', null, lbl), h('span', { class: 'n' }, fmt(n))));
+      box.append(h('label', { class: 'fopt' + (n ? '' : ' zero') + (val === '__none' ? ' ns' : '') }, cb, h('span', null, lbl), h('span', { class: 'n' }, fmt(n))));
     }
     det.append(box);
     return det;
+  }
+
+  // single-choice facet (subcategory, provider): radio-like checkboxes
+  function single(title, key, options, counts) {
+    const det = h('details', { class: 'fgroup', open: !!s[key] }, h('summary', null, title));
+    const box = h('div', { class: 'fopts' });
+    for (const [val, lbl] of options) {
+      const n = counts[val] || 0;
+      const on = s[key] === val;
+      if (!n && !on) continue;
+      const cb = h('input', { type: 'checkbox', checked: on });
+      cb.addEventListener('change', () => {
+        s[key] = cb.checked ? val : '';
+        s.page = 1;
+        update();
+      });
+      box.append(h('label', { class: 'fopt' }, cb, h('span', null, lbl), h('span', { class: 'n' }, fmt(n))));
+    }
+    det.append(box);
+    return det;
+  }
+  function subOptions(counts) {
+    return Object.entries(counts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 16)
+      .map(([k]) => [k, `${catLabel(k.split(':')[0])}: ${subLabel(k)}`]);
   }
 
   function update() {
@@ -142,7 +168,7 @@ export default function catalogue(route) {
     const totalNoType = Object.values(typeCounts).reduce((a, b) => a + b, 0);
     tabsEl.replaceChildren(
       ...[['', 'All offerings', totalNoType], ...Object.entries(TYPE).map(([k, v]) => [k, v.plural, typeCounts[k] || 0])].map(([k, l, n]) => {
-        const b = h('button', { type: 'button', class: 'tab', 'aria-pressed': String(s.type === k) }, l, h('span', { class: 'n' }, fmt(n)));
+        const b = h('button', { type: 'button', class: 'tab' + (k ? ` k-${k}` : ''), 'aria-pressed': String(s.type === k) }, l, h('span', { class: 'n' }, fmt(n)));
         b.addEventListener('click', () => {
           s.type = k;
           s.page = 1;
@@ -165,7 +191,7 @@ export default function catalogue(route) {
     filtersEl.replaceChildren(
       h('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingBottom: '6px' } }, h('b', null, 'Refine'), h('button', { class: 'linkish small', type: 'button', onclick: reset }, 'Reset all')),
       group(
-        'Practice',
+        'Category',
         'cat',
         meta.categories.map((c) => [c.code, c.label]),
         fc('cat').cat,
@@ -183,16 +209,18 @@ export default function catalogue(route) {
       group(
         'Platform',
         'plat',
-        ['AWS', 'Azure', 'Google Cloud', 'Hybrid', 'On-premises'].map((x) => [x, x]),
+        [...['AWS', 'Azure', 'Google Cloud', 'Hybrid', 'On-premises'].map((x) => [x, x]), ['__none', 'Not specified']],
         fc('plat').plat,
       ),
       group(
         'Region',
         'reg',
-        ['GCC', 'UAE', 'KSA', 'Middle East', 'EMEA', 'Africa', 'India'].map((x) => [x, x]),
+        [...['GCC', 'UAE', 'KSA', 'Middle East', 'EMEA', 'Africa', 'India'].map((x) => [x, x]), ['__none', 'Not specified']],
         fc('reg').reg,
       ),
-      h('div', { class: 'fgroup' }, h('label', { class: 'fopt' }, buyCb, h('span', null, 'Buyable on a cloud marketplace'), h('span', { class: 'n' }, fmt(buyCount)))),
+      single('Subcategory', 'sub', subOptions(fc('sub').sub), fc('sub').sub),
+      single('Provider', 'prov', Object.entries(fc('prov').prov).sort((a, b) => b[1] - a[1]).slice(0, 14).map(([k]) => [k, k]), fc('prov').prov),
+      h('div', { class: 'fgroup' }, h('label', { class: 'fopt' }, buyCb, h('span', null, 'Buyable on AWS Marketplace'), h('span', { class: 'n' }, fmt(buyCount)))),
     );
 
     // active filter pills
@@ -209,12 +237,17 @@ export default function catalogue(route) {
     if (s.q) pill(`“${s.q}”`, () => ((s.q = ''), (qInput.value = '')));
     for (const v of s.cat) pill(catLabel(v), () => (s.cat = s.cat.filter((x) => x !== v)));
     for (const v of s.ind) pill(industryLabel(v), () => (s.ind = s.ind.filter((x) => x !== v)));
-    for (const v of s.plat) pill(v, () => (s.plat = s.plat.filter((x) => x !== v)));
-    for (const v of s.reg) pill(v, () => (s.reg = s.reg.filter((x) => x !== v)));
+    for (const v of s.plat) pill(v === '__none' ? 'Platform not specified' : v, () => (s.plat = s.plat.filter((x) => x !== v)));
+    for (const v of s.reg) pill(v === '__none' ? 'Region not specified' : v, () => (s.reg = s.reg.filter((x) => x !== v)));
     if (s.prov) pill(s.prov, () => (s.prov = ''));
     if (s.sub) pill(subLabel(s.sub), () => (s.sub = ''));
-    if (s.buy) pill('Marketplace buyable', () => (s.buy = false));
+    if (s.buy) pill('Buyable on AWS Marketplace', () => (s.buy = false));
     activeEl.replaceChildren(...pills);
+
+    // provider spotlight for the current view
+    const provTop = Object.entries(facetCounts(rows).prov).sort((a, b) => b[1] - a[1]).slice(0, 4);
+    spotEl.hidden = !provTop.length || !!s.prov;
+    spotEl.replaceChildren(h('span', { class: 'label inline' }, 'Provider spotlight'), ...provTop.map(([p, n]) => h('a', { href: `#/catalogue?prov=${encodeURIComponent(p)}` }, p, h('span', null, ` · ${fmt(n)} listing${n === 1 ? '' : 's'} here`))));
 
     const pages = Math.max(1, Math.ceil(rows.length / PAGE));
     if (s.page > pages) s.page = pages;
@@ -227,10 +260,9 @@ export default function catalogue(route) {
         h(
           'div',
           { class: 'empty', style: { gridColumn: '1 / -1' } },
-          h('div', { html: `<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 8 86 29v42L50 92 14 71V29Z" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 6"/></svg>` }),
-          h('h3', null, 'An empty cell.'),
-          h('p', null, 'Nothing matches every filter. Remove one, or describe the outcome to Ask Buzzar.'),
-          h('div', { class: 'chips', style: { justifyContent: 'center' } }, h('button', { class: 'btn', type: 'button', onclick: reset }, 'Clear filters'), h('a', { class: 'btn primary', href: `#/ask?q=${encodeURIComponent(s.q || '')}` }, 'Ask Buzzar')),
+          h('h3', null, 'No listing matches every filter.'),
+          h('p', null, 'Remove a filter, or describe the outcome to Sami.'),
+          h('div', { class: 'chips', style: { justifyContent: 'center' } }, h('button', { class: 'btn', type: 'button', onclick: reset }, 'Clear filters'), h('a', { class: 'btn primary', href: `#/advisor?q=${encodeURIComponent(s.q || '')}` }, 'Ask Sami')),
         ),
       );
     } else gridEl.replaceChildren(...slice.map((it) => card(it, { terms })));
@@ -267,11 +299,5 @@ export default function catalogue(route) {
 
   update();
 
-  return h('div', null, head, h('div', { class: 'wrap cat-layout' }, filtersEl, h('div', null, searchForm, tabsEl, activeEl, barEl, gridEl, pagerEl)));
-}
-
-function bigHex(iconName) {
-  return h('div', {
-    html: `<svg viewBox="0 0 200 220" aria-hidden="true"><path d="M100 6 192 58v104l-92 52-92-52V58Z" fill="currentColor" opacity=".12"/><path d="M100 26 174 68v84l-74 42-74-42V68Z" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 7"/><g transform="translate(64 74) scale(3)" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${icon(iconName).innerHTML}</g></svg>`,
-  });
+  return h('div', null, head, h('div', { class: 'wrap cat-layout' }, filtersEl, h('div', null, searchForm, tabsEl, spotEl, activeEl, barEl, gridEl, pagerEl)));
 }

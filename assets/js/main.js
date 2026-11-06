@@ -1,5 +1,5 @@
-import { $, $$, h, MARK, onListChange, toast, fmt } from './ui.js';
-import { load, getMeta } from './data.js';
+import { $, $$, h, onListChange, toast, fmt } from './ui.js';
+import { load, getMeta, all } from './data.js';
 import { compareTray, syncToggles } from './components.js';
 
 const routes = {
@@ -101,7 +101,6 @@ function updateBadges(bump) {
 }
 
 function wire() {
-  for (const m of $$('.brand-mark')) m.innerHTML = MARK;
   // spotlight: cards glow where the cursor is
   document.addEventListener(
     'pointermove',
@@ -165,6 +164,13 @@ function wire() {
     return;
   }
   const m = getMeta();
+  // "NEW" means updated in the last week of the catalogue's own history
+  // — but only when it distinguishes something (in a bulk import every listing shares one date)
+  const latest = all().reduce((a, x) => (x.u > a ? x.u : a), '');
+  const recent = all().filter((x) => latest && (new Date(latest) - new Date(x.u)) / 864e5 <= 7).length;
+  window.__bzBuilt = recent / Math.max(1, all().length) < 0.25 ? latest : null;
+  const mini = $('.mini-orb');
+  if (mini) import('./orb.js').then(({ createOrb }) => createOrb(mini, { halo: false, density: 1 }));
   $('#ftr-meta').textContent = `${fmt(m.total)} listings · catalogue snapshot ${new Date(m.builtAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}`;
   render();
 })();

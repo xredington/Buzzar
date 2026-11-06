@@ -166,7 +166,7 @@ const SYN = {
 
 const IND_HINTS = {
   'financial-services': ['bank', 'banking', 'fintech', 'insurance', 'insurer', 'lending', 'credit', 'payments', 'wealth', 'financial'],
-  retail: ['retail', 'retailer', 'store', 'shop', 'ecommerce', 'commerce', 'grocery', 'supermarket', 'merchandising'],
+  retail: ['retail', 'retailer', 'store', 'stores', 'shop', 'shops', 'outlets', 'supermarkets', 'ecommerce', 'commerce', 'grocery', 'supermarket', 'merchandising'],
   healthcare: ['hospital', 'clinic', 'healthcare', 'patient', 'clinical', 'health'],
   'life-sciences': ['pharma', 'pharmaceutical', 'biotech', 'lab', 'clinical trial'],
   manufacturing: ['factory', 'plant', 'manufacturing', 'production', 'industrial'],
@@ -318,11 +318,12 @@ export function filterItems(state) {
       (!state.type || it.y === state.type) &&
       (!state.cat.length || state.cat.includes(it.c)) &&
       (!state.ind.length || it.i.some((x) => state.ind.includes(x))) &&
-      (!state.plat.length || it.pl.some((x) => state.plat.includes(x))) &&
-      (!state.reg.length || it.r.some((x) => state.reg.includes(x))) &&
+      // "__none" is the "Not specified" bucket, so buyers can see what a filter would hide
+      (!state.plat.length || it.pl.some((x) => state.plat.includes(x)) || (state.plat.includes('__none') && !it.pl.length)) &&
+      (!state.reg.length || it.r.some((x) => state.reg.includes(x)) || (state.reg.includes('__none') && !it.r.length)) &&
       (!state.prov || it.p === state.prov) &&
       (!state.sub || it.sc.includes(state.sub)) &&
-      (!state.buy || it.b),
+      (!state.buy || it.aws),
   );
   let scores = null;
   if (u && u.expanded.length) {
@@ -344,13 +345,18 @@ export function filterItems(state) {
 
 // count facet values over a set of rows
 export function facetCounts(rows) {
-  const c = { type: {}, cat: {}, ind: {}, plat: {}, reg: {} };
+  const c = { type: {}, cat: {}, ind: {}, plat: {}, reg: {}, sub: {}, prov: {} };
+  const add = (o, k) => (o[k] = (o[k] || 0) + 1);
   for (const it of rows) {
-    c.type[it.y] = (c.type[it.y] || 0) + 1;
-    c.cat[it.c] = (c.cat[it.c] || 0) + 1;
-    for (const x of it.i) c.ind[x] = (c.ind[x] || 0) + 1;
-    for (const x of it.pl) c.plat[x] = (c.plat[x] || 0) + 1;
-    for (const x of it.r) c.reg[x] = (c.reg[x] || 0) + 1;
+    add(c.type, it.y);
+    add(c.cat, it.c);
+    add(c.prov, it.p);
+    for (const x of it.i) add(c.ind, x);
+    for (const x of it.sc) add(c.sub, x);
+    if (it.pl.length) for (const x of it.pl) add(c.plat, x);
+    else add(c.plat, '__none');
+    if (it.r.length) for (const x of it.r) add(c.reg, x);
+    else add(c.reg, '__none');
   }
   return c;
 }
@@ -409,13 +415,16 @@ export function discoverMatch({ industry, role, challenge }) {
 
 // ---------- readiness across the six-stage path ----------
 export function readiness(it, d) {
+  const who = d && (d.audience?.length || d.roles?.length || d.orgSizes?.length);
+  const defined = d && d.scope && (d.deliverables?.length || d.delivery);
+  const effort = d && (d.effort || d.delivery?.weeks || it.db);
   const stages = [
-    { key: 'explore', name: 'Explore', sub: 'Discover the fit', ok: d && d.outcome && d.audience?.length ? 1 : 0.5, msg: ['Outcome and audience published.', 'Summary published; audience not yet stated.'] },
-    { key: 'experience', name: 'Experience', sub: 'See it working', ok: 0, msg: ['', 'No demo or case study published yet. Ask for one in a discovery call.'] },
-    { key: 'define', name: 'Define', sub: 'Agree the blueprint', ok: d && d.scope && d.deliverables?.length ? 1 : d?.scope ? 0.5 : 0, msg: ['Scope of work and deliverables published.', 'Scope partly published.', 'Scope not yet published.'] },
-    { key: 'build', name: 'Build', sub: 'Prove it', ok: d && d.effort && it.pl.length ? 1 : d?.effort ? 0.5 : 0, msg: ['Platforms and estimated effort published.', 'Effort published; platforms not stated.', 'Effort not yet published.'] },
-    { key: 'deploy', name: 'Deploy', sub: 'Buy and deploy', ok: d && d.skus?.length ? 1 : 0.5, msg: ['Buying routes and tiers published.', 'Request a proposal to agree buying routes.'] },
-    { key: 'adopt', name: 'Adopt', sub: 'Measure the value', ok: d && d.kpi ? 0.5 : 0, msg: ['', 'Success measure published as an estimate. Agree a baseline before you buy.', 'No success measure yet.'] },
+    { key: 'explore', name: 'Explore', prog: 'RACE', sub: 'Discover the fit', ok: d && d.outcome && who ? 1 : 0.5, msg: ['Outcome and who it is for are published.', 'Summary published; who it is for is not yet stated.'] },
+    { key: 'experience', name: 'Experience', prog: 'Experience Centres', sub: 'See it working', ok: 0, msg: ['', '', 'No demonstration or case study published yet.'] },
+    { key: 'define', name: 'Define', prog: 'Blueprint Studios', sub: 'Agree the blueprint', ok: defined ? 1 : d?.scope ? 0.5 : 0, msg: ['Scope of work and deliverables are published.', 'Scope is partly published.', 'Scope is not yet published.'] },
+    { key: 'build', name: 'Build', prog: 'Protoverse', sub: 'Prove it', ok: effort && it.pl.length ? 1 : effort ? 0.5 : 0, msg: ['Platforms and effort are published.', 'Effort is published; platforms are not stated.', 'Effort is not yet published.'] },
+    { key: 'deploy', name: 'Deploy', prog: 'Tech Citadel / Marketplace', sub: 'Buy and deploy', ok: d && d.skus?.length ? 1 : 0.5, msg: ['Ways to buy are published.', 'Request a proposal to agree ways to buy.'] },
+    { key: 'adopt', name: 'Adopt', prog: 'Adoption Factory', sub: 'Measure the value', ok: d && d.kpi ? 0.5 : 0, msg: ['', 'A success measure is published as an estimate.', 'No success measure yet.'] },
   ];
   for (const s of stages) s.text = s.ok === 1 ? s.msg[0] : s.ok === 0.5 ? s.msg[1] : s.msg[2] || s.msg[1];
   const pct = Math.round((stages.reduce((a, s) => a + s.ok, 0) / stages.length) * 100);

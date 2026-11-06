@@ -215,6 +215,12 @@ async function main() {
       b: !!it.marketplaceBuyable,
       u: it.updatedAt?.slice(0, 10),
       pr: c.signals?.practice || null,
+      v: it.versionNo || d?.versionNo || 1,
+      ns: (c.skus || []).length,
+      aws: (c.skus || []).some((s) => (s.routes || []).includes('aws_marketplace_private_offer')),
+      dm: uniq((c.deploymentModels || []).map((m) => ({ on_premises: 'On-premises', hybrid: 'Hybrid', cloud: 'Cloud', saas: 'SaaS' })[m] || m)),
+      db: d?.durationBand?.label || null,
+      rd: it.freshness?.nextReviewDue || null,
       ...(twins.length ? { tw: twins } : {}),
     });
 
@@ -242,6 +248,19 @@ async function main() {
         scope: c.scopeOfWork || null,
         deliverables: uniq((c.deliverables || []).map(sentence)),
         effort: c.estimatedEffort || null,
+        roles: c.audience || [],
+        languages: c.languages || null,
+        presales: c.presales ? { team: c.presales.team, practice: c.presales.practice } : null,
+        delivery: c.service
+          ? {
+              model: c.service.engagementModel || null,
+              weeks: c.service.duration ? [c.service.duration.weeksMin, c.service.duration.weeksMax] : null,
+              method: c.service.deliveryMethod || [],
+              prerequisites: c.service.customerPrerequisites || [],
+              pricing: c.service.pricingModel || null,
+              sample: !!c.service.sample,
+            }
+          : null,
         skus: (c.skus || []).map((s) => ({
           code: s.code,
           edition: s.edition,

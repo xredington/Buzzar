@@ -1,8 +1,8 @@
 # Buzzar — the business solution marketplace
 
-> **White edition (this branch).** A brighter, more expressive redesign: an aurora hero with rotating words, floating glass chips over 3D imagery, animated beams, a bento grid of practices, a scroll-told journey, number tickers and a giant footer wordmark. Several component patterns (aurora background, shimmer button, text shimmer, hero pill, floating glass nav) are adapted from [21st.dev](https://github.com/serafimcloud/21st) and rebuilt in plain CSS. The 12 images in `assets/img/` were generated for this site.
+> **Enterprise edition (this branch).** Built to the *Buzzar UI & CX handover* (5 Nov 2026): the approved Daylight palette on a white canvas, Avenir Next type, the 3 px green "aisle rule" for "you are here", and the handover's colour key used as quiet accents (Product blue, Service orange, Accelerator teal, Ways to buy navy, Provider and trust pink, Fit green, AI guidance purple, Buyer actions coral). Tiles and listing pages follow the handover's anatomy. "Not specified" filter buckets, whole-catalogue counts, one name per thing (Products · Services · Accelerators; Sami's bundles are "Solutions"), and honest Sample/Estimate labels shown once per section.
 >
-> **The Sami sandbox (`#/advisor`)** is the conversational advisor: describe a problem in your own words (or by voice), and Sami asks the two or three questions that change the ranking most (industry, size, platform, region, timeline). A live brief and a "still in play" counter update as you answer. Sami then gives ranked matches with reasons and honest gaps. You can ask follow-up questions about any listing (duration, deliverables, who it is not for, how to buy, prerequisites, success measure), draft a mission plan and download it as Markdown, and pin listings to a shortlist you can compare. It runs on-device by default. **Live AI** mode sends questions to the Buzzar API's `/api/advisor/match`; it switches on automatically when the site is served from the API's own domain, because that API only answers same-origin requests.
+> **Talk to Sami (`#/advisor`)** fills the handover's discovery board (Your world · The challenge · The dream · Reality check), asks only the questions that change the answer, answers in three lanes (Products, Services, Accelerators) marked "Advisory only", and ends with a **Solution step**: the product, service and accelerator that fit, each with its first SKU line, sendable as one private-offer request; anything missing is labelled "Not in the catalogue: ask Redington to confirm it in a request". The Sami B orb is the real Buzzar "B" rendered as particles that show listening, thinking and talking. Voice in and out; Live AI mode uses `/api/advisor/match` when served from the Buzzar API domain.
 
 A redesigned front end for the Buzzar catalogue. Buyers can explore 1,265 governed products, services and accelerators across cloud, data, AI, security and software, find what fits their situation, compare options, and take the next step with Redington.
 
@@ -24,7 +24,7 @@ Then open http://localhost:8080. A local server is needed because the browser bl
 | Catalogue | `#/catalogue?type=&cat=&ind=&plat=&reg=&prov=&sub=&q=&sort=&page=` | Faceted search over the **whole** catalogue. Each facet's counts treat that facet's own selection as unset, so options never disappear when you pick one. Search terms are highlighted, results paginate, and the URL captures the filters so a view can be shared |
 | Listing | `#/listing/{slug}` | Generated hexagon art, outcome and success measure, a readiness ring with a six-stage tracker, benefits labelled with their evidence basis, who it is for and who it is *not* for, scope as numbered steps, deliverables, buying tiers, related listings, a sticky request panel and an on-page table of contents |
 | Guided discovery | `#/discover` | Industry → perspective → challenge → a ranked shortlist with "why it's here" reasons. The state lives in the URL |
-| Sami sandbox | `#/advisor?q=` | Conversational advisor: asks questions, keeps a live brief, answers with ranked matches, gaps, listing Q&A and mission plans. Voice in and out. `#/ask` redirects here |
+| Talk to Sami | `#/advisor?q=` | Discovery board, questions, three-lane answers, gaps, Solution step with SKUs, listing Q&A, mission plans, voice. `#/ask` redirects here |
 | Compare | `#/compare` | Up to 3 side by side. Rows that differ are highlighted |
 | Saved / My journey | `#/saved`, `#/journey` | Saved listings; a board with Exploring, Shortlisted and Talking to Redington columns; and the buyer's requests |
 | Industries, Providers | `#/industries`, `#/providers` | Industry grid with a practice-mix bar; A–Z provider directory with search |
@@ -75,8 +75,10 @@ Sami (in on-device mode) and guided discovery run entirely in the browser. Quest
 ```
 index.html
 assets/css/main.css         base design system
-assets/css/v2.css           white edition: aurora, shimmer, bento, beams, Sami sandbox
-assets/img/                 generated imagery (WebP)
+assets/css/enterprise.css   Daylight tokens, colour key, tiles, listing, Sami workspace
+assets/js/orb.js            the Sami B particle orb
+assets/js/plan.js           mission plans (shared by listings and Sami)
+assets/img/                 Buzzar logo, practice and industry imagery (WebP)
 assets/js/main.js           router, header, theme, badges
 assets/js/data.js           loading, labels, filtering, matching, readiness
 assets/js/ui.js             DOM helper, icons, brand mark, generated art, local lists
