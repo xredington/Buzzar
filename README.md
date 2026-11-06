@@ -22,7 +22,7 @@ It is a static site: plain HTML, CSS and JavaScript modules, with no build step 
 ## Run it
 
 ```bash
-python3 -m http.server 8080
+python3 serve.py
 ```
 
 Then open http://localhost:8080. A local server is needed because the browser blocks `fetch()` from `file://`.

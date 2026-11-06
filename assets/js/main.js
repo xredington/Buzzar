@@ -46,7 +46,22 @@ async function render() {
     view = loader ? await loader() : null;
   } catch (e) {
     console.error(e);
+    // a page module failed to load, usually because the browser mixed cached old files with new ones:
+    // reload once, bypassing the cache, instead of showing "page not found"
+    try {
+      if (!sessionStorage.getItem('bz:reloaded')) {
+        sessionStorage.setItem('bz:reloaded', '1');
+        location.reload();
+        return;
+      }
+    } catch {}
+    if (id !== renderId) return;
+    main.replaceChildren(h('section', { class: 'wrap nf' }, h('div', null, h('p', { class: 'eyebrow' }, 'Update needed'), h('h1', { class: 'heading-3' }, 'This page could not load.'), h('p', { class: 'muted', style: { margin: '0 0 24px' } }, 'Your browser is holding an older copy of Buzzar. Do a hard refresh: Cmd + Shift + R on Mac, Ctrl + Shift + R on Windows.'), h('button', { class: 'btn primary', type: 'button', onclick: () => location.reload() }, 'Reload'))));
+    return;
   }
+  try {
+    sessionStorage.removeItem('bz:reloaded');
+  } catch {}
   if (id !== renderId) return;
   const node = view ? await view.default(r) : notFound();
   if (id !== renderId) return;
