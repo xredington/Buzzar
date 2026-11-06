@@ -120,11 +120,35 @@ export default function home(route) {
             { class: 'examples' },
             EXAMPLES.map(([ic, label, q], i) => h('button', { type: 'button', style: { animationDelay: `${120 + i * 50}ms` }, onclick: () => start(q) }, h('i', { class: `ph ${ic}`, 'aria-hidden': 'true' }), label)),
           ),
+          samiCard(),
           howItWorks(0),
         ),
       ),
     );
     setTimeout(() => input.focus(), 60);
+  }
+
+  // Sami, front and centre: a live orb, what Sami does, and one tap to start
+  function samiCard() {
+    const orbC = h('canvas', { width: 160, height: 160, 'aria-hidden': 'true' });
+    import('../orb.js').then(({ createOrb }) => {
+      const orb = createOrb(orbC, { halo: true });
+      const states = ['idle', 'listening', 'thinking', 'talking'];
+      let i = 0;
+      const t = setInterval(() => (orbC.isConnected ? orb.setState(states[i++ % 4]) : clearInterval(t)), 2200);
+    });
+    return h(
+      'div',
+      { class: 'sami-hero' },
+      h('span', { class: 'or' }, 'or'),
+      h(
+        'a',
+        { class: 'sami-card', href: '#/advisor', 'aria-label': 'Talk to Sami, your AI solution advisor' },
+        h('span', { class: 'sc-orb' }, orbC),
+        h('span', { class: 'sc-txt' }, h('small', null, h('i', { class: 'live-dot', 'aria-hidden': 'true' }), 'AI advisor · online'), h('b', null, 'Talk to Sami'), h('span', null, 'Speak or type. Sami asks a few questions and builds your solution.')),
+        h('span', { class: 'sc-acts' }, h('span', { class: 'sc-mic', title: 'Voice' }, h('i', { class: 'ph ph-microphone', 'aria-hidden': 'true' })), h('span', { class: 'sc-go' }, 'Start', h('i', { class: 'ph ph-arrow-right', 'aria-hidden': 'true' }))),
+      ),
+    );
   }
 
   function howItWorks(active) {

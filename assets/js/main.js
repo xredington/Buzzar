@@ -72,6 +72,8 @@ async function render() {
   closeMenu();
   compareTray();
   revealIn(wrap);
+  // the floating Sami button shows everywhere except on Sami's own page and the home hero
+  $('#sami-fab')?.classList.toggle('hide', r.name === 'advisor' || r.name === 'ask' || (r.name === '' && !r.params.get('q')));
   try {
     sessionStorage.removeItem('bz:repaired');
   } catch {}
@@ -263,7 +265,11 @@ function wire() {
   const recent = all().filter((x) => latest && (new Date(latest) - new Date(x.u)) / 864e5 <= 7).length;
   window.__bzBuilt = recent / Math.max(1, all().length) < 0.25 ? latest : null;
   const mini = $('.mini-orb');
-  if (mini) import('./orb.js').then(({ createOrb }) => createOrb(mini, { halo: false, density: 1 }));
+  const fab = $('.fab-orb');
+  import('./orb.js').then(({ createOrb }) => {
+    if (mini) createOrb(mini, { halo: false, density: 1 });
+    if (fab) createOrb(fab, { halo: false, density: 1 });
+  });
   $('#ftr-meta').textContent = `Buzzar is a business solution marketplace run by Redington · ${fmt(m.total)} listings · snapshot ${new Date(m.builtAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}`;
   render();
 })();
