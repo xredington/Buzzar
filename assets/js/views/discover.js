@@ -58,7 +58,7 @@ export default function discover(route) {
       'Step 1 of 3',
       'What world do you work in?',
       'Pick the industry closest to yours. Cross-industry solutions are included automatically.',
-      DISCOVERY.industries.map((k) => [industryLabel(k), null, industryIcon(k), url({ industry: k })]),
+      DISCOVERY.industries.map((k) => [industryLabel(k), null, industryIcon(k), url({ industry: k }), `assets/img/photo/${k}.webp`]),
     );
   } else if (step === 1) {
     panel = question(
@@ -107,7 +107,11 @@ function question(eyebrow, title, lede, options) {
     h(
       'div',
       { class: 'choices' },
-      options.map(([label, hint, ic, href], i) => h('a', { class: 'choice', href: '#/' + href, style: { animationDelay: `${i * 40}ms` } }, h('span', { class: 'ci' }, icon(ic)), h('b', null, label), hint ? h('small', null, hint) : null)),
+      options.map(([label, hint, ic, href, photo], i) =>
+        photo
+          ? h('a', { class: 'choice photo', href: '#/' + href, style: { animationDelay: `${i * 40}ms` } }, h('img', { src: photo, alt: '', loading: 'lazy', decoding: 'async' }), h('span', { class: 'cp-shade', 'aria-hidden': 'true' }), h('span', { class: 'ci' }, icon(ic)), h('b', null, label), h('span', { class: 'cp-go', 'aria-hidden': 'true' }, h('i', { class: 'ph ph-arrow-right' })))
+          : h('a', { class: 'choice', href: '#/' + href, style: { animationDelay: `${i * 40}ms` } }, h('span', { class: 'ci' }, icon(ic)), h('b', null, label), hint ? h('small', null, hint) : null),
+      ),
     ),
   );
 }

@@ -34,8 +34,8 @@ function legal(kind) {
   );
 }
 
-function head(eyebrow, title, lede, extra) {
-  return h('header', { class: 'phead' }, h('div', { class: 'wrap' }, h('p', { class: 'eyebrow' }, eyebrow), h('h1', null, title), h('p', { class: 'lede' }, lede), extra || null));
+function head(eyebrow, title, lede, extra, photo) {
+  return h('header', { class: 'phead' + (photo ? ' ph-hero' : ''), style: photo ? { '--ph': `url(../img/page/${photo}.webp)` } : null }, h('div', { class: 'wrap' }, h('p', { class: 'eyebrow' }, eyebrow), h('h1', null, title), h('p', { class: 'lede' }, lede), extra || null));
 }
 
 // ---------- how it works ----------
@@ -44,7 +44,7 @@ function how() {
   return h(
     'div',
     null,
-    head('How it works', 'Find it. Ask Redington to deliver it.', 'Buzzar is a governed catalogue: what you read here is what a Redington checker has allowed to be published, and every claim says what it is based on.'),
+    head('How it works', 'Find it. Ask Redington to deliver it.', 'Buzzar is a governed catalogue: what you read here is what a Redington checker has allowed to be published, and every claim says what it is based on.', null, 'how'),
     h(
       'section',
       { class: 'section' },
@@ -57,11 +57,11 @@ function how() {
           'div',
           { class: 'steps', style: { marginTop: '28px' } },
           [
-            ['Describe or discover', 'Ask in your own words, or answer three questions. You get a ranked shortlist with reasons, not a wall of logos.'],
-            ['Compare honestly', 'Line up to three options. See the outcome, the success measure, who it is not for and how ready each one is.'],
-            ['Talk to a specialist', 'Request a discovery call, a standard proposal or a custom one. Redington replies with next steps.'],
-            ['Buy the way you buy', 'Through your AWS or Azure marketplace commitment, or through Redington resale, with delivery by Redington or an approved partner.'],
-          ].map(([t, p]) => h('div', { class: 'step' }, h('h3', null, t), h('p', null, p))),
+            ['ph-chat-circle-text', 'Describe or discover', 'Ask in your own words, or answer three questions. You get a ranked shortlist with reasons, not a wall of logos.'],
+            ['ph-scales', 'Compare honestly', 'Line up to three options. See the outcome, the success measure, who it is not for and how ready each one is.'],
+            ['ph-headset', 'Talk to a specialist', 'Request a discovery call, a standard proposal or a custom one. Redington replies with next steps.'],
+            ['ph-shopping-bag', 'Buy the way you buy', 'Through your AWS or Azure marketplace commitment, or through Redington resale, with delivery by Redington or an approved partner.'],
+          ].map(([ic, t, p], i) => h('div', { class: 'step step2' }, h('span', { class: 'st-ic' }, h('i', { class: `ph ${ic}`, 'aria-hidden': 'true' }), h('em', null, String(i + 1).padStart(2, '0'))), h('h3', null, t), h('p', null, p))),
         ),
       ),
     ),
@@ -95,8 +95,8 @@ function how() {
           meta.categories.map((c) =>
             h(
               'div',
-              { class: 'card', style: { '--cat': `var(--c-${c.code})` } },
-              h('div', { class: 'card-top' }, h('span', { class: 'chip cat', style: { '--cat': `var(--c-${c.code})` } }, c.label), h('span', { class: 'chip' }, `${fmt(meta.counts.category[c.code] || 0)} listings`)),
+              { class: `card prac c-${c.code}` },
+              h('div', { class: 'prac-top' }, h('span', { class: 'prac-ic' }, h('i', { class: `ph ${{ CLD: 'ph-cloud', SEC: 'ph-shield-check', SW: 'ph-stack', AI: 'ph-sparkle', DNA: 'ph-chart-bar' }[c.code]}`, 'aria-hidden': 'true' })), h('div', null, h('b', null, c.label), h('small', null, `${fmt(meta.counts.category[c.code] || 0)} listings`))),
               h('div', { class: 'chips', style: { marginTop: '6px' } }, c.subs.map((s) => h('a', { class: 'chip', href: `#/catalogue?sub=${encodeURIComponent(s.key)}` }, `${s.label} · ${meta.counts.sub[s.key] || 0}`))),
             ),
           ),
@@ -123,7 +123,7 @@ function partners() {
   return h(
     'div',
     null,
-    head('For partners', 'List your solution on Buzzar.', 'Reach enterprise and public-sector buyers across the GCC, Africa and India, with Redington’s distribution, marketplace private offers and delivery capacity behind you.', h('div', { class: 'chips', style: { marginTop: '22px', gap: '10px' } }, h('a', { class: 'btn primary', href: `${CONFIG.liveApi}/partners`, rel: 'noopener' }, 'Start your listing', h('span', { class: 'arr' }, '→')), h('a', { class: 'btn', href: '#/how-it-works' }, 'How governance works'))),
+    head('For partners', 'List your solution on Buzzar.', 'Reach enterprise and public-sector buyers across the GCC, Africa and India, with Redington’s distribution, marketplace private offers and delivery capacity behind you.', h('div', { class: 'chips', style: { marginTop: '22px', gap: '10px' } }, h('a', { class: 'btn primary', href: `${CONFIG.liveApi}/partners`, rel: 'noopener' }, 'Start your listing', h('span', { class: 'arr' }, '→')), h('a', { class: 'btn', href: '#/how-it-works' }, 'How governance works')), 'partners'),
     h(
       'section',
       { class: 'section-tight' },
@@ -155,11 +155,11 @@ function partners() {
           'div',
           { class: 'steps', style: { marginTop: '28px' } },
           [
-            ['Draft in the studio', 'Describe the outcome, the evidence, the scope and who it is not for. Add tiers and buying routes.'],
-            ['Checker review', 'A Redington checker tests every claim against its source and asks for changes where needed.'],
-            ['Publish', 'Approved listings go live to buyers, to Ask Buzzar and to the machine-readable feed for agents.'],
-            ['Keep it fresh', 'Each listing has an owner and a review date. Stale claims are flagged before buyers rely on them.'],
-          ].map(([t, p]) => h('div', { class: 'step' }, h('h3', null, t), h('p', null, p))),
+            ['ph-pencil-simple-line', 'Draft in the studio', 'Describe the outcome, the evidence, the scope and who it is not for. Add tiers and buying routes.'],
+            ['ph-magnifying-glass', 'Checker review', 'A Redington checker tests every claim against its source and asks for changes where needed.'],
+            ['ph-broadcast', 'Publish', 'Approved listings go live to buyers, to Ask Buzzar and to the machine-readable feed for agents.'],
+            ['ph-arrows-clockwise', 'Keep it fresh', 'Each listing has an owner and a review date. Stale claims are flagged before buyers rely on them.'],
+          ].map(([ic, t, p], i) => h('div', { class: 'step step2' }, h('span', { class: 'st-ic' }, h('i', { class: `ph ${ic}`, 'aria-hidden': 'true' }), h('em', null, String(i + 1).padStart(2, '0'))), h('h3', null, t), h('p', null, p))),
         ),
       ),
     ),
@@ -202,7 +202,7 @@ function agents() {
   return h(
     'div',
     null,
-    head('For agents & developers', 'Read the Buzzar catalogue.', 'The public catalogue is open, read-only and machine-readable. Agents can search and cite it; only people can request proposals.'),
+    head('For agents & developers', 'Read the Buzzar catalogue.', 'The public catalogue is open, read-only and machine-readable. Agents can search and cite it; only people can request proposals.', null, 'agents'),
     h(
       'section',
       { class: 'section-tight' },

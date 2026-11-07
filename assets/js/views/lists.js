@@ -1,5 +1,5 @@
 import { h, lists, fmt, toast } from '../ui.js';
-import { get, detail, TYPE, catLabel, industryLabel, label, readiness } from '../data.js';
+import { all, get, detail, TYPE, catLabel, industryLabel, label, readiness } from '../data.js';
 import { card, catChip, requestDialog, MAX_COMPARE, REQUEST_TYPES } from '../components.js';
 
 export default function view(route) {
@@ -12,8 +12,21 @@ function head(eyebrow, title, lede) {
   return h('header', { class: 'phead' }, h('div', { class: 'wrap' }, h('p', { class: 'eyebrow' }, eyebrow), h('h1', null, title), h('p', { class: 'lede' }, lede)));
 }
 
-function empty(title, text, href, cta) {
-  return h('div', { class: 'empty', style: { margin: '40px 0 90px' } }, h('div', { html: `<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 8 86 29v42L50 92 14 71V29Z" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 6"/></svg>` }), h('h3', null, title), h('p', null, text), h('a', { class: 'btn primary', href }, cta));
+// an empty list is an invitation: what to do, how it will look, and a few good places to start
+function empty(title, text, href, cta, ic = 'ph-sparkle') {
+  const cats = ['CLD', 'SEC', 'AI', 'DNA'];
+  const starters = cats.map((c) => all().find((it) => it.c === c && it.y === 'product' && it.aws && it._img) || all().find((it) => it.c === c)).filter(Boolean);
+  return h(
+    'div',
+    { class: 'empty2' },
+    h(
+      'div',
+      { class: 'e2-card' },
+      h('div', { class: 'e2-ghosts', 'aria-hidden': 'true' }, [0, 1, 2].map((i) => h('span', { style: { animationDelay: `${i * 160}ms` } }, h('i'), h('b'), h('em')))),
+      h('div', { class: 'e2-txt' }, h('span', { class: 'e2-ic' }, h('i', { class: `ph ${ic}`, 'aria-hidden': 'true' })), h('h3', null, title), h('p', null, text), h('div', { class: 'chips', style: { gap: '10px', justifyContent: 'center' } }, h('a', { class: 'btn primary', href }, cta), h('a', { class: 'btn', href: '#/advisor' }, 'Ask Sami'))),
+    ),
+    starters.length ? h('div', { class: 'e2-start' }, h('p', { class: 'eyebrow' }, 'Good places to start'), h('div', { class: 'grid' }, starters.map((it) => card(it, { quick: true })))) : null,
+  );
 }
 
 // ---------- compare ----------
@@ -23,7 +36,7 @@ async function compare() {
   const wrap = h('div', { class: 'wrap' });
   node.append(wrap);
   if (!ids.length) {
-    wrap.append(empty('Nothing to compare yet.', 'Use the compare button on any listing to add it here.', '#/catalogue', 'Browse the catalogue'));
+    wrap.append(empty('Nothing to compare yet.', 'Use the compare button on any listing to add it here.', '#/catalogue', 'Browse the catalogue', 'ph-scales'));
     return node;
   }
   const items = ids.map(get);
@@ -86,7 +99,7 @@ function saved() {
   const node = h('div', null, head('Saved', 'Keep the expertise worth exploring.', 'Solutions you have saved on this device.'));
   const wrap = h('div', { class: 'wrap', style: { padding: '36px 0 90px' } });
   node.append(wrap);
-  if (!items.length) wrap.append(empty('Your saved list is empty.', 'Tap the heart on any listing to keep it here.', '#/catalogue', 'Find something worth saving'));
+  if (!items.length) wrap.append(empty('Your saved list is empty.', 'Tap the heart on any listing to keep it here.', '#/catalogue', 'Find something worth saving', 'ph-heart'));
   else wrap.append(h('div', { class: 'grid' }, items.map((it) => card(it))));
   return node;
 }
@@ -107,7 +120,7 @@ function journey() {
     .map(([id, v]) => [get(id), v])
     .filter(([it]) => it);
   if (!entries.length && !reqs.length) {
-    wrap.append(empty('Your journey starts with a single listing.', 'Open any solution and it will appear here, ready to shortlist.', '#/discover', 'Start guided discovery'));
+    wrap.append(empty('Your journey starts with a single listing.', 'Open any solution and it will appear here, ready to shortlist.', '#/discover', 'Start guided discovery', 'ph-path'));
     return node;
   }
   const board = h(
