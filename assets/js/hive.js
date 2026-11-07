@@ -7,7 +7,7 @@ const GREEN = '31 107 69';
 const GLOW = '38 160 96';
 
 export function mountHive(host, { input, onCell } = {}) {
-  let lastCell = null;
+  let lastCell = null, shown = false;
   const cv = document.createElement('canvas');
   cv.className = 'hive-bg';
   cv.setAttribute('aria-hidden', 'true');
@@ -102,7 +102,16 @@ export function mountHive(host, { input, onCell } = {}) {
 
   function frame(t) {
     raf = 0;
-    if (!cv.isConnected) return stop();
+    // not on the page yet (the page may still be fading in): try again shortly; once shown and then removed, stop
+    if (!cv.isConnected) {
+      if (shown) return stop();
+      setTimeout(schedule, 80);
+      return;
+    }
+    if (!shown) {
+      shown = true;
+      layout();
+    }
     const dt = Math.min(64, t - (last || t));
     last = t;
     // the bee: a smooth wandering path across the whole hero
