@@ -6,7 +6,8 @@
 const GREEN = '31 107 69';
 const GLOW = '38 160 96';
 
-export function mountHive(host, { input } = {}) {
+export function mountHive(host, { input, onCell } = {}) {
+  let lastCell = null;
   const cv = document.createElement('canvas');
   cv.className = 'hive-bg';
   cv.setAttribute('aria-hidden', 'true');
@@ -201,6 +202,20 @@ export function mountHive(host, { input } = {}) {
     ptr.x = e.clientX - r.left;
     ptr.y = e.clientY - r.top;
     ptr.on = true;
+    // which hexagon is the pointer in? tell the listener when it changes (the hive plays a note)
+    if (onCell) {
+      let best = null, bd = Infinity;
+      for (const c of cells) {
+        const d = (c.x - ptr.x) ** 2 + (c.y - ptr.y) ** 2;
+        if (d < bd) (bd = d), (best = c);
+      }
+      if (best && best !== lastCell) {
+        lastCell = best;
+        best.e = 1;
+        const near = nodes.some((n) => Math.hypot(n.x - ptr.x, n.y - ptr.y) < R * 1.2);
+        onCell({ x: ptr.x / W, y: ptr.y / H, node: near, edge: best.m });
+      }
+    }
   });
   host.addEventListener('pointerleave', () => (ptr.on = false));
   if (input)

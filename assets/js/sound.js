@@ -3,16 +3,32 @@
 
 let ctx = null, master = null, lastTick = 0;
 const KEY = 'bz:sound';
+// on by default; the browser still keeps it silent until the first click or key press
 const read = () => {
   try {
-    return localStorage.getItem(KEY) === 'on';
+    return localStorage.getItem(KEY) !== 'off';
   } catch {
-    return false;
+    return true;
   }
 };
 let on = read();
 
+let unlocked = false, unlockedAt = 0;
+const unlockers = new Set();
+export const audioReady = () => unlocked;
+export const onUnlock = (fn) => unlockers.add(fn);
+function unlock() {
+  if (unlocked) return;
+  unlocked = true;
+  unlockedAt = performance.now();
+  if (on) audio();
+  unlockers.forEach((f) => f());
+  ['pointerdown', 'keydown', 'touchstart'].forEach((t) => removeEventListener(t, unlock, true));
+}
+['pointerdown', 'keydown', 'touchstart'].forEach((t) => addEventListener(t, unlock, true));
+
 function audio() {
+  if (!unlocked) return null;
   if (!ctx) {
     const AC = window.AudioContext || window.webkitAudioContext;
     if (!AC) return null;
@@ -26,21 +42,45 @@ function audio() {
 }
 
 // one soft sine note with a quick attack and a gentle tail
-function note(freq, start, dur, vol, type = 'sine') {
+function note(freq, start, dur, vol, type = 'sine', pan = 0) {
   const o = ctx.createOscillator(), g = ctx.createGain();
+  let out = master;
+  if (pan && ctx.createStereoPanner) {
+    const p = ctx.createStereoPanner();
+    p.pan.value = Math.max(-1, Math.min(1, pan));
+    p.connect(master);
+    out = p;
+  }
   o.type = type;
   o.frequency.setValueAtTime(freq, start);
   g.gain.setValueAtTime(0, start);
   g.gain.linearRampToValueAtTime(vol, start + 0.012);
   g.gain.exponentialRampToValueAtTime(0.0001, start + dur);
-  o.connect(g).connect(master);
+  o.connect(g).connect(out);
   o.start(start);
   o.stop(start + dur + 0.05);
 }
 
-export function sound(kind) {
+// the hive as an instrument: C major pentatonic, left to right rises in pitch, top to bottom drops an octave
+const PENTA = [0, 2, 4, 7, 9];
+let lastCell = 0;
+export function sound(kind, o = {}) {
   if (!on || !audio()) return;
   const t = ctx.currentTime;
+  if (kind === 'cell') {
+    if (t - lastCell < 0.035) return;
+    lastCell = t;
+    const steps = Math.floor(o.x * 10);
+    const octave = 2 - Math.min(2, Math.floor(o.y * 3));
+    const semi = PENTA[steps % 5] + 12 * (Math.floor(steps / 5) + octave);
+    const f = 261.63 * Math.pow(2, semi / 12);
+    const pan = (o.x - 0.5) * 1.6;
+    const v = 0.025 + 0.025 * (o.edge ?? 1);
+    note(f, t, 0.9, v, 'sine', pan);
+    note(f * 2, t, 0.35, v * 0.35, 'triangle', pan);
+    if (o.node) [1.5, 2, 3].forEach((m, i) => note(f * m, t + 0.05 + i * 0.06, 0.8, 0.03, 'sine', pan));
+    return;
+  }
   if (kind === 'tick') {
     // typing: a tiny glassy tick, never more than one every 45ms
     if (t - lastTick < 0.045) return;
@@ -63,11 +103,16 @@ export function soundToggle() {
   b.type = 'button';
   b.className = 'snd-toggle';
   const paint = () => {
+    const wait = on && !unlocked;
     b.setAttribute('aria-pressed', String(on));
+    b.classList.toggle('wait', wait);
     b.setAttribute('aria-label', on ? 'Sound on. Turn sound off' : 'Sound off. Turn sound on');
-    b.innerHTML = `<i class="ph ${on ? 'ph-speaker-high' : 'ph-speaker-slash'}" aria-hidden="true"></i><span>${on ? 'Sound on' : 'Sound off'}</span>`;
+    b.innerHTML = `<i class="ph ${on ? 'ph-speaker-high' : 'ph-speaker-slash'}" aria-hidden="true"></i><span>${wait ? 'Click anywhere to hear the hive' : on ? 'Sound on' : 'Sound off'}</span>`;
   };
+  onUnlock(paint);
   b.addEventListener('click', () => {
+    // the click that woke the audio up just confirms 'on'
+    if (on && performance.now() - unlockedAt < 800) return paint(), sound('on');
     on = !on;
     try {
       localStorage.setItem(KEY, on ? 'on' : 'off');

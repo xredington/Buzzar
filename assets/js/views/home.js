@@ -147,8 +147,9 @@ export default function home(route) {
       ),
     );
     const hero = root.querySelector('.ask-hero');
-    import('../hive.js').then(({ mountHive }) => mountHive(hero, { input })).catch(() => {});
-    import('../sound.js').then(({ sound, soundToggle }) => {
+    const soundMod = import('../sound.js');
+    import('../hive.js').then(({ mountHive }) => mountHive(hero, { input, onCell: (c) => soundMod.then(({ sound }) => sound('cell', c)) })).catch(() => {});
+    soundMod.then(({ sound, soundToggle }) => {
       hero.append(soundToggle());
       input.addEventListener('input', () => sound('tick'));
       form.addEventListener('submit', () => sound('chime'));

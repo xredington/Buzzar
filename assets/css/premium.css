@@ -7386,3 +7386,8 @@ img[src*='img/svc/'] {
     padding-right: 44px;
   }
 }
+.snd-toggle.wait {
+  color: var(--accent);
+  box-shadow: 0 0 0 1.5px var(--accent);
+  animation: micpulse 1.8s ease-out infinite;
+}
