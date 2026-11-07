@@ -112,8 +112,9 @@ export default function home(route) {
         h(
           'div',
           { class: 'wrap ask-hero-in' },
-          h('p', { class: 'ask-kicker' }, h('span', { class: 'num' }, fmt(meta.total)), ' governed products, services and accelerators'),
-          h('h1', { class: 'grad-text' }, 'What do you want', h('br'), 'to change?'),
+          h('p', { class: 'ask-kicker' }, h('i', { class: 'live-dot', 'aria-hidden': 'true' }), h('span', { class: 'num' }, fmt(meta.total)), ' governed products, services and accelerators'),
+          h('h1', { class: 'ask-h1' }, 'What do you want', h('br'), 'to ', h('span', { class: 'hl' }, 'change?', h('span', { class: 'swoosh', 'aria-hidden': 'true', html: '<svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M4 10 C 80 4, 200 2, 296 5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>' }))),
+          h('p', { class: 'ask-sub' }, 'Start with a business goal. Discover the right path to make it happen.'),
           form,
           h(
             'div',
@@ -123,10 +124,32 @@ export default function home(route) {
           samiCard(),
           howItWorks(0),
         ),
+        floaters(meta),
       ),
     );
-    import('../hive.js').then(({ mountHive }) => mountHive(root.querySelector('.ask-hero'), { input })).catch(() => {});
+    const hero = root.querySelector('.ask-hero');
+    import('../hive.js').then(({ mountHive }) => mountHive(hero, { input })).catch(() => {});
+    import('../sound.js').then(({ sound, soundToggle }) => {
+      hero.append(soundToggle());
+      input.addEventListener('input', () => sound('tick'));
+      form.addEventListener('submit', () => sound('chime'));
+      hero.querySelectorAll('.examples button, .floater, .sami-card').forEach((el) => el.addEventListener('pointerenter', () => sound('pop')));
+      hero.querySelectorAll('.examples button').forEach((el) => el.addEventListener('click', () => sound('chime')));
+    }).catch(() => {});
     setTimeout(() => input.focus(), 60);
+  }
+
+  // four doors into the catalogue, floating at the sides of the hive on wide screens
+  function floaters(meta) {
+    const c = meta.counts || {};
+    const n = (t) => c[t] ?? c.type?.[t];
+    const doors = [
+      ['p1', 'ph-stack', 'Products', n('product') ? `Explore ${fmt(n('product'))} solutions` : 'Software you license', '#/catalogue?type=product'],
+      ['p2', 'ph-rocket-launch', 'Accelerators', 'From idea to scale', '#/catalogue?type=accelerator'],
+      ['p3', 'ph-hash', 'Services', 'Expert delivery', '#/catalogue?type=service'],
+      ['p4', 'ph-buildings', 'Industries', 'Built for your world', '#/industries'],
+    ];
+    return h('div', { class: 'floaters', 'aria-label': 'Browse' }, doors.map(([pos, ic, t, sub, href]) => h('a', { class: `floater ${pos}`, href }, h('span', { class: 'fl-ic' }, h('i', { class: `ph ${ic}`, 'aria-hidden': 'true' })), h('span', null, h('b', null, t), h('small', null, sub)))));
   }
 
   // Sami, front and centre: a live orb, what Sami does, and one tap to start

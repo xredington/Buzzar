@@ -23,7 +23,7 @@
       // Self repair: if the app has not started within a few seconds (usually because the browser
       // mixed cached old scripts with new ones), re-download every file bypassing the cache, then reload once.
       (function () {
-        var FILES = ['main.js', 'ui.js', 'data.js', 'components.js', 'config.js', 'orb.js', 'hive.js', 'plan.js', 'field.js', 'views/home.js', 'views/catalogue.js', 'views/listing.js', 'views/advisor.js', 'views/browse.js', 'views/providers.js', 'views/lists.js', 'views/discover.js', 'views/about.js'];
+        var FILES = ['main.js', 'ui.js', 'data.js', 'components.js', 'config.js', 'orb.js', 'hive.js', 'sound.js', 'plan.js', 'field.js', 'views/home.js', 'views/catalogue.js', 'views/listing.js', 'views/advisor.js', 'views/browse.js', 'views/providers.js', 'views/lists.js', 'views/discover.js', 'views/about.js'];
         window.__bzRepair = function () {
           var done;
           try { done = sessionStorage.getItem('bz:repaired'); } catch (e) {}

@@ -7116,3 +7116,193 @@ img[src*='img/svc/'] {
   z-index: -1;
   pointer-events: none;
 }
+
+/* ---------- home hero, reference look: soft green field, fine hive, floating doors ---------- */
+.ask-hero {
+  background:
+    radial-gradient(60% 55% at 50% 42%, #fff 0%, rgb(255 255 255 / 85%) 45%, rgb(255 255 255 / 0%) 80%),
+    radial-gradient(45% 60% at 0% 30%, #e3f3e9 0%, rgb(227 243 233 / 0%) 70%),
+    radial-gradient(45% 60% at 100% 40%, #e1f2e8 0%, rgb(225 242 232 / 0%) 70%),
+    radial-gradient(70% 50% at 50% 100%, #eaf6ef 0%, rgb(234 246 239 / 0%) 70%),
+    #f6fbf8;
+}
+.ask-hero::after {
+  display: none;
+}
+.ask-kicker {
+  background: rgb(255 255 255 / 85%);
+  box-shadow: 0 0 0 1px rgb(31 107 69 / 12%), 0 4px 16px rgb(31 107 69 / 6%);
+  backdrop-filter: blur(6px);
+  padding: 6px 16px;
+}
+.ask-kicker .live-dot {
+  display: inline-block;
+}
+.ask-kicker .num {
+  color: var(--accent);
+}
+.ask-h1 {
+  color: #0f1f17;
+  margin-bottom: var(--s-150, 12px) !important;
+}
+.ask-h1 .hl {
+  position: relative;
+  color: #1f8a52;
+  white-space: nowrap;
+}
+.swoosh {
+  position: absolute;
+  left: 6%;
+  right: -2%;
+  bottom: -10px;
+  height: 14px;
+  color: #3fae72;
+  opacity: 0.75;
+}
+.swoosh svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.swoosh path {
+  stroke-dasharray: 320;
+  stroke-dashoffset: 320;
+  animation: swoosh 1100ms 500ms var(--ease) forwards;
+}
+@keyframes swoosh {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.ask-sub {
+  margin: 4px 0 var(--s-300);
+  font-size: 18px;
+  line-height: 28px;
+  color: var(--ink-2);
+  animation: rise 600ms 100ms var(--ease) both;
+}
+.ask3 {
+  box-shadow: 0 0 0 1px rgb(31 107 69 / 10%), 0 18px 40px rgb(31 107 69 / 10%) !important;
+}
+.examples button {
+  background: rgb(255 255 255 / 88%);
+  box-shadow: 0 0 0 1px rgb(31 107 69 / 14%);
+  backdrop-filter: blur(4px);
+  border-radius: 999px;
+  padding: 9px 16px;
+}
+.examples button:hover {
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 0 0 1.5px var(--accent), 0 8px 20px rgb(31 107 69 / 14%);
+}
+.examples button:hover .ph {
+  color: var(--accent);
+}
+
+/* four doors floating at the sides */
+.floaters {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.floater {
+  position: absolute;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px 12px 12px;
+  border-radius: 18px;
+  background: rgb(255 255 255 / 82%);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 0 1px rgb(31 107 69 / 10%), 0 12px 30px rgb(31 107 69 / 10%);
+  color: var(--ink);
+  text-decoration: none;
+  animation: floaty 7s ease-in-out infinite;
+  transition: box-shadow 300ms var(--ease), scale 300ms var(--ease);
+}
+.floater:hover {
+  scale: 1.04;
+  box-shadow: 0 0 0 1.5px var(--accent), 0 16px 36px rgb(31 107 69 / 18%);
+}
+.fl-ic {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: #e6f4ec;
+  color: var(--accent);
+  font-size: 22px;
+}
+.floater b {
+  display: block;
+  font: 600 15px/20px var(--font);
+}
+.floater small {
+  display: block;
+  font-size: 12.5px;
+  line-height: 18px;
+  color: var(--ink-3, var(--ink-2));
+}
+.floater.p1 { left: 4%; top: 30%; }
+.floater.p2 { right: 4%; top: 31%; animation-delay: -2s; }
+.floater.p3 { left: 3%; top: 63%; animation-delay: -4s; }
+.floater.p4 { right: 3%; top: 66%; animation-delay: -5.5s; }
+@keyframes floaty {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -10px; }
+}
+@media (max-width: 1240px) {
+  .floaters { display: none; }
+}
+
+/* sound switch */
+.snd-toggle {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 85%);
+  box-shadow: 0 0 0 1px rgb(31 107 69 / 14%);
+  backdrop-filter: blur(6px);
+  font: 500 13px/18px var(--font);
+  color: var(--ink-2);
+  cursor: pointer;
+}
+.snd-toggle .ph {
+  font-size: 16px;
+  color: var(--accent);
+}
+.snd-toggle[aria-pressed='true'] {
+  color: var(--accent);
+  box-shadow: 0 0 0 1.5px var(--accent);
+}
+@media (max-width: 640px) {
+  .snd-toggle { right: 16px; bottom: 12px; }
+  .snd-toggle span { display: none; }
+  .ask-sub { font-size: 16px; line-height: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .floater, .swoosh path { animation: none; stroke-dashoffset: 0; }
+}
+.floater {
+  text-align: left;
+}
+@media (max-width: 640px) {
+  .ask-kicker {
+    display: inline-block;
+    font-size: 13px;
+    padding: 5px 12px;
+  }
+  .ask-kicker .live-dot {
+    vertical-align: middle;
+    margin: -2px 6px 0 0;
+  }
+}

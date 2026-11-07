@@ -1,9 +1,10 @@
-// The live hive behind the home question: a honeycomb that is dense at the edges and quiet behind the text.
-// Cells glow as a bee drifts through, sparkle at random, light up near the pointer and ripple out as you type.
+// The live hive behind the home question: a honeycomb of fine green outlines, dense at the edges and quiet
+// behind the text. Glowing green nodes pulse on the hive; a spark drifts through lighting cells, cells sparkle,
+// light up near the pointer and ripple out as you type.
 // Paused when off screen or in a hidden tab; drawn once, still, when the visitor prefers reduced motion.
 
 const GREEN = '31 107 69';
-const HONEY = '214 158 46';
+const GLOW = '38 160 96';
 
 export function mountHive(host, { input } = {}) {
   const cv = document.createElement('canvas');
@@ -15,7 +16,7 @@ export function mountHive(host, { input } = {}) {
   const bctx = base.getContext('2d');
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  let W = 0, H = 0, dpr = 1, R = 24, cells = [], raf = 0, visible = true, last = 0;
+  let W = 0, H = 0, dpr = 1, R = 24, cells = [], nodes = [], raf = 0, visible = true, last = 0;
   const ripples = [];
   const ptr = { x: -9999, y: -9999, on: false };
   const bee = { x: 0, y: 0, t: Math.random() * 1000 };
@@ -44,8 +45,16 @@ export function mountHive(host, { input } = {}) {
         // 0 behind the text, 1 at the edges
         const d = Math.hypot((x - cx) / rx, (y - cy) / ry);
         const m = Math.min(1, Math.max(0, (d - 0.55) / 0.9));
-        cells.push({ x, y, m, e: 0, honey: Math.random() < 0.05 });
+        cells.push({ x, y, m, e: 0 });
       }
+    nodes = [];
+    const pool = cells.filter((c) => c.m > 0.45 && c.x > 0 && c.x < W && c.y > 40 && c.y < H - 20);
+    const count = narrow ? 5 : 10;
+    for (let i = 0; i < count && pool.length; i++) {
+      const c = pool.splice((Math.random() * pool.length) | 0, 1)[0];
+      const a = (Math.PI / 3) * ((Math.random() * 6) | 0);
+      nodes.push({ x: c.x + (R - 1) * Math.cos(a), y: c.y + (R - 1) * Math.sin(a), ph: Math.random() * 6.28, sp: 0.6 + Math.random() * 0.8 });
+    }
     paintBase();
   }
 
@@ -64,18 +73,23 @@ export function mountHive(host, { input } = {}) {
     bctx.clearRect(0, 0, W, H);
     bctx.lineWidth = 1;
     for (const c of cells) {
-      const a = 0.07 + c.m * 0.3;
-      hex(bctx, c.x, c.y, R - 2.5);
-      if (c.honey && c.m > 0.35) {
-        bctx.fillStyle = `rgb(${HONEY} / ${0.1 + c.m * 0.12})`;
-        bctx.fill();
-      } else if (c.m > 0.6 && (c.x * 7 + c.y * 3) % 11 < 1.2) {
-        bctx.fillStyle = `rgb(${GREEN} / ${0.05 + c.m * 0.06})`;
-        bctx.fill();
-      }
-      bctx.strokeStyle = `rgb(${GREEN} / ${a})`;
+      hex(bctx, c.x, c.y, R - 1);
+      bctx.strokeStyle = `rgb(${GREEN} / ${0.05 + c.m * 0.17})`;
       bctx.stroke();
     }
+    // faint network threads between the nodes
+    bctx.lineWidth = 0.8;
+    for (let a = 0; a < nodes.length; a++)
+      for (let b = a + 1; b < nodes.length; b++) {
+        const d = Math.hypot(nodes[a].x - nodes[b].x, nodes[a].y - nodes[b].y);
+        if (d < W * 0.28) {
+          bctx.strokeStyle = `rgb(${GREEN} / ${0.07 * (1 - d / (W * 0.28))})`;
+          bctx.beginPath();
+          bctx.moveTo(nodes[a].x, nodes[a].y);
+          bctx.lineTo(nodes[b].x, nodes[b].y);
+          bctx.stroke();
+        }
+      }
   }
 
   function energise(x, y, radius, amount) {
@@ -125,27 +139,36 @@ export function mountHive(host, { input } = {}) {
         c.e = 0;
         continue;
       }
-      const vis = 0.3 + c.m * 0.7;
-      const col = c.honey ? HONEY : GREEN;
-      hex(ctx, c.x, c.y, R - 2.5);
-      ctx.fillStyle = `rgb(${col} / ${c.e * 0.3 * vis})`;
+      const vis = 0.35 + c.m * 0.65;
+      hex(ctx, c.x, c.y, R - 1);
+      ctx.fillStyle = `rgb(${GLOW} / ${c.e * 0.09 * vis})`;
       ctx.fill();
-      ctx.lineWidth = 1.4;
-      ctx.strokeStyle = `rgb(${col} / ${Math.min(1, 0.15 + c.e * 0.7) * vis})`;
+      ctx.lineWidth = 1.3;
+      ctx.strokeStyle = `rgb(${GLOW} / ${Math.min(1, 0.1 + c.e * 0.6) * vis})`;
       ctx.stroke();
       c.e *= k;
     }
-    if (!still) {
-      // the bee itself: a small warm glow
-      const g = ctx.createRadialGradient(bee.x, bee.y, 0, bee.x, bee.y, 16);
-      g.addColorStop(0, 'rgb(214 158 46 / 0.9)');
-      g.addColorStop(0.35, 'rgb(214 158 46 / 0.35)');
-      g.addColorStop(1, 'rgb(214 158 46 / 0)');
-      ctx.fillStyle = g;
-      ctx.beginPath();
-      ctx.arc(bee.x, bee.y, 16, 0, Math.PI * 2);
-      ctx.fill();
+    // glowing nodes with a slow breathing halo
+    const now = performance.now() / 1000;
+    for (const n of nodes) {
+      const p = still ? 0.6 : 0.5 + 0.5 * Math.sin(now * n.sp + n.ph);
+      dot(n.x, n.y, 10 + p * 14, 0.22 + p * 0.2);
     }
+    if (!still) dot(bee.x, bee.y, 22, 0.45);
+  }
+
+  function dot(x, y, r, a) {
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, `rgb(${GLOW} / ${a})`);
+    g.addColorStop(1, `rgb(${GLOW} / 0)`);
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = `rgb(${GLOW} / 0.95)`;
+    ctx.beginPath();
+    ctx.arc(x, y, 3, 0, Math.PI * 2);
+    ctx.fill();
   }
 
   function schedule() {
