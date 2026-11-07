@@ -199,8 +199,10 @@ export function mountHive(host, { input, onCell } = {}) {
 
   host.addEventListener('pointermove', (e) => {
     const r = host.getBoundingClientRect();
-    ptr.x = e.clientX - r.left;
-    ptr.y = e.clientY - r.top;
+    // the same in any zoom: page pixels per screen pixel
+    const z = host.offsetWidth / (r.width || 1);
+    ptr.x = (e.clientX - r.left) * z;
+    ptr.y = (e.clientY - r.top) * z;
     ptr.on = true;
     // which hexagon is the pointer in? tell the listener when it changes (the hive plays a note)
     if (onCell) {
@@ -220,8 +222,8 @@ export function mountHive(host, { input, onCell } = {}) {
   host.addEventListener('pointerleave', () => (ptr.on = false));
   if (input)
     input.addEventListener('input', () => {
-      const hr = host.getBoundingClientRect(), ir = input.getBoundingClientRect();
-      ripples.push({ x: ir.left - hr.left + ir.width / 2, y: ir.top - hr.top + ir.height / 2, r: 0, max: Math.max(W, H) * 0.6 });
+      const hr = host.getBoundingClientRect(), ir = input.getBoundingClientRect(), z = host.offsetWidth / (hr.width || 1);
+      ripples.push({ x: (ir.left - hr.left + ir.width / 2) * z, y: (ir.top - hr.top + ir.height / 2) * z, r: 0, max: Math.max(W, H) * 0.6 });
       if (ripples.length > 4) ripples.shift();
     });
 
