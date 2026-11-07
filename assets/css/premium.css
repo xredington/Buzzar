@@ -7883,3 +7883,36 @@ img[src*='img/svc/'] {
     display: flex !important;
   }
 }
+
+/* page to page: a soft cross fade with a little rise */
+::view-transition-old(root) {
+  animation: 260ms var(--ease) both vt-out;
+}
+::view-transition-new(root) {
+  animation: 420ms var(--ease) both vt-in;
+}
+@keyframes vt-out {
+  to { opacity: 0; }
+}
+@keyframes vt-in {
+  from { opacity: 0; transform: translateY(10px); }
+}
+/* request types: the radio sits beside its text */
+.req-opt {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  gap: 12px !important;
+}
+.req-opt input[type='radio'] {
+  flex: none;
+  width: 18px !important;
+  height: 18px !important;
+  margin: 2px 0 0 !important;
+  padding: 0 !important;
+  accent-color: var(--accent);
+}
+.req-opt > div {
+  flex: 1;
+  min-width: 0;
+}

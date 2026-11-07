@@ -58,7 +58,13 @@ async function render() {
   const node = view ? await view.default(r) : notFound();
   if (id !== renderId) return;
   const wrap = h('div', { class: 'view' }, node);
-  main.replaceChildren(wrap);
+  // pages cross fade into each other where the browser supports view transitions
+  const swap = () => {
+    main.replaceChildren(wrap);
+    if (!r.params.get('keep')) window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+  if (document.startViewTransition && main.childElementCount && !matchMedia('(prefers-reduced-motion: reduce)').matches) await document.startViewTransition(swap).updateCallbackDone.catch(() => swap());
+  else swap();
   const type = r.params.get('type');
   for (const a of $$('.nav a')) {
     const on = (r.name === 'catalogue' && a.dataset.nav === type) || a.dataset.nav === r.name;
