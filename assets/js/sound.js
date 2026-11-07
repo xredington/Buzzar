@@ -89,22 +89,91 @@ function hiss(start, { vol = 0.02, cut = 5000, pan = 0 } = {}) {
 // pitch comes from a fixed grid of tones (not a melody): position on the hive picks one
 const GRID = [440, 520, 620, 740, 880, 1040, 1240, 1480];
 let lastCell = 0;
+const gridAt = (o) => GRID[Math.min(GRID.length - 1, Math.floor((o.x * 0.7 + (1 - o.y) * 0.3) * GRID.length))];
+
+function band(start, { f = 1500, q = 4, dur = 0.03, vol = 0.1, pan = 0, sweep = 0 } = {}) {
+  const n = ctx.createBufferSource(), bp = ctx.createBiquadFilter(), g = ctx.createGain();
+  n.buffer = noise();
+  bp.type = 'bandpass';
+  bp.Q.value = q;
+  bp.frequency.setValueAtTime(f, start);
+  if (sweep) bp.frequency.exponentialRampToValueAtTime(f * sweep, start + dur);
+  g.gain.setValueAtTime(vol, start);
+  g.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+  n.connect(bp).connect(g).connect(out(pan));
+  n.start(start);
+  n.stop(start + dur + 0.01);
+}
+function thump(start, { f = 140, dur = 0.08, vol = 0.12, pan = 0, to = 0.5 } = {}) {
+  const o = ctx.createOscillator(), g = ctx.createGain();
+  o.type = 'sine';
+  o.frequency.setValueAtTime(f, start);
+  o.frequency.exponentialRampToValueAtTime(f * to, start + dur);
+  g.gain.setValueAtTime(0, start);
+  g.gain.linearRampToValueAtTime(vol, start + 0.004);
+  g.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+  o.connect(g).connect(out(pan));
+  o.start(start);
+  o.stop(start + dur + 0.02);
+}
+function fm(start, { f = 900, ratio = 1.41, depth = 600, dur = 0.12, vol = 0.04, pan = 0 } = {}) {
+  const c = ctx.createOscillator(), m = ctx.createOscillator(), mg = ctx.createGain(), g = ctx.createGain();
+  c.frequency.value = f;
+  m.frequency.value = f * ratio;
+  mg.gain.setValueAtTime(depth, start);
+  mg.gain.exponentialRampToValueAtTime(1, start + dur);
+  m.connect(mg).connect(c.frequency);
+  g.gain.setValueAtTime(0, start);
+  g.gain.linearRampToValueAtTime(vol, start + 0.003);
+  g.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+  c.connect(g).connect(out(pan));
+  c.start(start);
+  m.start(start);
+  c.stop(start + dur + 0.02);
+  m.stop(start + dur + 0.02);
+}
+
+// the hive's voices: pick one with the switch in the corner
+export const STYLES = {
+  tap: { label: 'Soft tap', play: (t, o, pan, l) => (band(t, { f: 1100 + o.x * 900, q: 5, dur: 0.028, vol: 0.16 * l, pan }), thump(t, { f: 170, dur: 0.035, vol: 0.06 * l, pan })) },
+  pulse: { label: 'Deep pulse', play: (t, o, pan, l) => thump(t, { f: 110 + (1 - o.y) * 70, dur: 0.11, vol: 0.2 * l, pan, to: 0.45 }) },
+  scan: { label: 'Scan', play: (t, o, pan, l) => band(t, { f: 3800, q: 6, dur: 0.07, vol: 0.12 * l, pan, sweep: 0.3 }) },
+  sonar: { label: 'Sonar', play: (t, o, pan, l) => fm(t, { f: 600 + o.x * 500, dur: 0.14, vol: 0.035 * l, pan }) },
+  glitch: {
+    label: 'Glitch',
+    play: (t, o, pan, l) => {
+      for (let i = 0; i < 3; i++) blip(1800 + Math.random() * 2600, t + i * 0.012, { dur: 0.008, vol: 0.025 * l, cut: 7000, drop: 1, pan });
+    },
+  },
+  blip: { label: 'Data blip', play: (t, o, pan, l) => (blip(gridAt(o), t, { vol: 0.044 * l, pan, cut: 1800 + o.x * 1600 }), hiss(t, { vol: 0.022 * l, pan })) },
+};
+const SKEY = 'bz:soundstyle';
+let style = (() => {
+  try {
+    return STYLES[localStorage.getItem(SKEY)] ? localStorage.getItem(SKEY) : 'tap';
+  } catch {
+    return 'tap';
+  }
+})();
+export const getStyle = () => style;
+export function setStyle(k) {
+  if (!STYLES[k]) return;
+  style = k;
+  try {
+    localStorage.setItem(SKEY, k);
+  } catch {}
+  // a short demo run across the hive
+  if (on && audio()) for (let i = 0; i < 5; i++) setTimeout(() => sound('cell', { x: 0.15 + i * 0.17, y: 0.5 - i * 0.06, edge: 1 }), i * 110);
+}
 export function sound(kind, o = {}) {
   if (!on || !audio()) return;
   const t = ctx.currentTime;
   if (kind === 'cell') {
     if (t - lastCell < 0.03) return;
     lastCell = t;
-    const k = Math.min(GRID.length - 1, Math.floor((o.x * 0.7 + (1 - o.y) * 0.3) * GRID.length));
     const pan = (o.x - 0.5) * 1.4;
-    const v = 0.022 + 0.022 * (o.edge ?? 1);
-    blip(GRID[k], t, { vol: v, pan, cut: 1800 + o.x * 1600 });
-    hiss(t, { vol: v * 0.5, pan });
-    // a node answers with a quick double data ping
-    if (o.node) {
-      blip(GRID[k] * 2, t + 0.06, { vol: 0.03, type: 'triangle', drop: 1, dur: 0.035, pan });
-      blip(GRID[k] * 2, t + 0.12, { vol: 0.025, type: 'triangle', drop: 1, dur: 0.035, pan });
-    }
+    const lvl = 0.6 + 0.4 * (o.edge ?? 1);
+    (STYLES[style]?.play || STYLES.tap.play)(t, o, pan, lvl);
     return;
   }
   if (kind === 'tick') {
@@ -159,7 +228,21 @@ export function soundToggle() {
     if (on) sound('on');
   });
   paint();
-  return b;
+  const sel = document.createElement('select');
+  sel.className = 'snd-style';
+  sel.setAttribute('aria-label', 'Sound style');
+  for (const [k, v] of Object.entries(STYLES)) {
+    const op = document.createElement('option');
+    op.value = k;
+    op.textContent = v.label;
+    if (k === style) op.selected = true;
+    sel.append(op);
+  }
+  sel.addEventListener('change', () => setStyle(sel.value));
+  const wrap = document.createElement('div');
+  wrap.className = 'snd-wrap';
+  wrap.append(sel, b);
+  return wrap;
 }
 
 // ---------- voice: Sami reads aloud (when sound is on) and listens (on request) ----------
