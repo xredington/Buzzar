@@ -125,6 +125,7 @@ export default function home(route) {
         ),
       ),
     );
+    import('../hive.js').then(({ mountHive }) => mountHive(root.querySelector('.ask-hero'), { input })).catch(() => {});
     setTimeout(() => input.focus(), 60);
   }
 

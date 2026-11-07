@@ -7088,3 +7088,31 @@ img[src*='img/svc/'] {
   position: absolute;
   inset: 0;
 }
+
+/* ---------- the live hive behind the home question ---------- */
+.ask-hero {
+  isolation: isolate;
+}
+.ask-hero::before {
+  display: none;
+}
+.hive-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+/* a soft white pool behind the words so the hive never fights the text */
+.ask-hero::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: min(1100px, 92vw);
+  height: 70%;
+  translate: -50% -50%;
+  background: radial-gradient(closest-side, rgb(255 255 255 / 92%), rgb(255 255 255 / 60%) 60%, rgb(255 255 255 / 0%));
+  z-index: -1;
+  pointer-events: none;
+}
