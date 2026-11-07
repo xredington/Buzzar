@@ -1,4 +1,4 @@
-// Soft interface sounds, made in the browser with the Web Audio API (no audio files).
+// Tech interface sounds, made in the browser with the Web Audio API (no audio files).
 // Off until the visitor turns them on; the choice is remembered on this device.
 
 let ctx = null, master = null, lastTick = 0;
@@ -41,60 +41,98 @@ function audio() {
   return ctx;
 }
 
-// one soft sine note with a quick attack and a gentle tail
-function note(freq, start, dur, vol, type = 'sine', pan = 0) {
-  const o = ctx.createOscillator(), g = ctx.createGain();
-  let out = master;
+// tech interface sounds: short filtered square blips with a slight pitch drop and a whisper of static.
+// Soft edged (low pass, quick fades) so they never get harsh.
+let noiseBuf = null;
+function noise() {
+  if (!noiseBuf) {
+    noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 0.05, ctx.sampleRate);
+    const d = noiseBuf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / d.length);
+  }
+  return noiseBuf;
+}
+function out(pan) {
   if (pan && ctx.createStereoPanner) {
     const p = ctx.createStereoPanner();
     p.pan.value = Math.max(-1, Math.min(1, pan));
     p.connect(master);
-    out = p;
+    return p;
   }
+  return master;
+}
+function blip(freq, start, { dur = 0.045, vol = 0.05, type = 'square', drop = 0.82, cut = 2400, pan = 0 } = {}) {
+  const o = ctx.createOscillator(), f = ctx.createBiquadFilter(), g = ctx.createGain();
   o.type = type;
   o.frequency.setValueAtTime(freq, start);
+  o.frequency.exponentialRampToValueAtTime(freq * drop, start + dur);
+  f.type = 'lowpass';
+  f.frequency.value = cut;
+  f.Q.value = 2;
   g.gain.setValueAtTime(0, start);
-  g.gain.linearRampToValueAtTime(vol, start + 0.012);
+  g.gain.linearRampToValueAtTime(vol, start + 0.003);
   g.gain.exponentialRampToValueAtTime(0.0001, start + dur);
-  o.connect(g).connect(out);
+  o.connect(f).connect(g).connect(out(pan));
   o.start(start);
-  o.stop(start + dur + 0.05);
+  o.stop(start + dur + 0.02);
+}
+function hiss(start, { vol = 0.02, cut = 5000, pan = 0 } = {}) {
+  const n = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+  n.buffer = noise();
+  f.type = 'highpass';
+  f.frequency.value = cut;
+  g.gain.value = vol;
+  n.connect(f).connect(g).connect(out(pan));
+  n.start(start);
 }
 
-// the hive as an instrument: C major pentatonic, left to right rises in pitch, top to bottom drops an octave
-const PENTA = [0, 2, 4, 7, 9];
+// pitch comes from a fixed grid of tones (not a melody): position on the hive picks one
+const GRID = [440, 520, 620, 740, 880, 1040, 1240, 1480];
 let lastCell = 0;
 export function sound(kind, o = {}) {
   if (!on || !audio()) return;
   const t = ctx.currentTime;
   if (kind === 'cell') {
-    if (t - lastCell < 0.035) return;
+    if (t - lastCell < 0.03) return;
     lastCell = t;
-    const steps = Math.floor(o.x * 10);
-    const octave = 2 - Math.min(2, Math.floor(o.y * 3));
-    const semi = PENTA[steps % 5] + 12 * (Math.floor(steps / 5) + octave);
-    const f = 261.63 * Math.pow(2, semi / 12);
-    const pan = (o.x - 0.5) * 1.6;
-    const v = 0.025 + 0.025 * (o.edge ?? 1);
-    note(f, t, 0.9, v, 'sine', pan);
-    note(f * 2, t, 0.35, v * 0.35, 'triangle', pan);
-    if (o.node) [1.5, 2, 3].forEach((m, i) => note(f * m, t + 0.05 + i * 0.06, 0.8, 0.03, 'sine', pan));
+    const k = Math.min(GRID.length - 1, Math.floor((o.x * 0.7 + (1 - o.y) * 0.3) * GRID.length));
+    const pan = (o.x - 0.5) * 1.4;
+    const v = 0.022 + 0.022 * (o.edge ?? 1);
+    blip(GRID[k], t, { vol: v, pan, cut: 1800 + o.x * 1600 });
+    hiss(t, { vol: v * 0.5, pan });
+    // a node answers with a quick double data ping
+    if (o.node) {
+      blip(GRID[k] * 2, t + 0.06, { vol: 0.03, type: 'triangle', drop: 1, dur: 0.035, pan });
+      blip(GRID[k] * 2, t + 0.12, { vol: 0.025, type: 'triangle', drop: 1, dur: 0.035, pan });
+    }
     return;
   }
   if (kind === 'tick') {
-    // typing: a tiny glassy tick, never more than one every 45ms
+    // typing: a dry keyboard tick, never more than one every 45ms
     if (t - lastTick < 0.045) return;
     lastTick = t;
-    note(1800 + Math.random() * 500, t, 0.05, 0.035, 'triangle');
+    hiss(t, { vol: 0.05, cut: 3500 });
+    blip(1900 + Math.random() * 300, t, { dur: 0.018, vol: 0.02, cut: 4000 });
   } else if (kind === 'pop') {
-    note(660, t, 0.12, 0.05);
-    note(990, t + 0.02, 0.1, 0.025);
+    blip(780, t, { dur: 0.05, vol: 0.04, cut: 2200 });
   } else if (kind === 'chime') {
-    // a rising three note chime in C major
-    [523.25, 659.25, 783.99].forEach((f, i) => note(f, t + i * 0.07, 0.6, 0.07));
+    // send: three rising data blips
+    [620, 880, 1240].forEach((f, i) => blip(f, t + i * 0.055, { dur: 0.06, vol: 0.045, drop: 1, cut: 3000 }));
   } else if (kind === 'on') {
-    note(587.33, t, 0.25, 0.06);
-    note(880, t + 0.08, 0.35, 0.05);
+    // power up: a short rising sweep
+    const osc = ctx.createOscillator(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(180, t);
+    osc.frequency.exponentialRampToValueAtTime(1400, t + 0.22);
+    f.type = 'lowpass';
+    f.frequency.value = 1800;
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(0.04, t + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.26);
+    osc.connect(f).connect(g).connect(master);
+    osc.start(t);
+    osc.stop(t + 0.3);
+    blip(1480, t + 0.24, { dur: 0.04, vol: 0.03, drop: 1 });
   }
 }
 
