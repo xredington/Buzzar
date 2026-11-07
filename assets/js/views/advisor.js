@@ -614,6 +614,14 @@ export default function advisor(route) {
   intro();
   paintBoard();
   const q = route.params.get('q');
+  // opened from a microphone: Sami talks back and starts listening straight away
+  if (route.params.get('voice') === '1') {
+    if ('speechSynthesis' in window) {
+      S.speak = true;
+      speakBtn.setAttribute('aria-pressed', 'true');
+    }
+    setTimeout(() => micBtn.click(), 450);
+  }
   if (q) setTimeout(() => onUser(q), 250);
   else setTimeout(() => ta.focus(), 250);
 

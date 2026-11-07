@@ -99,7 +99,26 @@ export default function home(route) {
   // ---------- 1. ask ----------
   function paintAsk() {
     const input = h('input', { type: 'text', value: S.q, placeholder: 'For example: we keep running out of stock in our stores', 'aria-label': 'What do you want to change?', autocomplete: 'off', maxlength: 300 });
-    const form = h('form', { class: 'ask3' }, h('i', { class: 'ph ph-sparkle', 'aria-hidden': 'true' }), input, h('button', { class: 'btn dark lg', type: 'submit' }, 'Ask', h('i', { class: 'ph ph-arrow-right arr', 'aria-hidden': 'true' })));
+    const mic = h('button', { class: 'ask-mic', type: 'button', 'aria-label': 'Say it instead of typing', title: 'Speak' }, h('i', { class: 'ph ph-microphone', 'aria-hidden': 'true' }));
+    const form = h('form', { class: 'ask3' }, h('i', { class: 'ph ph-sparkle', 'aria-hidden': 'true' }), input, mic, h('button', { class: 'btn dark lg', type: 'submit' }, 'Ask', h('i', { class: 'ph ph-arrow-right arr', 'aria-hidden': 'true' })));
+    mic.addEventListener('click', () =>
+      import('../sound.js').then(({ listen }) =>
+        listen({
+          onState: (live) => {
+            mic.classList.toggle('on', live);
+            form.classList.toggle('listening', live);
+            if (live) input.placeholder = 'Listening… say what you want to change';
+            else input.placeholder = 'For example: we keep running out of stock in our stores';
+          },
+          onText: (t) => {
+            input.value = t;
+            input.dispatchEvent(new Event('input'));
+          },
+          onFinal: (t) => t && setTimeout(() => start(t), 350),
+          onError: (m) => toast(m),
+        }),
+      ),
+    );
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       if (input.value.trim()) start(input.value.trim());
@@ -170,7 +189,7 @@ export default function home(route) {
         { class: 'sami-card', href: '#/advisor', 'aria-label': 'Talk to Sami, your AI solution advisor' },
         h('span', { class: 'sc-orb' }, orbC),
         h('span', { class: 'sc-txt' }, h('small', null, h('i', { class: 'live-dot', 'aria-hidden': 'true' }), 'AI advisor · online'), h('b', null, 'Talk to Sami'), h('span', null, 'Speak or type. Sami asks a few questions and builds your solution.')),
-        h('span', { class: 'sc-acts' }, h('span', { class: 'sc-mic', title: 'Voice' }, h('i', { class: 'ph ph-microphone', 'aria-hidden': 'true' })), h('span', { class: 'sc-go' }, 'Start', h('i', { class: 'ph ph-arrow-right', 'aria-hidden': 'true' }))),
+        h('span', { class: 'sc-acts' }, h('span', { class: 'sc-mic', title: 'Talk to Sami by voice', role: 'button', tabindex: '0', 'aria-label': 'Talk to Sami by voice', onclick: (e) => (e.preventDefault(), e.stopPropagation(), (location.hash = '#/advisor?voice=1')) }, h('i', { class: 'ph ph-microphone', 'aria-hidden': 'true' })), h('span', { class: 'sc-go' }, 'Start', h('i', { class: 'ph ph-arrow-right', 'aria-hidden': 'true' }))),
       ),
     );
   }
@@ -206,8 +225,37 @@ export default function home(route) {
     return h('div', { class: 'qbar' }, h('div', { class: 'wrap qbar-in' }, h('div', { class: 'qtext' }, h('small', null, 'You asked'), h('b', null, `“${S.q}”`)), edit, howItWorks(stage)));
   }
 
+  // say an answer instead of tapping it: the closest option by words wins
+  function voiceAnswer(Q) {
+    const b = h('button', { type: 'button', class: 'q-voice' }, h('i', { class: 'ph ph-microphone', 'aria-hidden': 'true' }), h('span', null, 'Answer by voice'));
+    b.addEventListener('click', () =>
+      import('../sound.js').then(({ listen }) =>
+        listen({
+          onState: (live) => (b.classList.toggle('on', live), (b.lastChild.textContent = live ? 'Listening…' : 'Answer by voice')),
+          onText: (t) => (b.lastChild.textContent = `“${t}”`),
+          onFinal: (t) => {
+            const words = t.toLowerCase().split(/\W+/).filter((w) => w.length > 2);
+            let best = null, score = 0;
+            for (const [v, l] of Q.opts) {
+              const lw = l.toLowerCase();
+              const sc = words.filter((w) => lw.includes(w)).length + (t.toLowerCase().includes(lw) ? 3 : 0);
+              if (sc > score) (score = sc), (best = v);
+            }
+            if (best) {
+              S.a[Q.key] = best;
+              setTimeout(next, 300);
+            } else toast('I did not catch an option. Try one of the answers on screen.');
+          },
+          onError: (m) => toast(m),
+        }),
+      ),
+    );
+    return h('div', { class: 'q-voice-row' }, b);
+  }
+
   function paintQuestion() {
     const Q = S.queue[S.step];
+    import('../sound.js').then(({ speak }) => speak(Q.title)).catch(() => {});
     const total = matchU(brief(), { limit: 3000 }).total;
     const opts = h(
       'div',
@@ -243,6 +291,7 @@ export default function home(route) {
         h('h2', { class: 'heading-3' }, Q.title),
         h('p', { class: 'muted' }, Q.why),
         opts,
+        voiceAnswer(Q),
         h(
           'div',
           { class: 'qfoot' },
@@ -294,6 +343,7 @@ export default function home(route) {
     const missing = parts.filter((x) => !x.p);
 
     const more = moreMatches(r);
+    import('../sound.js').then(({ speak }) => speak(`Here is your solution. ${inCat.map((x) => x.p?.it?.t).filter(Boolean).slice(0, 3).join('. ')}. You can request it in one step.`)).catch(() => {});
     root.replaceChildren(
       topBar(2),
       h(

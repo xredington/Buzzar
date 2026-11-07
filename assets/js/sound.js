@@ -78,3 +78,63 @@ export function soundToggle() {
   paint();
   return b;
 }
+
+// ---------- voice: Sami reads aloud (when sound is on) and listens (on request) ----------
+export const soundOn = () => on;
+
+export function speak(text) {
+  if (!on || !('speechSynthesis' in window) || !text) return;
+  const u = new SpeechSynthesisUtterance(String(text).replace(/\s+/g, ' ').slice(0, 400));
+  u.rate = 1.02;
+  const v = speechSynthesis.getVoices().find((x) => /en[-_](GB|US)/i.test(x.lang) && /female|samantha|google uk english female|serena|libby|sonia/i.test(x.name)) || speechSynthesis.getVoices().find((x) => /^en/i.test(x.lang));
+  if (v) u.voice = v;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+export const hush = () => 'speechSynthesis' in window && speechSynthesis.cancel();
+
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+export const canListen = !!SR;
+let active = null;
+
+// listen once; onText gets the words as they come, onFinal the finished sentence
+export function listen({ onText, onFinal, onState, onError } = {}) {
+  if (!SR) {
+    onError?.('Voice input works in Chrome, Edge and Safari.');
+    return null;
+  }
+  if (active) {
+    active.stop();
+    return null;
+  }
+  hush();
+  const rec = new SR();
+  rec.lang = navigator.language?.startsWith('en') ? navigator.language : 'en-US';
+  rec.interimResults = true;
+  rec.maxAlternatives = 1;
+  let done = false;
+  rec.onstart = () => {
+    active = rec;
+    onState?.(true);
+    sound('pop');
+  };
+  rec.onresult = (e) => {
+    const text = [...e.results].map((r) => r[0].transcript).join(' ').trim();
+    onText?.(text);
+    if (e.results[e.results.length - 1].isFinal && !done) {
+      done = true;
+      onFinal?.(text);
+    }
+  };
+  rec.onerror = (e) => onError?.(e.error === 'not-allowed' ? 'Allow the microphone to talk to Sami.' : e.error === 'no-speech' ? 'I did not hear anything. Tap the mic and try again.' : 'I could not hear that. Try again.');
+  rec.onend = () => {
+    active = null;
+    onState?.(false);
+  };
+  try {
+    rec.start();
+  } catch {
+    onError?.('The microphone is busy. Try again.');
+  }
+  return rec;
+}
