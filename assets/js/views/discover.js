@@ -1,7 +1,7 @@
-import { h, icon } from '../ui.js?v=202611090654';
-import { DISCOVERY, discoverMatch, industryLabel, industryIcon, TYPE } from '../data.js?v=202611090654';
-import { catChip, toggleBtn } from '../components.js?v=202611090654';
-import { go } from '../main.js?v=202611090654';
+import { h, icon } from '../ui.js?v=202611090805';
+import { DISCOVERY, discoverMatch, industryLabel, industryIcon, TYPE } from '../data.js?v=202611090805';
+import { catChip, toggleBtn } from '../components.js?v=202611090805';
+import { go } from '../main.js?v=202611090805';
 
 const STEP_ICONS = { exec: 'target', cio: 'chip', ops: 'gear', cx: 'heart', risk: 'SEC', data: 'DNA', cost: 'coins', forecast: 'DNA', secure: 'SEC', comply: 'columns', cloud: 'CLD', ai: 'AI', modern: 'SW', resilience: 'pulse' };
 

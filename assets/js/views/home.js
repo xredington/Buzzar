@@ -2,10 +2,10 @@
 //   1. Ask      what do you want to change?
 //   2. Answer   up to three quick questions, as tap targets (skip any)
 //   3. Solution the product, service and accelerator that fit, each with how it is bought, and more matches
-import { h, fmt, img, catImg, itemImg, coin, lists, toast } from '../ui.js?v=202611090654';
-import { getMeta, understand, matchU, industryLabel, catLabel, TYPE, detail, label } from '../data.js?v=202611090654';
-import { requestDialog, KIND } from '../components.js?v=202611090654';
-import { go } from '../main.js?v=202611090654';
+import { h, fmt, img, catImg, itemImg, coin, lists, toast } from '../ui.js?v=202611090805';
+import { getMeta, understand, matchU, industryLabel, catLabel, TYPE, detail, label } from '../data.js?v=202611090805';
+import { requestDialog, KIND } from '../components.js?v=202611090805';
+import { go } from '../main.js?v=202611090805';
 
 export const PATH = [
   ['Explore', 'Discover the fit', 'Outcome, audience and what it is not for, published up front.', 'RACE'],
@@ -102,7 +102,7 @@ export default function home(route) {
     const mic = h('button', { class: 'ask-mic', type: 'button', 'aria-label': 'Say it instead of typing', title: 'Speak' }, h('i', { class: 'ph ph-microphone', 'aria-hidden': 'true' }));
     const form = h('form', { class: 'ask3' }, h('i', { class: 'ph ph-sparkle', 'aria-hidden': 'true' }), input, mic, h('button', { class: 'btn dark lg', type: 'submit' }, 'Ask', h('i', { class: 'ph ph-arrow-right arr', 'aria-hidden': 'true' })));
     mic.addEventListener('click', () =>
-      import('../sound.js?v=202611090654').then(({ listen }) =>
+      import('../sound.js?v=202611090805').then(({ listen }) =>
         listen({
           onState: (live) => {
             mic.classList.toggle('on', live);
@@ -147,8 +147,8 @@ export default function home(route) {
       ),
     );
     const hero = root.querySelector('.ask-hero');
-    const soundMod = import('../sound.js?v=202611090654');
-    import('../hive.js?v=202611090654').then(({ mountHive }) => mountHive(hero, { input, onCell: (c) => soundMod.then(({ sound }) => sound('cell', c)) })).catch(() => {});
+    const soundMod = import('../sound.js?v=202611090805');
+    import('../hive.js?v=202611090805').then(({ mountHive }) => mountHive(hero, { input, onCell: (c) => soundMod.then(({ sound }) => sound('cell', c)) })).catch(() => {});
     soundMod.then(({ sound, soundToggle }) => {
       hero.append(soundToggle());
       input.addEventListener('input', () => sound('tick'));
@@ -175,7 +175,7 @@ export default function home(route) {
   // Sami, front and centre: a live orb, what Sami does, and one tap to start
   function samiCard() {
     const orbC = h('canvas', { width: 160, height: 160, 'aria-hidden': 'true' });
-    import('../orb.js?v=202611090654').then(({ createOrb }) => {
+    import('../orb.js?v=202611090805').then(({ createOrb }) => {
       const orb = createOrb(orbC, { halo: true });
       const states = ['idle', 'listening', 'thinking', 'talking'];
       let i = 0;
@@ -210,6 +210,7 @@ export default function home(route) {
 
   // ---------- 2. questions ----------
   function start(q) {
+    window.va?.('event', { name: 'Ask' }); // counted only; the words never leave the browser
     S.q = q;
     S.a = {};
     const u = understand(q);
@@ -230,7 +231,7 @@ export default function home(route) {
   function voiceAnswer(Q) {
     const b = h('button', { type: 'button', class: 'q-voice' }, h('i', { class: 'ph ph-microphone', 'aria-hidden': 'true' }), h('span', null, 'Answer by voice'));
     b.addEventListener('click', () =>
-      import('../sound.js?v=202611090654').then(({ listen }) =>
+      import('../sound.js?v=202611090805').then(({ listen }) =>
         listen({
           onState: (live) => (b.classList.toggle('on', live), (b.lastChild.textContent = live ? 'Listening…' : 'Answer by voice')),
           onText: (t) => (b.lastChild.textContent = `“${t}”`),
@@ -256,7 +257,7 @@ export default function home(route) {
 
   function paintQuestion() {
     const Q = S.queue[S.step];
-    import('../sound.js?v=202611090654').then(({ speak }) => speak(Q.title)).catch(() => {});
+    import('../sound.js?v=202611090805').then(({ speak }) => speak(Q.title)).catch(() => {});
     const total = matchU(brief(), { limit: 3000 }).total;
     const opts = h(
       'div',
@@ -344,7 +345,7 @@ export default function home(route) {
     const missing = parts.filter((x) => !x.p);
 
     const more = moreMatches(r);
-    import('../sound.js?v=202611090654').then(({ speak }) => speak(`Here is your solution. ${inCat.map((x) => x.p?.it?.t).filter(Boolean).slice(0, 3).join('. ')}. You can request it in one step.`)).catch(() => {});
+    import('../sound.js?v=202611090805').then(({ speak }) => speak(`Here is your solution. ${inCat.map((x) => x.p?.it?.t).filter(Boolean).slice(0, 3).join('. ')}. You can request it in one step.`)).catch(() => {});
     root.replaceChildren(
       topBar(2),
       h(

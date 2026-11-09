@@ -49,7 +49,7 @@ export const label = {
 export async function load() {
   if (catalogue.length) return;
   const soft = (u) => fetch(u).then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
-  const [c, m, l, ph, sv] = await Promise.all([fetch('data/catalogue.json?v=202611090654').then((r) => r.json()), fetch('data/meta.json?v=202611090654').then((r) => r.json()), soft('data/logos.json?v=202611090654'), soft('data/prodimg.json?v=202611090654'), soft('data/svcimg.json?v=202611090654')]);
+  const [c, m, l, ph, sv] = await Promise.all([fetch('data/catalogue.json?v=202611090805').then((r) => r.json()), fetch('data/meta.json?v=202611090805').then((r) => r.json()), soft('data/logos.json?v=202611090805'), soft('data/prodimg.json?v=202611090805'), soft('data/svcimg.json?v=202611090805')]);
   catalogue = c;
   meta = m;
   logos = l;
@@ -88,7 +88,7 @@ export function subLabel(key) {
 
 export async function detail(id) {
   if (detailCache.has(id)) return detailCache.get(id);
-  const p = fetch(`data/listings/${id}.json?v=202611090654`)
+  const p = fetch(`data/listings/${id}.json?v=202611090805`)
     .then((r) => (r.ok ? r.json() : null))
     .catch(() => null);
   detailCache.set(id, p);

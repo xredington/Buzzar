@@ -17,8 +17,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" />
     <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
-    <link rel="stylesheet" href="assets/css/main.css?v=202611090654" />
-    <link rel="stylesheet" href="assets/css/premium.css?v=202611090654" />
+    <link rel="stylesheet" href="assets/css/main.css?v=202611090805" />
+    <link rel="stylesheet" href="assets/css/premium.css?v=202611090805" />
     <script>
       // Self repair: if the app has not started within a few seconds (usually because the browser
       // mixed cached old scripts with new ones), re-download every file bypassing the cache, then reload once.
@@ -42,7 +42,24 @@
         }, 6000);
       })();
     </script>
-    <script type="module" src="assets/js/main.js?v=202611090654"></script>
+    <!-- Vercel Web Analytics (same loader as @vercel/analytics 2.0.1's inject(); no build step needed).
+         Page views are sent by the app on every route change, because routes live in the #/ hash. -->
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+      (function () {
+        var h = location.hostname;
+        if (!h || h === 'localhost' || h === '127.0.0.1' || /\.app\.github\.dev$/.test(h)) return;
+        var s = document.createElement('script');
+        s.defer = true;
+        s.src = '/_vercel/insights/script.js';
+        s.dataset.sdkn = '@vercel/analytics';
+        s.dataset.sdkv = '2.0.1';
+        s.dataset.disableAutoTrack = '1';
+        s.onerror = function () { console.log('[Vercel Web Analytics] Enable Web Analytics for this project in Vercel and deploy again.'); };
+        document.head.appendChild(s);
+      })();
+    </script>
+    <script type="module" src="assets/js/main.js?v=202611090805"></script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>

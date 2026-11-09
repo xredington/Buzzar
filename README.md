@@ -23,6 +23,10 @@ It is a static site: plain HTML, CSS and JavaScript modules, with no build step 
 
 Import the repository at vercel.com/new, keep Framework Preset "Other", no build command, output directory `.` (the repository root). Every push to `main` then redeploys automatically. `vercel.json` sets caching so browsers always get fresh scripts and data.
 
+### Analytics
+
+Vercel Web Analytics is wired in without a build step: `index.html` loads Vercel's script (the same loader `@vercel/analytics` uses) on the deployed site only, and the router sends one page view per route (for example `/catalogue`, `/listing/[slug]`), since routes live in the `#/` hash. Two events are counted: `Ask` (never the words typed) and `Request` (request type only, no names or emails). Turn it on in Vercel: Project → Analytics → Enable, then redeploy.
+
 ### Releasing
 
 Before each release, stamp every script, stylesheet and data file with a fresh version so browsers never mix an old cached file with new ones:

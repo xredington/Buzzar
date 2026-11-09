@@ -1,24 +1,24 @@
-import { $, $$, h, onListChange, fmt, revealIn, bindLogos } from './ui.js?v=202611090654';
-import { load, getMeta, all, match, TYPE, catLabel, logoParts } from './data.js?v=202611090654';
-import { compareTray, syncToggles } from './components.js?v=202611090654';
+import { $, $$, h, onListChange, fmt, revealIn, bindLogos } from './ui.js?v=202611090805';
+import { load, getMeta, all, match, TYPE, catLabel, logoParts } from './data.js?v=202611090805';
+import { compareTray, syncToggles } from './components.js?v=202611090805';
 
 const routes = {
-  '': () => import('./views/home.js?v=202611090654'),
-  catalogue: () => import('./views/catalogue.js?v=202611090654'),
-  listing: () => import('./views/listing.js?v=202611090654'),
-  discover: () => import('./views/discover.js?v=202611090654'),
-  ask: () => import('./views/advisor.js?v=202611090654'),
-  advisor: () => import('./views/advisor.js?v=202611090654'),
-  compare: () => import('./views/lists.js?v=202611090654'),
-  saved: () => import('./views/lists.js?v=202611090654'),
-  journey: () => import('./views/lists.js?v=202611090654'),
-  industries: () => import('./views/browse.js?v=202611090654'),
-  providers: () => import('./views/providers.js?v=202611090654'),
-  'how-it-works': () => import('./views/about.js?v=202611090654'),
-  partners: () => import('./views/about.js?v=202611090654'),
-  agents: () => import('./views/about.js?v=202611090654'),
-  privacy: () => import('./views/about.js?v=202611090654'),
-  terms: () => import('./views/about.js?v=202611090654'),
+  '': () => import('./views/home.js?v=202611090805'),
+  catalogue: () => import('./views/catalogue.js?v=202611090805'),
+  listing: () => import('./views/listing.js?v=202611090805'),
+  discover: () => import('./views/discover.js?v=202611090805'),
+  ask: () => import('./views/advisor.js?v=202611090805'),
+  advisor: () => import('./views/advisor.js?v=202611090805'),
+  compare: () => import('./views/lists.js?v=202611090805'),
+  saved: () => import('./views/lists.js?v=202611090805'),
+  journey: () => import('./views/lists.js?v=202611090805'),
+  industries: () => import('./views/browse.js?v=202611090805'),
+  providers: () => import('./views/providers.js?v=202611090805'),
+  'how-it-works': () => import('./views/about.js?v=202611090805'),
+  partners: () => import('./views/about.js?v=202611090805'),
+  agents: () => import('./views/about.js?v=202611090805'),
+  privacy: () => import('./views/about.js?v=202611090805'),
+  terms: () => import('./views/about.js?v=202611090805'),
 };
 
 export function parseHash() {
@@ -26,6 +26,14 @@ export function parseHash() {
   const [path, qs] = raw.split('?');
   const parts = path.split('/').filter(Boolean).map(decodeURIComponent);
   return { name: parts[0] || '', args: parts.slice(1), params: new URLSearchParams(qs || '') };
+}
+
+// Vercel Web Analytics: one page view per route, grouped by page type, never with search text or filters
+const ROUTE_ARG = { listing: '[slug]' };
+function pageview(r) {
+  const route = '/' + (r.name ? [r.name, ...(r.args.length ? [ROUTE_ARG[r.name] || '[id]'] : [])].join('/') : '');
+  const path = '/' + [r.name, ...r.args].filter(Boolean).map(encodeURIComponent).join('/');
+  window.va?.('pageview', { route, path: r.name === 'catalogue' && r.params.get('type') ? `${path}/${r.params.get('type')}` : path });
 }
 
 export function go(path, { replace } = {}) {
@@ -63,6 +71,7 @@ async function render() {
     main.replaceChildren(wrap);
     if (!r.params.get('keep')) window.scrollTo({ top: 0, behavior: 'instant' });
   };
+  pageview(r);
   if (document.startViewTransition && main.childElementCount && !matchMedia('(prefers-reduced-motion: reduce)').matches) await document.startViewTransition(swap).updateCallbackDone.catch(() => swap());
   else swap();
   const type = r.params.get('type');
@@ -272,7 +281,7 @@ function wire() {
   window.__bzBuilt = recent / Math.max(1, all().length) < 0.25 ? latest : null;
   const mini = $('.mini-orb');
   const fab = $('.fab-orb');
-  import('./orb.js?v=202611090654').then(({ createOrb }) => {
+  import('./orb.js?v=202611090805').then(({ createOrb }) => {
     if (mini) createOrb(mini, { halo: false, density: 1 });
     if (fab) createOrb(fab, { halo: false, density: 1 });
   });

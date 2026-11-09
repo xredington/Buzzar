@@ -1,7 +1,7 @@
-import { h, icon, fmt } from '../ui.js?v=202611090654';
-import { getMeta, all } from '../data.js?v=202611090654';
-import { PATH } from './home.js?v=202611090654';
-import { CONFIG } from '../config.js?v=202611090654';
+import { h, icon, fmt } from '../ui.js?v=202611090805';
+import { getMeta, all } from '../data.js?v=202611090805';
+import { PATH } from './home.js?v=202611090805';
+import { CONFIG } from '../config.js?v=202611090805';
 
 export default function about(route) {
   if (route.name === 'partners') return partners();

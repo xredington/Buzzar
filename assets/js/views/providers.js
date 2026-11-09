@@ -1,8 +1,8 @@
 // Providers — a partner orbit. Redington at the centre; vendors circle it in slow rings, sized by how many
 // listings they bring. Hover pauses and names a logo; click opens the provider panel. Below, a logo wall.
-import { h, fmt, img, catImg, itemImg, coin } from '../ui.js?v=202611090654';
-import { providerStats, catLabel, TYPE } from '../data.js?v=202611090654';
-import { go } from '../main.js?v=202611090654';
+import { h, fmt, img, catImg, itemImg, coin } from '../ui.js?v=202611090805';
+import { providerStats, catLabel, TYPE } from '../data.js?v=202611090805';
+import { go } from '../main.js?v=202611090805';
 
 const KINDS = ['product', 'service', 'accelerator'];
 

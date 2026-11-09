@@ -1,8 +1,8 @@
 // Mission plan: objective, prerequisites, success measures and who does what, from Explore to Adopt.
 // Built only from the listing's published record (and the buyer's own context). Nothing is invented:
 // where the record is silent, the plan says what to agree in the discovery call instead.
-import { h } from './ui.js?v=202611090654';
-import { readiness, label } from './data.js?v=202611090654';
+import { h } from './ui.js?v=202611090805';
+import { readiness, label } from './data.js?v=202611090805';
 
 const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : s);
 
