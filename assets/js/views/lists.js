@@ -1,6 +1,6 @@
-import { h, lists, fmt, toast } from '../ui.js';
-import { all, get, detail, TYPE, catLabel, industryLabel, label, readiness } from '../data.js';
-import { card, catChip, requestDialog, MAX_COMPARE, REQUEST_TYPES } from '../components.js';
+import { h, lists, fmt, toast } from '../ui.js?v=202611090654';
+import { all, get, detail, TYPE, catLabel, industryLabel, label, readiness } from '../data.js?v=202611090654';
+import { card, catChip, requestDialog, MAX_COMPARE, REQUEST_TYPES } from '../components.js?v=202611090654';
 
 export default function view(route) {
   if (route.name === 'compare') return compare();

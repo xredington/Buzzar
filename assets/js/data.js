@@ -49,7 +49,7 @@ export const label = {
 export async function load() {
   if (catalogue.length) return;
   const soft = (u) => fetch(u).then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
-  const [c, m, l, ph, sv] = await Promise.all([fetch('data/catalogue.json').then((r) => r.json()), fetch('data/meta.json').then((r) => r.json()), soft('data/logos.json'), soft('data/prodimg.json'), soft('data/svcimg.json')]);
+  const [c, m, l, ph, sv] = await Promise.all([fetch('data/catalogue.json?v=202611090654').then((r) => r.json()), fetch('data/meta.json?v=202611090654').then((r) => r.json()), soft('data/logos.json?v=202611090654'), soft('data/prodimg.json?v=202611090654'), soft('data/svcimg.json?v=202611090654')]);
   catalogue = c;
   meta = m;
   logos = l;
@@ -62,7 +62,8 @@ export async function load() {
     let hsh = 0;
     for (const ch of it.slug) hsh = (hsh * 31 + ch.charCodeAt(0)) >>> 0;
     if (it.y === 'service' && sv[pk]) it._img = `assets/img/svc/${pk}-${hsh % sv[pk]}.webp`;
-    else if (ph[pk]) it._img = `assets/img/prod/${pk}-${hsh % ph[pk]}.webp`;
+    // every capability and industry pair has at least its first photo, even if the photo list did not load
+    else it._img = `assets/img/prod/${pk}-${ph[pk] ? hsh % ph[pk] : 0}.webp`;
     it._subs = it.sc.map(subLabel);
     it._ind = it.i.map(industryLabel);
     it._hay = norm([it.t, it.p, it.s, it._subs.join(' '), it._ind.join(' '), it.pr || '', catLabel(it.c), it.pl.join(' ')].join(' '));
@@ -87,7 +88,7 @@ export function subLabel(key) {
 
 export async function detail(id) {
   if (detailCache.has(id)) return detailCache.get(id);
-  const p = fetch(`data/listings/${id}.json`)
+  const p = fetch(`data/listings/${id}.json?v=202611090654`)
     .then((r) => (r.ok ? r.json() : null))
     .catch(() => null);
   detailCache.set(id, p);

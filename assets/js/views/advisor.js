@@ -8,13 +8,13 @@
 // On-device mode (default) runs entirely in the browser. Live AI mode uses the Buzzar advisor API
 // (POST /api/advisor/match) when the site is served from the API's own domain (see config.js).
 
-import { h, fmt, toast, lists } from '../ui.js';
-import { all, get, detail, understand, matchU, industryLabel, catLabel, label, getMeta } from '../data.js';
-import { requestDialog, KIND, kindTag } from '../components.js';
-import { buildPlan, renderPlan, downloadPlan, scopeSteps, prerequisites, skuLine } from '../plan.js';
-import { createOrb } from '../orb.js';
-import { CONFIG } from '../config.js';
-import { go } from '../main.js';
+import { h, fmt, toast, lists } from '../ui.js?v=202611090654';
+import { all, get, detail, understand, matchU, industryLabel, catLabel, label, getMeta } from '../data.js?v=202611090654';
+import { requestDialog, KIND, kindTag } from '../components.js?v=202611090654';
+import { buildPlan, renderPlan, downloadPlan, scopeSteps, prerequisites, skuLine } from '../plan.js?v=202611090654';
+import { createOrb } from '../orb.js?v=202611090654';
+import { CONFIG } from '../config.js?v=202611090654';
+import { go } from '../main.js?v=202611090654';
 
 const SHORT_KEY = 'bz:sami-shortlist';
 

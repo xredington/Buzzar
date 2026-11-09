@@ -1,5 +1,5 @@
-import { h, icon, lists, toast, highlight, openDialog, closeDialog, $, img, catImg, itemImg, coin } from './ui.js';
-import { TYPE, catLabel, get, industryLabel } from './data.js';
+import { h, icon, lists, toast, highlight, openDialog, closeDialog, $, img, catImg, itemImg, coin } from './ui.js?v=202611090654';
+import { TYPE, catLabel, get, industryLabel } from './data.js?v=202611090654';
 
 export const MAX_COMPARE = 3;
 
@@ -131,7 +131,7 @@ function qvClose() {
   qvReturn?.focus?.();
 }
 export async function quickView(it) {
-  const { detail, readiness, label, industryLabel: ind, plain } = await import('./data.js');
+  const { detail, readiness, label, industryLabel: ind, plain } = await import('./data.js?v=202611090654');
   if (!qvEl) {
     qvEl = h('div', { class: 'qv', hidden: true, role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Quick view' }, h('div', { class: 'qv-scrim', onclick: qvClose }), h('div', { class: 'qv-panel' }));
     document.body.append(qvEl);
@@ -227,7 +227,7 @@ export function requestDialog(it, preset = 'discovery', sku, opts = {}) {
     const fd = Object.fromEntries(new FormData(form));
     const ref = 'BZR-' + Date.now().toString(36).toUpperCase().slice(-6);
     const req = { id: crypto.randomUUID?.() || String(Date.now()), ref, listing: it.id, title: bundle ? `Solution: ${bundle.map((b) => b.it.t).join(' + ')}` : it.t, sku: sku || null, items: bundle ? bundle.map((b) => ({ id: b.it.id, sku: b.sku })) : null, ...fd, type: bundle ? 'private-offer' : fd.type, at: new Date().toISOString(), status: 'Submitted' };
-    const { CONFIG } = await import('./config.js');
+    const { CONFIG } = await import('./config.js?v=202611090654');
     if (CONFIG.requestEndpoint) {
       try {
         const r = await fetch(CONFIG.requestEndpoint, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(req) });

@@ -1,5 +1,5 @@
-import { h, icon, fmt, monogram, img, indImg, coin } from '../ui.js';
-import { getMeta, all, industryLabel, industryIcon, subLabel } from '../data.js';
+import { h, icon, fmt, monogram, img, indImg, coin } from '../ui.js?v=202611090654';
+import { getMeta, all, industryLabel, industryIcon, subLabel } from '../data.js?v=202611090654';
 
 export default function browse(route) {
   return route.name === 'industries' ? industries() : providers(route);

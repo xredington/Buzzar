@@ -1,10 +1,10 @@
 // Product page — a product sheet. The top screen answers "what is it, who makes it, how do I buy it":
 // key facts on the left, a buy box with every edition on the right. Tabs hold the rest, so nothing
 // needed is omitted and nothing forces a long scroll: Overview, Features, Pricing, Delivery, Fit, Readiness.
-import { h, toast, img, catImg, itemImg, lists, coin } from '../ui.js';
-import { getBySlug, get, detail, TYPE, catLabel, industryLabel, label, readiness, all, plain } from '../data.js';
-import { card, requestDialog, KIND, kindTag, providerLine } from '../components.js';
-import { buildPlan, renderPlan, downloadPlan, scopeSteps, scopeMeta, prerequisites } from '../plan.js';
+import { h, toast, img, catImg, itemImg, lists, coin } from '../ui.js?v=202611090654';
+import { getBySlug, get, detail, TYPE, catLabel, industryLabel, label, readiness, all, plain } from '../data.js?v=202611090654';
+import { card, requestDialog, KIND, kindTag, providerLine } from '../components.js?v=202611090654';
+import { buildPlan, renderPlan, downloadPlan, scopeSteps, scopeMeta, prerequisites } from '../plan.js?v=202611090654';
 
 const DATE = (s) => (s ? new Date(s).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '');
 const ENGAGE = { time_and_materials: 'Time and materials', managed_retainer: 'Managed or retainer', fixed_scope_project: 'Fixed scope project', assessment: 'Assessment', workshop: 'Workshop' };

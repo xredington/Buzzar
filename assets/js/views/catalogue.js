@@ -1,6 +1,6 @@
-import { h, fmt, plural, coin, img, catImg } from '../ui.js';
-import { filterItems, facetCounts, getMeta, TYPE, CAT_BLURB, catLabel, industryLabel, subLabel } from '../data.js';
-import { card } from '../components.js';
+import { h, fmt, plural, coin, img, catImg } from '../ui.js?v=202611090654';
+import { filterItems, facetCounts, getMeta, TYPE, CAT_BLURB, catLabel, industryLabel, subLabel } from '../data.js?v=202611090654';
+import { card } from '../components.js?v=202611090654';
 
 const PAGE = 24;
 const LIST_KEYS = ['cat', 'ind', 'plat', 'reg'];

@@ -23,6 +23,14 @@ It is a static site: plain HTML, CSS and JavaScript modules, with no build step 
 
 Import the repository at vercel.com/new, keep Framework Preset "Other", no build command, output directory `.` (the repository root). Every push to `main` then redeploys automatically. `vercel.json` sets caching so browsers always get fresh scripts and data.
 
+### Releasing
+
+Before each release, stamp every script, stylesheet and data file with a fresh version so browsers never mix an old cached file with new ones:
+
+```bash
+python3 scripts/version.py
+```
+
 ## Run it
 
 ```bash
