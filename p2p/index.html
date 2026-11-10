@@ -404,6 +404,103 @@ body.no-notes .ann{display:none !important}
   .jr{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 
+/* ===== OneCart 360 cart v2 ===== */
+.oc-hero{position:relative;display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) 280px;gap:28px;align-items:center;padding:26px 28px;border-radius:24px;background:radial-gradient(600px 220px at 0% 0%,rgba(47,99,255,.10),transparent),radial-gradient(500px 240px at 100% 100%,rgba(124,77,255,.10),transparent),#fff;border:1px solid var(--line);box-shadow:0 20px 50px rgba(20,20,40,.06)}
+.oc-hero .kick{display:flex;align-items:center;gap:6px;color:var(--c-b)}
+.oc-total{display:flex;align-items:baseline;gap:10px;margin:6px 0 14px;font-variant-numeric:tabular-nums}
+.oc-total small{font-size:18px;color:var(--ink3);font-weight:600}
+.oc-total span{font-size:54px;font-weight:700;letter-spacing:-.045em;line-height:1}
+.eq{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.eq span{display:inline-flex;align-items:baseline;gap:4px;padding:5px 10px;border-radius:99px;background:var(--soft);font-size:12.5px;color:var(--ink2)}
+.eq span b{font-size:16px;color:var(--ink)}
+.eq span.hl{background:var(--ink);color:#cfd3dc} .eq span.hl b{color:#fff}
+.eq>i{color:var(--ink3);font-size:13px}
+.oc-mid{display:flex;align-items:center;gap:18px}
+.donut{width:118px;height:118px;border-radius:50%;display:grid;place-items:center;flex:none;animation:spinin 1s cubic-bezier(.22,1,.36,1) both;box-shadow:0 10px 26px rgba(20,20,40,.12)}
+.donut>div{width:76px;height:76px;border-radius:50%;background:#fff;display:grid;place-items:center;text-align:center;line-height:1}
+.donut b{font-size:26px;display:block} .donut small{font-size:11px;color:var(--ink3)}
+@keyframes spinin{from{transform:rotate(-120deg) scale(.7);opacity:0}}
+.lg-list{display:flex;flex-direction:column;gap:7px;font-size:13px}
+.lg-list span{display:flex;align-items:center;gap:8px}
+.lg-list i{width:10px;height:10px;border-radius:3px}
+.lg-list em{font-style:normal;color:var(--ink3);font-family:var(--mono);font-size:12px;margin-left:4px}
+.cr-mini{padding:12px 14px;border-radius:14px;background:#fafaf8;border:1px solid var(--line);font-size:12.5px;margin-bottom:12px}
+.cr-mini .row span{color:var(--ink2)} .cr-mini .row i{color:var(--c-a)}
+.cr-mini small{color:var(--ink3)}
+.cr-bar{display:flex;height:8px;border-radius:99px;overflow:hidden;background:var(--soft);margin:9px 0 6px}
+.cr-bar i{display:block;height:100%;background:var(--c-g);transform-origin:left;animation:grow 1.2s .2s cubic-bezier(.22,1,.36,1) both}
+.cr-bar i.gap{background:repeating-linear-gradient(45deg,var(--c-a) 0 5px,#fbbf4d 5px 10px);animation-delay:1.1s}
+.btn.cta-grad{background:linear-gradient(135deg,#111 0%,#2a2f45 100%);color:#fff;border:0;font-weight:600;box-shadow:0 12px 28px rgba(17,17,17,.25);position:relative;overflow:hidden}
+.btn.cta-grad::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.22) 50%,transparent 70%);transform:translateX(-100%);animation:sheen 3.5s 1s infinite}
+@keyframes sheen{40%,100%{transform:translateX(100%)}}
+.btn.cta-grad:hover{background:linear-gradient(135deg,#222,#3a4060)}
+
+.mk-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:16px 0}
+.mk-pill{position:relative;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:16px;border:1px solid var(--line);background:#fff;cursor:pointer;text-align:left;transition:transform .2s,box-shadow .2s,border-color .2s}
+.mk-pill:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(20,20,40,.07)}
+.mk-pill[aria-pressed=true]{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink),0 12px 28px rgba(20,20,40,.12)}
+.mk-code{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-weight:700;font-size:12.5px;background:var(--soft);color:var(--ink2);font-family:var(--mono);flex:none}
+.mk-pill[aria-pressed=true] .mk-code{background:var(--ink);color:#fff}
+.mk-t{min-width:0} .mk-t b{display:block;font-size:13px;font-weight:600} .mk-t small{display:block;font-size:11.5px;color:var(--ink3);font-family:var(--mono);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mk-flag{position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:var(--c-a);color:#fff;display:grid;place-items:center;font-size:11px;box-shadow:0 0 0 3px var(--bg)}
+.mk-flag.bad{background:var(--bad);right:16px}
+
+.router{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 210px minmax(0,1fr);gap:0;align-items:center;padding:20px;border-radius:24px;background:#fff;border:1px solid var(--line);background-image:radial-gradient(#e9e9e4 1px,transparent 1px);background-size:18px 18px}
+.rt-svg{position:absolute;left:0;top:0;pointer-events:none;overflow:visible}
+.rb-base{fill:none;stroke:#cdcdc4;stroke-width:1.8;stroke-dasharray:3 5}
+.rb-run{fill:none;stroke-width:3;stroke-linecap:round;stroke-dasharray:40 600;animation:rbeam 2.4s cubic-bezier(.5,0,.3,1) infinite}
+@keyframes rbeam{from{stroke-dashoffset:640}to{stroke-dashoffset:0}}
+.rt-col{display:flex;flex-direction:column;gap:10px;position:relative;z-index:1}
+.rt-head{display:flex;justify-content:space-between;align-items:center;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);font-weight:600;padding:0 4px 2px}
+.rt-head a{text-transform:none;letter-spacing:0;font-size:12.5px;display:flex;gap:4px;align-items:center}
+.ln-card{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:12px;align-items:center;padding:12px;border-radius:16px;background:#fff;border:1px solid var(--line);box-shadow:0 6px 16px rgba(20,20,40,.04);border-left:4px solid var(--c);animation:nodein .45s both}
+.ln-card.blk{background:#fff7f6;border-color:#f3c9c4;border-left-color:var(--bad)}
+.ln-ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:19px;color:#fff;background:var(--c)}
+.ln-mid{min-width:0} .ln-mid b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:13.5px;font-weight:600;line-height:1.25} .ln-mid small{font-size:12px;color:var(--ink3)}
+.rr-badge{display:inline-flex;align-items:center;gap:5px;margin-top:4px;font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--wns);color:var(--wn)}
+.rr-badge i{animation:spin 2.5s linear infinite} .rr-badge.bad{background:var(--bads);color:var(--bad)} .rr-badge.bad i{animation:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ln-tot{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:13px}
+.ln-x{border:0;background:none;color:var(--ink3);cursor:pointer;width:24px;height:24px;border-radius:7px;display:grid;place-items:center}
+.ln-x:hover{background:var(--bads);color:var(--bad)}
+.ln-card .qty input{width:46px}
+.rt-hub{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px}
+.hub-core{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;font-size:26px;color:#fff;background:conic-gradient(from 0deg,#2f63ff,#7c4dff,#f59e0b,#2f63ff);box-shadow:0 0 0 6px #fff,0 0 0 7px var(--line),0 14px 30px rgba(79,70,229,.35);position:relative}
+.hub-core::after{content:"";position:absolute;inset:-12px;border-radius:50%;border:2px solid rgba(124,77,255,.35);animation:ping 2.2s cubic-bezier(0,0,.2,1) infinite}
+@keyframes ping{75%,100%{transform:scale(1.5);opacity:0}}
+.rt-hub b{font-size:12.5px;margin-top:8px} .rt-hub small{max-width:96px;font-size:10.5px;color:var(--ink3);line-height:1.35;font-family:var(--mono)}
+.rt-card{padding:14px;border-radius:18px;background:#fff;border:1px solid var(--line);box-shadow:0 10px 26px rgba(20,20,40,.06);position:relative;overflow:hidden;animation:nodein .5s both}
+.rt-card::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--c)}
+.rt-h{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center}
+.rt-ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:20px;color:#fff;background:var(--c)}
+.rt-h b{display:block;font-size:14.5px} .rt-h small{font-size:12px;color:var(--ink3)}
+.rt-amt{font-family:var(--mono);font-size:15px;font-weight:600;white-space:nowrap}.rt-amt small{font-size:11px;color:var(--ink3)}
+.rt-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.rt-chips span{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;padding:3px 9px;border-radius:99px;background:color-mix(in srgb,var(--c) 9%,#fff);color:var(--ink2)}
+.rt-chips i{color:var(--c)}
+.rule-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.rule-row span{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;padding:8px 12px;border-radius:12px;background:#fff;border:1px solid var(--line);color:var(--ink2)}
+.rule-row .rule-tip{background:var(--acs);border-color:#d6e0ff;color:#173a9e;flex:1;min-width:260px}
+.oc-empty{text-align:center;padding:64px 20px;border-radius:24px;background:#fff;border:1px dashed var(--line2)}
+.oc-empty-ic{width:84px;height:84px;margin:0 auto 16px;border-radius:24px;display:grid;place-items:center;font-size:38px;color:#fff;background:linear-gradient(135deg,#2f63ff,#7c4dff);box-shadow:0 16px 36px rgba(79,70,229,.35)}
+.oc-empty p{color:var(--ink2);margin:6px 0 20px}
+
+@media (max-width:1180px){.oc-hero{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.oc-r{grid-column:1/-1}.mk-strip{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:860px){
+  .router{grid-template-columns:minmax(0,1fr);gap:14px}
+  .rt-svg{display:none}
+  .rt-hub{flex-direction:row;justify-content:center;gap:10px} .rt-hub b{margin:0} .rt-hub small br{display:none}
+  .hub-core{width:44px;height:44px;font-size:20px}
+}
+@media (max-width:640px){
+  .oc-hero{grid-template-columns:minmax(0,1fr);padding:20px}
+  .oc-total span{font-size:40px}
+  .mk-strip{grid-template-columns:repeat(5,minmax(132px,1fr));overflow-x:auto;padding-bottom:4px}
+  .ln-card{grid-template-columns:auto minmax(0,1fr) auto}
+  .ln-card .qty{grid-column:2;justify-self:start}
+  .rt-hub small{max-width:none}
+}
+
 </style>
 </head>
 <body>
@@ -787,7 +884,7 @@ function render(){
   fx();
   if(R.r==="checkout" && S.co.step===2 && !S.co.checked) runCheck();
 }
-var BG_SAFE={catalogue:1,policy:1,checkout:1,overview:1};
+var BG_SAFE={catalogue:1,policy:1,checkout:1,overview:1,cart:1};
 function refresh(){ renderSide(); var R=route().r; if(!BG_SAFE[R]) { var y=window.scrollY; $("#main").innerHTML="<div>"+(VIEWS[R]||VIEWS.overview)(route().a)+"</div>"; window.scrollTo(0,y);} }
 
 /* ============================================================
@@ -879,10 +976,13 @@ VIEWS.overview=function(){
   return hero+ba+bento+journey+cast;
 };
 /* ---- shared micro interactions: number tickers + spotlight ---- */
+var LASTTICK={};
 function fx(){
+  drawBeams(); setTimeout(drawBeams,60); if(document.fonts&&document.fonts.ready) document.fonts.ready.then(drawBeams);
   var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   Array.prototype.forEach.call(document.querySelectorAll("[data-tick]"),function(el){
     var to=parseFloat(el.dataset.tick), from=parseFloat(el.dataset.from||0), dec=+(el.dataset.dec||0), t0=null, D=1100;
+    var key=el.dataset.key; if(key){ if(LASTTICK[key]!=null) from=LASTTICK[key]; LASTTICK[key]=to; }
     if(reduce){el.textContent=to.toFixed(dec);return;}
     function step(ts){ if(!t0)t0=ts; var p=Math.min(1,(ts-t0)/D), e=1-Math.pow(1-p,3), v=from+(to-from)*e; el.textContent=dec?v.toFixed(dec):Math.round(v).toLocaleString("en-US"); if(p<1) requestAnimationFrame(step); }
     setTimeout(function(){requestAnimationFrame(step);},250);
@@ -935,36 +1035,78 @@ function tile(p){
 }
 
 /* ---------- Cart (OneCart 360) ---------- */
+var RC={"microsoft.csp":["#2f63ff","ph-windows-logo"],"aws.cppo":["#f59e0b","ph-cloud"],"aws.resale":["#f59e0b","ph-arrows-clockwise"],"redington.stock":["#1f2937","ph-package"],"redington.services":["#7c4dff","ph-wrench"]};
+var CATIC={Software:"ph-windows-logo",AI:"ph-sparkle",Security:"ph-shield-check",Cloud:"ph-cloud",Hardware:"ph-laptop",Services:"ph-wrench"};
+var MKCODE={uae:"AE",ksa:"SA",bhr:"BH",ind:"IN",tur:"TR"};
 VIEWS.cart=function(){
-  if(!S.cart.length) return "<div class='pagehd'><div><h1>OneCart 360</h1></div></div><div class='empty'>Your cart is empty.<br><br><a class='btn pri' href='#/catalogue'>Browse catalogue</a> <button class='btn' data-act='democart'>Load the worked example</button></div>";
+  if(!S.cart.length) return "<div class='oc-empty'><div class='oc-empty-ic'><i class='ph ph-shopping-cart-simple'></i></div><h2>Your cart is empty</h2><p>Mix Microsoft, AWS and Redington in one cart.</p>"+
+    "<div class='row' style='justify-content:center;gap:10px'><a class='btn pri' href='#/catalogue'><i class='ph ph-storefront'></i>Browse catalogue</a><button class='btn' data-act='democart'><i class='ph ph-magic-wand'></i>Load the worked example</button></div></div>";
   var c=calc(S.cart,S.market), m=MK[S.market], cr=credit(c);
-  var rer=c.lines.filter(function(l){return l.rr.rerouted;});
-  return "<div class='pagehd'><div><div class='eyebrow'>OneCart 360</div><h1>One cart becomes "+c.txns.length+" compliant transaction"+(c.txns.length>1?"s":"")+"</h1>"+
-    "<p>"+c.lines.length+" lines from "+uniq(c.lines.map(function(l){return l.vendor;})).length+" vendors. Routing, tax and the invoicing company are decided per line for "+m.name+". You see one order, one approval, one statement.</p></div>"+
-    "<div class='row'><button class='btn sm' data-act='clearcart'>Clear cart</button><a class='btn sm' href='#/catalogue'>+ Add items</a></div></div>"+
-    marketStrip()+
-    "<div class='split'><div class='stack'>"+
-      (rer.length?"<div class='flag wn'><span>↻</span><span><b>Rerouted automatically.</b> "+rer.map(function(l){return l.name+": "+l.rr.why+" Now via "+ROUTES[l.route].name+", same price, Redington invoices.";}).join(" ")+"</span></div>":"")+
-      (c.blocked.length?"<div class='flag bad'><span>⨯</span><span><b>Cannot transact in "+m.name+".</b> "+c.blocked.map(function(l){return l.name;}).join(", ")+": "+c.blocked[0].rr.why+" Remove the line or change market.</span></div>":"")+
-      c.txns.map(function(t,i){return txnCard(t,i,c,true);}).join("")+
-      (c.blocked.length?c.blocked.map(function(l){return "<div class='txn' style='opacity:.6'><div class='th'><span class='ix' style='background:var(--bad)'>!</span><b>Blocked line</b></div><div class='tb'>"+lineRow(l,true)+"</div></div>";}).join(""):"")+
-      ann("Each box is a separate legal transaction with its own invoicer and tax treatment. The partner never assembles them: OneCart routes by country, entity and programme eligibility from the route matrix in Policy and rules.","OneCart 360 · Routes automatically")+
-    "</div>"+
-    "<div class='stack' style='position:sticky;top:72px'>"+
-      "<div class='card'><h2>Order summary</h2><div class='hr'></div><dl class='kv'>"+
-        "<dt>Subtotal</dt><dd>"+money(c.net)+"</dd><dt>Tax ("+m.taxLabel+")</dt><dd>"+money(c.tax)+"</dd>"+
-        "<dt>Invoicing companies</dt><dd>"+uniq(c.txns.map(function(t){return t.invoicer;})).length+"</dd><dt>Transactions</dt><dd>"+c.txns.length+"</dd></dl>"+
-        "<div class='hr'></div><div class='row sb'><b>Total</b><b style='font-size:20px'>"+money(c.total)+"</b></div>"+
-        "<div class='hr'></div>"+
-        "<div style='font-size:12.5px' class='ink2'>Credit preview (CreditIQ)</div>"+
-        "<div class='bar' style='margin:8px 0'><i class='ok' style='width:"+(cr.released/c.total*100)+"%'></i><i class='wn' style='width:"+(cr.gap/c.total*100)+"%'></i></div>"+
-        "<div class='row sb' style='font-size:12.5px'><span><span class='dot' style='color:var(--ok)'></span> Inside limit "+money(cr.released)+"</span>"+(cr.gap?"<span><span class='dot' style='color:var(--wn)'></span> Gap "+money(cr.gap)+"</span>":"")+"</div>"+
-        "<button class='btn pri lg full' style='margin-top:16px' data-act='checkout' "+(c.blocked.length||!c.txns.length?"disabled":"")+">Check out →</button>"+
-        "<p class='muted' style='font-size:12px;margin-top:8px;text-align:center'>You will see the credit answer before you submit.</p></div>"+
-      "<div class='card'><h3>Selling entity for "+m.name+"</h3><dl class='kv' style='margin-top:8px'><dt>Sells</dt><dd>"+m.entity+"</dd><dt>Tax</dt><dd>"+m.taxLabel+"</dd></dl>"+
-        "<div class='flag ac' style='margin-top:10px'><span>i</span><span><b>Local rule.</b> "+m.catch+"</span></div></div>"+
-    "</div></div>";
+  var inv=uniq(c.txns.map(function(t){return t.invoicer;})).length;
+  /* donut */
+  var acc=0, seg=c.txns.map(function(t){var a=acc/c.net*360; acc+=t.net; var b=acc/c.net*360; return RC[t.route][0]+" "+a.toFixed(1)+"deg "+b.toFixed(1)+"deg";}).join(",");
+  var relP=c.total?cr.released/c.total*100:0;
+  var hero="<section class='oc-hero'>"+
+    "<div class='oc-l'><div class='kick'><i class='ph-fill ph-shopping-cart-simple'></i> OneCart 360 · buying in "+m.name+"</div>"+
+      "<div class='oc-total'><small>"+m.cur+"</small><span data-tick='"+Math.round(c.total)+"' data-key='octotal'>0</span></div>"+
+      "<div class='eq'>"+
+        "<span><b>"+c.lines.length+"</b>lines</span><i class='ph ph-arrow-right'></i>"+
+        "<span><b>"+c.txns.length+"</b>transactions</span><i class='ph ph-arrow-right'></i>"+
+        "<span><b>"+inv+"</b>invoicer"+(inv>1?"s":"")+"</span><i class='ph ph-arrow-right'></i>"+
+        "<span class='hl'><b>1</b>order</span></div></div>"+
+    "<div class='oc-mid'><div class='donut' style='background:conic-gradient("+seg+")'><div><b>"+c.txns.length+"</b><small>routes</small></div></div>"+
+      "<div class='lg-list'>"+c.txns.map(function(t){return "<span><i style='background:"+RC[t.route][0]+"'></i>"+ROUTES[t.route].short+"<em>"+Math.round(t.net/c.net*100)+"%</em></span>";}).join("")+"</div></div>"+
+    "<div class='oc-r'><div class='cr-mini'><div class='row sb'><span><i class='ph-fill ph-lightning'></i> CreditIQ preview</span><b>"+(cr.gap?"Gap "+fmt(cr.gap):"All clear")+"</b></div>"+
+      "<div class='cr-bar'><i style='width:"+relP+"%'></i><i class='gap' style='width:"+(100-relP)+"%'></i></div>"+
+      "<small>"+fmt(cr.released)+" released instantly</small></div>"+
+      "<button class='btn cta-grad lg full' data-act='checkout' "+(c.blocked.length||!c.txns.length?"disabled":"")+">Check out <i class='ph ph-arrow-right'></i></button></div>"+
+  "</section>";
+
+  /* market strip */
+  var strip="<div class='mk-strip'>"+MKO.map(function(k){
+    var cc=calc(S.cart,k), rr=cc.lines.some(function(l){return l.rr.rerouted;}), bl=cc.blocked.length;
+    return "<button class='mk-pill' data-act='setmk' data-mk='"+k+"' aria-pressed='"+(k===S.market)+"'><span class='mk-code'>"+MKCODE[k]+"</span>"+
+      "<span class='mk-t'><b>"+MK[k].name+"</b><small>"+MK[k].cur+" "+(cc.total>=1e6?(cc.total/1e6).toFixed(2)+"m":fmt(cc.total))+" · "+Math.round(MK[k].tax*100)+"% tax</small></span>"+
+      (rr?"<span class='mk-flag' title='A line is rerouted here'><i class='ph-bold ph-arrows-clockwise'></i></span>":"")+(bl?"<span class='mk-flag bad'><i class='ph-bold ph-x'></i></span>":"")+"</button>";
+  }).join("")+"</div>";
+
+  /* router */
+  var lines=c.lines.map(function(l){var p=PX[l.sku], col=l.route?RC[l.route][0]:"#e5484d";
+    return "<div class='ln-card"+(l.route?"":" blk")+"' id='ln-"+l.sku+"' data-route='"+(l.route||"")+"' style='--c:"+col+"'>"+
+      "<span class='ln-ic'><i class='ph-fill "+(CATIC[p.cat]||"ph-cube")+"'></i></span>"+
+      "<div class='ln-mid'><b>"+l.name+"</b><small>"+money(l.unit)+" / "+p.unit+"</small>"+
+        (l.rr.rerouted?"<span class='rr-badge' title='"+esc(l.rr.why)+"'><i class='ph-bold ph-arrows-clockwise'></i>Rerouted: AWS can’t sell in "+m.name+"</span>":"")+
+        (!l.route?"<span class='rr-badge bad'><i class='ph-bold ph-prohibit'></i>Not sold in "+m.name+"</span>":"")+"</div>"+
+      "<div class='qty'><button data-act='qty' data-sku='"+l.sku+"' data-d='-1' aria-label='Less'>−</button><input data-act='qtyset' data-sku='"+l.sku+"' value='"+l.qty+"' inputmode='numeric' aria-label='Quantity'><button data-act='qty' data-sku='"+l.sku+"' data-d='1' aria-label='More'>+</button></div>"+
+      "<div class='ln-tot'><b>"+fmt(l.net)+"</b><button class='ln-x' data-act='rm' data-sku='"+l.sku+"' aria-label='Remove'><i class='ph ph-x'></i></button></div></div>";}).join("");
+  var routes=c.txns.map(function(t,i){var R=ROUTES[t.route], rc=RC[t.route];
+    return "<div class='rt-card' id='rt-"+t.route.replace(".","-")+"' style='--c:"+rc[0]+";animation-delay:"+(0.15+i*0.12)+"s'>"+
+      "<div class='rt-h'><span class='rt-ic'><i class='ph-fill "+rc[1]+"'></i></span><div><b>"+R.name+"</b><small>"+t.invoicer.split(",")[0]+"</small></div><span class='rt-amt'><small>"+c.cur+"</small> "+fmt(t.total)+"</span></div>"+
+      "<div class='rt-chips'><span><i class='ph ph-receipt'></i>"+(t.byAws?"AWS invoices":"We invoice")+"</span><span><i class='ph ph-percent'></i>"+t.taxLabel+"</span><span><i class='ph ph-stack'></i>"+t.lines.length+" line"+(t.lines.length>1?"s":"")+"</span></div></div>";}).join("");
+  var router="<section class='router' id='router'><svg class='rt-svg' aria-hidden='true'></svg>"+
+    "<div class='rt-col'><div class='rt-head'><span>In the cart</span><a href='#/catalogue'><i class='ph ph-plus'></i>Add</a></div>"+lines+"</div>"+
+    "<div class='rt-hub' id='rt-hub'><span class='hub-core'><i class='ph-fill ph-git-fork'></i></span><b>Router</b><small>country · entity · programme</small></div>"+
+    "<div class='rt-col'><div class='rt-head'><span>Becomes</span><span class='muted'>"+c.txns.length+" compliant transactions</span></div>"+routes+"</div></section>";
+
+  var rule="<div class='rule-row'><span><i class='ph ph-buildings'></i>"+m.entity+"</span><span><i class='ph ph-percent'></i>"+m.taxLabel+"</span><span class='rule-tip'><i class='ph-fill ph-lightbulb'></i>"+m.catch+"</span></div>";
+  return hero+strip+router+rule+"<div style='margin-top:14px'>"+ann("Each box on the right is a separate legal transaction. Switch the market above and watch routes, tax and entity re-resolve.","OneCart 360")+"</div>";
 };
+function drawBeams(){
+  var R=document.getElementById("router"), hub=document.getElementById("rt-hub"); if(!R||!hub) return;
+  var svg=R.querySelector(".rt-svg"), rb=R.getBoundingClientRect();
+  if(getComputedStyle(svg).display==="none") return;
+  svg.setAttribute("width",rb.width); svg.setAttribute("height",rb.height); svg.setAttribute("viewBox","0 0 "+rb.width+" "+rb.height);
+  var hb=hub.querySelector(".hub-core").getBoundingClientRect(), hx1=hb.left-rb.left, hx2=hb.right-rb.left, hy=hb.top-rb.top+hb.height/2;
+  var out="", k=0;
+  function path(x1,y1,x2,y2,col,blk){ var dx=(x2-x1)*0.55, d="M"+x1+" "+y1+" C"+(x1+dx)+" "+y1+" "+(x2-dx)+" "+y2+" "+x2+" "+y2;
+    out+="<path d='"+d+"' class='rb-base'/>"+(blk?"":"<path d='"+d+"' class='rb-run' stroke='"+col+"' style='animation-delay:"+(k++*0.22)+"s'/>"); }
+  Array.prototype.forEach.call(R.querySelectorAll(".ln-card"),function(el){ var b=el.getBoundingClientRect(), rt=el.dataset.route;
+    path(b.right-rb.left,b.top-rb.top+b.height/2,hx1,hy,rt?RC[rt][0]:"#e5484d",!rt); });
+  Array.prototype.forEach.call(R.querySelectorAll(".rt-card"),function(el){ var b=el.getBoundingClientRect(), col=el.style.getPropertyValue("--c");
+    path(hx2,hy,b.left-rb.left,b.top-rb.top+b.height/2,col); });
+  svg.innerHTML=out;
+}
+window.addEventListener("resize",function(){ drawBeams(); });
 function uniq(a){return a.filter(function(x,i){return a.indexOf(x)===i;});}
 function marketStrip(){
   var rows=MKO.map(function(k){
