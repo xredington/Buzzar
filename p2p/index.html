@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" />
 <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
 <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" />
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" />
 <style>
 :root{
   --bg:#f5f5f3; --card:#fff; --ink:#141414; --ink2:#4d4d4d; --ink3:#8a8a86; --line:#e4e4df; --line2:#d3d3cd;
@@ -536,6 +537,162 @@ html{transition:background-color .3s}body,.card,.side,.top{transition:background
 .rt-lgw i{position:absolute;right:-6px;bottom:-6px;width:20px;height:20px;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;font-size:11px;box-shadow:0 0 0 2px var(--card)}
 .ln-name{display:flex;gap:10px;align-items:center}
 .pill .lgt{margin-left:-5px}
+/* ===== Anya ===== */
+.orb{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:16px;flex:none;background:conic-gradient(from 0deg,#2f63ff,#7c4dff,#f59e0b,#2f63ff);box-shadow:0 6px 18px rgba(124,77,255,.4);position:relative;animation:orbspin 8s linear infinite}
+.orb i{animation:orbspin 8s linear infinite reverse}
+.orb.sm{width:30px;height:30px;font-size:14px}
+@keyframes orbspin{to{transform:rotate(360deg)}}
+#anya-fab{position:fixed;right:22px;bottom:22px;z-index:70;display:flex;align-items:center;gap:10px;padding:6px 18px 6px 6px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-weight:600;font-size:14px;cursor:pointer;box-shadow:0 14px 40px rgba(20,20,40,.18);transition:transform .25s,opacity .25s}
+#anya-fab:hover{transform:translateY(-2px)}
+#anya-fab .orb::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(124,77,255,.4);animation:ping 2.4s cubic-bezier(0,0,.2,1) infinite}
+body.anya-on #anya-fab{opacity:0;pointer-events:none}
+#anya{position:fixed;top:12px;right:12px;bottom:12px;width:410px;max-width:calc(100vw - 24px);z-index:80;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:0 30px 80px rgba(10,12,30,.28);transform:translateX(calc(100% + 24px));transition:transform .35s cubic-bezier(.22,1,.36,1);overflow:hidden}
+#anya.open{transform:none}
+.an-h{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);background:radial-gradient(300px 90px at 0 0,rgba(124,77,255,.12),transparent)}
+.an-h b{display:block;font-size:15px} .an-h small{font-size:11.5px;color:var(--ink3);display:flex;align-items:center;gap:6px}
+.an-h .live{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px var(--oks)}
+.an-x{margin-left:auto;width:32px;height:32px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+.an-body{flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.an-m{max-width:92%;font-size:13.5px;line-height:1.5;animation:nodein .3s both}
+.an-m.me{align-self:flex-end;background:var(--ink);color:var(--on-ink);padding:9px 14px;border-radius:16px 16px 4px 16px}
+.an-m.bot .an-txt{background:var(--sub);border:1px solid var(--line);padding:11px 14px;border-radius:16px 16px 16px 4px}
+.an-m.bot ul{margin:6px 0 0;padding-left:18px} .an-m.bot li{margin:3px 0}
+.an-acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.an-act{font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:99px;border:1px solid color-mix(in srgb,var(--c-v) 40%,var(--line));background:color-mix(in srgb,var(--c-v) 10%,var(--card));color:var(--c-v);cursor:pointer}
+.an-act:hover{background:color-mix(in srgb,var(--c-v) 18%,var(--card))}
+.typing{display:inline-flex;gap:4px;padding:12px 14px;border-radius:16px;background:var(--sub);border:1px solid var(--line)}
+.typing i{width:7px;height:7px;border-radius:50%;background:var(--ink3);animation:blink 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes blink{50%{opacity:.25;transform:translateY(-2px)}}
+.an-sug{display:flex;gap:6px;overflow-x:auto;padding:10px 16px 0;scrollbar-width:none}
+.an-sug button{flex:none;font-size:12px;padding:6px 11px;border-radius:99px;border:1px solid var(--line2);background:var(--card);color:var(--ink2);cursor:pointer;white-space:nowrap}
+.an-sug button:hover{border-color:var(--c-v);color:var(--c-v)}
+.an-in{display:flex;gap:8px;padding:12px 14px 14px}
+.an-in input{flex:1;border:1px solid var(--line2);background:var(--sub);border-radius:12px;padding:10px 12px;color:var(--ink);min-width:0}
+.an-in input:focus{outline:2px solid color-mix(in srgb,var(--c-v) 30%,transparent);border-color:var(--c-v)}
+.an-mic,.an-send{width:40px;height:40px;border-radius:12px;border:0;display:grid;place-items:center;cursor:pointer;font-size:17px;flex:none}
+.an-mic{background:var(--soft);color:var(--ink2)} .an-mic.on{background:var(--bad);color:#fff;animation:pulse 1s infinite}
+.an-send{background:linear-gradient(135deg,#2f63ff,#7c4dff);color:#fff}
+.why{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:99px;cursor:pointer;color:var(--c-v);background:color-mix(in srgb,var(--c-v) 10%,var(--card));border:1px solid color-mix(in srgb,var(--c-v) 30%,var(--line));white-space:nowrap;vertical-align:middle}
+.why:hover{background:color-mix(in srgb,var(--c-v) 18%,var(--card))}
+.an-insight{display:flex;gap:14px;align-items:flex-start;margin:14px 0 0;padding:14px 18px;border-radius:18px;border:1.5px solid transparent;background:linear-gradient(var(--card),var(--card)) padding-box,linear-gradient(120deg,#2f63ff,#7c4dff,#f59e0b) border-box;box-shadow:0 14px 34px rgba(124,77,255,.12)}
+.an-insight b{font-size:13.5px} .an-insight p{font-size:13.5px;color:var(--ink2);margin-top:4px;line-height:1.5}
+.an-insight p b{color:var(--ink)}
+/* intake */
+.modal.wide{max-width:640px}
+.seg{display:flex;gap:4px;padding:4px;border-radius:12px;background:var(--soft);margin:16px 0}
+.seg button{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:9px;border-radius:9px;border:0;background:none;color:var(--ink2);font-weight:600;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--card);color:var(--ink);box-shadow:0 2px 8px rgba(20,20,40,.1)}
+.in-lbl{font-size:12px;color:var(--ink2);font-weight:500}
+.in-ta{margin-top:6px;resize:vertical;font-size:13.5px;line-height:1.5}
+.in-drop{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
+.paper{position:relative;overflow:hidden;margin:4px auto 0;width:78%;padding:22px 24px;background:#fbf8f0;color:#2a2a2a;border-radius:6px;transform:rotate(-2deg);box-shadow:0 16px 40px rgba(0,0,0,.18)}
+.paper pre{margin:0;font-family:var(--mono);font-size:13px;line-height:1.7;white-space:pre-wrap}
+.voice{display:flex;flex-direction:column;align-items:center;gap:16px;padding:10px 0 4px}
+.mic-big{width:86px;height:86px;border-radius:50%;border:0;font-size:34px;color:#fff;cursor:pointer;background:linear-gradient(135deg,#2f63ff,#7c4dff);box-shadow:0 16px 40px rgba(124,77,255,.4);position:relative}
+.mic-big.on::before,.mic-big.on::after{content:"";position:absolute;inset:-10px;border-radius:50%;border:2px solid rgba(124,77,255,.5);animation:ping 1.4s cubic-bezier(0,0,.2,1) infinite}
+.mic-big.on::after{animation-delay:.7s}
+.vt{min-height:48px;max-width:460px;text-align:center;font-size:17px;font-weight:500;line-height:1.45}
+.caret{display:inline-block;width:2px;height:18px;background:var(--c-v);margin-left:2px;vertical-align:-3px;animation:blink 1s infinite}
+.in-res{margin-top:16px}
+.in-line{display:grid;grid-template-columns:auto 1fr auto 110px;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);animation:nodein .4s both}
+.in-line b{display:block;font-size:13.5px} .in-line small{color:var(--ink3);font-size:12px}
+.conf{display:flex;align-items:center;gap:8px}
+.conf i{display:block;height:6px;border-radius:9px;background:var(--c-g);flex:1;max-width:60px}
+.conf em{font-style:normal;font-family:var(--mono);font-size:11.5px;color:var(--ink3)}
+/* agent desk */
+.ag-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.ag-card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 12px 30px rgba(20,20,40,.06);animation:nodein .45s both}
+.ag-card::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;border-radius:20px 20px 0 0;background:linear-gradient(90deg,#2f63ff,#7c4dff)}
+.ag-card.never{background:repeating-linear-gradient(135deg,var(--card) 0 12px,var(--sub) 12px 24px);border-style:dashed}
+.ag-card.never::before{background:var(--bad)}
+.ag-top{display:flex;align-items:center;gap:10px}
+.ag-ic{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-size:18px;color:#fff;background:linear-gradient(135deg,#2f63ff,#7c4dff)}
+.ag-card.never .ag-ic{background:var(--bad)}
+.ag-kind{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3)}
+.ag-conf{margin-left:auto;display:flex;align-items:center;gap:6px;font-size:13px}
+.ag-ring{width:28px;height:28px;transform:rotate(-90deg)} .ag-ring .tr{fill:none;stroke:var(--line);stroke-width:4} .ag-ring .pr{fill:none;stroke:var(--c-g);stroke-width:4;stroke-linecap:round}
+.ag-card h3{font-size:17px;letter-spacing:-.02em}
+.ag-sub{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3)}
+.ag-why{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--ink2)}
+.ag-why li{display:flex;gap:8px;align-items:flex-start} .ag-why i{color:var(--c-g);margin-top:3px}
+.ag-guard{display:flex;gap:6px;flex-wrap:wrap}
+.ag-guard span{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;padding:3px 9px;border-radius:99px;background:var(--soft);color:var(--ink2)}
+.ag-guard i{color:var(--c-v)}
+.ag-draft summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(--c-v)}
+.ag-draft pre{white-space:pre-wrap;font-family:var(--mono);font-size:12px;background:var(--sub);border:1px solid var(--line);border-radius:12px;padding:12px;margin:8px 0 0;color:var(--ink2)}
+.ag-btns{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:auto;padding-top:4px}
+.ag-btns .why{margin-left:auto}
+@media (max-width:980px){.ag-grid{grid-template-columns:1fr}}
+@media (max-width:640px){#anya{top:0;right:0;bottom:0;width:100%;max-width:none;border-radius:0}#anya-fab{padding:6px}#anya-fab .lbl{display:none}.in-line{grid-template-columns:auto 1fr auto}.in-line .conf{display:none}}
+/* ===================== v3 skin: glass, glow, waves ===================== */
+:root{--bg:#f2f4fb;--card:rgba(255,255,255,.80);--sub:rgba(248,249,255,.85);--soft:rgba(90,100,200,.07);--line:rgba(60,70,160,.12);--line2:rgba(60,70,160,.22);--side-bg:rgba(255,255,255,.72);--topbg:rgba(242,244,251,.72);--glass:blur(14px) saturate(140%);--glow:0 18px 50px rgba(79,70,229,.10)}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#050816;--card:rgba(15,20,46,.62);--sub:rgba(21,27,60,.55);--soft:rgba(140,155,255,.08);--line:rgba(140,155,255,.14);--line2:rgba(140,155,255,.26);--ink:#eef0ff;--ink2:#b9bfe2;--ink3:#8189b8;--side-bg:rgba(6,9,26,.78);--topbg:rgba(5,8,22,.55);--glow:0 18px 50px rgba(0,0,0,.45)}}
+:root[data-theme=dark]{--bg:#050816;--card:rgba(15,20,46,.62);--sub:rgba(21,27,60,.55);--soft:rgba(140,155,255,.08);--line:rgba(140,155,255,.14);--line2:rgba(140,155,255,.26);--ink:#eef0ff;--ink2:#b9bfe2;--ink3:#8189b8;--side-bg:rgba(6,9,26,.78);--topbg:rgba(5,8,22,.55);--glow:0 18px 50px rgba(0,0,0,.45)}
+html,body{background:var(--bg)}
+body{background-image:radial-gradient(900px 500px at 15% -10%,rgba(59,130,246,.14),transparent 60%),radial-gradient(800px 500px at 100% 0%,rgba(139,92,246,.14),transparent 60%),radial-gradient(900px 600px at 70% 110%,rgba(236,72,153,.10),transparent 60%);background-attachment:fixed}
+#fx-bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+.app{position:relative;z-index:1}
+.side{background:var(--side-bg);backdrop-filter:var(--glass);-webkit-backdrop-filter:var(--glass);border-right:1px solid var(--line)}
+.top{backdrop-filter:var(--glass);-webkit-backdrop-filter:var(--glass);border-bottom:1px solid var(--line)}
+.nav{border-radius:12px;padding:8px 12px;transition:background .2s,transform .2s}
+.nav:hover{background:var(--soft);transform:translateX(2px)}
+.nav[aria-current=true]{background:linear-gradient(135deg,#efecff,#d9d3ff);color:#1d1650;font-weight:600;box-shadow:0 8px 24px rgba(124,77,255,.28)}
+.nav[aria-current=true] .ic{opacity:1}
+.card,.kpi,.tile,.txn,.lane,.ba-card,.bento-card,.oc-hero,.router,.rt-card,.ln-card,.mk-pill,.ag-card,.concept,.opt,.ov-cast,.stepper,.cr-mini,.doc+div,.inbox,.ag-card{backdrop-filter:var(--glass);-webkit-backdrop-filter:var(--glass)}
+.card,.tile,.txn,.router,.oc-hero,.bento-card,.ba-card,.ag-card,.ov-cast{box-shadow:inset 0 1px 0 rgba(255,255,255,.06),var(--glow);border-radius:20px}
+.t th{background:transparent;color:var(--ink3);letter-spacing:.04em;text-transform:uppercase;font-size:11px}
+.t tr.click:hover td{background:var(--soft)}
+/* buttons */
+.btn{border-radius:12px;border-color:var(--line2);background:var(--card)}
+.btn.pri{background:linear-gradient(135deg,#1c1f3f,#2f2a78);color:#fff;border:0;box-shadow:0 10px 26px rgba(47,42,120,.28)}
+.btn.pri:hover{background:linear-gradient(135deg,#262a55,#3b3494)}
+:root[data-theme=dark] .btn.pri{background:linear-gradient(135deg,#f3f1ff,#d6d0ff);color:#17123f;box-shadow:0 10px 30px rgba(160,140,255,.35)}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .btn.pri{background:linear-gradient(135deg,#f3f1ff,#d6d0ff);color:#17123f;box-shadow:0 10px 30px rgba(160,140,255,.35)}}
+.btn.cta-grad{background:linear-gradient(135deg,#2f63ff,#7c4dff);color:#fff;box-shadow:0 14px 34px rgba(79,70,229,.45)}
+/* kpis: tinted glass with an icon */
+.kpi{position:relative;display:flex;gap:14px;align-items:flex-start;border-radius:18px;padding:16px 18px;--k:#8b5cf6;background:linear-gradient(135deg,color-mix(in srgb,var(--k) 20%,transparent),color-mix(in srgb,var(--k) 3%,transparent)),var(--card);border:1px solid color-mix(in srgb,var(--k) 38%,var(--line));box-shadow:0 12px 34px color-mix(in srgb,var(--k) 16%,transparent);overflow:hidden}
+.g>.kpi:nth-child(4n+1){--k:#3b82f6}.g>.kpi:nth-child(4n+2){--k:#8b5cf6}.g>.kpi:nth-child(4n+3){--k:#14b8a6}.g>.kpi:nth-child(4n+4){--k:#f59e0b}
+.kpi-ic{width:46px;height:46px;border-radius:14px;flex:none;display:grid;place-items:center;font-size:22px;color:var(--k);background:color-mix(in srgb,var(--k) 16%,transparent);border:1px solid color-mix(in srgb,var(--k) 35%,transparent);box-shadow:0 0 24px color-mix(in srgb,var(--k) 30%,transparent)}
+.kpi-b{min-width:0;flex:1}
+.kpi:not(:has(> .kpi-ic)){display:block}
+.card .kpi .kpi-ic{display:none}.card .kpi{display:block}.card .kpi .v{font-size:22px;white-space:nowrap}
+.kpi .v{font-size:26px}
+/* hero headers with a floating hologram */
+.pagehd.hero-hd{align-items:center;min-height:150px;margin-bottom:22px}
+.pagehd.hero-hd h1{font-size:40px;letter-spacing:-.045em;line-height:1.05}
+.pagehd.hero-hd p{font-size:15px}
+.holo{position:relative;width:250px;height:150px;flex:none;margin-left:auto;animation:holofloat 6s ease-in-out infinite;--h1:#3b82f6;--h2:#8b5cf6}
+.holo.h-v{--h1:#8b5cf6;--h2:#ec4899}.holo.h-a{--h1:#f59e0b;--h2:#ec4899}
+.holo .pane{position:absolute;width:128px;height:96px;border-radius:20px;border:1px solid rgba(255,255,255,.45);background:linear-gradient(135deg,color-mix(in srgb,var(--h1) 75%,transparent),color-mix(in srgb,var(--h2) 55%,transparent));transform:perspective(700px) rotateY(-30deg) rotateX(14deg) rotateZ(-6deg);box-shadow:0 24px 50px color-mix(in srgb,var(--h1) 40%,transparent),inset 0 1px 0 rgba(255,255,255,.5)}
+.holo .p1{left:110px;top:16px;opacity:.35}.holo .p2{left:80px;top:22px;opacity:.6}
+.holo .p3{left:44px;top:28px;display:grid;place-items:center;background:linear-gradient(135deg,color-mix(in srgb,var(--h1) 90%,#fff 10%),color-mix(in srgb,var(--h2) 80%,transparent))}
+.holo .p3 i{font-size:46px;color:#fff;filter:drop-shadow(0 0 14px rgba(255,255,255,.7));transform:rotateZ(6deg)}
+.holo-glow{position:absolute;left:20px;right:10px;bottom:-6px;height:40px;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--h2) 60%,transparent),transparent);filter:blur(10px)}
+@keyframes holofloat{50%{transform:translateY(-10px)}}
+/* catalogue banners */
+.logo-hero{position:relative;display:block;height:120px;border-radius:16px;overflow:hidden;background:radial-gradient(160px 110px at 78% 55%,color-mix(in srgb,var(--t) 45%,transparent),transparent 70%),linear-gradient(135deg,color-mix(in srgb,var(--t) 10%,var(--sub)),var(--sub));border:1px solid color-mix(in srgb,var(--t) 22%,var(--line))}
+:root[data-theme=dark] .logo-hero{background:radial-gradient(170px 120px at 78% 55%,color-mix(in srgb,var(--t) 55%,transparent),transparent 70%),linear-gradient(135deg,#0d1330,#121a40)}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .logo-hero{background:radial-gradient(170px 120px at 78% 55%,color-mix(in srgb,var(--t) 55%,transparent),transparent 70%),linear-gradient(135deg,#0d1330,#121a40)}}
+.logo-hero .lgt{position:absolute;left:14px;top:14px}
+.lh-art{position:absolute;right:26px;top:50%;transform:translateY(-55%);font-size:62px;line-height:1;animation:holofloat 5s ease-in-out infinite}
+.lh-art i{background:linear-gradient(160deg,#fff 10%,color-mix(in srgb,var(--t) 70%,#fff));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 18px color-mix(in srgb,var(--t) 70%,transparent))}
+:root:not([data-theme=dark]) .lh-art i{background:linear-gradient(160deg,var(--t),color-mix(in srgb,var(--t) 55%,#7c4dff));-webkit-background-clip:text;background-clip:text;color:transparent}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .lh-art i{background:linear-gradient(160deg,#fff 10%,color-mix(in srgb,var(--t) 70%,#fff));-webkit-background-clip:text;background-clip:text;color:transparent}}
+.lh-wave{position:absolute;left:0;right:0;bottom:0;width:100%;height:56px}
+.lh-wave path{fill:none;stroke:var(--t);stroke-width:1.4;opacity:.55}
+.lh-wave path+path{opacity:.3}
+.lh-cat{left:auto;right:12px;bottom:8px;background:var(--card);padding:3px 9px;border-radius:99px;backdrop-filter:var(--glass)}
+.tile{border-radius:20px;padding:12px}
+/* orders toolbar */
+.o-bar{display:grid;grid-template-columns:minmax(0,2fr) repeat(3,minmax(0,1fr));gap:12px;margin:16px 0}
+.o-search{position:relative} .o-search i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--ink3);font-size:17px}
+.o-search input{padding-left:40px}
+.o-bar .inp{border-radius:12px;height:44px;background:var(--card);backdrop-filter:var(--glass)}
+.t tbody tr td:first-child{border-left:3px solid transparent}
+.t tbody tr.st-hold td:first-child{border-left-color:var(--c-a)} .t tbody tr.st-done td:first-child{border-left-color:var(--c-g)} .t tbody tr.st-run td:first-child{border-left-color:var(--c-b)}
+@media (max-width:860px){.holo{display:none}.pagehd.hero-hd{min-height:0}.o-bar{grid-template-columns:1fr 1fr}.o-search{grid-column:1/-1}}
+@media (prefers-reduced-motion:reduce){#fx-bg{display:none}}
 </style>
 </head>
 <body>
@@ -652,7 +809,7 @@ function seed(){
       },
       agent:{intake:"acts",validate:"acts",route:"proposes",ready:"acts",terms:"proposes",credit:"acts",erp:"acts",invoice:"acts",collect:"acts",recon:"explains"}
     },
-    orders:[], audit:[], recon:[], saved:[],
+    orders:[], audit:[], recon:[], saved:[], dismissed:[],
     pos:[
       {id:"PO-DL-4471",from:"procurement@desertlogistics.ae",via:"Email, PDF",src:"PDF",customer:"Desert Logistics LLC",partner:"Nexa Systems FZ LLC",market:"uae",received:"09:12",status:"new",quote:"Q-22918",
        lines:[{sku:"m365bp",qty:120,price:80},{sku:"fg100f",qty:2,price:14200}],issue:"deviation"},
@@ -866,6 +1023,7 @@ var NAV=[
   {r:"statement",l:"Invoices and statement",ic:"<i class='ph ph-receipt'></i>"},
   {sec:"Redington back office"},
   {r:"inbox",l:"DealFlow inbox",ic:"<i class='ph ph-tray-arrow-down'></i>",tag:"inbox"},
+  {r:"agent",l:"Agent desk",ic:"<i class='ph ph-robot'></i>",tag:"agent"},
   {r:"exceptions",l:"Exceptions",ic:"<i class='ph ph-warning-diamond'></i>",tag:"exc"},
   {r:"credit",l:"Credit desk",ic:"<i class='ph ph-gauge'></i>",tag:"credit"},
   {r:"recon",l:"Reconciliation",ic:"<i class='ph ph-arrows-left-right'></i>",tag:"recon"},
@@ -888,6 +1046,7 @@ function counts(){
     inbox:S.pos.filter(function(p){return p.status==="new";}).length,
     exc:S.orders.filter(function(o){return o.hold;}).length,
     credit:S.orders.filter(function(o){return o.hold&&o.hold.kind==="credit";}).length,
+    agent:(typeof agentProposals==="function"?agentProposals().filter(function(p){return !p.never;}).length:0),
     recon:S.recon.filter(function(r){return r.status==="exception"||r.status==="overdue";}).length
   };
 }
@@ -904,6 +1063,7 @@ function renderSide(){
       if(n.tag==="inbox"&&c.inbox) b="<span class='bd n'>"+c.inbox+"</span>";
       if(n.tag==="exc"&&c.exc) b="<span class='bd'>"+c.exc+"</span>";
       if(n.tag==="credit"&&c.credit) b="<span class='bd'>"+c.credit+"</span>";
+      if(n.tag==="agent"&&c.agent) b="<span class='bd' style='background:linear-gradient(135deg,#2f63ff,#7c4dff)'>"+c.agent+"</span>";
       if(n.tag==="recon"&&c.recon) b="<span class='bd g'>"+c.recon+"</span>";
       return "<a class='nav' href='#/"+n.r+"' aria-current='"+(R===n.r)+"'><span class='ic'>"+n.ic+"</span>"+n.l+b+"</a>";
     }).join("")+
@@ -924,14 +1084,14 @@ function renderTop(){
 function render(){
   document.body.classList.toggle("no-notes",!S.notes);
   document.body.classList.remove("menu");
-  renderSide(); renderTop();
+  renderSide(); renderTop(); if(typeof anyaRender==="function") anyaRender();
   var R=route(), v=VIEWS[R.r]||VIEWS.overview;
   $("#main").innerHTML="<div class='fade'>"+v(R.a)+"</div>";
-  fx();
+  fx(); heroize();
   if(R.r==="checkout" && S.co.step===2 && !S.co.checked) runCheck();
 }
 var BG_SAFE={catalogue:1,policy:1,checkout:1,overview:1,cart:1};
-function refresh(){ renderSide(); var R=route().r; if(!BG_SAFE[R]) { var y=window.scrollY; $("#main").innerHTML="<div>"+(VIEWS[R]||VIEWS.overview)(route().a)+"</div>"; window.scrollTo(0,y);} }
+function refresh(){ renderSide(); var R=route().r; var ae=document.activeElement; if(ae&&ae.dataset&&(ae.dataset.act==="oq"||ae.id==="anya-in")) return; if(!BG_SAFE[R]) { var y=window.scrollY; $("#main").innerHTML="<div>"+(VIEWS[R]||VIEWS.overview)(route().a)+"</div>"; heroize(); window.scrollTo(0,y);} }
 
 /* ============================================================
    Views
@@ -1038,14 +1198,14 @@ document.addEventListener("pointermove",function(e){
   var c=e.target.closest&&e.target.closest(".spot"); if(!c) return;
   var r=c.getBoundingClientRect(); c.style.setProperty("--mx",(e.clientX-r.left)+"px"); c.style.setProperty("--my",(e.clientY-r.top)+"px");
 });
-function kpi(k,v,s,c){return "<div class='kpi'><div class='k'>"+k+"</div><div class='v "+(c||"")+"'>"+v+"</div><div class='s'>"+(s||"")+"</div></div>";}
+function kpi(k,v,s,c,ic){return "<div class='kpi'><span class='kpi-ic'><i class='ph-fill "+(ic||kpiIcon(k))+"'></i></span><div class='kpi-b'><div class='k'>"+k+"</div><div class='v "+(c||"")+"'>"+v+"</div><div class='s'>"+(s||"")+"</div></div></div>";}
 
 /* ---------- Partner home ---------- */
 VIEWS.home=function(){
   var m=MK[S.market], a=avail(S.market), mine=S.orders.slice(0,4);
   var used=(m.limit-a)/m.limit*100;
   return "<div class='pagehd'><div><div class='eyebrow'>Good morning, Omar</div><h1>Gulf IT Solutions LLC</h1><p>Buy across Microsoft, AWS and Redington in one cart. Upload a customer PO and DealFlow builds the order for you.</p></div>"+
-    "<div class='row'><button class='btn' data-act='upload'>⇪ Upload a customer PO</button><a class='btn pri' href='#/catalogue'>Browse catalogue</a></div></div>"+
+    "<div class='row'><button class='btn' data-act='upload'><i class='ph-fill ph-sparkle' style='color:var(--c-v)'></i>New order from email, photo or voice</button><a class='btn pri' href='#/catalogue'>Browse catalogue</a></div></div>"+
     "<div class='g g4'>"+
       "<div class='kpi'><div class='k'>Available credit · "+m.name+"</div><div class='v'>"+money(a,m.cur)+"</div><div class='bar' style='margin:8px 0 4px'><i style='width:"+used+"%'></i></div><div class='s'>"+pct(used,0)+" of "+money(m.limit,m.cur)+" used</div></div>"+
       kpi("Open orders",S.orders.filter(function(o){return o.stage<10;}).length,S.orders.filter(function(o){return o.hold;}).length+" waiting on something")+
@@ -1073,7 +1233,7 @@ VIEWS.catalogue=function(){
 function tile(p){
   var r=resolveRoute(p.prog,S.market), m=MK[S.market], inCart=S.cart.filter(function(c){return c.sku===p.id;})[0];
   var rp=r.route?pill(ROUTES[r.route].short,r.rerouted?"wn":"ac"):pill("Not sold here","bad");
-  return "<div class='tile'><div class='logo-hero' style='--t:"+(VTINT[VK[p.vendor]]||"#888")+"'>"+vlg(p.vendor,58)+"<span class='lh-cat'><i class='ph-fill "+(CATIC[p.cat]||"ph-cube")+"'></i>"+p.cat+"</span></div><div class='row sb'><span class='muted' style='font-size:12px'>"+p.vendor+" · "+p.cat+"</span>"+rp+"</div>"+
+  return "<div class='tile'><div class='logo-hero' style='--t:"+(VTINT[VK[p.vendor]]||"#888")+"'>"+vlg(p.vendor,40)+"<span class='lh-art'><i class='ph-fill "+(CATIC[p.cat]||"ph-cube")+"'></i></span><svg class='lh-wave' viewBox='0 0 300 56' preserveAspectRatio='none' aria-hidden='true'><path d='M0 38 C60 8 120 58 180 28 S270 18 300 34'/><path d='M0 48 C70 24 130 60 190 38 S270 32 300 44'/></svg><span class='lh-cat'><i class='ph-fill "+(CATIC[p.cat]||"ph-cube")+"'></i>"+p.cat+"</span></div><div class='row sb'><span class='muted' style='font-size:12px'>"+p.vendor+" · "+p.cat+"</span>"+rp+"</div>"+
     "<div class='nm'>"+p.name+"</div><div class='muted' style='font-size:12px'>"+p.term+"</div>"+
     (r.rerouted?"<div class='flag wn' style='padding:6px 9px;font-size:11.5px'>Rerouted here: "+r.why+"</div>":"")+
     "<div class='ft'><div class='pr'>"+money(p.price*m.fx,m.cur)+" <s>/ "+p.unit+"</s></div>"+
@@ -1121,7 +1281,7 @@ VIEWS.cart=function(){
     return "<div class='ln-card"+(l.route?"":" blk")+"' id='ln-"+l.sku+"' data-route='"+(l.route||"")+"' style='--c:"+col+"'>"+
       ""+vlg(p.vendor,44,'ln-lg')+""+
       "<div class='ln-mid'><b>"+l.name+"</b><small>"+money(l.unit)+" / "+p.unit+"</small>"+
-        (l.rr.rerouted?"<span class='rr-badge' title='"+esc(l.rr.why)+"'><i class='ph-bold ph-arrows-clockwise'></i>Rerouted: AWS can’t sell in "+m.name+"</span>":"")+
+        (l.rr.rerouted?"<span class='rr-badge' title='"+esc(l.rr.why)+"'><i class='ph-bold ph-arrows-clockwise'></i>Rerouted: AWS can’t sell in "+m.name+"</span> "+whyBtn("Why was "+l.name+" rerouted?"):"")+
         (!l.route?"<span class='rr-badge bad'><i class='ph-bold ph-prohibit'></i>Not sold in "+m.name+"</span>":"")+"</div>"+
       "<div class='qty'><button data-act='qty' data-sku='"+l.sku+"' data-d='-1' aria-label='Less'>−</button><input data-act='qtyset' data-sku='"+l.sku+"' value='"+l.qty+"' inputmode='numeric' aria-label='Quantity'><button data-act='qty' data-sku='"+l.sku+"' data-d='1' aria-label='More'>+</button></div>"+
       "<div class='ln-tot'><b>"+fmt(l.net)+"</b><button class='ln-x' data-act='rm' data-sku='"+l.sku+"' aria-label='Remove'><i class='ph ph-x'></i></button></div></div>";}).join("");
@@ -1135,7 +1295,7 @@ VIEWS.cart=function(){
     "<div class='rt-col'><div class='rt-head'><span>Becomes</span><span class='muted'>"+c.txns.length+" compliant transactions</span></div>"+routes+"</div></section>";
 
   var rule="<div class='rule-row'><span><i class='ph ph-buildings'></i>"+m.entity+"</span><span><i class='ph ph-percent'></i>"+m.taxLabel+"</span><span class='rule-tip'><i class='ph-fill ph-lightbulb'></i>"+m.catch+"</span></div>";
-  return hero+strip+router+rule+"<div style='margin-top:14px'>"+ann("Each box on the right is a separate legal transaction. Switch the market above and watch routes, tax and entity re-resolve.","OneCart 360")+"</div>";
+  return hero+anyaInsight(c,cr)+strip+router+rule+"<div style='margin-top:14px'>"+ann("Each box on the right is a separate legal transaction. Switch the market above and watch routes, tax and entity re-resolve.","OneCart 360")+"</div>";
 };
 function drawBeams(){
   var R=document.getElementById("router"), hub=document.getElementById("rt-hub"); if(!R||!hub) return;
@@ -1199,7 +1359,7 @@ function creditStep(c,cr){
   var checked=S.co.checked;
   var sigs=SIGNALS.map(function(s,i){return "<div class='sig "+(checked?"":"pend")+"' data-sig='"+i+"'><span><b style='font-weight:500'>"+s[0]+"</b><s>"+s[1]+"</s></span>"+pill(s[3],s[2])+"</div>";}).join("");
   var left="<div class='card'><div class='row sb'><div><div class='eyebrow'>CreditIQ</div><h2 id='ci-h'>"+(checked?"Answered in 2.4 seconds":"Checking six signals…")+"</h2></div>"+
-      "<div class='row' style='gap:14px'><span class='mono muted' id='ci-t'>"+(checked?"2.4s":"0.0s")+"</span><span class='grade' id='ci-g' style='"+(checked?"":"border-color:var(--line)")+"'>"+(checked?"B+":"·")+"</span></div></div>"+
+      "<div class='row' style='gap:14px'>"+(checked?whyBtn("Why is my credit grade B+?"):"")+"<span class='mono muted' id='ci-t'>"+(checked?"2.4s":"0.0s")+"</span><span class='grade' id='ci-g' style='"+(checked?"":"border-color:var(--line)")+"'>"+(checked?"B+":"·")+"</span></div></div>"+
       "<div class='hr'></div>"+sigs+
       "<p class='muted' style='font-size:12px;margin-top:10px'>Four signals positive, one neutral, one negative → grade B+. Policy lets B+ release automatically up to the available limit. No bureau file and no forms: four years of trading history with us.</p></div>";
   if(!checked) return "<div class='split'><div>"+left+"</div><div class='card'><div class='ph' style='height:260px'>Waiting for the decision</div></div></div>";
@@ -1296,11 +1456,22 @@ function pipeBar(o){return "<div class='pipe'>"+STAGES.map(function(s,i){return 
 function ordersTable(list,compact){
   if(!list.length) return "<div class='empty' style='margin:16px'>No orders yet. <a href='#/cart'>Go to your cart</a></div>";
   return "<table class='t'><thead><tr><th>Order</th>"+(compact?"":"<th>Source</th>")+"<th>Customer</th><th>Market</th><th class='r'>Total</th><th>Transactions</th><th style='min-width:160px'>Progress</th><th>Status</th></tr></thead><tbody>"+
-    list.map(function(o){return "<tr class='click' data-go='#/order/"+o.id+"'><td><b>"+o.id+"</b><div class='muted mono' style='font-size:11px'>"+tm(o.created)+"</div></td>"+(compact?"":"<td>"+o.src+"</td>")+"<td>"+o.customer+"</td><td>"+MK[o.market].name+"</td><td class='r mono'>"+money(o.total,o.cur)+"</td><td>"+o.txns.map(function(t){return "<span class='pill out'>"+lg(RK[t.route],16)+ROUTES[t.route].short+"</span>";}).join(" ")+"</td><td>"+pipeBar(o)+"</td><td>"+statusPill(o)+"</td></tr>";}).join("")+"</tbody></table>";
+    list.map(function(o){return "<tr class='click "+(o.hold?"st-hold":o.stage>=8?"st-done":"st-run")+"' data-go='#/order/"+o.id+"'><td><b>"+o.id+"</b><div class='muted mono' style='font-size:11px'>"+tm(o.created)+"</div></td>"+(compact?"":"<td>"+o.src+"</td>")+"<td>"+o.customer+"</td><td>"+MK[o.market].name+"</td><td class='r mono'>"+money(o.total,o.cur)+"</td><td>"+o.txns.map(function(t){return "<span class='pill out'>"+lg(RK[t.route],16)+ROUTES[t.route].short+"</span>";}).join(" ")+"</td><td>"+pipeBar(o)+"</td><td>"+statusPill(o)+"</td></tr>";}).join("")+"</tbody></table>";
 }
+var OF={q:"",mk:"",st:""};
+function orderState(o){ return o.hold?"On hold":o.stage>=10?"Reconciled":o.stage>=8?"Invoiced":"In progress"; }
+function ordersFiltered(){ var q=OF.q.toLowerCase(); return S.orders.filter(function(o){
+  if(OF.mk&&o.market!==OF.mk) return false; if(OF.st&&orderState(o)!==OF.st) return false;
+  if(q&&(o.id+" "+o.customer+" "+o.src+" "+o.lines.map(function(l){return l.name;}).join(" ")).toLowerCase().indexOf(q)<0) return false; return true; }); }
 VIEWS.orders=function(){
-  return "<div class='pagehd'><div><h1>Orders</h1><p>One order per cart or customer PO, however many transactions sit underneath. Click one to follow it from PO to revenue.</p></div><a class='btn pri' href='#/cart'>New order</a></div>"+
-    "<div class='card flat'>"+ordersTable(S.orders,false)+"</div>";
+  var val=S.orders.reduce(function(a,o){return a+aedEq(o.total,o.market);},0), inv=S.orders.reduce(function(a,o){return a+o.txns.filter(function(t){return t.inv;}).length;},0), prog=S.orders.filter(function(o){return o.stage<8;}).length;
+  return "<div class='pagehd'><div><h1>My orders</h1><p>Track every order from cart or customer PO to cash, across vendors and markets.</p></div><a class='btn pri' href='#/cart'><i class='ph-bold ph-plus'></i>New order</a></div>"+
+    "<div class='g g4'>"+kpi("Total orders","<span data-tick='"+S.orders.length+"'>0</span>","Cart and customer PO","","ph-shopping-cart-simple")+kpi("Order value","AED <span data-tick='"+Math.round(val)+"'>0</span>","All markets, in AED","","ph-stack")+kpi("Invoices","<span data-tick='"+inv+"'>0</span>","Redington and AWS","","ph-file-text")+kpi("In progress","<span data-tick='"+prog+"'>0</span>",S.orders.filter(function(o){return o.hold;}).length+" waiting on a person","","ph-arrows-clockwise")+"</div>"+
+    "<div class='o-bar'><label class='o-search'><i class='ph ph-magnifying-glass'></i><input class='inp' data-act='oq' placeholder='Search orders, customer or product' value=\""+esc(OF.q)+"\" aria-label='Search orders'></label>"+
+    "<select class='inp' data-act='of' data-k='mk' aria-label='Market'><option value=''>Market: All</option>"+MKO.map(function(k){return "<option value='"+k+"'"+(OF.mk===k?" selected":"")+">"+MK[k].name+"</option>";}).join("")+"</select>"+
+    "<select class='inp' data-act='of' data-k='st' aria-label='Status'><option value=''>Status: All</option>"+["In progress","On hold","Invoiced","Reconciled"].map(function(x){return "<option"+(OF.st===x?" selected":"")+">"+x+"</option>";}).join("")+"</select>"+
+    "<button class='btn' data-act='ofclear'><i class='ph ph-x-circle'></i>Clear filters</button></div>"+
+    "<div class='card flat' id='otable'>"+ordersTable(ordersFiltered(),false)+"</div>";
 };
 VIEWS.order=function(id){
   var o=OX(id); if(!o) return "<div class='empty'>Order not found. <a href='#/orders'>All orders</a></div>";
@@ -1311,7 +1482,7 @@ VIEWS.order=function(id){
     if(h.kind==="paygap"||h.kind==="payment") act=h.kind==="paygap"?"<button class='btn pri sm' data-act='paygap' data-id='"+o.id+"'>Pay "+money(cr.gap,o.cur)+" now</button>":"<span class='pill wn'>Clearing…</span>";
     else if(h.kind==="instrument") act="<button class='btn pri sm' data-act='uploadbg' data-id='"+o.id+"'>Upload bank guarantee</button>";
     else act="<a class='btn sm' href='#/"+(h.kind==="credit"?"credit":"exceptions")+"'>Open in back office →</a>";
-    holdBox="<div class='flag wn'><span>⏸</span><span style='flex:1'><b>Waiting at "+STAGES[o.stage].short+".</b> "+h.text+"</span>"+act+"</div>";
+    holdBox="<div class='flag wn'><span>⏸</span><span style='flex:1'><b>Waiting at "+STAGES[o.stage].short+".</b> "+h.text+"</span>"+whyBtn("Why is "+o.id+" on hold?")+act+"</div>";
   }
   return "<div class='pagehd'><div><div class='eyebrow'><a href='#/orders'>Orders</a> / "+o.id+" · "+o.src+"</div><h1>"+o.id+" · "+money(o.total,o.cur)+"</h1>"+
     "<p>"+o.customer+" · "+MK[o.market].name+" · one order, "+o.txns.length+" transaction"+(o.txns.length>1?"s":"")+(o.ref?" · your PO "+esc(o.ref):"")+"</p></div>"+statusPill(o)+"</div>"+
@@ -1412,7 +1583,7 @@ function excCard(o){
   return "<div class='card'><div class='row sb'><div class='row'>"+statusPill(o)+"<b>"+o.id+"</b><span class='muted'>"+o.customer+" · "+MK[o.market].name+" · "+money(o.total,o.cur)+"</span></div><span class='sla muted'>SLA "+Math.floor(mins/60)+"h "+("0"+mins%60).slice(-2)+"m left</span></div>"+
     "<div class='g g2' style='margin-top:12px'><div class='flag wn'><span>!</span><span><b>Found at "+STAGES[o.stage].short+".</b> "+h.text+"</span></div>"+
     (prop?"<div class='flag ai'><span>✦</span><span><b>DealFlow proposes.</b> "+prop+"</span></div>":"")+"</div>"+
-    "<div class='row' style='margin-top:12px'>"+btns+"<a class='btn sm' href='#/order/"+o.id+"' style='margin-left:auto'>Order →</a></div></div>";
+    "<div class='row' style='margin-top:12px'>"+btns+""+whyBtn("Why is "+o.id+" on hold?")+"<a class='btn sm' href='#/order/"+o.id+"' style='margin-left:auto'>Order →</a></div></div>";
 }
 
 /* ---------- Credit desk ---------- */
@@ -1429,7 +1600,7 @@ VIEWS.credit=function(){
         "<div class='bar' style='margin:14px 0 6px;height:12px'><i style='width:"+((lim-c.avail)/lim*100)+"%'></i><i class='ok' style='width:"+(c.released/lim*100)+"%'></i><i class='wn' style='width:"+(c.gap/lim*100)+"%'></i></div>"+
         "<div class='row' style='font-size:12px;gap:16px'><span><span class='dot'></span> Existing exposure</span><span style='color:var(--ok)'><span class='dot'></span> This order, released</span><span style='color:var(--wn)'><span class='dot'></span> Requested</span><span class='muted'>Limit "+money(lim,o.cur)+"</span></div>"+
         "<div class='flag ai' style='margin-top:14px'><span>✦</span><span><b>CreditIQ recommends approve.</b> Grade B+. AED 64,250 lands within seven days and frees more than the gap. Concentration (38% on one end customer) is why we do not extend the permanent limit.</span></div>"+
-        "<div class='row' style='margin-top:14px'><button class='btn ok' data-act='cdec' data-d='approved' data-id='"+o.id+"'>Approve 30 day increase</button><button class='btn' data-act='cdec' data-d='instrument' data-id='"+o.id+"'>Ask for a guarantee instead</button><button class='btn bad' data-act='cdec' data-d='declined' data-id='"+o.id+"'>Decline</button></div></div>";}).join(""):
+        "<div class='row' style='margin-top:14px'><button class='btn ok' data-act='cdec' data-d='approved' data-id='"+o.id+"'>Approve 30 day increase</button><button class='btn' data-act='cdec' data-d='instrument' data-id='"+o.id+"'>Ask for a guarantee instead</button><button class='btn bad' data-act='cdec' data-d='declined' data-id='"+o.id+"'>Decline</button>"+whyBtn("Should I approve the increase for "+o.id+"?","Ask Anya")+"</div></div>";}).join(""):
         "<div class='empty'>The queue is empty. Place a cart with “Request a temporary limit increase” to send one here.<br><br><a class='btn' href='#/cart'>Go to the cart</a></div>")+
       "<div class='card flat'><div style='padding:14px 16px'><h3>Decided</h3></div>"+(hist.length?"<table class='t'><tbody>"+hist.map(function(o){return "<tr class='click' data-go='#/order/"+o.id+"'><td><b>"+o.id+"</b></td><td>"+money(o.credit.gap,o.cur)+"</td><td>"+pill(o.credit.decision,o.credit.decision==="approved"?"ok":"wn")+"</td><td class='muted'>"+(o.credit.by||"Imran Qureshi")+"</td></tr>";}).join("")+"</tbody></table>":"<p class='muted' style='padding:0 16px 16px'>Nothing yet.</p>")+"</div>"+
     "</div><div class='stack'>"+
@@ -1456,7 +1627,7 @@ VIEWS.recon=function(){
         act=r.sug.level==="never"?"<div class='row' style='margin-top:6px'><button class='btn sm' disabled>Issue credit note</button>"+pill("Never by agent","bad")+"<button class='btn sm' data-act='toast' data-t='Sent to Finance with the agent summary attached'>Send to Finance</button></div>":
           "<div class='row' style='margin-top:6px'><button class='btn sm "+(r.sug.level==="acts"?"ai":"")+"' data-act='rfix' data-id='"+r.id+"'>"+r.sug.label+"</button>"+lvlPill(r.sug.level)+"</div>";
       }
-      return "<tr><td class='mono'>"+r.id+"</td><td>"+(r.order!=="—"&&OX(r.order)?"<a href='#/order/"+r.order+"'>"+r.order+"</a>":r.order)+"</td><td>"+r.invoicer+"</td><td class='r mono'>"+money(r.amount,r.cur)+"</td><td class='r mono'>"+(r.received?money(r.received,r.cur):"—")+"</td><td>"+st+"</td><td style='font-size:12.5px'>"+(r.why?esc(r.why):"<span class='muted'>—</span>")+act+"</td></tr>";
+      return "<tr><td class='mono'>"+r.id+"</td><td>"+(r.order!=="—"&&OX(r.order)?"<a href='#/order/"+r.order+"'>"+r.order+"</a>":r.order)+"</td><td>"+r.invoicer+"</td><td class='r mono'>"+money(r.amount,r.cur)+"</td><td class='r mono'>"+(r.received?money(r.received,r.cur):"—")+"</td><td>"+st+"</td><td style='font-size:12.5px'>"+(r.why?esc(r.why):"<span class='muted'>—</span>")+((r.status==="exception"||r.status==="overdue")?" "+whyBtn("Why is "+r.id+" different?"):"")+act+"</td></tr>";
     }).join("")+"</tbody></table></div>"+
     "<div style='margin-top:16px'>"+ann("When the hyperscaler invoices, reconciling against disbursement reports gets harder; the unmatched share is where manual cost sits. The agent explains, proposes and acts inside rules, but credit notes stay with Finance.","Enabler 2 · AI agents on exceptions")+"</div>";
 };
@@ -1500,6 +1671,270 @@ VIEWS.policy=function(){
 };
 
 /* ============================================================
+   Anya: the AI layer. Answers are composed from the live demo state,
+   so every number matches what is on screen.
+   ============================================================ */
+var ANYA={open:false,msgs:[],busy:false};
+if(!S.dismissed) S.dismissed=[];
+function whyBtn(q,label){ return "<button class='why' data-act='why' data-q=\""+esc(q)+"\"><i class='ph-fill ph-sparkle'></i>"+(label||"Why?")+"</button>"; }
+function anyaPage(){ var R=route(); return ({overview:"Overview",home:"Home",catalogue:"Catalogue",cart:"OneCart 360",checkout:"Checkout",orders:"My orders",order:"Order "+R.a,statement:"Invoices",inbox:"DealFlow inbox",exceptions:"Exceptions",credit:"Credit desk",recon:"Reconciliation",audit:"Audit trail",policy:"Policy and rules",agent:"Agent desk"})[R.r]||"Portal"; }
+function anyaSuggest(){
+  var r=route().r;
+  if(r==="cart"||r==="checkout"||r==="catalogue") return S.cart.length?["Why is there a gap?","What if I pay by letter of credit?","Which instrument saves the most?","What tax applies here?"]:["How much credit do I have?","Order from an email or voice note"];
+  if(r==="order"||r==="orders"||r==="statement") return ["Why is this order on hold?","What happens next?","How much credit do I have?"];
+  if(r==="credit") return ["Should I approve the increase?","Why grade B+?"];
+  if(r==="recon") return ["Explain the reconciliation differences","What needs me today?"];
+  if(r==="inbox"||r==="exceptions"||r==="agent"||r==="audit"||r==="policy") return ["What needs me today?","What is the agent allowed to do?","Explain the reconciliation differences"];
+  if(r==="home") return ["How much credit do I have?","Order from an email or voice note","Where is my latest order?"];
+  return ["What can you do?","How much credit do I have?","What needs me today?"];
+}
+function anyaMount(){
+  if(document.getElementById("anya")) return;
+  var d=document.createElement("aside"); d.id="anya"; d.setAttribute("aria-label","Anya assistant"); document.body.appendChild(d);
+  var f=document.createElement("button"); f.id="anya-fab"; f.setAttribute("data-act","anya"); f.setAttribute("aria-label","Ask Anya");
+  f.innerHTML="<span class='orb'><i class='ph-fill ph-sparkle'></i></span><span class='lbl'>Ask Anya</span>"; document.body.appendChild(f);
+  anyaRender();
+}
+function anyaHello(){ return "<div class='an-m bot'><div class='an-txt'>Hi, I’m <b>Anya</b>. I can see <b>"+esc(anyaPage())+"</b>, your cart, orders and credit. Ask me why something happened, what an option costs, or let me build a cart from an email, a photo or a voice note.</div></div>"; }
+function anyaMsg(m){
+  if(m.who==="me") return "<div class='an-m me'>"+esc(m.text)+"</div>";
+  return "<div class='an-m bot'><div class='an-txt'>"+m.html+"</div>"+(m.actions&&m.actions.length?"<div class='an-acts'>"+m.actions.map(function(a){return "<button class='an-act' data-act='anya-do' data-a=\""+esc(a[1])+"\">"+a[0]+"</button>";}).join("")+"</div>":"")+"</div>";
+}
+function anyaRender(){
+  var p=document.getElementById("anya"); if(!p) return;
+  var keep=document.getElementById("anya-in"); var val=keep?keep.value:"";
+  document.body.classList.toggle("anya-on",ANYA.open);
+  p.className=ANYA.open?"open":"";
+  p.innerHTML="<div class='an-h'><span class='orb sm'><i class='ph-fill ph-sparkle'></i></span><div><b>Anya</b><small><span class='live'></span>Knows this page · "+esc(anyaPage())+"</small></div><button class='an-x' data-act='anya' aria-label='Close Anya'><i class='ph ph-x'></i></button></div>"+
+    "<div class='an-body' id='an-body'>"+anyaHello()+ANYA.msgs.map(anyaMsg).join("")+(ANYA.busy?"<div class='an-m bot'><span class='typing'><i></i><i></i><i></i></span></div>":"")+"</div>"+
+    "<div class='an-sug'>"+anyaSuggest().map(function(q){return "<button data-act='anya-ask' data-q=\""+esc(q)+"\">"+esc(q)+"</button>";}).join("")+"</div>"+
+    "<div class='an-in'><button class='an-mic"+(ANYA.listening?" on":"")+"' data-act='anya-mic' aria-label='Ask by voice'><i class='ph-fill ph-microphone'></i></button><input id='anya-in' placeholder='"+(ANYA.listening?"Listening…":"Ask about this page…")+"' autocomplete='off' value=\""+esc(val)+"\"><button class='an-send' data-act='anya-send' aria-label='Send'><i class='ph-fill ph-paper-plane-right'></i></button></div>";
+  var b=document.getElementById("an-body"); if(b) b.scrollTop=b.scrollHeight;
+}
+function openAnya(q){ ANYA.open=true; anyaRender(); if(q) anyaAsk(q); else setTimeout(function(){var i=document.getElementById("anya-in"); if(i) i.focus();},250); }
+function anyaAsk(q){
+  q=String(q||"").trim(); if(!q||ANYA.busy) return;
+  ANYA.msgs.push({who:"me",text:q}); ANYA.busy=true; anyaRender();
+  setTimeout(function(){ var a; try{ a=anyaAnswer(q); }catch(e){ a={html:"Sorry, I couldn’t work that out from this page."}; }
+    ANYA.busy=false; ANYA.msgs.push({who:"bot",html:a.html,actions:a.actions||[]}); anyaRender(); log("Anya","explains","Answered: "+q,""); }, 650+Math.min(700,q.length*12));
+}
+function anyaDo(a){
+  if(a.indexOf("go:")===0){ go(a.slice(3)); return; }
+  if(a.indexOf("ins:")===0){ var id=a.slice(4), ins=INSTR.filter(function(x){return x.id===id;})[0]; S.co.ins=id; save(); toast(ins.t+" selected"+(ins.disc?": "+ins.disc+"% off":"")); render(); return; }
+  if(a.indexOf("mk:")===0){ S.market=a.slice(3); S.co.checked=false; save(); go("#/cart"); toast("Buying in "+MK[S.market].name); return; }
+  if(a.indexOf("ask:")===0){ anyaAsk(a.slice(4)); return; }
+  if(a==="po"){ openIntake("email"); return; }
+}
+/* ---- the answer engine ---- */
+function cartCtx(){ if(!S.cart.length) return null; var c0=calc(S.cart,S.market), c=withDisc(c0), cr=credit(c); return {c0:c0,c:c,cr:cr,m:MK[S.market]}; }
+function ctxOrder(q){ var m=q.match(/ro-?(\d{4})/i); if(m) return OX("RO-"+m[1]); if(route().r==="order") return OX(route().a); var h=S.orders.filter(function(o){return o.hold;})[0]; return h||S.orders[0]||null; }
+function insFrom(t){ if(/letter of credit|\blc\b/.test(t)) return "lc"; if(/guarantee|\bbg\b/.test(t)) return "bg"; if(/advance|proforma|prepay/.test(t)) return "adv"; if(/cheque|\bpdc\b/.test(t)) return "pdc"; if(/funder|net 90|pay later/.test(t)) return "fund"; if(/open credit|net 60/.test(t)) return "open"; return null; }
+function nextFor(o){ var k=o.hold&&o.hold.kind; return {credit:"One credit reviewer decides within "+S.policy.sla+" hours. The released part is already moving.",deviation:"Order operations either ask the customer for a revised PO or accept the price under a Finance override.",readiness:"The partner uploads the renewed registration, then the order continues on its own.",instrument:"It continues as soon as the bank guarantee is received and verified.",payment:"It continues the moment the payment clears.",paygap:"Pay or cover the gap and the rest releases.",manual:"A person signs off this stage, as set in Policy and rules.",margin:"Finance approves under override or the partner reprices."}[k]||""; }
+function stageWord(o){ return o.stage>=10?"reconciled":o.stage>=8?"invoiced":STAGES[o.stage].name.toLowerCase(); }
+function anyaAnswer(q){
+  var t=q.toLowerCase(), cc=cartCtx(), A=[];
+  /* a reconciliation item by id */
+  var rid=(q.match(/\b(INV-[A-Z]+-\d+-\d+|AWS-\d+-\d+|CASH-\d+|DSP-\d+)\b/i)||[])[1];
+  if(rid){ var r=S.recon.filter(function(x){return x.id.toLowerCase()===rid.toLowerCase();})[0];
+    if(r) return {html:"<b>"+r.id+"</b>: "+money(r.amount,r.cur)+" invoiced, "+(r.received?money(r.received,r.cur):"nothing yet")+" received.<br><br>"+esc(r.why||"Waiting for payment. Nothing unusual.")+(r.sug?"<br><br>"+(r.sug.level==="never"?"I can’t act on this one: <b>credit notes stay with Finance</b>.":"I propose: <b>"+esc(r.sug.label)+"</b>. A person approves it in the Agent desk."):""),
+      actions:r.sug&&r.sug.level!=="never"?[["Open Agent desk","go:#/agent"]]:[["Open reconciliation","go:#/recon"]]}; }
+  /* reroutes */
+  if(/rerout|can.?t sell|not sold|why.*(aws|saudi|turk)/.test(t)){
+    var rr=cc?cc.c0.lines.filter(function(l){return l.rr.rerouted;}):[];
+    if(rr.length){ var l=rr[0]; return {html:"<b>"+l.name+"</b> normally goes as an AWS private offer. "+esc(l.rr.why)+"<br><br>So OneCart sends it through <b>AWS via Redington resale</b>: same price, invoiced by "+cc.m.entity.split(",")[0]+" with "+cc.m.taxLabel+". Nothing for you to do."}; }
+    return {html:"Nothing is rerouted in <b>"+MK[S.market].name+"</b>. In Saudi Arabia and Türkiye, AWS private offers can’t transact, so OneCart reroutes AWS lines through Redington resale automatically.",actions:[["Show me in Saudi Arabia","mk:ksa"]]}; }
+  /* credit recommendation for the reviewer */
+  if(/should i approve|approve the increase|recommend/.test(t)){
+    var q2=S.orders.filter(function(o){return o.hold&&o.hold.kind==="credit";}), o=ctxOrder(q); if(!(o&&o.hold&&o.hold.kind==="credit")) o=q2[0];
+    if(!o) return {html:"There is nothing in the credit queue right now. Requests arrive when a partner asks for a temporary increase at checkout.",actions:[["Open credit desk","go:#/credit"]]};
+    var c=o.credit, lim=MK[o.market].limit;
+    return {html:"I’d <b>approve a 30 day increase</b> of "+money(c.gap,o.cur)+" on "+o.id+".<ul><li>Grade B+: no missed payment in four years, nothing overdue.</li><li>AED 64,250 is landing within seven days, more than the gap.</li><li>The gap is "+pct(c.gap/lim*100)+" of the limit, "+(c.inBand?"inside":"outside")+" the "+S.policy.band+"% reviewer band.</li><li>The one risk: 38% of their revenue is one end customer, which is why I wouldn’t raise the permanent limit.</li></ul>I never change a limit myself. The decision is yours.",actions:[["Open credit desk","go:#/credit"]]}; }
+  /* order on hold / status */
+  if(/hold|stuck|waiting|status|where|happens next|next step|latest order/.test(t)){
+    var o2=ctxOrder(q); if(!o2) return {html:"You have no orders yet. Build a cart and I’ll track it from cart to cash.",actions:[["Open the cart","go:#/cart"]]};
+    if(o2.hold) return {html:"<b>"+o2.id+"</b> is waiting at <b>"+STAGES[o2.stage].short+"</b>. "+esc(o2.hold.text)+"<br><br><b>Next:</b> "+nextFor(o2),actions:[["Open "+o2.id,"go:#/order/"+o2.id]].concat(o2.hold.kind==="credit"?[["Open credit desk","go:#/credit"]]:[])};
+    return {html:"<b>"+o2.id+"</b> ("+money(o2.total,o2.cur)+") is <b>"+stageWord(o2)+"</b>. It runs as "+o2.txns.length+" transaction"+(o2.txns.length>1?"s":"")+": "+o2.txns.map(function(x){return ROUTES[x.route].short+" "+x.status.toLowerCase();}).join(", ")+"."+(o2.stage>=8&&o2.stage<10?" Payment is due on Net 60 terms; I match it automatically when it lands.":""),actions:[["Open "+o2.id,"go:#/order/"+o2.id]]}; }
+  /* a specific instrument */
+  var iid=insFrom(t);
+  if(iid&&cc){ var ins=INSTR.filter(function(x){return x.id===iid;})[0], w=withDisc(cc.c0,iid), g=credit(w).gap;
+    return {html:"With <b>"+ins.t+"</b>: "+(ins.disc?ins.disc+"% off, that’s <b>− "+money(w.disc)+"</b>, so you pay <b>"+money(w.total)+"</b>.":"no discount, you pay <b>"+money(w.total)+"</b>.")+" The gap over your limit "+(g?"becomes <b>"+money(g)+"</b> (it is "+money(cc.cr.gap)+" today).":"disappears.")+"<br><br>"+esc(ins.w)+".",actions:[[S.co.ins===iid?"✓ Selected":"Use "+ins.t.split(",")[0],"ins:"+iid],["Go to checkout","go:#/checkout"]]}; }
+  if(/which.*(save|cheap|best)|save the most|cheapest|best option/.test(t)&&cc){
+    return {html:"Ranked by what you pay for this cart:<ul>"+INSTR.slice().sort(function(a,b){return b.disc-a.disc;}).map(function(x){var w=withDisc(cc.c0,x.id);return "<li><b>"+x.t+"</b>: "+money(w.total)+(x.disc?" ("+x.disc+"% off)":"")+"</li>";}).join("")+"</ul><b>Advance payment</b> saves the most, "+money(withDisc(cc.c0,"adv").disc)+".",actions:[["Use advance payment","ins:adv"],["Use letter of credit","ins:lc"]]}; }
+  /* the gap */
+  if(/gap|over (the |my )?limit|limit|not enough|short/.test(t)&&cc){
+    var cr=cc.cr, tp=trimPlan(cc.c,cr);
+    if(!cr.gap) return {html:"There’s no gap: this order ("+money(cc.c.total)+") fits inside your available "+money(cr.avail)+". Pay by advance and you’d still save 2%.",actions:[["Use advance payment","ins:adv"]]};
+    return {html:"Your limit in "+cc.m.name+" is "+money(cr.limit)+". "+money(cr.used)+" is already committed in unpaid invoices and orders, so <b>"+money(cr.avail)+"</b> is available. This order is "+money(cc.c.total)+", which leaves a gap of <b>"+money(cr.gap)+"</b>.<br><br>It isn’t a rejection. "+money(cr.released)+" releases now, and you can cover the rest by paying it now, a bank guarantee, a temporary increase"+(tp?", or moving "+tp.n+" × "+tp.name+" to a saved quote":"")+". A <b>letter of credit</b> also takes 1% off and shrinks the gap to "+money(credit(withDisc(cc.c0,"lc")).gap)+".",actions:[["Use letter of credit","ins:lc"],["Go to checkout","go:#/checkout"]]}; }
+  /* grade */
+  if(/grade|b\+|score|signal|why.*approv/.test(t)){
+    return {html:"Grade <b>B+</b> comes from six signals we already hold:<ul>"+SIGNALS.map(function(s){return "<li>"+(s[3]==="Positive"?"✓ ":s[3]==="Negative"?"− ":"· ")+s[0]+"</li>";}).join("")+"</ul>Four positive, one neutral, one negative. Policy lets B+ release automatically up to the available limit, with no bureau file and no forms."}; }
+  if(/discount/.test(t)) return {html:"Secured or early payment earns a discount:<ul><li>Letter of credit: 1%</li><li>Bank guarantee: 1%</li><li>Advance payment: 2%</li><li>Open credit, post dated cheque, pay later with a funder: none</li></ul>",actions:cc?[["Use advance payment","ins:adv"]]:[]};
+  if(/tax|vat|gst|entity|invoic/.test(t)){ var m=MK[S.market];
+    return {html:"In <b>"+m.name+"</b>, "+m.entity+" sells, with <b>"+m.taxLabel+"</b>. "+esc(m.catch)+(cc?"<br><br>This cart is invoiced by "+uniq(cc.c0.txns.map(function(x){return x.invoicer.split(",")[0];})).join(" and ")+", and you still get one statement.":"")}; }
+  if(/credit|available|how much/.test(t)){ var a=avail(S.market), mm=MK[S.market];
+    return {html:"You have <b>"+money(a)+"</b> available in "+mm.name+", out of a "+money(mm.limit)+" limit ("+pct((mm.limit-a)/mm.limit*100,0)+" used). Grade B+ releases automatically up to that amount."+(cc&&cc.cr.gap?" Your current cart is "+money(cc.cr.gap)+" over it.":"")}; }
+  if(/email|voice|photo|upload|purchase order|\bpo\b|order from/.test(t)) return {html:"Send me the order any way you have it: paste an email, snap a photo of a paper PO, or just say it. DealFlow reads it, matches every line to the catalogue and builds the cart. No re-keying.",actions:[["Open PO intake","po"]]};
+  if(/agent|allowed|guardrail|authority|permission/.test(t)) return {html:"I work at four levels, set per stage by Finance:<ul><li><b>Acts</b>: finishes work inside rules a named owner set</li><li><b>Proposes</b>: recommends and shows why; a person decides</li><li><b>Explains</b>: turns what happened into something you can act on</li><li><b>Never</b>: approve my own order, change a credit limit or issue a credit note</li></ul>Every action I take sits in the audit trail next to yours.",actions:[["Open Policy and rules","go:#/policy"]]};
+  if(/needs me|today|\bto-?do\b|briefing|morning|exceptions/.test(t)){
+    var P=agentProposals(), H=S.orders.filter(function(o){return o.hold;}), N=S.pos.filter(function(p){return p.status==="new";}).length;
+    return {html:"Here’s today:<ul><li><b>"+P.length+"</b> agent proposal"+(P.length===1?"":"s")+" waiting for your approval</li><li><b>"+H.length+"</b> order"+(H.length===1?"":"s")+" on hold"+(H.length?" ("+H.map(function(o){return o.id;}).join(", ")+")":"")+"</li><li><b>"+N+"</b> new customer PO"+(N===1?"":"s")+" in the inbox</li></ul>",actions:[["Open Agent desk","go:#/agent"],["Open exceptions","go:#/exceptions"]]}; }
+  if(/reconcil|difference|variance|mismatch/.test(t)){
+    var X=S.recon.filter(function(r){return r.status==="exception"||r.status==="overdue";});
+    if(!X.length) return {html:"Everything is matched. Nothing to explain."};
+    return {html:"<b>"+X.length+"</b> items don’t match yet:<ul>"+X.map(function(r){return "<li><b>"+r.id+"</b>: "+esc((r.why||"").split(". ")[0])+".</li>";}).join("")+"</ul>Each has a proposed fix in the Agent desk, apart from the credit note, which stays with Finance.",actions:[["Open Agent desk","go:#/agent"]]}; }
+  if(/what can you|help|hello|\bhi\b|who are you/.test(t)) return {html:"I can:<ul><li>explain any decision: a grade, a reroute, a hold, a reconciliation difference</li><li>price your options: instruments, discounts, the credit gap</li><li>build a cart from an email, a photo or a voice note</li><li>brief you on what needs a person today</li></ul>"};
+  return {html:"I can answer about this page, your cart, orders, credit and reconciliation. Try one of the questions below.",actions:[["What needs me today?","ask:What needs me today?"]]};
+}
+
+/* ---- PO intake: email, photo or voice ---- */
+var INTAKE={tab:"email",text:"",phase:"",result:null};
+var SAMPLE={
+  email:"Hi Omar,\n\nPlease quote and order 200 Microsoft 365 Business Premium seats, 200 endpoint security seats and 40 ThinkPad laptops for Desert Logistics.\n\nThanks,\nKhalid, IT Manager",
+  photo:"PURCHASE ORDER  PO-DL-5102\nCustomer: Desert Logistics\n2 x FortiGate 100F firewall\n1 x PowerEdge R760 server\n1 x Microsoft 365 deployment",
+  voice:"200 Microsoft seats and 40 laptops for Desert Logistics"
+};
+var SYN=[["m365dep",/deployment/],["mig",/migration/],["m365bp",/microsoft 365|m365|office 365|microsoft seats?|microsoft licen[cs]es?|business premium/],["copilot",/copilot/],["bc",/business central|dynamics/],["cloudguard",/endpoint security|cloudguard|endpoint/],["observe",/observability|monitoring/],["thinkpad",/laptops?|thinkpads?|notebooks?/],["r760",/servers?|poweredge/],["fg100f",/firewalls?|fortigate/]];
+function parseOrder(text){
+  var low=text.toLowerCase().replace(/\r/g,""), parts=low.split(/\n|,|;|\band\b|\.(?=\s)/), lines=[], seen={};
+  parts.forEach(function(p){ var n=p.match(/(\d[\d,]*)\s*(?:x\s*)?/); if(!n) return;
+    for(var i=0;i<SYN.length;i++){ if(SYN[i][1].test(p)&&!seen[SYN[i][0]]){ seen[SYN[i][0]]=1; lines.push({sku:SYN[i][0],qty:parseInt(n[1].replace(/,/g,""),10),conf:/microsoft seats|laptops|endpoint/.test(p)?92:98}); break; } } });
+  var cm=text.match(/(?:for|customer:)\s+([A-Z][A-Za-z&]+(?:\s[A-Z][A-Za-z&]+)*)/);
+  return {lines:lines,customer:cm?cm[1]:"",source:INTAKE.tab};
+}
+function openIntake(tab){ INTAKE={tab:tab||"email",text:SAMPLE[tab||"email"],phase:"",result:null}; intakeRender(); }
+function intakeRender(){
+  var T=INTAKE, tabs=[["email","ph-envelope-simple","Email"],["photo","ph-camera","Photo"],["voice","ph-microphone","Voice note"]];
+  var body="";
+  if(T.result){
+    var r=T.result, c=calc(r.lines,S.market);
+    body="<div class='in-res'><div class='row sb'><b>DealFlow read "+r.lines.length+" line"+(r.lines.length===1?"":"s")+(r.customer?" for "+esc(r.customer):"")+"</b>"+pill("No re-keying","ai")+"</div>"+
+      (r.lines.length?r.lines.map(function(l){var p=PX[l.sku];return "<div class='in-line'>"+vlg(p.vendor,32)+"<span><b>"+p.name+"</b><small>"+money(p.price*MK[S.market].fx)+" / "+p.unit+"</small></span><span class='mono'>× "+l.qty+"</span><span class='conf'><i style='width:"+l.conf+"%'></i><em>"+l.conf+"%</em></span></div>";}).join(""):"<p class='muted'>I couldn’t match any catalogue items. Try naming the product and a quantity.</p>")+
+      (r.lines.length?"<div class='row sb' style='margin-top:12px'><span class='muted'>Cart total in "+MK[S.market].name+"</span><b class='mono'>"+money(c.total)+"</b></div>":"")+
+      "<div class='row' style='justify-content:flex-end;gap:8px;margin-top:16px'><button class='btn' data-act='in-again'>Try another</button>"+(r.lines.length?"<button class='btn pri' data-act='in-build'><i class='ph ph-shopping-cart-simple'></i>Build my cart</button>":"")+"</div></div>";
+  } else if(T.tab==="email"){
+    body="<label class='in-lbl'>Paste the customer’s email</label><textarea class='inp in-ta' data-act='in-text' rows='7'>"+esc(T.text)+"</textarea>"+
+      "<div class='row' style='justify-content:flex-end;margin-top:12px'><button class='btn ai' data-act='in-read' "+(T.phase?"disabled":"")+"><i class='ph-fill ph-sparkle'></i>"+(T.phase?"Reading…":"Read with DealFlow")+"</button></div>";
+  } else if(T.tab==="photo"){
+    body=(T.phase?"<div class='paper'><div class='scan'></div><pre>"+esc(SAMPLE.photo)+"</pre></div><p class='muted' style='text-align:center;margin-top:10px'>Reading the photo…</p>":
+      "<label class='drop in-drop'><input type='file' accept='image/*' data-act='in-file' hidden><i class='ph ph-camera' style='font-size:30px'></i><b>Snap or drop a photo of the PO</b><span class='muted'>JPG or PNG</span></label>"+
+      "<div class='row' style='justify-content:center'><button class='btn ai' data-act='in-photo'><i class='ph-fill ph-sparkle'></i>Use a sample photo</button></div><p class='muted' style='font-size:12px;text-align:center;margin-top:8px'>In this prototype, any photo is read as the sample PO.</p>");
+  } else {
+    var sr=!!(window.SpeechRecognition||window.webkitSpeechRecognition);
+    body="<div class='voice'><button class='mic-big"+(T.phase==="listen"?" on":"")+"' data-act='in-voice' aria-label='Record a voice note'><i class='ph-fill ph-microphone'></i></button>"+
+      "<div class='vt'>"+(T.vt?esc(T.vt):"<span class='muted'>"+(sr?"Tap and say the order, for example “200 Microsoft seats and 40 laptops for Desert Logistics”.":"Voice needs Chrome or Edge. Use the sample voice note.")+"</span>")+(T.phase==="type"?"<span class='caret'></span>":"")+"</div>"+
+      "<button class='btn' data-act='in-sample-voice'><i class='ph ph-play'></i>Play a sample voice note</button></div>";
+  }
+  $("#modal").innerHTML="<div class='modal-bg' data-act='closemodal'><div class='modal wide' data-act='noop' role='dialog' aria-modal='true'>"+
+    "<div class='row sb'><div class='row'><span class='orb sm'><i class='ph-fill ph-sparkle'></i></span><div><h2>New order from anything</h2><p class='muted' style='font-size:12.5px'>Email, photo or voice. DealFlow reads it and builds the cart.</p></div></div><button class='an-x' data-act='closemodal' aria-label='Close'><i class='ph ph-x'></i></button></div>"+
+    (T.result?"":"<div class='seg'>"+tabs.map(function(x){return "<button data-act='in-tab' data-t='"+x[0]+"' aria-pressed='"+(T.tab===x[0])+"'><i class='ph "+x[1]+"'></i>"+x[2]+"</button>";}).join("")+"</div>")+body+"</div></div>";
+}
+function intakeRead(text){ INTAKE.phase="read"; intakeRender(); setTimeout(function(){ INTAKE.result=parseOrder(text); INTAKE.phase=""; log("DealFlow AI","acts","Read a "+INTAKE.tab+" order: "+INTAKE.result.lines.length+" lines matched",""); intakeRender(); },1500); }
+var REC=null;
+function listen(onText,onEnd){
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition; if(!SR){ toast("Voice input needs Chrome or Edge"); return false; }
+  try{ REC=new SR(); REC.lang="en-US"; REC.interimResults=true; REC.onresult=function(e){ var s=""; for(var i=0;i<e.results.length;i++) s+=e.results[i][0].transcript; onText(s); }; REC.onend=function(){ REC=null; onEnd(); }; REC.onerror=function(){ toast("Couldn’t hear that. Try again or type."); }; REC.start(); return true; }catch(err){ toast("Voice input isn’t available here"); return false; }
+}
+function typeOut(text,cb){ var i=0; INTAKE.phase="type"; INTAKE.vt=""; var iv=setInterval(function(){ i+=2; INTAKE.vt=text.slice(0,i); intakeRender(); if(i>=text.length){ clearInterval(iv); INTAKE.phase=""; cb(); } },45); }
+
+/* ---- Agent desk: agent proposes, a person decides ---- */
+function agentProposals(){
+  var P=[];
+  S.orders.forEach(function(o){ if(!o.hold) return; var h=o.hold;
+    if(h.kind==="deviation"&&!o.flags.asked) P.push({id:"dev-"+o.id,icon:"ph-envelope-simple",kind:"Draft email",ref:o.id,title:"Ask "+o.customer+" for a revised PO",conf:94,
+      why:["The customer PO prices Microsoft 365 below quote "+(o.quote||""),"Line margin falls to 9.6%, under the "+S.policy.floor+"% floor","Asking first avoids a Finance override"],
+      guard:["Proposes: you send it","Nothing leaves until approved"],
+      draft:"Dear "+o.customer+" team,\n\nThank you for your purchase order. The quoted price for Microsoft 365 Business Premium is AED 82 per seat on quote "+(o.quote||"")+". Could you send a revised PO at the quoted price? We will release the order as soon as it arrives.\n\nKind regards,\nSara Nair, Redington",
+      run:function(){resolve(o.id,"ask");}});
+    if(h.kind==="readiness"&&!o.flags.asked) P.push({id:"rd-"+o.id,icon:"ph-identification-card",kind:"Request document",ref:o.id,title:"Request the renewed registration from "+o.partner,conf:96,
+      why:[h.text,"The order stays reserved for 5 days"],guard:["Proposes: you send it","Order continues on its own once verified"],run:function(){resolve(o.id,"askcert");}});
+    if(h.kind==="credit") P.push({id:"cr-"+o.id,icon:"ph-gauge",kind:"Credit recommendation",ref:o.id,title:"Recommend a 30 day increase of "+money(o.credit.gap,o.cur),conf:88,
+      why:["Grade B+, no missed payment in four years","AED 64,250 lands within seven days","Gap is "+pct(o.credit.gap/MK[o.market].limit*100)+" of the limit, "+(o.credit.inBand?"inside":"outside")+" the "+S.policy.band+"% reviewer band"],
+      guard:["Never changes a credit limit itself","Sends the recommendation to the credit desk"],runLabel:"Send to credit desk",run:function(){ S.dismissed.push("cr-"+o.id); save(); log("DealFlow AI","proposes","Recommended a 30 day increase on "+o.id+" to the credit desk",o.id); go("#/credit"); }});
+  });
+  var CHECK={fee:"Matches the 3% fee in the private offer agreement",tds:"2% matches TDS under Section 194Q",fx:"Inside the FX tolerance in policy",overdue:"Reminder cadence set in policy",cash:"Amount equals three open invoices exactly"};
+  var CONF={fee:97,tds:92,fx:95,overdue:90,cash:96};
+  S.recon.forEach(function(r){ if(!(r.status==="exception"||r.status==="overdue")||!r.sug) return;
+    if(r.sug.level==="never") P.push({id:"rc-"+r.id,never:true,icon:"ph-prohibit",kind:"Credit note",ref:r.id,title:"Issue a credit note of "+money(r.amount,r.cur),why:[r.why],guard:["Never: credit notes stay with Finance"],runLabel:"Send to Finance",run:function(){ log("Sara Nair","person","Sent the "+r.id+" credit note request to Finance with the agent summary",r.order); toast("Sent to Finance"); }});
+    else P.push({id:"rc-"+r.id,icon:{fee:"ph-receipt",tds:"ph-file-text",fx:"ph-currency-circle-dollar",overdue:"ph-bell-ringing",cash:"ph-coins"}[r.kind]||"ph-receipt",kind:r.sug.level==="acts"?"Ready to act":"Reconciliation",ref:r.id,title:r.sug.label,conf:CONF[r.kind]||90,
+      why:(r.why||"").split(/(?<=\.)\s+/).filter(Boolean),guard:[r.sug.level==="acts"?"Acts within rules":"Proposes: you approve",CHECK[r.kind]||"Checked against policy"],run:function(){fixRecon(r.id);}});
+  });
+  return P.filter(function(p){return S.dismissed.indexOf(p.id)<0;});
+}
+VIEWS.agent=function(){
+  var P=agentProposals(), act=P.filter(function(p){return !p.never;}), nev=P.filter(function(p){return p.never;});
+  var appr=S.audit.filter(function(a){return /^Approved agent proposal/.test(a.text);}).length;
+  var avg=act.length?Math.round(act.reduce(function(a,p){return a+p.conf;},0)/act.length):0;
+  function card(p){
+    var ring="<svg viewBox='0 0 36 36' class='ag-ring'><circle cx='18' cy='18' r='15' class='tr'/><circle cx='18' cy='18' r='15' class='pr' pathLength='100' style='stroke-dasharray:"+p.conf+" 100'/></svg>";
+    return "<div class='ag-card"+(p.never?" never":"")+"'>"+
+      "<div class='ag-top'><span class='ag-ic'><i class='ph-fill "+p.icon+"'></i></span><span class='ag-kind'>"+p.kind+"</span><span class='mono muted' style='font-size:11.5px'>"+esc(p.ref||"")+"</span>"+(p.never?"<span class='ag-conf' style='margin-left:auto'>"+pill("Never by agent","bad")+"</span>":"<span class='ag-conf'>"+ring+"<b>"+p.conf+"%</b></span>")+"</div>"+
+      "<h3>"+esc(p.title)+"</h3>"+
+      "<div class='ag-sub'>Why</div><ul class='ag-why'>"+p.why.map(function(w){return "<li><i class='ph-bold ph-check'></i>"+esc(w)+"</li>";}).join("")+"</ul>"+
+      "<div class='ag-guard'>"+p.guard.map(function(g){return "<span><i class='ph-fill ph-shield-check'></i>"+esc(g)+"</span>";}).join("")+"<span><i class='ph-fill ph-list-magnifying-glass'></i>Logged to audit</span></div>"+
+      (p.draft?"<details class='ag-draft'><summary>View the draft</summary><pre>"+esc(p.draft)+"</pre></details>":"")+
+      "<div class='ag-btns'>"+(p.never?"<button class='btn' data-act='ag-ok' data-id='"+p.id+"'><i class='ph ph-paper-plane-tilt'></i>"+p.runLabel+"</button>":
+        "<button class='btn pri' data-act='ag-ok' data-id='"+p.id+"'><i class='ph-bold ph-check'></i>"+(p.runLabel||"Approve")+"</button><button class='btn' data-act='ag-no' data-id='"+p.id+"'>Reject</button>")+
+      whyBtn(p.id.indexOf("rc-")===0?"Why is "+p.ref+" different?":"Why is "+p.ref+" on hold?","Ask Anya")+"</div></div>";
+  }
+  return "<div class='pagehd'><div><div class='eyebrow'><i class='ph-fill ph-robot'></i> DealFlow AI · agent proposes, human decides</div><h1>Agent desk</h1><p>Every proposal shows its reasoning and the guardrail it sits inside. Approve and it runs; reject and it is logged.</p></div></div>"+
+    "<div class='g g4' style='margin-bottom:16px'>"+kpi("Waiting for you",act.length,"Each with its reasoning")+kpi("Approved",appr,"Logged with the agent’s reasoning","ok")+kpi("Average confidence",act.length?avg+"%":"—","Below 85% goes to a person anyway")+kpi("Never by agent",nev.length,"Credit notes, limits, own orders")+"</div>"+
+    (P.length?"<div class='ag-grid'>"+act.map(card).join("")+nev.map(card).join("")+"</div>":"<div class='oc-empty'><div class='oc-empty-ic'><i class='ph-fill ph-check-circle'></i></div><h2>Nothing waiting</h2><p>The agent has no proposals for you right now.</p></div>")+
+    "<div style='margin-top:16px'>"+ann("This is the agentic story: the agent drafts, reasons and checks policy; a named person approves; both sit in one audit trail.","DealFlow AI · Governance")+"</div>";
+};
+/* ---- pre-checkout insight on the cart ---- */
+function anyaInsight(c,cr){
+  var rr=c.lines.filter(function(l){return l.rr.rerouted;}), txt, acts=[];
+  if(cr.gap>0){ var lc=withDisc(c,"lc"), tp=trimPlan(c,cr);
+    txt="This order is <b>"+money(cr.gap)+"</b> over your available credit. A <b>letter of credit</b> takes 1% off ("+money(lc.disc)+") and cuts the gap to "+money(credit(lc).gap)+"; <b>advance payment</b> takes 2% off."+(tp?" Or move "+tp.n+" × "+tp.name+" to a saved quote and it fits today.":"");
+    acts.push(S.co.ins==="lc"?"<span class='pill ok'><i class='ph-bold ph-check'></i>Letter of credit selected</span>":"<button class='btn sm ai' data-act='anya-do' data-a='ins:lc'>Use letter of credit</button>");
+  } else { var adv=withDisc(c,"adv"); txt="Everything fits inside your available credit. Paying in advance would still save <b>"+money(adv.disc)+"</b> (2%).";
+    acts.push(S.co.ins==="adv"?"<span class='pill ok'><i class='ph-bold ph-check'></i>Advance payment selected</span>":"<button class='btn sm ai' data-act='anya-do' data-a='ins:adv'>Use advance payment</button>"); }
+  if(rr.length) txt+=" "+rr[0].name+" is rerouted because AWS can’t sell in "+MK[S.market].name+".";
+  acts.push(whyBtn("Why is there a gap?","Ask Anya"));
+  return "<div class='an-insight'><span class='orb sm'><i class='ph-fill ph-sparkle'></i></span><div><b>Anya · before you check out</b><p>"+txt+"</p><div class='row' style='gap:8px;margin-top:8px'>"+acts.join("")+"</div></div></div>";
+}
+
+/* ---------- v3 skin: live particle-wave background + header holograms ---------- */
+function fxBackground(){
+  if(document.getElementById("fx-bg")) return;
+  var c=document.createElement("canvas"); c.id="fx-bg"; c.setAttribute("aria-hidden","true"); document.body.insertBefore(c,document.body.firstChild);
+  var ctx=c.getContext("2d"), W=0, H=0;
+  function size(){ var d=Math.min(1.5,window.devicePixelRatio||1); W=window.innerWidth; H=window.innerHeight; c.width=W*d; c.height=H*d; c.style.width=W+"px"; c.style.height=H+"px"; ctx.setTransform(d,0,0,d,0,0); }
+  size(); window.addEventListener("resize",size);
+  var STOPS=[[59,130,246],[139,92,246],[236,72,153],[245,158,11]], C=120, COL=[];
+  for(var i=0;i<C;i++){ var x=i/(C-1)*(STOPS.length-1), k=Math.min(STOPS.length-2,Math.floor(x)), f=x-k, a=STOPS[k], b=STOPS[k+1];
+    COL.push("rgb("+Math.round(a[0]+(b[0]-a[0])*f)+","+Math.round(a[1]+(b[1]-a[1])*f)+","+Math.round(a[2]+(b[2]-a[2])*f)+")"); }
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches, last=0, t0=performance.now();
+  function draw(t){
+    var dark=isDark(); ctx.clearRect(0,0,W,H);
+    var R=26, base=H*0.64, i, j, p, u, x, y, s;
+    for(j=0;j<R;j++){ p=j/(R-1); var y0=base+Math.pow(p,1.5)*H*0.40, spread=0.7+p*1.0, amp=7+p*44;
+      for(i=0;i<C;i++){ u=i/(C-1); x=W*0.5+(u-0.5)*W*spread;
+        y=y0+amp*Math.sin(u*9+t*0.8+j*0.33)*Math.cos(u*3.1-t*0.45+p*2.2);
+        ctx.globalAlpha=(dark?0.2:0.12)+p*(dark?0.8:0.45); ctx.fillStyle=COL[i]; s=0.8+p*2.2; ctx.fillRect(x,y,s,s); } }
+    var R2=11;
+    for(j=0;j<R2;j++){ p=j/(R2-1);
+      for(i=0;i<C;i+=1){ u=i/(C-1); x=W*(0.30+u*0.78);
+        y=H*0.07+j*6+28*Math.sin(u*5.5+t*0.6+j*0.28)*(1-p*0.35);
+        ctx.globalAlpha=(dark?0.55:0.30)*Math.sin(u*Math.PI)*(1-p*0.5); ctx.fillStyle=COL[i]; s=0.9+(1-p)*1.1; ctx.fillRect(x,y,s,s); } }
+    ctx.globalAlpha=1;
+  }
+  function frame(now){ if(!document.hidden&&now-last>33){ last=now; draw((now-t0)/1000); } if(!reduce) requestAnimationFrame(frame); }
+  draw(0); if(!reduce) requestAnimationFrame(frame);
+}
+var HOLO={home:["ph-chart-line-up","b"],catalogue:["ph-shopping-cart-simple","b"],orders:["ph-package","b"],order:["ph-package","b"],statement:["ph-receipt","b"],
+  inbox:["ph-envelope-open","v"],exceptions:["ph-warning-diamond","a"],credit:["ph-gauge","a"],recon:["ph-arrows-left-right","v"],audit:["ph-list-magnifying-glass","v"],policy:["ph-sliders-horizontal","v"],agent:["ph-robot","v"]};
+function heroize(){
+  var h=HOLO[route().r], hd=document.querySelector("#main .pagehd"); if(!h||!hd||hd.querySelector(".holo")) return;
+  hd.classList.add("hero-hd");
+  var el=document.createElement("div"); el.className="holo h-"+h[1]; el.setAttribute("aria-hidden","true");
+  el.innerHTML="<span class='holo-glow'></span><span class='pane p1'></span><span class='pane p2'></span><span class='pane p3'><i class='ph-fill "+h[0]+"'></i></span>";
+  var k=hd.children; if(k.length>=2) hd.insertBefore(el,k[k.length-1]); else hd.appendChild(el);
+}
+var KIC=[[/credit|limit/i,"ph-coins"],[/order value|value/i,"ph-stack"],[/total orders|open orders|orders in/i,"ph-package"],[/due|invoice/i,"ph-receipt"],[/renew/i,"ph-arrows-clockwise"],[/touch/i,"ph-hand-pointing"],[/po to order|customer po|cycle/i,"ph-timer"],[/pos today|read without/i,"ph-envelope-open"],[/queue|waiting/i,"ph-hourglass-medium"],[/decided|approved|paid/i,"ph-check-circle"],[/median|answer/i,"ph-lightning"],[/dso/i,"ph-calendar"],[/match/i,"ph-link"],[/exception/i,"ph-warning"],[/awaiting|open|progress/i,"ph-clock"],[/industry/i,"ph-chart-bar"],[/confidence/i,"ph-gauge"],[/never/i,"ph-prohibit"]];
+function kpiIcon(k){ for(var i=0;i<KIC.length;i++) if(KIC[i][0].test(k)) return KIC[i][1]; return "ph-sparkle"; }
+
+/* ============================================================
    Events
    ============================================================ */
 function go(h){ var moved=(h!==CUR); CUR=h; if(moved){ try{ history.pushState(null,"",h); }catch(e){} } render(); if(moved) window.scrollTo(0,0); }
@@ -1516,6 +1951,22 @@ document.addEventListener("click",function(e){
   var a=b.dataset.act, id=b.dataset.id;
   switch(a){
     case "menu": document.body.classList.toggle("menu"); break;
+    case "anya": ANYA.open=!ANYA.open; anyaRender(); if(ANYA.open) setTimeout(function(){var i=document.getElementById("anya-in"); if(i) i.focus();},300); break;
+    case "anya-ask": anyaAsk(b.dataset.q); break;
+    case "why": openAnya(b.dataset.q); break;
+    case "anya-do": anyaDo(b.dataset.a); break;
+    case "anya-send": var ai=document.getElementById("anya-in"); if(ai&&ai.value.trim()){ var qv=ai.value; ai.value=""; anyaAsk(qv); } break;
+    case "anya-mic": if(REC){ REC.stop(); break; } ANYA.listening=listen(function(tx){ var ai2=document.getElementById("anya-in"); if(ai2) ai2.value=tx; },function(){ ANYA.listening=false; var ai3=document.getElementById("anya-in"); var v=ai3?ai3.value:""; anyaRender(); if(v.trim()){ ai3.value=""; anyaAsk(v);} }); anyaRender(); break;
+    case "in-tab": INTAKE.tab=b.dataset.t; INTAKE.text=SAMPLE[INTAKE.tab]; INTAKE.phase=""; INTAKE.vt=""; intakeRender(); break;
+    case "in-read": var ta=document.querySelector(".in-ta"); intakeRead(ta?ta.value:INTAKE.text); break;
+    case "in-photo": INTAKE.phase="scan"; intakeRender(); setTimeout(function(){ intakeRead(SAMPLE.photo); },1800); break;
+    case "in-sample-voice": typeOut(SAMPLE.voice,function(){ intakeRead(SAMPLE.voice); }); break;
+    case "in-voice": if(REC){ REC.stop(); break; } INTAKE.phase="listen"; INTAKE.vt=""; var okv=listen(function(tx){ INTAKE.vt=tx; var vt=document.querySelector(".vt"); if(vt) vt.textContent=tx; },function(){ INTAKE.phase=""; if(INTAKE.vt) intakeRead(INTAKE.vt); else intakeRender(); }); if(!okv) INTAKE.phase=""; intakeRender(); break;
+    case "in-again": INTAKE.result=null; INTAKE.phase=""; INTAKE.vt=""; intakeRender(); break;
+    case "in-build": var lines=INTAKE.result.lines; S.cart=lines.map(function(l){return {sku:l.sku,qty:l.qty};}); S.co.checked=false; save(); $("#modal").innerHTML=""; log(BUYER.name,"person","Built a cart from a "+INTAKE.result.source+" order: "+lines.length+" lines",""); go("#/cart"); toast("Cart built from your "+INTAKE.result.source+(INTAKE.tab==="voice"?" note":""),"ai"); break;
+    case "ag-ok": var pp=agentProposals().filter(function(x){return x.id===b.dataset.id;})[0]; if(pp){ log("Sara Nair","person","Approved agent proposal: "+pp.title+". Reasoning: "+pp.why.join(" "),pp.ref||""); pp.run(); if(route().r==="agent") render(); toast(pp.never?"Sent":"Approved. The agent ran it and logged both of you.","ai"); } break;
+    case "ag-no": S.dismissed.push(b.dataset.id); var pr=agentProposals; log("Sara Nair","person","Rejected agent proposal "+b.dataset.id,""); save(); render(); toast("Rejected and logged"); break;
+    case "ofclear": OF={q:"",mk:"",st:""}; render(); break;
     case "scrollto": var tg=document.getElementById(b.dataset.t); if(tg) tg.scrollIntoView({behavior:"smooth",block:"start"}); break;
     case "notes": S.notes=!S.notes; save(); render(); break;
     case "reset": confirmBox("Reset the demo?","Orders, exceptions and policy changes go back to the starting state.","Reset demo",function(){ Object.keys(timers).forEach(function(k){clearTimeout(timers[k]);}); S=seed(); seedHistory(); save(); go("#/overview"); toast("Demo data reset"); }); break;
@@ -1555,9 +2006,12 @@ document.addEventListener("input",function(e){
   var t=e.target, a=t.dataset.act;
   if(a==="cq"){ CF.q=t.value; var g=$("#grid"); if(g){ g.innerHTML=P.filter(function(p){return (CF.v==="All"||p.vendor===CF.v)&&(!CF.q||(p.name+" "+p.vendor+" "+p.cat).toLowerCase().indexOf(CF.q.toLowerCase())>=0);}).map(tile).join(""); } }
   if(a==="poin"){ S.co.po=t.value; save(); }
+  if(a==="in-text"){ INTAKE.text=t.value; }
+  if(a==="oq"){ OF.q=t.value; var ot=document.getElementById("otable"); if(ot) ot.innerHTML=ordersTable(ordersFiltered(),false); }
 });
 document.addEventListener("change",function(e){
   var t=e.target, a=t.dataset.act;
+  if(a==="of"){ OF[t.dataset.k]=t.value; var ot2=document.getElementById("otable"); if(ot2) ot2.innerHTML=ordersTable(ordersFiltered(),false); }
   if(a==="market"){ S.market=t.value; S.co.checked=false; save(); render(); toast("Buying in "+MK[S.market].name+": routes, tax and entity re-resolved"); }
   if(a==="qtyset"){ var it=S.cart.filter(function(c){return c.sku===t.dataset.sku;})[0]; if(it){ it.qty=Math.max(1,parseInt(t.value,10)||1); S.co.checked=false; save(); render(); } }
   if(a==="pol"){ var v=parseFloat(t.value); if(!isNaN(v)){ var old=S.policy[t.dataset.k]; S.policy[t.dataset.k]=v; log("Policy owner","rules","Changed "+t.dataset.k+" from "+old+" to "+v,""); save(); toast("Policy updated and logged"); renderSide(); } }
@@ -1566,7 +2020,8 @@ document.addEventListener("change",function(e){
 });
 function syncFromUrl(){ try{ var h=location.hash; if(h&&h.indexOf("#/")===0&&h!==CUR){ CUR=h; render(); window.scrollTo(0,0); } }catch(e){} }
 window.addEventListener("hashchange",syncFromUrl); window.addEventListener("popstate",syncFromUrl);
-document.addEventListener("keydown",function(e){ if(e.key==="Escape"&&$("#modal").innerHTML){ $("#modal").innerHTML=""; } });
+document.addEventListener("keydown",function(e){ if(e.key==="Escape"){ if($("#modal").innerHTML){ $("#modal").innerHTML=""; } else if(ANYA.open){ ANYA.open=false; anyaRender(); } } if(e.key==="Enter"&&e.target&&e.target.id==="anya-in"){ e.preventDefault(); var v=e.target.value; e.target.value=""; anyaAsk(v); } });
+document.addEventListener("change",function(e){ if(e.target&&e.target.dataset&&e.target.dataset.act==="in-file"&&e.target.files&&e.target.files[0]){ INTAKE.phase="scan"; intakeRender(); setTimeout(function(){ intakeRead(SAMPLE.photo); },1800); } });
 try{ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",function(){ if(!THEME){ renderTop(); drawBeams(); } }); }catch(e){}
 
 /* ============================================================
@@ -1609,7 +2064,8 @@ function newPO(){
   var p=JSON.parse(JSON.stringify(n)); p.received=tm(Date.now()); p.status="new"; S.pos.unshift(p);
   log("DealFlow AI","acts","New PO "+p.id+" received from "+p.from,p.id); save(); go("#/inbox/"+p.id); toast("New email PO from "+p.from,"ai");
 }
-function openUpload(){
+function openUpload(){ openIntake("email"); }
+function openUploadOld(){
   $("#modal").innerHTML="<div class='modal-bg' data-act='closemodal'><div class='modal' data-act='noop'><h2>Upload a customer PO</h2><p class='ink2' style='margin-top:4px'>PDF, scan, Excel or forward the email to po@redington.example. DealFlow reads it, checks it against your quote and builds the order.</p>"+
     "<div class='drop'><div style='font-size:26px'>⇪</div><b>Drop a file here</b><div class='muted' style='font-size:12px'>or use the sample below</div></div>"+
     "<div class='row sb' style='border:1px solid var(--line);border-radius:8px;padding:10px 12px'><span class='mono'>PO_Meridian_Clinics.pdf · 84 KB</span><button class='btn ai sm' data-act='douploadpo'>Upload sample</button></div>"+
@@ -1637,6 +2093,7 @@ function resolve(id,k){
 }
 function creditDecision(id,d){
   var o=OX(id); if(!o) return;
+  S.dismissed=S.dismissed.filter(function(x){return x!=="cr-"+o.id;});
   if(d==="approved") release(o,"Imran Qureshi","Approved a 30 day temporary increase of "+money(o.credit.gap,o.cur)+" (inside the reviewer band)",function(){o.credit.decision="approved";o.credit.by="Imran Qureshi";});
   if(d==="declined"){ o.credit.decision="declined"; o.credit.by="Imran Qureshi"; o.hold=null; log("Imran Qureshi","person","Declined the increase on "+o.id+"; partner asked to pay or cover the gap",o.id); o.timeline.push({t:Date.now(),stage:"credit",actor:"Imran Qureshi",level:"person",text:"Declined the temporary increase"}); save(); advance(o.id); }
   if(d==="instrument"){ o.credit.decision="guarantee requested"; o.credit.opt="secure"; o.credit.by="Imran Qureshi"; o.hold=null; o.timeline.push({t:Date.now(),stage:"credit",actor:"Imran Qureshi",level:"person",text:"Asked for a bank guarantee instead of an increase"}); log("Imran Qureshi","person","Asked for a bank guarantee on "+o.id,o.id); save(); advance(o.id); }
@@ -1652,7 +2109,7 @@ function simulatePayments(){
   });
   S.orders.forEach(finishCollect);
   log("DealFlow AI","acts","Matched incoming payments and disbursements: "+n+" items","");
-  save(); render(); toast(n+" payments processed","ai");
+  save(); render(); toast(n+" payment"+(n===1?"":"s")+" processed","ai");
 }
 function fixRecon(id){
   var r=S.recon.filter(function(x){return x.id===id;})[0]; if(!r) return;
@@ -1665,6 +2122,8 @@ function fixRecon(id){
   save(); render(); toast("Done and logged");
 }
 
+fxBackground();
+anyaMount();
 render();
 })();
 </script>
