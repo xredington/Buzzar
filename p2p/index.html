@@ -9,6 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" />
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" />
 <style>
 :root{
   --bg:#f5f5f3; --card:#fff; --ink:#141414; --ink2:#4d4d4d; --ink3:#8a8a86; --line:#e4e4df; --line2:#d3d3cd;
@@ -265,6 +267,143 @@ body.no-notes .ann{display:none !important}
 }
 @media (max-width:520px){.stlab{display:none !important}.g4{grid-template-columns:1fr 1fr}.txn .ln{grid-template-columns:1fr auto}.txn .ln .hide-s{display:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+/* ===== v2 visual layer: concept colours, icons, 21st.dev style components ===== */
+:root{--c-b:#2f63ff;--c-a:#f59e0b;--c-v:#7c4dff;--c-g:#10a36a;--dk:#0a0c13}
+.nav .ic i{font-size:17px;vertical-align:-3px}
+.brand .lg{background:linear-gradient(135deg,#2f63ff,#7c4dff 60%,#f59e0b);box-shadow:0 6px 18px rgba(79,70,229,.35)}
+
+/* hero */
+.ov-hero{position:relative;overflow:hidden;border-radius:24px;background:var(--dk);color:#fff;display:grid;grid-template-columns:minmax(0,1fr) 560px;gap:24px;align-items:center;padding:56px 48px;min-height:520px;isolation:isolate}
+.aurora{position:absolute;inset:0;z-index:-1;filter:blur(70px);opacity:.75}
+.aurora i{position:absolute;border-radius:50%;width:520px;height:520px;animation:drift 16s ease-in-out infinite alternate}
+.aurora i:nth-child(1){background:#2f63ff;left:-120px;top:-180px}
+.aurora i:nth-child(2){background:#7c4dff;right:-80px;top:40px;animation-delay:-5s;width:460px;height:460px}
+.aurora i:nth-child(3){background:#f59e0b;left:30%;bottom:-320px;opacity:.6;animation-delay:-9s}
+@keyframes drift{to{transform:translate(80px,40px) scale(1.15)}}
+.ov-dots{position:absolute;inset:0;z-index:-1;background-image:radial-gradient(rgba(255,255,255,.14) 1px,transparent 1px);background-size:22px 22px;mask-image:radial-gradient(ellipse at 30% 50%,#000 20%,transparent 70%)}
+.badge-glow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;padding:6px 14px;border-radius:99px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(8px);color:#dfe4ff}
+.badge-glow i{color:#ffc46b}
+.ov-title{font-size:64px;line-height:1.02;letter-spacing:-.045em;font-weight:700;margin:22px 0 14px}
+.shine{background:linear-gradient(90deg,#9db6ff,#c9b5ff,#ffd08a,#9db6ff);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
+@keyframes shine{to{background-position:300% 0}}
+.ov-sub{font-size:18px;color:#aab3cc;margin-bottom:28px}
+.btn.glow{background:#fff;color:#0a0c13;border:0;box-shadow:0 0 0 1px rgba(255,255,255,.3),0 10px 40px rgba(124,77,255,.55);font-weight:600}
+.btn.glow:hover{background:#eef1ff}
+.btn.ghost-d{background:rgba(255,255,255,.06);color:#fff;border-color:rgba(255,255,255,.18)}
+.btn.ghost-d:hover{background:rgba(255,255,255,.12)}
+.ov-live{display:flex;gap:10px;margin-top:34px;flex-wrap:wrap}
+.ov-live span{display:flex;align-items:baseline;gap:7px;font-size:12.5px;color:#aab3cc;padding:8px 14px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)}
+.ov-live b{font-size:20px;color:#fff;font-weight:600;font-variant-numeric:tabular-nums}
+
+/* animated beam */
+.beam{position:relative;width:560px;height:440px}
+.beam svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.bm-base{fill:none;stroke:rgba(255,255,255,.12);stroke-width:2}
+.bm-run{fill:none;stroke-width:3;stroke-linecap:round;stroke-dasharray:60 400;animation:beam 2.6s cubic-bezier(.5,0,.3,1) infinite}
+@keyframes beam{from{stroke-dashoffset:460}to{stroke-dashoffset:0}}
+.bm-cart{position:absolute;left:0;top:136px;width:200px;padding:14px;border-radius:18px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(12px);box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.bm-h{display:flex;align-items:center;gap:8px;font-size:12.5px;color:#cfd6ea;margin-bottom:10px;font-weight:500}
+.bm-item{display:flex;align-items:center;gap:8px;font-size:12.5px;padding:7px 8px;border-radius:9px;background:rgba(255,255,255,.05);margin-top:6px}
+.bm-item em{margin-left:auto;font-style:normal;font-family:var(--mono);color:#8f99b3;font-size:11.5px}
+.sq{width:10px;height:10px;border-radius:3px;flex:none}
+.bm-node{position:absolute;left:346px;width:214px;display:grid;grid-template-columns:auto 1fr;column-gap:10px;align-items:center;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(12px);animation:nodein .6s both}
+.bm-node .ix{grid-row:span 2;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;color:#0a0c13;font-size:18px}
+.bm-node b{font-size:13.5px;font-weight:600} .bm-node small{font-size:11.5px;color:#9aa3bd}
+@keyframes nodein{from{opacity:0;transform:translateX(12px)}}
+.float-chip{position:absolute;display:flex;align-items:center;gap:8px;font-size:12.5px;padding:8px 14px;border-radius:99px;background:rgba(10,12,19,.75);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(10px);color:#dfe4f2;box-shadow:0 12px 30px rgba(0,0,0,.4);animation:bob 5s ease-in-out infinite}
+.float-chip b{color:#fff}
+.float-chip.f1{left:24px;top:30px} .float-chip.f2{left:40px;bottom:22px;animation-delay:-2.5s}
+@keyframes bob{50%{transform:translateY(-8px)}}
+
+/* sections */
+.ov-sec{margin-top:44px}
+.sec-h{margin-bottom:18px}
+.kick{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);font-weight:600}
+.sec-h h2{font-size:30px;letter-spacing:-.03em;margin-top:6px;font-weight:650}
+
+/* spotlight card base */
+.spot{position:relative;overflow:hidden;isolation:isolate}
+.spot::before{content:"";position:absolute;inset:0;z-index:-1;opacity:0;transition:opacity .3s;background:radial-gradient(380px circle at var(--mx,50%) var(--my,50%),color-mix(in srgb,var(--c) 16%,transparent),transparent 60%)}
+.spot:hover::before{opacity:1}
+
+/* before / after */
+.ba{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.ba-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;transition:transform .25s,box-shadow .25s}
+.ba-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(20,20,40,.08)}
+.ba-top{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink2);font-weight:500}
+.ba-top i{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;background:color-mix(in srgb,var(--c) 12%,#fff);color:var(--c)}
+.ba-old{margin-top:18px;font-size:15px;color:var(--ink3);text-decoration:line-through;text-decoration-color:#e5484d;text-decoration-thickness:2px}
+.ba-new{font-size:40px;font-weight:700;letter-spacing:-.04em;color:var(--c);font-variant-numeric:tabular-nums;line-height:1.1}
+.ba-bar{height:4px;border-radius:9px;background:var(--soft);margin-top:14px;overflow:hidden}
+.ba-bar i{display:block;height:100%;width:100%;background:var(--c);transform-origin:left;animation:grow 1.2s .3s cubic-bezier(.22,1,.36,1) both}
+@keyframes grow{from{transform:scaleX(0)}}
+
+/* bento */
+.bento{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.bento-card{display:flex;flex-direction:column;gap:10px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;color:var(--ink);transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s,border-color .3s}
+.bento-card:hover{text-decoration:none;transform:translateY(-4px);box-shadow:0 24px 60px rgba(20,20,40,.1);border-color:color-mix(in srgb,var(--c) 35%,var(--line))}
+.bento-card::after{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--c)}
+.bc-top{display:flex;align-items:center;gap:10px}
+.bc-ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:21px;color:#fff;background:var(--c);box-shadow:0 8px 20px color-mix(in srgb,var(--c) 35%,transparent)}
+.bc-n{font-family:var(--mono);font-size:12px;color:var(--ink3)}
+.bc-st{margin-left:auto;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:99px;background:color-mix(in srgb,var(--c) 12%,#fff);color:var(--c)}
+.bento-card h3{font-size:26px;letter-spacing:-.03em;margin-top:6px}
+.bento-card p{color:var(--ink2);font-size:14px}
+.bc-viz{height:150px;border-radius:16px;background:linear-gradient(180deg,#fafaf8,#f2f2ee);border:1px solid var(--line);position:relative;display:grid;place-items:center;overflow:hidden;margin-top:4px}
+.bc-chips{display:flex;gap:6px;flex-wrap:wrap}
+.bc-chips span{font-size:11.5px;padding:4px 10px;border-radius:99px;border:1px solid var(--line2);color:var(--ink2);background:#fff}
+.bc-cta{margin-top:auto;padding-top:6px;display:flex;align-items:center;gap:6px;font-weight:600;font-size:13.5px;color:var(--c)}
+.bc-cta i{transition:transform .25s}
+.bento-card:hover .bc-cta i{transform:translate(3px,-3px)}
+/* mini visuals */
+.mini-split{display:flex;align-items:center;gap:26px}
+.ms-cart{width:58px;height:58px;border-radius:16px;background:#111;color:#fff;display:grid;place-items:center;font-size:26px;box-shadow:0 10px 24px rgba(0,0,0,.18)}
+.ms-lines{display:flex;flex-direction:column;gap:8px}
+.ms-lines span{position:relative;font-size:12px;font-weight:600;padding:6px 14px 6px 22px;border-radius:9px;background:#fff;border:1px solid var(--line);animation:slidein 2.8s var(--d) infinite}
+.ms-lines span::before{content:"";position:absolute;left:9px;top:50%;width:7px;height:7px;margin-top:-3.5px;border-radius:50%;background:var(--col)}
+@keyframes slidein{0%{opacity:0;transform:translateX(-40px)}18%,80%{opacity:1;transform:none}100%{opacity:0}}
+.mini-ring{width:112px;height:112px;transform:rotate(-90deg)}
+.mini-ring .tr{fill:none;stroke:#e9e9e4;stroke-width:10}
+.mini-ring .pr{fill:none;stroke:var(--c-a);stroke-width:10;stroke-linecap:round;stroke-dasharray:100;animation:ringfill 3s cubic-bezier(.22,1,.36,1) infinite}
+@keyframes ringfill{0%{stroke-dashoffset:100}60%,100%{stroke-dashoffset:12}}
+.mini-ring-l{position:absolute;text-align:center} .mini-ring-l b{display:block;font-size:26px;letter-spacing:-.03em} .mini-ring-l small{font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.mini-pipe{display:flex;gap:6px;width:82%}
+.mini-pipe span{flex:1;height:30px;border-radius:7px;background:#e7e2fb;animation:pip 3.4s infinite}
+.mini-pipe span.h{background:#fde7c1;animation-name:piph}
+@keyframes pip{0%{background:#ece9f7}25%,85%{background:var(--c-v)}100%{background:#ece9f7}}
+@keyframes piph{0%{background:#fbefd9}25%,85%{background:var(--c-a)}100%{background:#fbefd9}}
+.mini-cap{position:absolute;bottom:12px;left:9%;right:9%;display:flex;justify-content:space-between;font-size:10.5px;color:var(--ink3);font-family:var(--mono)}
+
+/* journey timeline */
+.jr{position:relative;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;padding-top:4px}
+.jr-line{position:absolute;left:7%;right:7%;top:30px;height:2px;background:var(--line2);border-radius:2px;overflow:hidden}
+.jr-line i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--c-b),var(--c-a),var(--c-v));transform-origin:left;animation:grow 1.8s .2s cubic-bezier(.22,1,.36,1) both}
+.jr-step{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;color:var(--ink);padding:0 4px 12px;border-radius:16px;animation:nodein .5s both}
+.jr-step:hover{text-decoration:none}
+.jr-dot{position:relative;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-size:24px;background:#fff;color:var(--c);border:2px solid color-mix(in srgb,var(--c) 40%,#fff);box-shadow:0 8px 22px color-mix(in srgb,var(--c) 18%,transparent);margin-bottom:8px;transition:transform .25s,background .25s,color .25s}
+.jr-step:hover .jr-dot{transform:scale(1.1);background:var(--c);color:#fff}
+.jr-dot em{position:absolute;top:-4px;right:-4px;width:20px;height:20px;border-radius:50%;background:var(--ink);color:#fff;font-style:normal;font-size:10.5px;font-weight:700;display:grid;place-items:center}
+.jr-step b{font-size:13.5px;font-weight:600} .jr-step small{font-size:11.5px;color:var(--ink3)}
+
+/* cast */
+.ov-cast{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:16px 20px;background:#fff;border:1px solid var(--line);border-radius:18px}
+.cast{display:flex;gap:22px;flex-wrap:wrap;flex:1}
+.cast-p{display:flex;align-items:center;gap:10px}
+.cast-p b{display:block;font-size:13.5px} .cast-p small{color:var(--ink3);font-size:12px}
+.ov-cast .ann{flex-basis:100%}
+
+@media (max-width:1180px){.ov-hero{grid-template-columns:minmax(0,1fr)}.ov-copy{min-width:0}.beam{margin:0 auto;transform:scale(.9)}}
+@media (max-width:980px){.ba{grid-template-columns:repeat(2,minmax(0,1fr))}.bento{grid-template-columns:1fr}.jr{grid-template-columns:repeat(4,minmax(0,1fr));row-gap:22px}.jr-line{display:none}}
+@media (max-width:640px){
+  .ov-hero{padding:32px 20px;border-radius:18px}
+  .ov-title{font-size:42px}
+  .ov-hero .btn.lg{padding:10px 14px;font-size:14px}
+  .ov-live span{padding:6px 10px}
+  .beam{width:560px;transform:scale(.58);transform-origin:left top;height:440px;margin:0 0 -180px}
+  .ba{grid-template-columns:1fr 1fr}.ba-new{font-size:30px}
+  .jr{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
 </style>
 </head>
 <body>
@@ -577,20 +716,20 @@ S.orders.forEach(function(o){ if(o.hold&&o.hold.kind==="payment") o.hold=null; i
    ============================================================ */
 var NAV=[
   {sec:"Prototype"},
-  {r:"overview",l:"Overview",ic:"◎"},
+  {r:"overview",l:"Overview",ic:"<i class='ph ph-squares-four'></i>"},
   {sec:"Partner portal",sub:BUYER.co},
-  {r:"home",l:"Home",ic:"⌂"},
-  {r:"catalogue",l:"Catalogue",ic:"▦"},
-  {r:"cart",l:"OneCart 360",ic:"🛒",tag:"cart"},
-  {r:"orders",l:"My orders",ic:"≡"},
-  {r:"statement",l:"Invoices and statement",ic:"₿"},
+  {r:"home",l:"Home",ic:"<i class='ph ph-house'></i>"},
+  {r:"catalogue",l:"Catalogue",ic:"<i class='ph ph-storefront'></i>"},
+  {r:"cart",l:"OneCart 360",ic:"<i class='ph ph-shopping-cart-simple'></i>",tag:"cart"},
+  {r:"orders",l:"My orders",ic:"<i class='ph ph-package'></i>"},
+  {r:"statement",l:"Invoices and statement",ic:"<i class='ph ph-receipt'></i>"},
   {sec:"Redington back office"},
-  {r:"inbox",l:"DealFlow inbox",ic:"✉",tag:"inbox"},
-  {r:"exceptions",l:"Exceptions",ic:"!",tag:"exc"},
-  {r:"credit",l:"Credit desk",ic:"◐",tag:"credit"},
-  {r:"recon",l:"Reconciliation",ic:"⇄",tag:"recon"},
-  {r:"audit",l:"Audit trail",ic:"☰"},
-  {r:"policy",l:"Policy and rules",ic:"⚙"}
+  {r:"inbox",l:"DealFlow inbox",ic:"<i class='ph ph-tray-arrow-down'></i>",tag:"inbox"},
+  {r:"exceptions",l:"Exceptions",ic:"<i class='ph ph-warning-diamond'></i>",tag:"exc"},
+  {r:"credit",l:"Credit desk",ic:"<i class='ph ph-gauge'></i>",tag:"credit"},
+  {r:"recon",l:"Reconciliation",ic:"<i class='ph ph-arrows-left-right'></i>",tag:"recon"},
+  {r:"audit",l:"Audit trail",ic:"<i class='ph ph-list-magnifying-glass'></i>"},
+  {r:"policy",l:"Policy and rules",ic:"<i class='ph ph-sliders-horizontal'></i>"}
 ];
 var PERSONA={
   partner:{c:"",i:"OS",t:BUYER.name+" · "+BUYER.co},
@@ -645,9 +784,10 @@ function render(){
   renderSide(); renderTop();
   var R=route(), v=VIEWS[R.r]||VIEWS.overview;
   $("#main").innerHTML="<div class='fade'>"+v(R.a)+"</div>";
+  fx();
   if(R.r==="checkout" && S.co.step===2 && !S.co.checked) runCheck();
 }
-var BG_SAFE={catalogue:1,policy:1,checkout:1};
+var BG_SAFE={catalogue:1,policy:1,checkout:1,overview:1};
 function refresh(){ renderSide(); var R=route().r; if(!BG_SAFE[R]) { var y=window.scrollY; $("#main").innerHTML="<div>"+(VIEWS[R]||VIEWS.overview)(route().a)+"</div>"; window.scrollTo(0,y);} }
 
 /* ============================================================
@@ -657,46 +797,101 @@ var VIEWS={};
 
 /* ---------- Overview ---------- */
 VIEWS.overview=function(){
-  var placed=S.orders.length, touch=S.orders.filter(function(o){return o.stage>=8 && !o.timeline.some(function(e){return e.actor!=="DealFlow AI"&&e.actor!=="Partner";});}).length;
-  var done=S.orders.filter(function(o){return o.stage>=8;}).length;
-  return "<div class='pagehd'><div><div class='eyebrow'>Deal Ninjas · Procure to Pay</div><h1>One cart, credit at checkout, PO to revenue.</h1>"+
-    "<p>A working wireframe of the three concepts as one product. Every screen is clickable and shares one state: what the partner buys in OneCart 360 is decided by CreditIQ and run by DealFlow AI in the back office.</p></div>"+
-    "<a class='btn pri lg' href='#/cart'>Start the demo →</a></div>"+
-    "<div class='g g3'>"+
-      concept("01","Build now · recommended MVP","OneCart 360","One cart. Multiple vendors. Zero complexity.","What is being purchased, and through which route?",[["Partner cart with routing","#/cart"],["Route matrix","#/policy"]])+
-      concept("02","Design next","CreditIQ","Instant credit. Intelligent risk. Faster business.","Can the transaction be approved safely and profitably?",[["Credit at checkout","#/checkout"],["Credit desk","#/credit"]])+
-      concept("03","Build now, phased","DealFlow AI","From customer PO to revenue, intelligently.","Can we execute, invoice and reconcile it with minimal manual effort?",[["PO inbox","#/inbox"],["Reconciliation","#/recon"]])+
+  var done=S.orders.filter(function(o){return o.stage>=8;}).length, c=counts();
+  /* ---- hero ---- */
+  var hero="<section class='ov-hero'><div class='aurora'><i></i><i></i><i></i></div><div class='ov-dots'></div>"+
+    "<div class='ov-copy'>"+
+      "<span class='badge-glow'><i class='ph-fill ph-sparkle'></i>Deal Ninjas · Procure to Pay</span>"+
+      "<h1 class='ov-title'>One cart.<br><span class='shine'>Instant credit.</span><br>Zero re-keying.</h1>"+
+      "<p class='ov-sub'>Three concepts. One checkout. Cart to cash.</p>"+
+      "<div class='row' style='gap:12px'><a class='btn glow lg' href='#/cart'>Start the demo <i class='ph ph-arrow-right'></i></a>"+
+      "<button class='btn ghost-d lg' data-act='scrollto' data-t='journey'><i class='ph ph-path'></i>See the journey</button></div>"+
+      "<div class='ov-live'>"+
+        "<span><b data-tick='"+S.orders.length+"'>0</b>orders</span>"+
+        "<span><b data-tick='"+done+"'>0</b>invoiced</span>"+
+        "<span><b data-tick='"+(c.exc+c.recon)+"'>0</b>open exceptions</span>"+
+      "</div>"+
     "</div>"+
-    "<div class='g g4' style='margin-top:16px'>"+
-      kpi("Orders in this demo",placed,done+" invoiced")+
-      kpi("Touchless",done?pct(touch/done*100,0):"—","Best in class 49.2%, average 32.6%","ok")+
-      kpi("Open exceptions",counts().exc+counts().recon,"Industry average exception rate 14%")+
-      kpi("Credit answer","2.4 sec","Today about 3 days, by email","ok")+
-    "</div>"+
-    "<div class='split' style='margin-top:16px'>"+
-    "<div class='card'><h2>Demo script</h2><p class='muted'>Seven steps, about six minutes. Each one opens the right screen.</p>"+
-    "<ol class='script'>"+
-      "<li><b>Build the cart.</b> Three vendors in one cart: Microsoft CSP, an AWS private offer and Redington stock. <a href='#/cart'>Open cart</a></li>"+
-      "<li><b>Switch market</b> to Saudi Arabia or Türkiye in the top bar. Watch the AWS line reroute and the tax and selling entity change.</li>"+
-      "<li><b>Check out.</b> CreditIQ answers in 2.4 seconds, prices each instrument, and offers four ways to cover the gap. <a href='#/checkout'>Checkout</a></li>"+
-      "<li><b>Place the order</b> with “Request a temporary increase”. DealFlow runs it and stops at the one human touch.</li>"+
-      "<li><b>Approve it</b> in the credit desk as the reviewer. The order releases and invoices per route. <a href='#/credit'>Credit desk</a></li>"+
-      "<li><b>Run a customer PO</b> from email through DealFlow: one clean, one with a price deviation, one blocked on tax registration. <a href='#/inbox'>Inbox</a></li>"+
-      "<li><b>Reconcile.</b> The agent explains each variance and proposes a fix; credit notes stay with Finance. <a href='#/recon'>Reconciliation</a></li>"+
-    "</ol></div>"+
-    "<div class='stack'>"+
-      "<div class='card'><h3>Personas in this prototype</h3><div class='list' style='margin-top:8px'>"+
-      Object.keys(PERSONA).map(function(k){var p=PERSONA[k];return "<div class='row'><span class='persona "+p.c+"' style='border:0;padding:0'><i>"+p.i+"</i></span><span class='ink2'>"+p.t+"</span></div>";}).join("")+
-      "</div></div>"+
-      ann("Yellow notes explain what each part of the screen proves and which concept it belongs to. Turn them off in the sidebar for a clean walkthrough.","How to read this")+
-      "<div class='card'><h3>Out of scope for the wireframe</h3><p class='ink2' style='margin-top:6px'>Real ERP, hyperscaler and e-invoicing integrations, identity, and pricing. Data is the concept's worked example and resets with “Reset demo data”.</p></div>"+
-    "</div></div>";
+    "<div class='beam'>"+
+      "<svg viewBox='0 0 560 440' aria-hidden='true'><defs>"+
+        "<linearGradient id='bg1' x1='0' x2='1'><stop offset='0' stop-color='#7aa2ff' stop-opacity='0'/><stop offset='.5' stop-color='#7aa2ff'/><stop offset='1' stop-color='#b49bff'/></linearGradient>"+
+        "<linearGradient id='bg2' x1='0' x2='1'><stop offset='0' stop-color='#ffc46b' stop-opacity='0'/><stop offset='.5' stop-color='#ffc46b'/><stop offset='1' stop-color='#ff9f5a'/></linearGradient>"+
+        "<linearGradient id='bg3' x1='0' x2='1'><stop offset='0' stop-color='#e9ecf5' stop-opacity='0'/><stop offset='.5' stop-color='#e9ecf5'/><stop offset='1' stop-color='#ffffff'/></linearGradient></defs>"+
+        [[70,"bg1"],[220,"bg2"],[370,"bg3"]].map(function(p,i){var d="M200 220 C275 220 270 "+p[0]+" 346 "+p[0];
+          return "<path d='"+d+"' class='bm-base'/><path d='"+d+"' class='bm-run' stroke='url(#"+p[1]+")' style='animation-delay:"+(i*0.45)+"s'/>";}).join("")+
+      "</svg>"+
+      "<div class='bm-cart'><div class='bm-h'><i class='ph-fill ph-shopping-cart-simple'></i>Omar’s cart</div>"+
+        "<div class='bm-item'><span class='sq' style='background:#5b8cff'></span>Microsoft 365<em>200</em></div>"+
+        "<div class='bm-item'><span class='sq' style='background:#ffb547'></span>Endpoint security<em>200</em></div>"+
+        "<div class='bm-item'><span class='sq' style='background:#e9ecf5'></span>Laptops<em>40</em></div></div>"+
+      "<div class='bm-node' style='top:34px'><span class='ix' style='background:#5b8cff'><i class='ph-fill ph-windows-logo'></i></span><b>Microsoft CSP</b><small>We invoice · 5% VAT</small></div>"+
+      "<div class='bm-node' style='top:184px'><span class='ix' style='background:#ffb547'><i class='ph-fill ph-cloud'></i></span><b>AWS private offer</b><small>AWS invoices</small></div>"+
+      "<div class='bm-node' style='top:334px'><span class='ix' style='background:#e9ecf5;color:#111'><i class='ph-fill ph-package'></i></span><b>Redington stock</b><small>We invoice · 5% VAT</small></div>"+
+      "<div class='float-chip f1'><i class='ph-fill ph-lightning' style='color:#ffb547'></i><span><b>B+</b> credit in 2.4s</span></div>"+
+      "<div class='float-chip f2'><i class='ph-fill ph-robot' style='color:#b49bff'></i><span>PO to order <b>3h 42m</b></span></div>"+
+    "</div></section>";
+
+  /* ---- before / after ---- */
+  var BA=[
+    ["ph-timer","Quote to order","72 hours","<span data-tick='3' >0</span>h <span data-tick='42'>0</span>m","b"],
+    ["ph-lightning","Credit answer","3 days","<span data-tick='2.4' data-dec='1'>0</span>s","a"],
+    ["ph-hand-pointing","Human touches","14","<span data-tick='1' data-from='14'>14</span>","v"],
+    ["ph-shopping-cart-simple","Orders per cart","3","<span data-tick='1' data-from='3'>3</span>","g"]
+  ];
+  var ba="<section class='ov-sec'><div class='sec-h'><span class='kick'>What changes</span><h2>Days become seconds.</h2></div><div class='ba'>"+
+    BA.map(function(x){return "<div class='ba-card spot' style='--c:var(--c-"+x[4]+")'><div class='ba-top'><i class='ph "+x[0]+"'></i>"+x[1]+"</div>"+
+      "<div class='ba-old'>"+x[2]+"</div><div class='ba-new'>"+x[3]+"</div><div class='ba-bar'><i></i></div></div>";}).join("")+"</div></section>";
+
+  /* ---- bento: three concepts ---- */
+  var ring="<svg viewBox='0 0 120 120' class='mini-ring'><circle cx='60' cy='60' r='48' class='tr'/><circle cx='60' cy='60' r='48' class='pr' pathLength='100'/></svg><div class='mini-ring-l'><b>B+</b><small>2.4s</small></div>";
+  var pipe="<div class='mini-pipe'>"+STAGES.map(function(s,i){return "<span class='"+(i===5?"h":"")+"' style='animation-delay:"+(i*0.18)+"s' title='"+s.short+"'></span>";}).join("")+"</div><div class='mini-cap'><span>PO</span><span>1 human touch</span><span>Revenue</span></div>";
+  var split="<div class='mini-split'><div class='ms-cart'><i class='ph-fill ph-shopping-cart-simple'></i></div><div class='ms-lines'><span style='--d:0s;--col:#5b8cff'>CSP</span><span style='--d:.3s;--col:#ffb547'>AWS</span><span style='--d:.6s;--col:#9aa3b5'>Stock</span></div></div>";
+  var B=[
+    {n:"01",c:"b",ic:"ph-shopping-cart-simple",name:"OneCart 360",st:"Build now",q:"What is bought, through which route?",viz:split,chips:["Auto routing","Local tax","One statement"],go:"#/cart",cta:"Open the cart"},
+    {n:"02",c:"a",ic:"ph-gauge",name:"CreditIQ",st:"Design next",q:"Safe and profitable to approve?",viz:ring,chips:["6 signals","6 instruments","4 ways to cover"],go:"#/checkout",cta:"See credit at checkout"},
+    {n:"03",c:"v",ic:"ph-robot",name:"DealFlow AI",st:"Build now, phased",q:"Executed with almost no manual work?",viz:pipe,chips:["Reads POs","Books ERP","Explains variances"],go:"#/inbox",cta:"Run a customer PO"}
+  ];
+  var bento="<section class='ov-sec'><div class='sec-h'><span class='kick'>Three concepts</span><h2>One transaction, three questions.</h2></div><div class='bento'>"+
+    B.map(function(x){return "<a class='bento-card spot' href='"+x.go+"' style='--c:var(--c-"+x.c+")'>"+
+      "<div class='bc-top'><span class='bc-ic'><i class='ph-fill "+x.ic+"'></i></span><span class='bc-n'>"+x.n+"</span><span class='bc-st'>"+x.st+"</span></div>"+
+      "<h3>"+x.name+"</h3><p>"+x.q+"</p><div class='bc-viz'>"+x.viz+"</div>"+
+      "<div class='bc-chips'>"+x.chips.map(function(ch){return "<span>"+ch+"</span>";}).join("")+"</div>"+
+      "<div class='bc-cta'>"+x.cta+"<i class='ph ph-arrow-up-right'></i></div></a>";}).join("")+"</div></section>";
+
+  /* ---- journey ---- */
+  var J=[
+    ["ph-shopping-cart-simple","Build the cart","3 vendors, 1 cart","#/cart","b"],
+    ["ph-globe-hemisphere-east","Switch market","Watch it reroute","#/cart","b"],
+    ["ph-lightning","Credit check","Answer in 2.4s","#/checkout","a"],
+    ["ph-paper-plane-tilt","Place order","Gap to a reviewer","#/checkout","a"],
+    ["ph-seal-check","Approve","One human touch","#/credit","a"],
+    ["ph-envelope-open","Run a PO","Read, not re-keyed","#/inbox","v"],
+    ["ph-arrows-left-right","Reconcile","Every variance explained","#/recon","v"]
+  ];
+  var journey="<section class='ov-sec' id='journey'><div class='sec-h'><span class='kick'>Demo journey · 6 minutes</span><h2>Seven clicks, cart to cash.</h2></div>"+
+    "<div class='jr'><div class='jr-line'><i></i></div>"+J.map(function(x,i){return "<a class='jr-step' href='"+x[3]+"' style='--c:var(--c-"+x[4]+");animation-delay:"+(i*0.07)+"s'><span class='jr-dot'><i class='ph-fill "+x[0]+"'></i><em>"+(i+1)+"</em></span><b>"+x[1]+"</b><small>"+x[2]+"</small></a>";}).join("")+"</div></section>";
+
+  /* ---- cast ---- */
+  var cast="<section class='ov-sec ov-cast'><span class='kick'>In this demo</span><div class='cast'>"+
+    [["OS","Omar","Partner buyer",""],["SN","Sara","Order ops","ops"],["IQ","Imran","Credit control","cr"],["FN","Finance","Policy owner","ad"]].map(function(p){return "<div class='cast-p'><span class='persona "+p[3]+"' style='border:0;padding:0;background:none'><i>"+p[0]+"</i></span><span><b>"+p[1]+"</b><small>"+p[2]+"</small></span></div>";}).join("")+
+    "</div>"+ann("Yellow notes explain each screen. Switch them off in the sidebar for a clean run.","Tip")+"</section>";
+
+  return hero+ba+bento+journey+cast;
 };
-function concept(n,stage,name,tag,q,links){
-  return "<div class='concept'><div class='row sb'><span class='num'>CONCEPT "+n+"</span>"+pill(stage,stage.indexOf("Design")===0?"wn":"ok")+"</div>"+
-    "<h2>"+name+"</h2><div class='ink2'>"+tag+"</div><div class='q'>Answers: <b>"+q+"</b></div>"+
-    "<div class='row' style='margin-top:auto'>"+links.map(function(l){return "<a class='btn sm' href='"+l[1]+"'>"+l[0]+" →</a>";}).join("")+"</div></div>";
+/* ---- shared micro interactions: number tickers + spotlight ---- */
+function fx(){
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  Array.prototype.forEach.call(document.querySelectorAll("[data-tick]"),function(el){
+    var to=parseFloat(el.dataset.tick), from=parseFloat(el.dataset.from||0), dec=+(el.dataset.dec||0), t0=null, D=1100;
+    if(reduce){el.textContent=to.toFixed(dec);return;}
+    function step(ts){ if(!t0)t0=ts; var p=Math.min(1,(ts-t0)/D), e=1-Math.pow(1-p,3), v=from+(to-from)*e; el.textContent=dec?v.toFixed(dec):Math.round(v).toLocaleString("en-US"); if(p<1) requestAnimationFrame(step); }
+    setTimeout(function(){requestAnimationFrame(step);},250);
+  });
 }
+document.addEventListener("pointermove",function(e){
+  var c=e.target.closest&&e.target.closest(".spot"); if(!c) return;
+  var r=c.getBoundingClientRect(); c.style.setProperty("--mx",(e.clientX-r.left)+"px"); c.style.setProperty("--my",(e.clientY-r.top)+"px");
+});
 function kpi(k,v,s,c){return "<div class='kpi'><div class='k'>"+k+"</div><div class='v "+(c||"")+"'>"+v+"</div><div class='s'>"+(s||"")+"</div></div>";}
 
 /* ---------- Partner home ---------- */
@@ -1128,6 +1323,7 @@ document.addEventListener("click",function(e){
   var a=b.dataset.act, id=b.dataset.id;
   switch(a){
     case "menu": document.body.classList.toggle("menu"); break;
+    case "scrollto": var tg=document.getElementById(b.dataset.t); if(tg) tg.scrollIntoView({behavior:"smooth",block:"start"}); break;
     case "notes": S.notes=!S.notes; save(); render(); break;
     case "reset": if(confirm("Reset all demo data?")){ Object.keys(timers).forEach(function(k){clearTimeout(timers[k]);}); S=seed(); seedHistory(); save(); go("#/overview"); toast("Demo data reset"); } break;
     case "toast": toast(b.dataset.t); break;
