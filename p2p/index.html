@@ -1,0 +1,1276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Procure to Pay Prototype</title>
+<meta name="description" content="Working wireframe prototype of OneCart 360, CreditIQ and DealFlow AI: one partner checkout, credit at checkout, and PO to revenue orchestration." />
+<link rel="icon" type="image/png" href="../assets/img/logo-64.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" />
+<style>
+:root{
+  --bg:#f5f5f3; --card:#fff; --ink:#141414; --ink2:#4d4d4d; --ink3:#8a8a86; --line:#e4e4df; --line2:#d3d3cd;
+  --soft:#f0f0ec; --ac:#2453e6; --acs:#eaf0ff; --ok:#147a48; --oks:#e6f4ec; --wn:#a35f00; --wns:#fff3df;
+  --bad:#c0332a; --bads:#fdecea; --ai:#6a46d6; --ais:#f0ebff; --note:#fff7c2; --noteb:#e9d55a;
+  --r:10px; --mono:"Geist Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 "Geist",system-ui,-apple-system,Segoe UI,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--ac);text-decoration:none}
+a:hover{text-decoration:underline}
+h1,h2,h3,h4{margin:0;font-weight:600;letter-spacing:-.01em}
+h1{font-size:22px} h2{font-size:17px} h3{font-size:14px}
+p{margin:0}
+.mono{font-family:var(--mono);font-size:12.5px}
+.muted{color:var(--ink3)} .ink2{color:var(--ink2)}
+.r{text-align:right} .nowrap{white-space:nowrap}
+
+/* shell */
+.app{display:grid;grid-template-columns:248px 1fr;min-height:100vh}
+.side{background:#fbfbf9;border-right:1px solid var(--line);padding:14px 10px;position:sticky;top:0;height:100vh;overflow:auto;display:flex;flex-direction:column;gap:2px}
+.brand{display:flex;gap:10px;align-items:center;padding:6px 8px 14px}
+.brand .lg{width:30px;height:30px;border-radius:8px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:700;font-size:12px}
+.brand b{display:block;font-size:13.5px} .brand s{display:block;text-decoration:none;color:var(--ink3);font-size:11.5px}
+.sec{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);padding:14px 10px 4px;font-weight:600}
+.sec em{font-style:normal;text-transform:none;letter-spacing:0;display:block;font-weight:400;font-size:11.5px}
+.nav{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:8px;color:var(--ink2);cursor:pointer;border:0;background:none;width:100%;text-align:left}
+.nav:hover{background:var(--soft);text-decoration:none}
+.nav[aria-current=true]{background:var(--ink);color:#fff}
+.nav .ic{width:16px;text-align:center;opacity:.8;font-size:13px}
+.nav .bd{margin-left:auto;font-size:11px;background:var(--bad);color:#fff;border-radius:99px;padding:0 7px;line-height:18px;font-weight:600}
+.nav .bd.n{background:var(--ac)} .nav .bd.g{background:var(--line2);color:var(--ink)}
+.nav .tag{margin-left:auto;font-size:10px;color:var(--ink3);font-family:var(--mono)}
+.nav[aria-current=true] .tag{color:#bbb}
+.side .foot{margin-top:auto;padding:12px 6px 0;display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line)}
+.tg{display:flex;align-items:center;justify-content:space-between;font-size:12.5px;color:var(--ink2);padding:4px 4px}
+.sw{width:32px;height:18px;border-radius:99px;background:var(--line2);position:relative;border:0;cursor:pointer;flex:none}
+.sw::after{content:"";position:absolute;width:14px;height:14px;border-radius:50%;background:#fff;left:2px;top:2px;transition:.2s}
+.sw[aria-pressed=true]{background:var(--ink)} .sw[aria-pressed=true]::after{left:16px}
+
+.mainwrap{min-width:0}
+.top{position:sticky;top:0;z-index:20;background:rgba(245,245,243,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:10px 28px;min-height:56px}
+.top .crumb{font-size:12.5px;color:var(--ink3)} .top .crumb b{color:var(--ink);font-weight:600}
+.top .sp{flex:1}
+.persona{display:flex;align-items:center;gap:8px;font-size:12.5px;border:1px solid var(--line);background:#fff;border-radius:99px;padding:4px 12px 4px 4px}
+.persona i{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:10.5px;font-weight:700;color:#fff;background:var(--ac)}
+.persona.ops i{background:var(--ai)} .persona.cr i{background:var(--wn)} .persona.ad i{background:var(--ink)}
+.mk{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink3)}
+.mk select{border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 8px}
+.menu-b{display:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 9px;cursor:pointer}
+main{padding:24px 28px 80px;max-width:1280px}
+
+/* primitives */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.card.flat{padding:0;overflow:hidden}
+.card h2+p,.card h3+p{margin-top:4px}
+.hd{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.hd p{color:var(--ink2);max-width:720px;margin-top:4px}
+.pagehd{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.pagehd p{color:var(--ink2);margin-top:6px;max-width:760px}
+.eyebrow{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);font-weight:600;margin-bottom:6px;display:flex;gap:8px;align-items:center}
+.g{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.split{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:16px;align-items:start}
+.split.w{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.stack{display:flex;flex-direction:column;gap:16px}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.row.sb{justify-content:space-between}
+.hr{height:1px;background:var(--line);margin:14px 0}
+.btn{border:1px solid var(--line2);background:#fff;border-radius:8px;padding:8px 14px;cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.btn:hover{background:var(--soft)}
+.btn.pri{background:var(--ink);color:#fff;border-color:var(--ink)} .btn.pri:hover{background:#333}
+.btn.ac{background:var(--ac);color:#fff;border-color:var(--ac)}
+.btn.ai{background:var(--ai);color:#fff;border-color:var(--ai)}
+.btn.ok{background:var(--ok);color:#fff;border-color:var(--ok)}
+.btn.bad{color:var(--bad);border-color:#f0c4c0}
+.btn.sm{padding:5px 10px;font-size:12.5px}
+.btn.lg{padding:11px 18px;font-size:14.5px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn.full{width:100%;justify-content:center}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:500;border-radius:99px;padding:2px 9px;background:var(--soft);color:var(--ink2);white-space:nowrap;border:1px solid transparent}
+.pill.ok{background:var(--oks);color:var(--ok)} .pill.wn{background:var(--wns);color:var(--wn)} .pill.bad{background:var(--bads);color:var(--bad)}
+.pill.ac{background:var(--acs);color:var(--ac)} .pill.ai{background:var(--ais);color:var(--ai)} .pill.ink{background:var(--ink);color:#fff}
+.pill.out{background:#fff;border-color:var(--line2)}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.kpi .k{font-size:12px;color:var(--ink3)} .kpi .v{font-size:24px;font-weight:600;letter-spacing:-.02em;margin-top:2px}
+.kpi .s{font-size:12px;color:var(--ink2);margin-top:2px}
+.kpi .v.ok{color:var(--ok)} .kpi .v.wn{color:var(--wn)}
+table.t{width:100%;border-collapse:collapse;font-size:13px}
+.t th{font-weight:500;color:var(--ink3);font-size:11.5px;text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);background:#fafaf8;white-space:nowrap}
+.t td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.t tr:last-child td{border-bottom:0}
+.t tr.click{cursor:pointer} .t tr.click:hover td{background:#fafaf8}
+.t tr.tot td{font-weight:600;background:#fafaf8}
+.t td.r,.t th.r{text-align:right}
+.bar{height:8px;border-radius:99px;background:var(--soft);overflow:hidden;display:flex}
+.bar i{display:block;height:100%;background:var(--ink)}
+.bar i.ok{background:var(--ok)} .bar i.wn{background:var(--wn)} .bar i.ac{background:var(--ac)} .bar i.bad{background:var(--bad)}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:12px;color:var(--ink2);font-weight:500}
+.inp{border:1px solid var(--line2);background:#fff;border-radius:8px;padding:8px 10px;width:100%}
+.inp:focus{outline:2px solid var(--acs);border-color:var(--ac)}
+.qty{display:inline-flex;border:1px solid var(--line2);border-radius:8px;overflow:hidden;background:#fff}
+.qty button{border:0;background:#fff;width:28px;cursor:pointer} .qty button:hover{background:var(--soft)}
+.qty input{width:56px;border:0;border-left:1px solid var(--line);border-right:1px solid var(--line);text-align:center;padding:5px 0}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line2);background:#fff;border-radius:99px;padding:5px 12px;font-size:12.5px;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.empty{border:1px dashed var(--line2);border-radius:var(--r);padding:36px;text-align:center;color:var(--ink3);background:#fbfbf9}
+.ph{background:repeating-linear-gradient(135deg,#f1f1ed 0 8px,#ebebe6 8px 16px);border-radius:8px;display:grid;place-items:center;color:var(--ink3);font-size:11px;font-family:var(--mono)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:13px}
+.kv dt{color:var(--ink3)} .kv dd{margin:0;text-align:right;font-weight:500}
+.list>div{padding:10px 0;border-bottom:1px solid var(--line)} .list>div:last-child{border-bottom:0}
+
+/* annotations */
+.ann{background:var(--note);border:1px solid var(--noteb);border-radius:8px;padding:8px 11px;font-size:12px;color:#5b4d00;display:flex;gap:8px;align-items:flex-start}
+.ann b{font-weight:600;white-space:nowrap}
+.ann::before{content:"✎";font-size:12px}
+body.no-notes .ann{display:none !important}
+
+/* stepper */
+.stepper{display:flex;gap:0;border:1px solid var(--line);border-radius:var(--r);background:#fff;overflow:hidden;margin-bottom:16px}
+.stepper button{flex:1;border:0;background:none;padding:12px 14px;text-align:left;cursor:pointer;display:flex;gap:10px;align-items:center;border-right:1px solid var(--line)}
+.stepper button:last-child{border-right:0}
+.stepper i{width:22px;height:22px;border-radius:50%;border:1px solid var(--line2);display:grid;place-items:center;font-style:normal;font-size:11.5px;font-weight:600;flex:none}
+.stepper b{font-weight:500;font-size:13px} .stepper s{display:block;text-decoration:none;font-size:11.5px;color:var(--ink3)}
+.stepper .on{background:#fafaf8} .stepper .on i{background:var(--ink);color:#fff;border-color:var(--ink)}
+.stepper .dn i{background:var(--ok);color:#fff;border-color:var(--ok)}
+.stepper button[disabled]{cursor:not-allowed;opacity:.55}
+
+/* pipeline */
+.pipe{display:flex;gap:4px}
+.pipe span{flex:1;height:6px;border-radius:99px;background:var(--line)}
+.pipe span.d{background:var(--ok)} .pipe span.c{background:var(--ac);animation:pulse 1s infinite} .pipe span.h{background:var(--wn)}
+@keyframes pulse{50%{opacity:.4}}
+.tl{position:relative;padding-left:20px}
+.tl::before{content:"";position:absolute;left:6px;top:4px;bottom:4px;width:1px;background:var(--line2)}
+.tl .e{position:relative;padding:0 0 14px}
+.tl .e::before{content:"";position:absolute;left:-18px;top:4px;width:9px;height:9px;border-radius:50%;background:#fff;border:2px solid var(--ok)}
+.tl .e.p::before{border-color:var(--wn)} .tl .e.h::before{border-color:var(--ac)} .tl .e.x::before{border-color:var(--line2)}
+.tl .e .m{font-size:11.5px;color:var(--ink3);display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.tl .e .tx{font-size:13px;margin-top:2px}
+.stg{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:9px 12px;border-bottom:1px solid var(--line);font-size:13px}
+.stg:last-child{border-bottom:0}
+.stg .n{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line2);font-size:11px;font-weight:600;color:var(--ink3)}
+.stg.d .n{background:var(--ok);border-color:var(--ok);color:#fff}
+.stg.c .n{background:var(--ac);border-color:var(--ac);color:#fff}
+.stg.h{background:var(--wns)} .stg.h .n{background:var(--wn);border-color:var(--wn);color:#fff}
+.stg.f{color:var(--ink3)}
+
+/* product tiles */
+.tile{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:10px}
+.tile .ph{height:84px}
+.tile .nm{font-weight:600;font-size:13.5px;line-height:1.3}
+.tile .pr{font-size:15px;font-weight:600} .tile .pr s{text-decoration:none;color:var(--ink3);font-weight:400;font-size:12px}
+.tile .ft{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:8px}
+
+/* route groups */
+.txn{border:1px solid var(--line);border-radius:var(--r);background:#fff;overflow:hidden}
+.txn .th{display:flex;gap:12px;align-items:center;padding:12px 14px;background:#fafaf8;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.txn .th .ix{width:26px;height:26px;border-radius:7px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:600;font-size:12px}
+.txn.aws .th .ix{background:var(--wn)} .txn.ms .th .ix{background:var(--ac)} .txn.svc .th .ix{background:var(--ai)}
+.txn .tb{padding:4px 14px}
+.txn .ln{display:grid;grid-template-columns:1fr auto auto;gap:14px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.txn .ln:last-child{border-bottom:0}
+.txn .tf{display:flex;gap:18px;justify-content:flex-end;padding:10px 14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink2);flex-wrap:wrap}
+.txn .tf b{color:var(--ink)}
+.flag{border-radius:8px;padding:10px 12px;font-size:12.5px;display:flex;gap:8px;align-items:flex-start}
+.flag.wn{background:var(--wns);color:#6d4000} .flag.bad{background:var(--bads);color:#7c1e17} .flag.ok{background:var(--oks);color:#0d5130} .flag.ai{background:var(--ais);color:#3f2596} .flag.ac{background:var(--acs);color:#173a9e}
+.flag b{font-weight:600}
+
+/* options */
+.opt{display:grid;grid-template-columns:18px 1fr auto;gap:12px;align-items:flex-start;width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:var(--r);padding:12px 14px;cursor:pointer}
+.opt:hover{border-color:var(--line2)}
+.opt[aria-pressed=true]{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.opt .rd{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--line2);margin-top:2px}
+.opt[aria-pressed=true] .rd{border:5px solid var(--ink)}
+.opt b{font-weight:600;font-size:13px} .opt .d{font-size:12.5px;color:var(--ink2);margin-top:2px}
+.opt .fx{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.opt .fx span{font-size:11.5px;background:var(--soft);border-radius:6px;padding:2px 7px;font-family:var(--mono)}
+.opt .side-v{text-align:right;font-size:13px;font-weight:600} .opt .side-v em{display:block;font-style:normal;font-size:11px;color:var(--ink3);font-weight:400}
+.optlist{display:flex;flex-direction:column;gap:8px}
+
+/* credit */
+.grade{width:76px;height:76px;border-radius:50%;border:6px solid var(--ok);display:grid;place-items:center;font-size:22px;font-weight:700;flex:none}
+.sig{display:grid;grid-template-columns:1fr auto;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px;align-items:center}
+.sig:last-child{border-bottom:0}
+.sig s{display:block;text-decoration:none;color:var(--ink3);font-size:12px}
+.sig.pend{opacity:.35}
+.ledger{font-size:13px;width:100%;border-collapse:collapse}
+.ledger td{padding:7px 0;border-bottom:1px dashed var(--line)}
+.ledger tr.tot td{font-weight:600;border-bottom:1px solid var(--line2)}
+.ledger td.r{text-align:right;font-family:var(--mono)}
+.ledger .ok{color:var(--ok)} .ledger .wn{color:var(--wn)}
+.locked{position:relative;border:1px dashed var(--line2);border-radius:var(--r);padding:12px 14px;background:#fbfbf9}
+.locked .lk{position:absolute;top:-9px;left:12px;background:var(--bg);padding:0 6px;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);font-weight:600}
+
+/* PO doc */
+.doc{background:#fff;border:1px solid var(--line2);border-radius:4px;box-shadow:0 8px 24px rgba(0,0,0,.06);padding:26px;font-size:12px;font-family:var(--mono);position:relative}
+.doc h4{font-family:"Geist",sans-serif;font-size:18px;letter-spacing:.06em}
+.doc table{width:100%;border-collapse:collapse;margin:14px 0}
+.doc td,.doc th{border-bottom:1px solid #eee;padding:5px 4px;text-align:left}
+.doc .hl{background:rgba(106,70,214,.12);outline:1px solid rgba(106,70,214,.5);border-radius:2px}
+.doc .hlw{background:rgba(163,95,0,.14);outline:1px solid rgba(163,95,0,.6);border-radius:2px}
+.scan{position:absolute;left:0;right:0;height:40px;background:linear-gradient(180deg,transparent,rgba(106,70,214,.18),transparent);animation:scan 1.4s linear infinite;pointer-events:none}
+@keyframes scan{from{top:0}to{top:calc(100% - 40px)}}
+.conf{font-family:var(--mono);font-size:11px;color:var(--ink3)}
+
+/* inbox list */
+.inbox{display:flex;flex-direction:column}
+.inbox button{all:unset;cursor:pointer;display:grid;grid-template-columns:auto 1fr auto;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);align-items:center}
+.inbox button:hover{background:#fafaf8}
+.inbox button[aria-current=true]{background:var(--acs)}
+.inbox .src{width:34px;height:34px;border-radius:8px;background:var(--soft);display:grid;place-items:center;font-size:10px;font-weight:600;font-family:var(--mono);color:var(--ink2)}
+.inbox b{font-weight:600;font-size:13px} .inbox s{display:block;text-decoration:none;font-size:12px;color:var(--ink3)}
+
+/* lanes */
+  .inboxgrid{grid-template-columns:320px minmax(0,1fr)}
+.lane{border:1px solid var(--line);border-radius:var(--r);padding:12px;background:#fff}
+.lane h3{display:flex;align-items:center;gap:8px}
+
+/* toast & modal */
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:8px;z-index:100;align-items:center}
+.tst{background:var(--ink);color:#fff;border-radius:10px;padding:10px 16px;font-size:13px;box-shadow:0 10px 30px rgba(0,0,0,.2);animation:tin .25s ease-out;max-width:90vw}
+.tst.ai{background:var(--ai)}
+@keyframes tin{from{opacity:0;transform:translateY(8px)}}
+.modal-bg{position:fixed;inset:0;background:rgba(20,20,20,.35);z-index:90;display:grid;place-items:center;padding:16px}
+.modal{background:#fff;border-radius:14px;max-width:560px;width:100%;padding:22px;box-shadow:0 30px 80px rgba(0,0,0,.25)}
+.drop{border:1.5px dashed var(--line2);border-radius:var(--r);padding:28px;text-align:center;background:#fbfbf9;margin:14px 0}
+
+.concept{border:1px solid var(--line);border-radius:var(--r);background:#fff;padding:18px;display:flex;flex-direction:column;gap:10px}
+.concept .q{font-size:13px;color:var(--ink2)}
+.concept .num{font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.script li{padding:6px 0;color:var(--ink2)} .script li b{color:var(--ink)}
+.sla{font-family:var(--mono);font-size:12px}
+.fade{animation:fd .25s ease-out} @keyframes fd{from{opacity:0;transform:translateY(4px)}}
+
+@media (max-width:1100px){.split{grid-template-columns:1fr}.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:860px){
+  .app{grid-template-columns:1fr}
+  .side{position:fixed;left:0;top:0;bottom:0;width:260px;z-index:60;transform:translateX(-100%);transition:transform .2s;box-shadow:0 0 40px rgba(0,0,0,.15)}
+  body.menu .side{transform:none}
+  .menu-b{display:block}
+  .top{padding:10px 16px} main{padding:18px 16px 80px}
+  .g2,.g3,.split.w,.inboxgrid{grid-template-columns:1fr}
+  .doc{padding:16px;overflow-x:auto}
+  .persona span{display:none} .top .crumb{display:none}
+  .stepper{flex-direction:column} .stepper button{border-right:0;border-bottom:1px solid var(--line)}
+  .t{display:block;overflow-x:auto}
+}
+@media (max-width:520px){.stlab{display:none !important}.g4{grid-template-columns:1fr 1fr}.txn .ln{grid-template-columns:1fr auto}.txn .ln .hide-s{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side" id="side"></aside>
+  <div class="mainwrap">
+    <header class="top" id="top"></header>
+    <main id="main"></main>
+  </div>
+</div>
+<div id="toast" aria-live="polite"></div>
+<div id="modal"></div>
+<script>
+(function(){
+"use strict";
+/* ============================================================
+   Reference data (numbers from the OneCart 360 / CreditIQ / DealFlow AI concept)
+   ============================================================ */
+var MK={
+  uae:{name:"UAE",cur:"AED",fx:1,tax:0.05,taxLabel:"5% UAE VAT",entity:"Redington Gulf FZE, Jebel Ali",
+       catch:"Free-zone stock to mainland is an import: duty and exit paperwork added automatically.",
+       einv:"Tax invoice issued (UAE e-invoicing ready)",limit:600000,avail:183800},
+  ksa:{name:"Saudi Arabia",cur:"SAR",fx:1.0211,tax:0.15,taxLabel:"15% KSA VAT",entity:"Redington Saudi Arabia, Riyadh",
+       catch:"An invoice is not valid until ZATCA clears it, so clearance runs before release.",
+       einv:"Cleared with ZATCA (Fatoora)",limit:750000,avail:206000},
+  bhr:{name:"Bahrain",cur:"BHD",fx:0.10238,tax:0,taxLabel:"0%, partner self accounts 10%",entity:"Redington Gulf FZE, cross border",
+       catch:"We charge no VAT; the partner self accounts 10%. The invoice total is not the tax cost.",
+       einv:"Cross border invoice with reverse charge note",limit:62000,avail:17900},
+  ind:{name:"India",cur:"INR",fx:22.736,tax:0.18,taxLabel:"18% GST (IGST)",entity:"Redington Limited, Chennai",
+       catch:"The state decides IGST or CGST + SGST. Payments can arrive net of TDS withholding.",
+       einv:"IRN generated on the GST portal",limit:15000000,avail:4692000},
+  tur:{name:"Türkiye",cur:"TRY",fx:9.53,tax:0.20,taxLabel:"20% VAT via e-Fatura",entity:"Redington Türkiye, Istanbul",
+       catch:"FX moves, so price validity is 48 hours instead of 14 days.",
+       einv:"e-Fatura sent through GİB",limit:6500000,avail:2000000}
+};
+var MKO=["uae","ksa","bhr","ind","tur"];
+var ROUTES={
+  "microsoft.csp":{name:"Microsoft CSP",short:"MS CSP",inv:"us",cls:"ms",desc:"Redington invoices as indirect provider"},
+  "aws.cppo":{name:"AWS private offer (CPPO)",short:"AWS CPPO",inv:"aws",cls:"aws",desc:"AWS invoices and collects; EDP spend counts"},
+  "aws.resale":{name:"AWS via Redington resale",short:"AWS resale",inv:"us",cls:"aws",desc:"Redington buys and resells; we invoice locally"},
+  "redington.stock":{name:"Redington stock",short:"Stock",inv:"us",cls:"",desc:"Shipped from our warehouse; we invoice"},
+  "redington.services":{name:"Redington services",short:"Services",inv:"us",cls:"svc",desc:"Delivered by Redington; we invoice"}
+};
+var ROUTE_ORDER=["microsoft.csp","aws.cppo","aws.resale","redington.stock","redington.services"];
+var FALLBACK={"aws.cppo":"aws.resale"};
+var WHY={
+  ksa:{"aws.cppo":"AWS is not seller eligible in Saudi Arabia and MPO excludes it."},
+  tur:{"aws.cppo":"Neither AWS private offers nor MPO reach Türkiye. Only our own routes carry this line."},
+  ind:{"aws.cppo":"AWS private offers are India to India only: the buying entity must be Indian."}
+};
+var P=[
+  {id:"m365bp",name:"Microsoft 365 Business Premium",vendor:"Microsoft",cat:"Software",prog:"microsoft.csp",unit:"seat / month",price:82,mg:11.8,term:"Annual commitment, billed monthly"},
+  {id:"copilot",name:"Microsoft 365 Copilot",vendor:"Microsoft",cat:"AI",prog:"microsoft.csp",unit:"seat / month",price:110,mg:10.5,term:"Annual commitment"},
+  {id:"bc",name:"Dynamics 365 Business Central",vendor:"Microsoft",cat:"Software",prog:"microsoft.csp",unit:"user / month",price:260,mg:12,term:"Annual commitment"},
+  {id:"cloudguard",name:"CloudGuard endpoint security",vendor:"AWS Marketplace",cat:"Security",prog:"aws.cppo",unit:"seat / year",price:220,mg:14.5,term:"12 month private offer"},
+  {id:"observe",name:"Observability platform, 50 hosts",vendor:"AWS Marketplace",cat:"Cloud",prog:"aws.cppo",unit:"pack / year",price:61200,mg:8.5,term:"12 month private offer"},
+  {id:"thinkpad",name:"ThinkPad E14 laptop",vendor:"Lenovo",cat:"Hardware",prog:"redington.stock",unit:"unit",price:3250,mg:12.7,term:"In stock, Jebel Ali, 3 days"},
+  {id:"r760",name:"PowerEdge R760 server",vendor:"Dell",cat:"Hardware",prog:"redington.stock",unit:"unit",price:38500,mg:10.2,term:"In stock, 5 days"},
+  {id:"fg100f",name:"FortiGate 100F firewall",vendor:"Fortinet",cat:"Security",prog:"redington.stock",unit:"unit",price:14200,mg:13.4,term:"In stock, 3 days"},
+  {id:"mig",name:"Azure migration, up to 50 VMs",vendor:"Redington Services",cat:"Services",prog:"redington.services",unit:"fixed fee",price:45000,mg:28,term:"6 week delivery"},
+  {id:"m365dep",name:"Microsoft 365 deployment",vendor:"Redington Services",cat:"Services",prog:"redington.services",unit:"fixed fee",price:12000,mg:30,term:"2 week delivery"}
+];
+var PX={}; P.forEach(function(p){PX[p.id]=p;});
+var STAGES=[
+  {id:"intake",name:"Order received",short:"Intake"},
+  {id:"validate",name:"Commercials validated",short:"Validate"},
+  {id:"route",name:"Routed to programme and entity",short:"Route"},
+  {id:"ready",name:"Readiness: KYC, tax registration, tenant",short:"Readiness"},
+  {id:"terms",name:"Terms and clauses built",short:"Terms"},
+  {id:"credit",name:"Margin and credit checked",short:"Credit"},
+  {id:"erp",name:"ERP order created",short:"ERP"},
+  {id:"invoice",name:"Invoiced per route",short:"Invoice"},
+  {id:"collect",name:"Collected and matched",short:"Collect"},
+  {id:"recon",name:"Reconciled to revenue",short:"Reconcile"}
+];
+var LV={acts:["Acts","ai"],proposes:["Proposes","ac"],explains:["Explains",""],person:["Person","wn"]};
+var SIGNALS=[
+  ["Pays in 54 days against 60 day terms","Average over the last 12 months. Inside terms, every month.","ok","Positive"],
+  ["No missed payment in four years","The whole trading history we hold for this partner.","ok","Positive"],
+  ["Nothing overdue today","Zero past due across every open invoice.","ok","Positive"],
+  ["AED 64,250 lands within seven days","Cash already on its way, which frees limit before the due date.","ok","Positive"],
+  ["Limit utilisation 72%","Normal for this trading pattern. Neither a flag nor a reason to extend.","","Neutral"],
+  ["38% of their revenue is one end customer","The only negative, and what caps how far the limit stretches.","bad","Negative"]
+];
+var INSTR=[
+  {id:"open",t:"Open credit, Net 60",w:"Standard trading inside the limit",days:60,carry:true,pfee:"No fee",note:"Banked on day 60. The default, and the most expensive for us to carry."},
+  {id:"pdc",t:"Post dated cheque",w:"Common across the UAE and KSA, secured by the instrument",days:60,carry:true,pfee:"No fee",note:"Presented on the due date. Same carry, but enforceable."},
+  {id:"lc",t:"Letter of credit",w:"Large orders or a new market; the issuing bank carries it",carry:false,pfee:"0.5 to 1.5% bank fee",note:"Our exposure becomes the bank's."},
+  {id:"bg",t:"Bank guarantee",w:"Covered to the guarantee value",carry:false,pfee:"About 1 to 2% a year",note:"Lets us trade where policy otherwise would not."},
+  {id:"adv",t:"Advance payment, proforma",w:"Releases when payment clears",carry:false,pfee:"No fee",note:"Full margin, zero carry."},
+  {id:"fund",t:"Pay later with a funder, Net 90",w:"A third party funder takes the receivable",carry:false,fund:true,pfee:"No fee to you",note:"1.2% fee paid by Redington; we are paid on day 2. This is the version that lowers DSO."}
+];
+var COC=0.08, FEE=0.012;
+var BUYER={name:"Omar Saleh",role:"Procurement lead",co:"Gulf IT Solutions LLC",approver:"Layla Haddad",approverRole:"Head of Procurement",tool:"Coupa"};
+
+/* ============================================================
+   State
+   ============================================================ */
+var KEY="p2p-proto-v1";
+function seed(){
+  return {
+    market:"uae", notes:true, seq:1042,
+    cart:[{sku:"m365bp",qty:200},{sku:"cloudguard",qty:200},{sku:"thinkpad",qty:40}],
+    co:{step:1,ins:"open",opt:"increase",appr:null,checked:false,po:"GITS-PO-7781"},
+    used:{},
+    policy:{
+      buyerAuto:50000, floor:10, band:20, sla:4, autoRelease:true,
+      routes:{
+        uae:{"microsoft.csp":"open","aws.cppo":"open","aws.resale":"open","redington.stock":"open","redington.services":"open"},
+        ksa:{"microsoft.csp":"open","aws.cppo":"blocked","aws.resale":"open","redington.stock":"open","redington.services":"open"},
+        bhr:{"microsoft.csp":"open","aws.cppo":"open","aws.resale":"open","redington.stock":"open","redington.services":"open"},
+        ind:{"microsoft.csp":"open","aws.cppo":"restricted","aws.resale":"open","redington.stock":"open","redington.services":"open"},
+        tur:{"microsoft.csp":"open","aws.cppo":"blocked","aws.resale":"open","redington.stock":"open","redington.services":"open"}
+      },
+      agent:{intake:"acts",validate:"acts",route:"proposes",ready:"acts",terms:"proposes",credit:"acts",erp:"acts",invoice:"acts",collect:"acts",recon:"explains"}
+    },
+    orders:[], audit:[], recon:[], saved:[],
+    pos:[
+      {id:"PO-DL-4471",from:"procurement@desertlogistics.ae",via:"Email, PDF",src:"PDF",customer:"Desert Logistics LLC",partner:"Nexa Systems FZ LLC",market:"uae",received:"09:12",status:"new",quote:"Q-22918",
+       lines:[{sku:"m365bp",qty:120,price:80},{sku:"fg100f",qty:2,price:14200}],issue:"deviation"},
+      {id:"PO-AH-0932",from:"Coupa punch out",via:"API, cXML",src:"API",customer:"Al Hamra Retail",partner:"Cloudline Partners",market:"uae",received:"08:47",status:"new",quote:"Q-22871",
+       lines:[{sku:"copilot",qty:50,price:110},{sku:"m365dep",qty:1,price:12000}],issue:null},
+      {id:"PO-NB-2210",from:"it@nilebridge.com.bh",via:"Email, scanned PDF",src:"SCAN",customer:"NileBridge Trading WLL",partner:"Bahrain Tech Hub WLL",market:"bhr",received:"07:58",status:"new",quote:"Q-22790",
+       lines:[{sku:"thinkpad",qty:15,price:3250}],issue:"readiness"}
+    ]
+  };
+}
+var S;
+try{ S=JSON.parse(localStorage.getItem(KEY)); }catch(e){ S=null; }
+if(!S||!S.policy){ S=seed(); seedHistory(); }
+function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
+
+/* ============================================================
+   Helpers
+   ============================================================ */
+function $(s){return document.querySelector(s);}
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function fmt(n){return Math.round(n).toLocaleString("en-US");}
+function money(n,cur){return (cur||MK[S.market].cur)+" "+fmt(n);}
+function pct(n,d){return (d||d===0?n.toFixed(d):n.toFixed(1))+"%";}
+function tm(t){var d=new Date(t);return ("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2);}
+function pill(t,c){return "<span class='pill "+(c||"")+"'>"+t+"</span>";}
+function lvl(st){var l=LV[S.policy.agent[st]]||LV.acts;return pill(l[0],l[1]);}
+function ann(t,c){return "<div class='ann'><span><b>"+(c||"Note")+"</b> · "+t+"</span></div>";}
+function OX(id){for(var i=0;i<S.orders.length;i++){if(S.orders[i].id===id)return S.orders[i];}return null;}
+function POX(id){for(var i=0;i<S.pos.length;i++){if(S.pos[i].id===id)return S.pos[i];}return null;}
+function ckey(mk,pt){return (pt||BUYER.co)+"|"+mk;}
+function avail(mk,pt){var own=!pt||pt===BUYER.co, base=own?MK[mk].avail:MK[mk].limit*0.55;return Math.max(0,base-(S.used[ckey(mk,pt)]||0));}
+function log(actor,kind,text,ref){S.audit.unshift({t:Date.now(),actor:actor,kind:kind,text:text,ref:ref||""});if(S.audit.length>300)S.audit.length=300;}
+function toast(t,c){var e=document.createElement("div");e.className="tst "+(c||"");e.innerHTML=t;$("#toast").appendChild(e);setTimeout(function(){e.remove();},3400);}
+
+function resolveRoute(prog,mk){
+  var st=S.policy.routes[mk][prog];
+  if(st!=="blocked") return {route:prog,restricted:st==="restricted",why:st==="restricted"?((WHY[mk]||{})[prog]||"Restricted in this market"):""};
+  var why=(WHY[mk]||{})[prog]||"This programme is switched off for "+MK[mk].name+" in the route matrix.";
+  var fb=FALLBACK[prog];
+  if(fb && S.policy.routes[mk][fb]!=="blocked") return {route:fb,rerouted:true,from:prog,why:why};
+  return {route:null,blocked:true,why:why};
+}
+/* items: [{sku,qty,price?}] price in AED base */
+function calc(items,mk){
+  var m=MK[mk],lines=[],tx={},net=0,margin=0,blocked=[];
+  items.forEach(function(it){
+    var p=PX[it.sku]; if(!p) return;
+    var r=resolveRoute(p.prog,mk);
+    var base=it.price!=null?it.price:p.price, unit=base*m.fx, ln=unit*it.qty;
+    var cost=p.price*(1-p.mg/100)*m.fx, mgv=ln-cost*it.qty;
+    var L={sku:p.id,name:p.name,vendor:p.vendor,qty:it.qty,unit:unit,net:ln,route:r.route,rr:r,margin:mgv,mgp:ln?mgv/ln*100:0,unitLabel:p.unit,base:base};
+    lines.push(L);
+    if(!r.route){blocked.push(L);return;}
+    net+=ln; margin+=mgv;
+    if(!tx[r.route]) tx[r.route]={route:r.route,lines:[],net:0};
+    tx[r.route].lines.push(L); tx[r.route].net+=ln;
+  });
+  var txns=ROUTE_ORDER.filter(function(k){return tx[k];}).map(function(k){
+    var t=tx[k],R=ROUTES[k];
+    t.invoicer=R.inv==="aws"?"Amazon Web Services EMEA SARL":m.entity;
+    t.byAws=R.inv==="aws"; t.tax=t.net*m.tax; t.total=t.net+t.tax; t.taxLabel=m.taxLabel; return t;
+  });
+  var tax=net*m.tax;
+  return {mk:mk,cur:m.cur,lines:lines,txns:txns,net:net,tax:tax,total:net+tax,margin:margin,mgp:net?margin/net*100:0,blocked:blocked};
+}
+function credit(c){
+  var a=avail(c.mk),gap=Math.max(0,c.total-a),m=MK[c.mk];
+  return {limit:m.limit,used:m.limit-a,avail:a,total:c.total,gap:gap,released:Math.min(c.total,a),inBand:gap<=m.limit*S.policy.band/100};
+}
+function carryCost(ins,c){ if(ins.carry) return c.total*COC*ins.days/365; if(ins.fund) return c.total*FEE; return 0; }
+function aedEq(v,mk){return v/MK[mk].fx;}
+
+/* ============================================================
+   Orders and the DealFlow pipeline
+   ============================================================ */
+function makeOrder(items,mk,o){
+  var c=calc(items,mk);
+  var ord={id:"RO-"+(S.seq++),src:o.src||"OneCart 360",buyer:o.buyer||BUYER.name,partner:o.partner||BUYER.co,customer:o.customer||"Desert Logistics LLC",
+    market:mk,cur:c.cur,created:Date.now(),items:items,
+    lines:c.lines.filter(function(l){return l.route;}).map(function(l){return {sku:l.sku,name:l.name,qty:l.qty,unit:l.unit,net:l.net,route:l.route,mgp:l.mgp,rerouted:!!l.rr.rerouted};}),
+    txns:c.txns.map(function(t,i){return {route:t.route,invoicer:t.invoicer,byAws:t.byAws,net:t.net,tax:t.tax,total:t.total,taxLabel:t.taxLabel,status:"Queued",inv:null};}),
+    net:c.net,tax:c.tax,total:c.total,mgp:c.mgp,
+    credit:o.credit||null, po:o.po||null, quote:o.quote||null, flags:o.flags||{}, ok:{},
+    stage:0,hold:null,status:"In progress",timeline:[],approval:o.approval||null,ref:o.ref||""};
+  S.orders.unshift(ord);
+  return ord;
+}
+var timers={};
+function holdFor(o,st){
+  if(S.policy.agent[st]==="person" && !o.ok["manual_"+st]) return {kind:"manual",stage:st,text:"Policy sets this stage to a person. DealFlow prepared it and is waiting for sign off."};
+  if(st==="validate" && o.flags.deviation && !o.ok.dev) return {kind:"deviation",stage:st,text:o.flags.deviation};
+  if(st==="ready" && o.flags.readiness && !o.ok.ready) return {kind:"readiness",stage:st,text:o.flags.readiness};
+  if(st==="credit"){
+    if(o.mgp<S.policy.floor && !o.ok.margin) return {kind:"margin",stage:st,text:"Order margin "+pct(o.mgp)+" is below the "+S.policy.floor+"% floor."};
+    if(!o.credit){ var a=avail(o.market,o.partner),gap=Math.max(0,o.total-a); o.credit={grade:"B+",avail:a,gap:gap,released:Math.min(o.total,a),opt:gap>0?"increase":null,ins:"open",inBand:gap<=MK[o.market].limit*S.policy.band/100,created:Date.now()}; }
+    var cr=o.credit;
+    if(cr.gap>0){
+      if(cr.decision==="declined" && !cr.paid) return {kind:"paygap",stage:st,text:"Credit declined the increase. "+money(cr.gap,o.cur)+" must be paid or covered before the rest releases."};
+      if(cr.opt==="increase" && !cr.decision) return {kind:"credit",stage:st,text:"Over the available limit by "+money(cr.gap,o.cur)+". "+money(cr.released,o.cur)+" released inside policy; the gap is with one reviewer."};
+      if(cr.opt==="secure" && !cr.docOk) return {kind:"instrument",stage:st,text:"Waiting for a bank guarantee of "+money(cr.gap,o.cur)+" to lift the usable limit."};
+      if(cr.opt==="pay" && !cr.paid) return {kind:"payment",stage:st,text:"Waiting for "+money(cr.gap,o.cur)+" by card or virtual IBAN. Releases as soon as it clears."};
+    }
+  }
+  return null;
+}
+function stageText(o,st){
+  var n=o.txns.length;
+  switch(st){
+    case "intake": return o.po? (o.po.via+" from "+o.po.from+" read: "+o.lines.length+" lines, customer, quote "+o.quote+", no re keying") : ("Cart submitted by "+o.buyer+": "+o.lines.length+" lines, approval "+(o.approval||"by rule"));
+    case "validate": return "Price, quantity, customer, tax and terms checked against "+(o.quote?"quote "+o.quote:"the live price book")+(o.ok.dev?" (deviation resolved)":"");
+    case "route": return n+" route"+(n>1?"s":"")+": "+o.txns.map(function(t){return ROUTES[t.route].short;}).join(", ")+". Entity "+MK[o.market].entity.split(",")[0]+(o.lines.some(function(l){return l.rerouted;})?". AWS line rerouted to resale":"");
+    case "ready": return "KYC current, tax registration valid"+(o.txns.some(function(t){return t.route==="microsoft.csp";})?", Microsoft tenant linked":"")+(o.txns.some(function(t){return t.byAws;})?", AWS account ID confirmed":"");
+    case "terms": return "Reseller terms"+(o.txns.some(function(t){return t.route.indexOf("microsoft")===0;})?", Microsoft Customer Agreement":"")+(o.txns.some(function(t){return t.byAws;})?", AWS private offer EULA":"")+" attached; no unapproved clause";
+    case "credit": var c=o.credit; return "Margin "+pct(o.mgp)+" above the "+S.policy.floor+"% floor. "+(c.gap>0?("Gap "+money(c.gap,o.cur)+" covered: "+({increase:"temporary increase approved",pay:"partner paid the gap",secure:"guarantee received",trim:"order trimmed"}[c.opt]||"released")+"."):"Fully inside the available limit, released automatically.");
+    case "erp": return "ERP sales order SO-"+(880000+parseInt(o.id.slice(3),10))+" created through the integration: "+n+" compliant transaction"+(n>1?"s":"");
+    case "invoice": return n+" invoice"+(n>1?"s":"")+" issued per route. "+MK[o.market].einv+(o.txns.some(function(t){return t.byAws;})?"; AWS invoices its line directly":"");
+    case "collect": return "Payments auto matched to invoices; credit freed";
+    case "recon": return "Three way match complete; principal and agent split applied per line";
+  }
+  return "";
+}
+function stageEffect(o,st){
+  if(st==="credit"){ var c=o.credit; var add=o.total-(c.opt==="pay"&&c.paid?c.gap:0); S.used[ckey(o.market,o.partner)]=(S.used[ckey(o.market,o.partner)]||0)+add; }
+  if(st==="erp") o.txns.forEach(function(t){t.status="Booked";});
+  if(st==="invoice"){
+    o.txns.forEach(function(t,i){
+      t.status="Invoiced";
+      t.inv=(t.byAws?"AWS-":"INV-"+o.market.toUpperCase()+"-")+(o.id.slice(3))+"-"+(i+1);
+      S.recon.unshift({id:t.inv,order:o.id,invoicer:t.byAws?"AWS":"Redington",route:t.route,cur:o.cur,amount:t.total,received:0,status:"awaiting",why:"",sug:null,market:o.market});
+    });
+  }
+}
+function advance(id){
+  clearTimeout(timers[id]);
+  var o=OX(id); if(!o||o.hold||o.stage>=8) return;
+  var st=STAGES[o.stage].id, h=holdFor(o,st);
+  if(h){
+    h.since=Date.now(); o.hold=h; o.status="On hold";
+    log("DealFlow AI","explains","Held "+o.id+" at "+STAGES[o.stage].short+": "+h.text,o.id);
+    if(h.kind==="payment") timers[id]=setTimeout(function(){ var x=OX(id); if(x&&x.hold&&x.hold.kind==="payment"){ x.credit.paid=true; x.timeline.push({t:Date.now(),stage:"credit",actor:"Partner",level:"person",text:"Paid "+money(x.credit.gap,x.cur)+" by virtual IBAN; auto matched"}); log("DealFlow AI","acts","Matched "+money(x.credit.gap,x.cur)+" virtual IBAN payment to "+id,id); x.hold=null; x.status="In progress"; save(); refresh(); advance(id);} },4200);
+    save(); refresh(); return;
+  }
+  o.timeline.push({t:Date.now(),stage:st,actor:"DealFlow AI",level:S.policy.agent[st],text:stageText(o,st)});
+  log("DealFlow AI",S.policy.agent[st],STAGES[o.stage].name+" for "+o.id,o.id);
+  stageEffect(o,st);
+  o.stage++;
+  o.status=o.stage>=8?"Invoiced":"In progress";
+  if(o.stage>=8) toast(o.id+" invoiced: "+o.txns.length+" compliant transactions","ai");
+  save(); refresh();
+  if(o.stage<8) timers[id]=setTimeout(function(){advance(id);},650);
+}
+function release(o,actor,text,flag){
+  if(flag) flag();
+  o.timeline.push({t:Date.now(),stage:o.hold?o.hold.stage:"",actor:actor,level:"person",text:text});
+  log(actor,"person",text,o.id);
+  o.hold=null; o.status="In progress"; save(); refresh();
+  setTimeout(function(){advance(o.id);},400);
+}
+function finishCollect(o){
+  if(o.stage<8) return;
+  var rows=S.recon.filter(function(r){return r.order===o.id;});
+  if(rows.length && rows.every(function(r){return r.status==="matched";})){
+    if(o.stage===8){ o.timeline.push({t:Date.now(),stage:"collect",actor:"DealFlow AI",level:S.policy.agent.collect,text:stageText(o,"collect")}); o.stage=9; }
+    if(o.stage===9){ o.timeline.push({t:Date.now(),stage:"recon",actor:"DealFlow AI",level:S.policy.agent.recon,text:stageText(o,"recon")}); o.stage=10; o.status="Reconciled";
+      o.txns.forEach(function(t){t.status="Paid";}); S.used[ckey(o.market,o.partner)]=Math.max(0,(S.used[ckey(o.market,o.partner)]||0)-o.total); }
+  }
+}
+
+function seedHistory(){
+  var o=makeOrder([{sku:"m365bp",qty:50},{sku:"m365dep",qty:1}],"uae",{customer:"Oasis Clinics",credit:{grade:"B+",avail:183800,gap:0,released:76050,opt:null,ins:"open"}});
+  o.created=Date.now()-86400000*6;
+  STAGES.slice(0,8).forEach(function(s,i){o.timeline.push({t:o.created+i*60000,stage:s.id,actor:"DealFlow AI",level:S.policy.agent[s.id],text:stageText(o,s.id)});});
+  o.stage=8; o.status="Invoiced";
+  o.txns.forEach(function(t,i){t.status="Invoiced";t.inv="INV-UAE-"+o.id.slice(3)+"-"+(i+1);});
+  S.recon=[
+    {id:o.txns[0].inv,order:o.id,invoicer:"Redington",route:"microsoft.csp",cur:"AED",amount:o.txns[0].total,received:o.txns[0].total,status:"matched",why:"Exact match on amount and remittance reference.",market:"uae"},
+    {id:o.txns[1].inv,order:o.id,invoicer:"Redington",route:"redington.services",cur:"AED",amount:o.txns[1].total,received:0,status:"awaiting",why:"",market:"uae"},
+    {id:"AWS-1031-1",order:"RO-1031",invoicer:"AWS",route:"aws.cppo",cur:"AED",amount:46200,received:44814,status:"exception",kind:"fee",why:"AWS disbursed AED 44,814 against an AED 46,200 invoice. The AED 1,386 difference is exactly the 3% listing fee on the private offer agreement; nothing is short paid.",sug:{label:"Post the fee to the agreed GL and close",level:"proposes"},market:"uae"},
+    {id:"INV-IND-1029-1",order:"RO-1029",invoicer:"Redington",route:"redington.stock",cur:"INR",amount:1180000,received:1156400,status:"exception",kind:"tds",why:"INR 23,600 short. That is 2% TDS withheld under Section 194Q, not a dispute. The customer owes us the certificate, not the cash.",sug:{label:"Request the TDS certificate (email drafted)",level:"proposes"},market:"ind"},
+    {id:"INV-TUR-1027-2",order:"RO-1027",invoicer:"Redington",route:"redington.stock",cur:"TRY",amount:512000,received:508900,status:"exception",kind:"fx",why:"TRY 3,100 short. Invoiced at the 6 Nov rate and paid on 9 Nov; the lira moved 0.6%. Inside the FX tolerance in policy.",sug:{label:"Book to FX difference and close",level:"proposes"},market:"tur"},
+    {id:"INV-UAE-1024-1",order:"RO-1024",invoicer:"Redington",route:"microsoft.csp",cur:"AED",amount:28350,received:0,status:"overdue",kind:"overdue",why:"12 days past due. The partner paid every other invoice on time; the remittance for this one names a different PO.",sug:{label:"Send a reminder with the PO cross reference",level:"acts"},market:"uae"},
+    {id:"CASH-64250",order:"—",invoicer:"Unapplied",route:"",cur:"AED",amount:64250,received:64250,status:"exception",kind:"cash",why:"AED 64,250 arrived with reference 'GITS NOV'. It equals three open invoices exactly: RO-1036, RO-1037, RO-1038.",sug:{label:"Apply across the three invoices",level:"proposes"},market:"uae"},
+    {id:"DSP-1033",order:"RO-1033",invoicer:"Redington",route:"microsoft.csp",cur:"AED",amount:1640,received:0,status:"exception",kind:"creditnote",why:"Customer disputes 20 seats billed after a cancellation inside the 7 day window. A credit note of AED 1,640 looks right.",sug:{label:"Credit notes stay with Finance",level:"never"},market:"uae"}
+  ];
+  log("System","rules","Prototype seeded: one invoiced order, seven reconciliation items","");
+}
+
+/* resume pipelines on load */
+S.orders.forEach(function(o){ if(o.hold&&o.hold.kind==="payment") o.hold=null; if(o.stage<8 && !o.hold) setTimeout(function(){advance(o.id);},500); });
+
+/* ============================================================
+   Shell
+   ============================================================ */
+var NAV=[
+  {sec:"Prototype"},
+  {r:"overview",l:"Overview",ic:"◎"},
+  {sec:"Partner portal",sub:BUYER.co},
+  {r:"home",l:"Home",ic:"⌂"},
+  {r:"catalogue",l:"Catalogue",ic:"▦"},
+  {r:"cart",l:"OneCart 360",ic:"🛒",tag:"cart"},
+  {r:"orders",l:"My orders",ic:"≡"},
+  {r:"statement",l:"Invoices and statement",ic:"₿"},
+  {sec:"Redington back office"},
+  {r:"inbox",l:"DealFlow inbox",ic:"✉",tag:"inbox"},
+  {r:"exceptions",l:"Exceptions",ic:"!",tag:"exc"},
+  {r:"credit",l:"Credit desk",ic:"◐",tag:"credit"},
+  {r:"recon",l:"Reconciliation",ic:"⇄",tag:"recon"},
+  {r:"audit",l:"Audit trail",ic:"☰"},
+  {r:"policy",l:"Policy and rules",ic:"⚙"}
+];
+var PERSONA={
+  partner:{c:"",i:"OS",t:BUYER.name+" · "+BUYER.co},
+  ops:{c:"ops",i:"OP",t:"Sara Nair · Order operations, Redington"},
+  cr:{c:"cr",i:"CR",t:"Imran Qureshi · Credit control, Redington"},
+  ad:{c:"ad",i:"AD",t:"Policy owner · Finance, Redington"}
+};
+function personaFor(r){
+  if(["home","catalogue","cart","checkout","orders","order","statement"].indexOf(r)>=0) return "partner";
+  if(r==="credit") return "cr"; if(r==="policy"||r==="audit") return "ad"; if(r==="overview") return null; return "ops";
+}
+function counts(){
+  return {
+    cart:S.cart.reduce(function(a,b){return a+1;},0),
+    inbox:S.pos.filter(function(p){return p.status==="new";}).length,
+    exc:S.orders.filter(function(o){return o.hold;}).length,
+    credit:S.orders.filter(function(o){return o.hold&&o.hold.kind==="credit";}).length,
+    recon:S.recon.filter(function(r){return r.status==="exception"||r.status==="overdue";}).length
+  };
+}
+function route(){ var h=(location.hash||"#/overview").slice(2).split("?")[0].split("/"); return {r:h[0]||"overview",a:h[1]||""}; }
+function renderSide(){
+  var R=route().r, c=counts();
+  if(R==="checkout") R="cart"; if(R==="order") R="orders"; if(R==="po") R="inbox";
+  $("#side").innerHTML="<div class='brand'><span class='lg'>P2P</span><span><b>Procure to Pay</b><s>Wireframe prototype · v1</s></span></div>"+
+    NAV.map(function(n){
+      if(n.sec) return "<div class='sec'>"+n.sec+(n.sub?"<em>"+n.sub+"</em>":"")+"</div>";
+      var b="";
+      if(n.tag==="cart"&&c.cart) b="<span class='bd g'>"+c.cart+"</span>";
+      if(n.tag==="inbox"&&c.inbox) b="<span class='bd n'>"+c.inbox+"</span>";
+      if(n.tag==="exc"&&c.exc) b="<span class='bd'>"+c.exc+"</span>";
+      if(n.tag==="credit"&&c.credit) b="<span class='bd'>"+c.credit+"</span>";
+      if(n.tag==="recon"&&c.recon) b="<span class='bd g'>"+c.recon+"</span>";
+      return "<a class='nav' href='#/"+n.r+"' aria-current='"+(R===n.r)+"'><span class='ic'>"+n.ic+"</span>"+n.l+b+"</a>";
+    }).join("")+
+    "<div class='foot'><div class='tg'>Annotations<button class='sw' data-act='notes' aria-pressed='"+S.notes+"' aria-label='Toggle annotations'></button></div>"+
+    "<button class='btn sm' data-act='reset'>Reset demo data</button></div>";
+}
+function renderTop(){
+  var R=route().r, p=personaFor(R), item=NAV.filter(function(n){return n.r===R;})[0];
+  var title={checkout:"Checkout",order:"Order",po:"Purchase order"}[R]||(item?item.l:"");
+  var area=p==="partner"?"Partner portal":p?"Redington back office":"Prototype";
+  var P2=p?PERSONA[p]:null;
+  $("#top").innerHTML="<button class='menu-b' data-act='menu' aria-label='Menu'>☰</button>"+
+    "<div class='crumb'>"+area+" / <b>"+title+"</b></div><div class='sp'></div>"+
+    (p==="partner"?"<label class='mk'>Buying in <select data-act='market'>"+MKO.map(function(k){return "<option value='"+k+"'"+(k===S.market?" selected":"")+">"+MK[k].name+" · "+MK[k].cur+"</option>";}).join("")+"</select></label>":"")+
+    (P2?"<div class='persona "+P2.c+"'><i>"+P2.i+"</i><span>"+P2.t+"</span></div>":"");
+}
+function render(){
+  document.body.classList.toggle("no-notes",!S.notes);
+  document.body.classList.remove("menu");
+  renderSide(); renderTop();
+  var R=route(), v=VIEWS[R.r]||VIEWS.overview;
+  $("#main").innerHTML="<div class='fade'>"+v(R.a)+"</div>";
+  if(R.r==="checkout" && S.co.step===2 && !S.co.checked) runCheck();
+}
+var BG_SAFE={catalogue:1,policy:1,checkout:1};
+function refresh(){ renderSide(); var R=route().r; if(!BG_SAFE[R]) { var y=window.scrollY; $("#main").innerHTML="<div>"+(VIEWS[R]||VIEWS.overview)(route().a)+"</div>"; window.scrollTo(0,y);} }
+
+/* ============================================================
+   Views
+   ============================================================ */
+var VIEWS={};
+
+/* ---------- Overview ---------- */
+VIEWS.overview=function(){
+  var placed=S.orders.length, touch=S.orders.filter(function(o){return o.stage>=8 && !o.timeline.some(function(e){return e.actor!=="DealFlow AI"&&e.actor!=="Partner";});}).length;
+  var done=S.orders.filter(function(o){return o.stage>=8;}).length;
+  return "<div class='pagehd'><div><div class='eyebrow'>Deal Ninjas · Procure to Pay</div><h1>One cart, credit at checkout, PO to revenue.</h1>"+
+    "<p>A working wireframe of the three concepts as one product. Every screen is clickable and shares one state: what the partner buys in OneCart 360 is decided by CreditIQ and run by DealFlow AI in the back office.</p></div>"+
+    "<a class='btn pri lg' href='#/cart'>Start the demo →</a></div>"+
+    "<div class='g g3'>"+
+      concept("01","Build now · recommended MVP","OneCart 360","One cart. Multiple vendors. Zero complexity.","What is being purchased, and through which route?",[["Partner cart with routing","#/cart"],["Route matrix","#/policy"]])+
+      concept("02","Design next","CreditIQ","Instant credit. Intelligent risk. Faster business.","Can the transaction be approved safely and profitably?",[["Credit at checkout","#/checkout"],["Credit desk","#/credit"]])+
+      concept("03","Build now, phased","DealFlow AI","From customer PO to revenue, intelligently.","Can we execute, invoice and reconcile it with minimal manual effort?",[["PO inbox","#/inbox"],["Reconciliation","#/recon"]])+
+    "</div>"+
+    "<div class='g g4' style='margin-top:16px'>"+
+      kpi("Orders in this demo",placed,done+" invoiced")+
+      kpi("Touchless",done?pct(touch/done*100,0):"—","Best in class 49.2%, average 32.6%","ok")+
+      kpi("Open exceptions",counts().exc+counts().recon,"Industry average exception rate 14%")+
+      kpi("Credit answer","2.4 sec","Today about 3 days, by email","ok")+
+    "</div>"+
+    "<div class='split' style='margin-top:16px'>"+
+    "<div class='card'><h2>Demo script</h2><p class='muted'>Seven steps, about six minutes. Each one opens the right screen.</p>"+
+    "<ol class='script'>"+
+      "<li><b>Build the cart.</b> Three vendors in one cart: Microsoft CSP, an AWS private offer and Redington stock. <a href='#/cart'>Open cart</a></li>"+
+      "<li><b>Switch market</b> to Saudi Arabia or Türkiye in the top bar. Watch the AWS line reroute and the tax and selling entity change.</li>"+
+      "<li><b>Check out.</b> CreditIQ answers in 2.4 seconds, prices each instrument, and offers four ways to cover the gap. <a href='#/checkout'>Checkout</a></li>"+
+      "<li><b>Place the order</b> with “Request a temporary increase”. DealFlow runs it and stops at the one human touch.</li>"+
+      "<li><b>Approve it</b> in the credit desk as the reviewer. The order releases and invoices per route. <a href='#/credit'>Credit desk</a></li>"+
+      "<li><b>Run a customer PO</b> from email through DealFlow: one clean, one with a price deviation, one blocked on tax registration. <a href='#/inbox'>Inbox</a></li>"+
+      "<li><b>Reconcile.</b> The agent explains each variance and proposes a fix; credit notes stay with Finance. <a href='#/recon'>Reconciliation</a></li>"+
+    "</ol></div>"+
+    "<div class='stack'>"+
+      "<div class='card'><h3>Personas in this prototype</h3><div class='list' style='margin-top:8px'>"+
+      Object.keys(PERSONA).map(function(k){var p=PERSONA[k];return "<div class='row'><span class='persona "+p.c+"' style='border:0;padding:0'><i>"+p.i+"</i></span><span class='ink2'>"+p.t+"</span></div>";}).join("")+
+      "</div></div>"+
+      ann("Yellow notes explain what each part of the screen proves and which concept it belongs to. Turn them off in the sidebar for a clean walkthrough.","How to read this")+
+      "<div class='card'><h3>Out of scope for the wireframe</h3><p class='ink2' style='margin-top:6px'>Real ERP, hyperscaler and e-invoicing integrations, identity, and pricing. Data is the concept's worked example and resets with “Reset demo data”.</p></div>"+
+    "</div></div>";
+};
+function concept(n,stage,name,tag,q,links){
+  return "<div class='concept'><div class='row sb'><span class='num'>CONCEPT "+n+"</span>"+pill(stage,stage.indexOf("Design")===0?"wn":"ok")+"</div>"+
+    "<h2>"+name+"</h2><div class='ink2'>"+tag+"</div><div class='q'>Answers: <b>"+q+"</b></div>"+
+    "<div class='row' style='margin-top:auto'>"+links.map(function(l){return "<a class='btn sm' href='"+l[1]+"'>"+l[0]+" →</a>";}).join("")+"</div></div>";
+}
+function kpi(k,v,s,c){return "<div class='kpi'><div class='k'>"+k+"</div><div class='v "+(c||"")+"'>"+v+"</div><div class='s'>"+(s||"")+"</div></div>";}
+
+/* ---------- Partner home ---------- */
+VIEWS.home=function(){
+  var m=MK[S.market], a=avail(S.market), mine=S.orders.slice(0,4);
+  var used=(m.limit-a)/m.limit*100;
+  return "<div class='pagehd'><div><div class='eyebrow'>Good morning, Omar</div><h1>Gulf IT Solutions LLC</h1><p>Buy across Microsoft, AWS and Redington in one cart. Upload a customer PO and DealFlow builds the order for you.</p></div>"+
+    "<div class='row'><button class='btn' data-act='upload'>⇪ Upload a customer PO</button><a class='btn pri' href='#/catalogue'>Browse catalogue</a></div></div>"+
+    "<div class='g g4'>"+
+      "<div class='kpi'><div class='k'>Available credit · "+m.name+"</div><div class='v'>"+money(a,m.cur)+"</div><div class='bar' style='margin:8px 0 4px'><i style='width:"+used+"%'></i></div><div class='s'>"+pct(used,0)+" of "+money(m.limit,m.cur)+" used</div></div>"+
+      kpi("Open orders",S.orders.filter(function(o){return o.stage<10;}).length,S.orders.filter(function(o){return o.hold;}).length+" waiting on something")+
+      kpi("Due in 30 days",money(m.cur==="AED"?92400:92400*m.fx,m.cur),"Across Redington and AWS, one statement")+
+      kpi("Renewals in 60 days","3","Microsoft 365, 2 AWS private offers")+
+    "</div>"+
+    "<div class='split' style='margin-top:16px'><div class='card flat'><div class='hd' style='padding:16px 16px 0'><div><h2>Recent orders</h2><p>One order per cart, even when it splits into several transactions.</p></div><a class='btn sm' href='#/orders'>All orders</a></div>"+
+      ordersTable(mine,true)+"</div>"+
+      "<div class='stack'><div class='card'><h3>Your cart</h3><p class='muted' style='margin-top:4px'>"+S.cart.length+" lines · "+(S.cart.length?money(calc(S.cart,S.market).total):"empty")+"</p><a class='btn pri full' style='margin-top:12px' href='#/cart'>Open OneCart 360</a></div>"+
+      "<div class='card'><h3>Renewals coming up</h3><div class='list' style='margin-top:6px'>"+
+        [["Microsoft 365 E3 · 120 seats","Oasis Clinics","14 Dec"],["AWS private offer · WAF","Al Hamra Retail","2 Jan"],["AWS private offer · Backup","Desert Logistics","8 Jan"]].map(function(r){return "<div class='row sb'><span><b style='font-weight:500'>"+r[0]+"</b><br><span class='muted' style='font-size:12px'>"+r[1]+"</span></span><span class='row'><span class='mono muted'>"+r[2]+"</span><button class='btn sm' data-act='toast' data-t='Renewal quote requested, routed like any cart'>Renew</button></span></div>";}).join("")+
+      "</div></div>"+ann("Upload a customer PO on this screen: DealFlow reads it and builds the order with no re keying, then it appears in My orders.","DealFlow AI")+"</div></div>";
+};
+
+/* ---------- Catalogue ---------- */
+var CF={v:"All",q:""};
+VIEWS.catalogue=function(){
+  var vendors=["All","Microsoft","AWS Marketplace","Lenovo","Dell","Fortinet","Redington Services"];
+  var list=P.filter(function(p){return (CF.v==="All"||p.vendor===CF.v)&&(!CF.q||(p.name+" "+p.vendor+" "+p.cat).toLowerCase().indexOf(CF.q.toLowerCase())>=0);});
+  return "<div class='pagehd'><div><h1>Catalogue</h1><p>Prices shown for "+MK[S.market].name+". Each item shows the route it will take in this market before you add it.</p></div>"+
+    "<input class='inp' style='max-width:280px' placeholder='Search products' data-act='cq' value='"+esc(CF.q)+"'></div>"+
+    "<div class='chips' style='margin-bottom:16px'>"+vendors.map(function(v){return "<button class='chip' data-act='cv' data-v='"+v+"' aria-pressed='"+(CF.v===v)+"'>"+v+"</button>";}).join("")+"</div>"+
+    "<div class='g g3' id='grid'>"+list.map(tile).join("")+"</div>";
+};
+function tile(p){
+  var r=resolveRoute(p.prog,S.market), m=MK[S.market], inCart=S.cart.filter(function(c){return c.sku===p.id;})[0];
+  var rp=r.route?pill(ROUTES[r.route].short,r.rerouted?"wn":"ac"):pill("Not sold here","bad");
+  return "<div class='tile'><div class='ph'>"+esc(p.vendor)+"</div><div class='row sb'><span class='muted' style='font-size:12px'>"+p.vendor+" · "+p.cat+"</span>"+rp+"</div>"+
+    "<div class='nm'>"+p.name+"</div><div class='muted' style='font-size:12px'>"+p.term+"</div>"+
+    (r.rerouted?"<div class='flag wn' style='padding:6px 9px;font-size:11.5px'>Rerouted here: "+r.why+"</div>":"")+
+    "<div class='ft'><div class='pr'>"+money(p.price*m.fx,m.cur)+" <s>/ "+p.unit+"</s></div>"+
+    (r.route?"<button class='btn sm "+(inCart?"":"pri")+"' data-act='add' data-sku='"+p.id+"'>"+(inCart?"✓ In cart ("+inCart.qty+")":"Add")+"</button>":"<button class='btn sm' disabled>Unavailable</button>")+"</div></div>";
+}
+
+/* ---------- Cart (OneCart 360) ---------- */
+VIEWS.cart=function(){
+  if(!S.cart.length) return "<div class='pagehd'><div><h1>OneCart 360</h1></div></div><div class='empty'>Your cart is empty.<br><br><a class='btn pri' href='#/catalogue'>Browse catalogue</a> <button class='btn' data-act='democart'>Load the worked example</button></div>";
+  var c=calc(S.cart,S.market), m=MK[S.market], cr=credit(c);
+  var rer=c.lines.filter(function(l){return l.rr.rerouted;});
+  return "<div class='pagehd'><div><div class='eyebrow'>OneCart 360</div><h1>One cart becomes "+c.txns.length+" compliant transaction"+(c.txns.length>1?"s":"")+"</h1>"+
+    "<p>"+c.lines.length+" lines from "+uniq(c.lines.map(function(l){return l.vendor;})).length+" vendors. Routing, tax and the invoicing company are decided per line for "+m.name+". You see one order, one approval, one statement.</p></div>"+
+    "<div class='row'><button class='btn sm' data-act='clearcart'>Clear cart</button><a class='btn sm' href='#/catalogue'>+ Add items</a></div></div>"+
+    marketStrip()+
+    "<div class='split'><div class='stack'>"+
+      (rer.length?"<div class='flag wn'><span>↻</span><span><b>Rerouted automatically.</b> "+rer.map(function(l){return l.name+": "+l.rr.why+" Now via "+ROUTES[l.route].name+", same price, Redington invoices.";}).join(" ")+"</span></div>":"")+
+      (c.blocked.length?"<div class='flag bad'><span>⨯</span><span><b>Cannot transact in "+m.name+".</b> "+c.blocked.map(function(l){return l.name;}).join(", ")+": "+c.blocked[0].rr.why+" Remove the line or change market.</span></div>":"")+
+      c.txns.map(function(t,i){return txnCard(t,i,c,true);}).join("")+
+      (c.blocked.length?c.blocked.map(function(l){return "<div class='txn' style='opacity:.6'><div class='th'><span class='ix' style='background:var(--bad)'>!</span><b>Blocked line</b></div><div class='tb'>"+lineRow(l,true)+"</div></div>";}).join(""):"")+
+      ann("Each box is a separate legal transaction with its own invoicer and tax treatment. The partner never assembles them: OneCart routes by country, entity and programme eligibility from the route matrix in Policy and rules.","OneCart 360 · Routes automatically")+
+    "</div>"+
+    "<div class='stack' style='position:sticky;top:72px'>"+
+      "<div class='card'><h2>Order summary</h2><div class='hr'></div><dl class='kv'>"+
+        "<dt>Subtotal</dt><dd>"+money(c.net)+"</dd><dt>Tax ("+m.taxLabel+")</dt><dd>"+money(c.tax)+"</dd>"+
+        "<dt>Invoicing companies</dt><dd>"+uniq(c.txns.map(function(t){return t.invoicer;})).length+"</dd><dt>Transactions</dt><dd>"+c.txns.length+"</dd></dl>"+
+        "<div class='hr'></div><div class='row sb'><b>Total</b><b style='font-size:20px'>"+money(c.total)+"</b></div>"+
+        "<div class='hr'></div>"+
+        "<div style='font-size:12.5px' class='ink2'>Credit preview (CreditIQ)</div>"+
+        "<div class='bar' style='margin:8px 0'><i class='ok' style='width:"+(cr.released/c.total*100)+"%'></i><i class='wn' style='width:"+(cr.gap/c.total*100)+"%'></i></div>"+
+        "<div class='row sb' style='font-size:12.5px'><span><span class='dot' style='color:var(--ok)'></span> Inside limit "+money(cr.released)+"</span>"+(cr.gap?"<span><span class='dot' style='color:var(--wn)'></span> Gap "+money(cr.gap)+"</span>":"")+"</div>"+
+        "<button class='btn pri lg full' style='margin-top:16px' data-act='checkout' "+(c.blocked.length||!c.txns.length?"disabled":"")+">Check out →</button>"+
+        "<p class='muted' style='font-size:12px;margin-top:8px;text-align:center'>You will see the credit answer before you submit.</p></div>"+
+      "<div class='card'><h3>Selling entity for "+m.name+"</h3><dl class='kv' style='margin-top:8px'><dt>Sells</dt><dd>"+m.entity+"</dd><dt>Tax</dt><dd>"+m.taxLabel+"</dd></dl>"+
+        "<div class='flag ac' style='margin-top:10px'><span>i</span><span><b>Local rule.</b> "+m.catch+"</span></div></div>"+
+    "</div></div>";
+};
+function uniq(a){return a.filter(function(x,i){return a.indexOf(x)===i;});}
+function marketStrip(){
+  var rows=MKO.map(function(k){
+    var c=calc(S.cart,k), open=ROUTE_ORDER.filter(function(r){return S.policy.routes[k][r]!=="blocked";}).length;
+    return "<button class='opt' style='grid-template-columns:1fr;padding:10px 12px' data-act='setmk' data-mk='"+k+"' aria-pressed='"+(k===S.market)+"'>"+
+      "<span class='row sb'><b>"+MK[k].name+"</b><span class='mono muted'>"+open+"/5 routes</span></span>"+
+      "<span class='mono' style='font-size:12px'>"+money(c.total,MK[k].cur)+"</span><span class='muted' style='font-size:11.5px'>"+pct(MK[k].tax*100,0)+" tax · "+c.txns.length+" txns"+(c.lines.some(function(l){return l.rr.rerouted;})?" · rerouted":"")+"</span></button>";
+  }).join("");
+  return "<div class='card' style='margin-bottom:16px;padding:14px'><div class='row sb' style='margin-bottom:10px'><h3>The same cart, resolved per market</h3><span class='muted' style='font-size:12px'>Pick one to buy in</span></div>"+
+    "<div class='g' style='grid-template-columns:repeat(5,minmax(0,1fr));gap:8px'>"+rows+"</div>"+
+    "<div style='margin-top:10px'>"+ann("Same three lines, five answers. Tax, selling entity and which programmes may transact all change; KSA and Türkiye lose the AWS private offer route.","OneCart 360 · Applies local rules")+"</div></div>";
+}
+function txnCard(t,i,c,edit){
+  var R=ROUTES[t.route];
+  return "<div class='txn "+R.cls+"'><div class='th'><span class='ix'>"+(i+1)+"</span><div><b>"+R.name+"</b><div class='muted' style='font-size:12px'>"+R.desc+"</div></div>"+
+    "<span style='margin-left:auto' class='row'>"+pill((t.byAws?"AWS invoices":"We invoice"),t.byAws?"wn":"ok")+pill(t.taxLabel,"out")+"</span></div>"+
+    "<div class='tb'>"+t.lines.map(function(l){return lineRow(l,edit);}).join("")+"</div>"+
+    "<div class='tf'><span>Invoiced by <b>"+t.invoicer+"</b></span><span>Net <b>"+money(t.net,c.cur)+"</b></span><span>Tax <b>"+money(t.tax,c.cur)+"</b></span><span>Total <b>"+money(t.total,c.cur)+"</b></span></div></div>";
+}
+function lineRow(l,edit){
+  return "<div class='ln'><div><b style='font-weight:500'>"+l.name+"</b><div class='muted' style='font-size:12px'>"+l.vendor+" · "+money(l.unit)+" / "+l.unitLabel+(l.rr&&l.rr.restricted?" · "+l.rr.why:"")+"</div></div>"+
+    (edit?"<div class='qty'><button data-act='qty' data-sku='"+l.sku+"' data-d='-1' aria-label='Less'>−</button><input data-act='qtyset' data-sku='"+l.sku+"' value='"+l.qty+"' inputmode='numeric' aria-label='Quantity'><button data-act='qty' data-sku='"+l.sku+"' data-d='1' aria-label='More'>+</button></div>":"<span class='mono muted'>× "+l.qty+"</span>")+
+    "<div class='r'><b>"+money(l.net)+"</b>"+(edit?"<div><button class='btn sm' style='border:0;padding:2px 0;color:var(--ink3)' data-act='rm' data-sku='"+l.sku+"'>Remove</button></div>":"")+"</div></div>";
+}
+
+/* ---------- Checkout ---------- */
+VIEWS.checkout=function(){
+  if(!S.cart.length) return "<div class='empty'>Nothing to check out. <a href='#/cart'>Back to cart</a></div>";
+  var c=calc(S.cart,S.market);
+  if(c.blocked.length) return "<div class='empty'>Some lines cannot transact in "+MK[S.market].name+". <a href='#/cart'>Back to cart</a></div>";
+  var st=S.co.step, cr=credit(c);
+  var steps=[["1","Routing and tax","Review the "+c.txns.length+" transactions"],["2","Credit and payment","CreditIQ decision"],["3","Approve and place","Your approval rules"]];
+  var head="<div class='pagehd'><div><div class='eyebrow'>Checkout · "+MK[S.market].name+"</div><h1>"+money(c.total)+" across "+c.txns.length+" transactions</h1></div><a class='btn sm' href='#/cart'>← Back to cart</a></div>"+
+    "<div class='stepper'>"+steps.map(function(s,i){var n=i+1;return "<button data-act='step' data-s='"+n+"' class='"+(n===st?"on":n<st?"dn":"")+"' "+(n>st+0&&!(n===2&&st>=1)&&n>st?"":"")+"><i>"+(n<st?"✓":s[0])+"</i><span><b>"+s[1]+"</b><s>"+s[2]+"</s></span></button>";}).join("")+"</div>";
+  if(st===1) return head+"<div class='split'><div class='stack'>"+c.txns.map(function(t,i){return txnCard(t,i,c,false);}).join("")+"</div>"+
+    "<div class='stack'><div class='card'><h3>What happens on submit</h3><ol class='ink2' style='padding-left:18px;margin:8px 0 0;font-size:13px;line-height:1.7'>"+
+      c.txns.map(function(t){return "<li>"+(t.byAws?"Private offer accepted in your AWS account; AWS invoices you":ROUTES[t.route].name+" order booked; "+t.invoicer.split(",")[0]+" invoices you")+"</li>";}).join("")+
+      "</ol></div><button class='btn pri lg full' data-act='step' data-s='2'>Continue to credit →</button>"+ann("Three tax treatments, two invoicing companies, one approval. The partner sees one order and one statement.","OneCart 360 · One order view")+"</div></div>";
+  if(st===2) return head+creditStep(c,cr);
+  return head+approveStep(c,cr);
+};
+function creditStep(c,cr){
+  var m=MK[S.market], ins=INSTR.filter(function(x){return x.id===S.co.ins;})[0];
+  var checked=S.co.checked;
+  var sigs=SIGNALS.map(function(s,i){return "<div class='sig "+(checked?"":"pend")+"' data-sig='"+i+"'><span><b style='font-weight:500'>"+s[0]+"</b><s>"+s[1]+"</s></span>"+pill(s[3],s[2])+"</div>";}).join("");
+  var left="<div class='card'><div class='row sb'><div><div class='eyebrow'>CreditIQ</div><h2 id='ci-h'>"+(checked?"Answered in 2.4 seconds":"Checking six signals…")+"</h2></div>"+
+      "<div class='row' style='gap:14px'><span class='mono muted' id='ci-t'>"+(checked?"2.4s":"0.0s")+"</span><span class='grade' id='ci-g' style='"+(checked?"":"border-color:var(--line)")+"'>"+(checked?"B+":"·")+"</span></div></div>"+
+      "<div class='hr'></div>"+sigs+
+      "<p class='muted' style='font-size:12px;margin-top:10px'>Four signals positive, one neutral, one negative → grade B+. Policy lets B+ release automatically up to the available limit. No bureau file and no forms: four years of trading history with us.</p></div>";
+  if(!checked) return "<div class='split'><div>"+left+"</div><div class='card'><div class='ph' style='height:260px'>Waiting for the decision</div></div></div>";
+  var carry=carryCost(ins,c), mAfter=(c.margin-carry)/c.net*100;
+  var ledger="<table class='ledger'>"+
+    "<tr><td>Approved credit limit</td><td class='r'>"+money(cr.limit)+"</td></tr>"+
+    "<tr><td>Open exposure: unpaid invoices and orders in flight</td><td class='r'>− "+money(cr.used)+"</td></tr>"+
+    "<tr class='tot'><td>Available right now</td><td class='r'>= "+money(cr.avail)+"</td></tr>"+
+    "<tr><td>This order</td><td class='r'>"+money(c.total)+"</td></tr>"+
+    "<tr class='tot'><td>Released immediately, inside policy</td><td class='r ok'>"+money(cr.released)+"</td></tr>"+
+    (cr.gap?"<tr><td>Gap to cover</td><td class='r wn'>"+money(cr.gap)+"</td></tr>":"")+"</table>";
+  var trimInfo=trimPlan(c,cr);
+  var OPTS=[
+    {id:"pay",t:"Pay the gap now",tag:"Minutes",d:"Card or virtual IBAN. Releases as soon as it clears.",f:["Now "+money(cr.gap),"On account "+money(cr.released),"No fee"]},
+    {id:"increase",t:"Request a temporary limit increase",tag:"One reviewer, "+S.policy.sla+"h SLA",d:"Goes to credit control. "+money(cr.released)+" releases now; the rest when decided.",f:["Requested "+money(cr.gap),"30 days",pct(cr.gap/cr.limit*100)+" of limit",cr.inBand?"Inside reviewer band":"Above band: Finance"]},
+    {id:"trim",t:"Reduce the order to fit",tag:"Releases now",d:trimInfo?trimInfo.n+" × "+trimInfo.name+" move to a saved quote at today's price.":"No line can be trimmed to fit.",f:trimInfo?["Removes "+money(trimInfo.v),"No payment today","Fits inside the limit"]:["Not available"],dis:!trimInfo},
+    {id:"secure",t:"Cover it with a bank guarantee",tag:"Same day",d:"A guarantee lifts the usable limit; no balance sheet exposure for us.",f:["Clears "+money(cr.gap),"Partner pays the bank fee"]}
+  ];
+  var right="<div class='stack'>"+
+    "<div class='card'><h3>The credit answer</h3><div style='margin-top:10px'>"+ledger+"</div>"+
+      (cr.gap?"<div class='flag wn' style='margin-top:12px'><span>!</span><span><b>Not a rejection.</b> "+money(cr.gap)+" is over the available limit. Pick how to cover it below; you see the answer before you submit.</span></div>":"<div class='flag ok' style='margin-top:12px'><span>✓</span><span><b>Approved.</b> The whole order fits inside your available limit.</span></div>")+"</div>"+
+    (cr.gap?"<div class='card'><h3>Cover the gap</h3><div class='optlist' style='margin-top:10px'>"+OPTS.map(function(o){
+      return "<button class='opt' data-act='opt' data-o='"+o.id+"' aria-pressed='"+(S.co.opt===o.id)+"' "+(o.dis?"disabled":"")+"><span class='rd'></span><span><span class='row'><b>"+o.t+"</b>"+pill(o.tag,"out")+"</span><span class='d' style='display:block'>"+o.d+"</span><span class='fx'>"+o.f.map(function(x){return "<span>"+x+"</span>";}).join("")+"</span></span><span></span></button>";
+    }).join("")+"</div></div>":"")+
+    "</div>";
+  var instr="<div class='card'><div class='hd'><div><h3>Payment instrument</h3><p>Terms for the released amount.</p></div></div><div class='optlist'>"+INSTR.map(function(o){
+      var cc=carryCost(o,c), ma=(c.margin-cc)/c.net*100;
+      return "<button class='opt' data-act='ins' data-i='"+o.id+"' aria-pressed='"+(S.co.ins===o.id)+"'><span class='rd'></span><span><b>"+o.t+"</b><span class='d' style='display:block'>"+o.w+" · "+o.pfee+"</span></span>"+
+        "<span class='side-v' title='Internal view'>"+pct(ma)+"<em>our margin</em></span></button>";
+    }).join("")+"</div>"+
+    "<div class='locked' style='margin-top:14px'><span class='lk'>Redington only · hidden from the partner</span><div class='row' style='gap:24px'>"+
+      "<div><div class='muted' style='font-size:12px'>Carry cost</div><b>"+(carry?money(carry):"None")+"</b></div>"+
+      "<div><div class='muted' style='font-size:12px'>Margin before</div><b>"+pct(c.mgp)+"</b></div>"+
+      "<div><div class='muted' style='font-size:12px'>Margin after</div><b style='color:"+(carry?"var(--wn)":"var(--ok)")+"'>"+pct(mAfter)+"</b></div></div>"+
+      "<p class='muted' style='font-size:12px;margin-top:8px'>"+ins.note+" Carry modelled at 8% annual cost of capital over the term.</p></div>"+
+    ann("The instrument decides the margin. In production the right column and this box are only visible to Redington; the partner sees terms and fees.","CreditIQ · Prices the terms")+"</div>";
+  return "<div class='split w'><div class='stack'>"+left+instr+"</div><div class='stack'>"+right+
+    ann("Today this answer comes back by email about three days after the order went in. Here it is on the page before submit, from data Redington already holds.","CreditIQ · Real time checks")+
+    "<button class='btn pri lg full' data-act='step' data-s='3'>Continue to approval →</button></div></div>";
+}
+function trimPlan(c,cr){
+  if(!cr.gap) return null;
+  var m=MK[S.market], best=null;
+  c.lines.forEach(function(l){
+    if(PX[l.sku].prog!=="redington.stock"&&PX[l.sku].prog!=="redington.services") return;
+    var per=l.unit*(1+m.tax), n=Math.ceil(cr.gap/per);
+    if(n<l.qty && (!best||n*per<best.v)) best={sku:l.sku,name:l.name,n:n,v:n*l.unit};
+  });
+  return best;
+}
+function approveStep(c,cr){
+  var m=MK[S.market], aed=aedEq(c.total,S.market), need=aed>S.policy.buyerAuto, appr=S.co.appr;
+  var ok=!need||appr==="approved";
+  var optName={pay:"Pay the gap now",increase:"Temporary increase requested",trim:"Order reduced to fit",secure:"Bank guarantee"}[S.co.opt];
+  var rules=[
+    ["Budget","Cost centre IT-2026 has AED 420,000 left","ok"],
+    ["Vendors","Microsoft, AWS and Lenovo are on the approved list","ok"],
+    ["Category","Software, cloud and hardware allowed for this buyer","ok"],
+    ["Threshold",need?("Order is AED "+fmt(aed)+", above the AED "+fmt(S.policy.buyerAuto)+" auto approve limit: one approver"):"Under AED "+fmt(S.policy.buyerAuto)+": approved by rule",need?"wn":"ok"]
+  ];
+  return "<div class='split'><div class='stack'>"+
+    "<div class='card'><div class='hd'><div><div class='eyebrow'>Approval by rule · inside "+BUYER.tool+"</div><h2>"+(need?"One approval needed":"Approved by rule")+"</h2><p>Standard purchases go through on rules. Only the one rule that fails needs a person.</p></div></div>"+
+      rules.map(function(r){return "<div class='sig'><span><b style='font-weight:500'>"+r[0]+"</b><s>"+r[1]+"</s></span>"+pill(r[2]==="ok"?"Pass":"Needs approver",r[2])+"</div>";}).join("")+
+      (need?"<div class='hr'></div><div class='row sb'><div class='row'><span class='persona' style='border:0;padding:0'><i style='background:var(--ink)'>LH</i></span><span><b>"+BUYER.approver+"</b><br><span class='muted' style='font-size:12px'>"+BUYER.approverRole+", via "+BUYER.tool+"</span></span></div>"+
+        (appr==="approved"?pill("✓ Approved "+(S.co.apprAt?tm(S.co.apprAt):""),"ok"):appr==="pending"?pill("Waiting for approver…","wn"):"<button class='btn ac' data-act='sendappr'>Send for approval</button>")+"</div>":"")+
+    "</div>"+
+    "<div class='card'><h3>Order details</h3><div class='g g2' style='margin-top:10px'><div class='field'><label>Your PO number</label><input class='inp' data-act='poin' value='"+esc(S.co.po)+"'></div>"+
+    "<div class='field'><label>End customer</label><input class='inp' value='Desert Logistics LLC'></div></div></div>"+
+    ann("Approval happens in the buyer's own procurement tool (punch out to Coupa or SAP Ariba), with a full audit trail. No distributor reviewed publishes this.","Gap 2 · Approval by rule")+
+    "</div><div class='stack' style='position:sticky;top:72px'><div class='card'><h2>Ready to place</h2><div class='hr'></div><dl class='kv'>"+
+      "<dt>Transactions</dt><dd>"+c.txns.length+"</dd><dt>Total</dt><dd>"+money(c.total)+"</dd>"+
+      "<dt>Released now</dt><dd style='color:var(--ok)'>"+money(cr.gap&&S.co.opt!=="trim"?cr.released:c.total)+"</dd>"+
+      (cr.gap?"<dt>Gap</dt><dd>"+optName+"</dd>":"")+
+      "<dt>Terms</dt><dd>"+INSTR.filter(function(x){return x.id===S.co.ins;})[0].t+"</dd></dl>"+
+      "<button class='btn pri lg full' style='margin-top:16px' data-act='place' "+(ok?"":"disabled")+">Place order</button>"+
+      (!ok?"<p class='muted' style='font-size:12px;margin-top:8px;text-align:center'>Waiting for "+BUYER.approver+"</p>":"")+"</div></div></div>";
+}
+function runCheck(){
+  var t0=Date.now(), i=0, iv=setInterval(function(){
+    var el=$("#ci-t"); if(!el){clearInterval(iv);return;}
+    var s=(Date.now()-t0)/1000; el.textContent=s.toFixed(1)+"s";
+    var n=Math.floor(s/0.38); while(i<n&&i<6){ var g=document.querySelector("[data-sig='"+i+"']"); if(g) g.classList.remove("pend"); i++; }
+    if(s>=2.4){clearInterval(iv); S.co.checked=true; save(); var y=window.scrollY; $("#main").innerHTML="<div>"+VIEWS.checkout()+"</div>"; window.scrollTo(0,y);
+      log("CreditIQ","acts","Credit decision for "+BUYER.co+": grade B+, "+money(credit(calc(S.cart,S.market)).released)+" released inside policy","");}
+  },60);
+}
+
+/* ---------- Orders ---------- */
+function statusPill(o){
+  if(o.hold) return pill({credit:"Credit review",deviation:"Price deviation",readiness:"Readiness",instrument:"Awaiting guarantee",payment:"Awaiting payment",paygap:"Pay the gap",manual:"Sign off",margin:"Margin below floor"}[o.hold.kind]||"On hold","wn");
+  if(o.stage>=10) return pill("Reconciled","ok");
+  if(o.stage>=8) return pill("Invoiced","ac");
+  return pill("Processing · "+STAGES[o.stage].short,"ai");
+}
+function pipeBar(o){return "<div class='pipe'>"+STAGES.map(function(s,i){return "<span class='"+(i<o.stage?"d":i===o.stage?(o.hold?"h":o.stage<8?"c":""):"")+"'></span>";}).join("")+"</div>";}
+function ordersTable(list,compact){
+  if(!list.length) return "<div class='empty' style='margin:16px'>No orders yet. <a href='#/cart'>Go to your cart</a></div>";
+  return "<table class='t'><thead><tr><th>Order</th>"+(compact?"":"<th>Source</th>")+"<th>Customer</th><th>Market</th><th class='r'>Total</th><th>Transactions</th><th style='min-width:160px'>Progress</th><th>Status</th></tr></thead><tbody>"+
+    list.map(function(o){return "<tr class='click' data-go='#/order/"+o.id+"'><td><b>"+o.id+"</b><div class='muted mono' style='font-size:11px'>"+tm(o.created)+"</div></td>"+(compact?"":"<td>"+o.src+"</td>")+"<td>"+o.customer+"</td><td>"+MK[o.market].name+"</td><td class='r mono'>"+money(o.total,o.cur)+"</td><td>"+o.txns.map(function(t){return pill(ROUTES[t.route].short,"out");}).join(" ")+"</td><td>"+pipeBar(o)+"</td><td>"+statusPill(o)+"</td></tr>";}).join("")+"</tbody></table>";
+}
+VIEWS.orders=function(){
+  return "<div class='pagehd'><div><h1>Orders</h1><p>One order per cart or customer PO, however many transactions sit underneath. Click one to follow it from PO to revenue.</p></div><a class='btn pri' href='#/cart'>New order</a></div>"+
+    "<div class='card flat'>"+ordersTable(S.orders,false)+"</div>";
+};
+VIEWS.order=function(id){
+  var o=OX(id); if(!o) return "<div class='empty'>Order not found. <a href='#/orders'>All orders</a></div>";
+  var cr=o.credit;
+  var holdBox="";
+  if(o.hold){
+    var h=o.hold, act="";
+    if(h.kind==="paygap"||h.kind==="payment") act=h.kind==="paygap"?"<button class='btn pri sm' data-act='paygap' data-id='"+o.id+"'>Pay "+money(cr.gap,o.cur)+" now</button>":"<span class='pill wn'>Clearing…</span>";
+    else if(h.kind==="instrument") act="<button class='btn pri sm' data-act='uploadbg' data-id='"+o.id+"'>Upload bank guarantee</button>";
+    else act="<a class='btn sm' href='#/"+(h.kind==="credit"?"credit":"exceptions")+"'>Open in back office →</a>";
+    holdBox="<div class='flag wn'><span>⏸</span><span style='flex:1'><b>Waiting at "+STAGES[o.stage].short+".</b> "+h.text+"</span>"+act+"</div>";
+  }
+  return "<div class='pagehd'><div><div class='eyebrow'><a href='#/orders'>Orders</a> / "+o.id+" · "+o.src+"</div><h1>"+o.id+" · "+money(o.total,o.cur)+"</h1>"+
+    "<p>"+o.customer+" · "+MK[o.market].name+" · one order, "+o.txns.length+" transaction"+(o.txns.length>1?"s":"")+(o.ref?" · your PO "+esc(o.ref):"")+"</p></div>"+statusPill(o)+"</div>"+
+    "<div class='card' style='margin-bottom:16px'>"+pipeBar(o)+"<div class='row sb stlab' style='margin-top:8px;font-size:11.5px'>"+STAGES.map(function(s,i){return "<span style='color:"+(i<o.stage?"var(--ok)":i===o.stage?"var(--ink)":"var(--ink3)")+"'>"+s.short+"</span>";}).join("")+"</div></div>"+
+    (holdBox?"<div style='margin-bottom:16px'>"+holdBox+"</div>":"")+
+    "<div class='split'><div class='stack'>"+
+      o.txns.map(function(t,i){var R=ROUTES[t.route];return "<div class='txn "+R.cls+"'><div class='th'><span class='ix'>"+(i+1)+"</span><div><b>"+R.name+"</b><div class='muted' style='font-size:12px'>Invoiced by "+t.invoicer+"</div></div><span style='margin-left:auto' class='row'>"+(t.inv?"<span class='mono muted'>"+t.inv+"</span>":"")+pill(t.status,t.status==="Paid"?"ok":t.status==="Invoiced"?"ac":t.status==="Booked"?"ai":"")+"</span></div>"+
+        "<div class='tb'>"+o.lines.filter(function(l){return l.route===t.route;}).map(function(l){return "<div class='ln'><div><b style='font-weight:500'>"+l.name+"</b>"+(l.rerouted?" "+pill("rerouted","wn"):"")+"</div><span class='mono muted'>× "+l.qty+"</span><div class='r'><b>"+money(l.net,o.cur)+"</b></div></div>";}).join("")+"</div>"+
+        "<div class='tf'><span>"+t.taxLabel+"</span><span>Total <b>"+money(t.total,o.cur)+"</b></span></div></div>";}).join("")+
+      "<div class='card'><h3>Pipeline</h3><p class='muted' style='font-size:12px;margin:4px 0 8px'>What DealFlow does at each stage, and at what level of authority.</p>"+
+      "<div style='border:1px solid var(--line);border-radius:8px;overflow:hidden'>"+STAGES.map(function(s,i){var cls=i<o.stage?"d":i===o.stage?(o.hold?"h":o.stage<8?"c":"f"):"f";return "<div class='stg "+cls+"'><span class='n'>"+(i<o.stage?"✓":i+1)+"</span><span>"+s.name+"</span>"+lvl(s.id)+"</div>";}).join("")+"</div></div>"+
+    "</div><div class='stack'>"+
+      "<div class='card'><h3>Credit</h3>"+(cr?"<dl class='kv' style='margin-top:8px'><dt>Grade</dt><dd>"+(cr.grade||"B+")+"</dd><dt>Released inside policy</dt><dd>"+money(cr.released,o.cur)+"</dd><dt>Gap</dt><dd>"+(cr.gap?money(cr.gap,o.cur):"None")+"</dd>"+(cr.gap?"<dt>Covered by</dt><dd>"+({increase:"Temporary increase",pay:"Payment",secure:"Bank guarantee",trim:"Trim"}[cr.opt]||"—")+(cr.decision?" · "+cr.decision:"")+"</dd>":"")+"<dt>Terms</dt><dd>"+(INSTR.filter(function(x){return x.id===(cr.ins||"open");})[0].t)+"</dd></dl>":"<p class='muted' style='margin-top:6px'>Checked at the credit stage.</p>")+"</div>"+
+      "<div class='card'><h3>Activity</h3><div class='tl' style='margin-top:12px'>"+(o.timeline.length?o.timeline.slice().reverse().map(function(e){var ai=e.actor==="DealFlow AI";return "<div class='e "+(ai?"":"h")+"'><div class='m'><b style='color:var(--ink)'>"+e.actor+"</b>"+(ai?lvlPill(e.level):pill("Person","wn"))+"<span class='mono'>"+tm(e.t)+"</span></div><div class='tx'>"+esc(e.text)+"</div></div>";}).join(""):"<div class='e x'><div class='tx muted'>Starting…</div></div>")+"</div></div>"+
+      ann("AI actions sit beside human actions in one trail. The highlighted stage is the only place a person is needed on this order.","DealFlow AI · Governance")+
+    "</div></div>";
+};
+function lvlPill(l){var x=LV[l]||LV.acts;return pill(x[0],x[1]);}
+
+/* ---------- Statement ---------- */
+VIEWS.statement=function(){
+  var rows=[];
+  S.orders.forEach(function(o){o.txns.forEach(function(t){ if(t.inv) { var r=S.recon.filter(function(x){return x.id===t.inv;})[0]; rows.push({o:o,t:t,r:r}); }});});
+  var due=rows.filter(function(x){return !x.r||x.r.status!=="matched";});
+  return "<div class='pagehd'><div><h1>Invoices and statement</h1><p>One statement, even when Redington and AWS each invoice you. Grouped by the order you placed.</p></div><button class='btn' data-act='toast' data-t='Statement exported as PDF and CSV'>Export statement</button></div>"+
+    "<div class='g g3' style='margin-bottom:16px'>"+kpi("Invoices",rows.length,uniq(rows.map(function(x){return x.t.invoicer;})).length+" issuing companies")+kpi("Open",due.length,"Awaiting payment")+kpi("Paid and matched",rows.length-due.length,"Credit freed automatically","ok")+"</div>"+
+    (rows.length?"<div class='card flat'><table class='t'><thead><tr><th>Order</th><th>Invoice</th><th>Issued by</th><th>Route</th><th class='r'>Amount</th><th>Due</th><th>Status</th></tr></thead><tbody>"+
+    rows.map(function(x){var st=x.r?x.r.status:"awaiting";return "<tr class='click' data-go='#/order/"+x.o.id+"'><td><b>"+x.o.id+"</b></td><td class='mono'>"+x.t.inv+"</td><td>"+x.t.invoicer+"</td><td>"+pill(ROUTES[x.t.route].short,"out")+"</td><td class='r mono'>"+money(x.t.total,x.o.cur)+"</td><td class='mono'>Net 60</td><td>"+pill(st==="matched"?"Paid":st==="overdue"?"Overdue":"Open",st==="matched"?"ok":st==="overdue"?"bad":"")+"</td></tr>";}).join("")+"</tbody></table></div>":"<div class='empty'>Invoices appear here once an order is invoiced.</div>")+
+    "<div style='margin-top:16px'>"+ann("The partner sees one buyer view across routes, as Amazon Business does. Underneath, AWS lines are invoiced by AWS and the rest by the local Redington entity.","OneCart 360 · One order view")+"</div>";
+};
+
+/* ---------- DealFlow inbox ---------- */
+var curPO=null;
+VIEWS.inbox=function(a){
+  var id=a||curPO||S.pos[0]&&S.pos[0].id; curPO=id;
+  var po=POX(id);
+  return "<div class='pagehd'><div><div class='eyebrow'>DealFlow AI</div><h1>Customer PO inbox</h1><p>Purchase orders arrive by email, PDF, scan, API or punch out. DealFlow reads them, checks the commercials against the quote and builds the order.</p></div>"+
+    "<div class='row'><button class='btn' data-act='newpo'>Simulate a new email PO</button></div></div>"+
+    "<div class='g g4' style='margin-bottom:16px'>"+kpi("Customer PO to order","3h 42m","Today 3 working days","ok")+kpi("Human touches","1","Today 14 on the same journey","ok")+kpi("POs today",S.pos.length,S.pos.filter(function(p){return p.status==="new";}).length+" new")+kpi("Read without re keying","100%","Confidence shown per field")+"</div>"+
+    "<div class='g inboxgrid'>"+
+    "<div class='card flat'><div class='inbox'>"+S.pos.map(function(p){
+      return "<button data-go='#/inbox/"+p.id+"' aria-current='"+(p.id===id)+"'><span class='src'>"+p.src+"</span><span><b>"+p.customer+"</b><s>"+p.id+" · "+p.via+"</s></span><span class='r'><span class='mono muted' style='font-size:11px'>"+p.received+"</span><br>"+poStatus(p)+"</span></button>";
+    }).join("")+"</div></div>"+
+    (po?poDetail(po):"<div class='empty'>Select a purchase order</div>")+"</div>";
+};
+VIEWS.po=VIEWS.inbox;
+function poStatus(p){
+  return {new:pill("New","ac"),reading:pill("Reading…","ai"),ordered:pill("Order created","ok")}[p.status]||pill(p.status);
+}
+function poDetail(po){
+  var m=MK[po.market], c=calc(po.lines,po.market), reading=po.status==="reading";
+  var docLines=po.lines.map(function(l){var p=PX[l.sku];var dev=l.price!==p.price;return "<tr><td>"+p.name+"</td><td>"+l.qty+"</td><td><span class='"+(dev?"hlw":"hl")+"'>"+fmt(l.price*m.fx)+"</span></td><td>"+fmt(l.price*m.fx*l.qty)+"</td></tr>";}).join("");
+  var doc="<div class='doc'>"+(reading?"<div class='scan'></div>":"")+
+    "<div class='row sb'><h4>PURCHASE ORDER</h4><span><span class='hl'>"+po.id+"</span></span></div>"+
+    "<div style='margin-top:10px'>From: <span class='hl'>"+po.customer+"</span><br>To: "+po.partner+"<br>Ref quote: <span class='hl'>"+po.quote+"</span><br>Currency: "+m.cur+" · Terms: <span class='hl'>Net 60</span></div>"+
+    "<table><thead><tr><th>Item</th><th>Qty</th><th>Unit</th><th>Amount</th></tr></thead><tbody>"+docLines+"</tbody></table>"+
+    "<div class='r'>Subtotal "+m.cur+" "+fmt(c.net)+"<br>"+(po.issue==="readiness"?"Tax reg: <span class='hlw'>CR 120488-1 (exp. 30 Sep 2026)</span>":"Tax reg: <span class='hl'>on file</span>")+"</div>"+
+    "<div style='margin-top:16px;color:#999'>Authorised signatory ____________</div></div>";
+  var checks=[
+    ["Customer on file",po.customer+" · linked to "+po.partner,"ok"],
+    ["Items matched to SKUs",po.lines.length+" of "+po.lines.length+" lines · confidence 0.98","ok"],
+    ["Quantity",po.lines.map(function(l){return l.qty;}).join(", ")+" match quote "+po.quote,"ok"],
+    ["Price",po.issue==="deviation"?"M365 at "+m.cur+" "+fmt(80*m.fx)+" vs quote "+fmt(82*m.fx)+": margin on the line falls to 9.6%, below the "+S.policy.floor+"% floor":"Matches quote "+po.quote,po.issue==="deviation"?"wn":"ok"],
+    ["Tax registration",po.issue==="readiness"?"Commercial registration expired 30 Sep 2026":"Valid","" + (po.issue==="readiness"?"bad":"ok")],
+    ["Terms","Net 60, same as the partner agreement","ok"],
+    ["Route",c.txns.map(function(t){return ROUTES[t.route].short;}).join(" + ")+" · "+m.name,"ok"]
+  ];
+  var predicted=po.issue==="deviation"?"Will stop at Validate: one price deviation for a person to decide":po.issue==="readiness"?"Will stop at Readiness: tax registration must be renewed":"Expected touchless: no rule fails";
+  return "<div class='split w'><div class='stack'>"+doc+ann("Purple marks are fields DealFlow extracted; amber marks are the ones it flagged. The original stays attached to the order for audit.","DealFlow AI · Reads the PO")+"</div>"+
+    "<div class='stack'><div class='card'><div class='row sb'><div><div class='eyebrow'>"+po.via+" · "+po.from+"</div><h2>"+po.id+"</h2></div>"+poStatus(po)+"</div>"+
+    "<dl class='kv' style='margin-top:12px'><dt>End customer</dt><dd>"+po.customer+"</dd><dt>Partner</dt><dd>"+po.partner+"</dd><dt>Market</dt><dd>"+m.name+"</dd><dt>Value</dt><dd>"+money(c.total,m.cur)+"</dd></dl></div>"+
+    "<div class='card'><h3>Commercial validation</h3><div style='margin-top:6px'>"+(reading?"<div class='ph' style='height:200px'>Reading the document…</div>":checks.map(function(x){return "<div class='sig'><span><b style='font-weight:500'>"+x[0]+"</b><s>"+x[1]+"</s></span>"+pill(x[2]==="ok"?"Pass":x[2]==="wn"?"Flag":"Fail",x[2])+"</div>";}).join(""))+"</div></div>"+
+    (po.status==="ordered"?"<a class='btn pri lg full' href='#/order/"+po.order+"'>Open "+po.order+" →</a>":
+      "<div class='flag ai'><span>✦</span><span><b>Prediction.</b> "+predicted+".</span></div><button class='btn ai lg full' data-act='runpo' data-id='"+po.id+"' "+(reading?"disabled":"")+">Create order with DealFlow</button>")+
+    "</div></div>";
+}
+
+/* ---------- Exceptions ---------- */
+VIEWS.exceptions=function(){
+  var held=S.orders.filter(function(o){return o.hold;});
+  return "<div class='pagehd'><div><div class='eyebrow'>DealFlow AI</div><h1>Exceptions</h1><p>The only work left for people. Each item says what DealFlow found, what it proposes, and what you can do. Anything you do is logged as a decision.</p></div></div>"+
+    (held.length?"<div class='stack'>"+held.map(excCard).join("")+"</div>":"<div class='empty'>No exceptions. Everything is flowing.<br><br><a class='btn' href='#/inbox'>Run a customer PO</a></div>")+
+    "<div style='margin-top:16px' class='g g4'>"+
+      [["Acts within rules","Finishes the work itself, but only inside thresholds a named owner set.","ai"],["Proposes","Recommends an option and shows why. A person or the rules engine chooses.","ac"],["Explains","Turns what happened into something a person can act on. Changes nothing.",""],["Never","Approve its own order, change a credit limit, or issue a credit note.","bad"]]
+      .map(function(l){return "<div class='lane'><h3>"+pill(l[0],l[2])+"</h3><p class='ink2' style='font-size:12.5px;margin-top:8px'>"+l[1]+"</p></div>";}).join("")+"</div>";
+};
+function excCard(o){
+  var h=o.hold, btns="", prop="";
+  if(h.kind==="deviation"){ prop="Ask "+o.customer+" for a revised PO at the quoted price. Email is drafted and attached."; btns=(o.flags.asked?"<span class='pill wn'>Waiting for customer · reminder in 24h</span><button class='btn sm' data-act='res' data-k='revised' data-id='"+o.id+"'>Simulate revised PO received</button>":"<button class='btn ai sm' data-act='res' data-k='ask' data-id='"+o.id+"'>Send drafted email</button>")+"<button class='btn sm' data-act='res' data-k='accept' data-id='"+o.id+"'>Accept the lower price (Finance override)</button>"; }
+  if(h.kind==="readiness"){ prop="Request the renewed commercial registration from the partner; order stays reserved for 5 days."; btns=(o.flags.asked?"<span class='pill wn'>Requested</span><button class='btn sm' data-act='res' data-k='cert' data-id='"+o.id+"'>Simulate certificate received</button>":"<button class='btn ai sm' data-act='res' data-k='askcert' data-id='"+o.id+"'>Request certificate</button>"); }
+  if(h.kind==="credit"){ prop=o.credit.inBand?"Inside the reviewer band: approve a 30 day temporary increase.":"Above the reviewer band: escalate to Finance."; btns="<a class='btn pri sm' href='#/credit'>Open in credit desk →</a>"; }
+  if(h.kind==="manual"){ prop="Everything checks out. Sign off to continue."; btns="<button class='btn pri sm' data-act='res' data-k='manual' data-id='"+o.id+"'>Sign off "+STAGES[o.stage].short+"</button>"; }
+  if(h.kind==="margin"){ prop="Send back to the partner to reprice, or approve under Finance override."; btns="<button class='btn sm' data-act='res' data-k='margin' data-id='"+o.id+"'>Approve with Finance override</button>"; }
+  if(h.kind==="instrument"){ prop="Chase the issuing bank; verify the guarantee on receipt."; btns="<button class='btn sm' data-act='uploadbg' data-id='"+o.id+"'>Mark guarantee received and verified</button>"; }
+  if(h.kind==="payment"){ prop="Nothing to do: releases when the payment clears."; }
+  if(h.kind==="paygap"){ prop="Partner notified to pay or cover the gap."; }
+  var mins=Math.max(0,S.policy.sla*60-Math.round((Date.now()-(h.since||Date.now()))/60000));
+  return "<div class='card'><div class='row sb'><div class='row'>"+statusPill(o)+"<b>"+o.id+"</b><span class='muted'>"+o.customer+" · "+MK[o.market].name+" · "+money(o.total,o.cur)+"</span></div><span class='sla muted'>SLA "+Math.floor(mins/60)+"h "+("0"+mins%60).slice(-2)+"m left</span></div>"+
+    "<div class='g g2' style='margin-top:12px'><div class='flag wn'><span>!</span><span><b>Found at "+STAGES[o.stage].short+".</b> "+h.text+"</span></div>"+
+    (prop?"<div class='flag ai'><span>✦</span><span><b>DealFlow proposes.</b> "+prop+"</span></div>":"")+"</div>"+
+    "<div class='row' style='margin-top:12px'>"+btns+"<a class='btn sm' href='#/order/"+o.id+"' style='margin-left:auto'>Order →</a></div></div>";
+}
+
+/* ---------- Credit desk ---------- */
+VIEWS.credit=function(){
+  var q=S.orders.filter(function(o){return o.hold&&o.hold.kind==="credit";});
+  var hist=S.orders.filter(function(o){return o.credit&&o.credit.decision;});
+  var m=MK.uae, a=avail("uae");
+  return "<div class='pagehd'><div><div class='eyebrow'>CreditIQ</div><h1>Credit desk</h1><p>Only orders outside automatic policy reach this queue. Each comes with the signals, the band it falls in, and the exposure it creates.</p></div></div>"+
+    "<div class='g g4' style='margin-bottom:16px'>"+kpi("In queue",q.length,"Reviewer SLA "+S.policy.sla+" hours")+kpi("Decided automatically","94%","Inside limit and margin floor","ok")+kpi("Median decision","2.4 sec","Today about 3 days by email","ok")+kpi("DSO","58 days","Funder route lowers it")+"</div>"+
+    "<div class='split'><div class='stack'>"+
+      (q.length?q.map(function(o){var c=o.credit, lim=MK[o.market].limit;
+        return "<div class='card'><div class='row sb'><div><div class='eyebrow'>"+o.id+" · "+MK[o.market].name+"</div><h2>"+o.partner+" asks for "+money(c.gap,o.cur)+" over limit</h2></div>"+pill(c.inBand?"Inside reviewer band":"Above band: Finance",c.inBand?"ok":"wn")+"</div>"+
+        "<div class='g g3' style='margin-top:14px'>"+kpi("Order",money(o.total,o.cur))+kpi("Released inside policy",money(c.released,o.cur),"","ok")+kpi("Requested increase",money(c.gap,o.cur),pct(c.gap/lim*100)+" of limit for 30 days")+"</div>"+
+        "<div class='bar' style='margin:14px 0 6px;height:12px'><i style='width:"+((lim-c.avail)/lim*100)+"%'></i><i class='ok' style='width:"+(c.released/lim*100)+"%'></i><i class='wn' style='width:"+(c.gap/lim*100)+"%'></i></div>"+
+        "<div class='row' style='font-size:12px;gap:16px'><span><span class='dot'></span> Existing exposure</span><span style='color:var(--ok)'><span class='dot'></span> This order, released</span><span style='color:var(--wn)'><span class='dot'></span> Requested</span><span class='muted'>Limit "+money(lim,o.cur)+"</span></div>"+
+        "<div class='flag ai' style='margin-top:14px'><span>✦</span><span><b>CreditIQ recommends approve.</b> Grade B+. AED 64,250 lands within seven days and frees more than the gap. Concentration (38% on one end customer) is why we do not extend the permanent limit.</span></div>"+
+        "<div class='row' style='margin-top:14px'><button class='btn ok' data-act='cdec' data-d='approved' data-id='"+o.id+"'>Approve 30 day increase</button><button class='btn' data-act='cdec' data-d='instrument' data-id='"+o.id+"'>Ask for a guarantee instead</button><button class='btn bad' data-act='cdec' data-d='declined' data-id='"+o.id+"'>Decline</button></div></div>";}).join(""):
+        "<div class='empty'>The queue is empty. Place a cart with “Request a temporary limit increase” to send one here.<br><br><a class='btn' href='#/cart'>Go to the cart</a></div>")+
+      "<div class='card flat'><div style='padding:14px 16px'><h3>Decided</h3></div>"+(hist.length?"<table class='t'><tbody>"+hist.map(function(o){return "<tr class='click' data-go='#/order/"+o.id+"'><td><b>"+o.id+"</b></td><td>"+money(o.credit.gap,o.cur)+"</td><td>"+pill(o.credit.decision,o.credit.decision==="approved"?"ok":"wn")+"</td><td class='muted'>"+(o.credit.by||"Imran Qureshi")+"</td></tr>";}).join("")+"</tbody></table>":"<p class='muted' style='padding:0 16px 16px'>Nothing yet.</p>")+"</div>"+
+    "</div><div class='stack'>"+
+      "<div class='card'><div class='row' style='gap:14px'><span class='grade'>B+</span><div><h3>"+BUYER.co+"</h3><p class='muted' style='font-size:12.5px'>Partner since 2022 · UAE, KSA, Bahrain</p></div></div><div class='hr'></div>"+
+      SIGNALS.map(function(s){return "<div class='sig'><span><b style='font-weight:500'>"+s[0]+"</b><s>"+s[1]+"</s></span>"+pill(s[3],s[2])+"</div>";}).join("")+"</div>"+
+      "<div class='card'><h3>Escalation ladder</h3><div class='list' style='margin-top:6px'>"+
+        [["Within policy","Released automatically: inside limit, margin above floor"],["Credit","One reviewer, "+S.policy.sla+"h SLA, up to "+S.policy.band+"% of limit for 30 days"],["Finance","Beyond the reviewer band; term changes and instrument swaps"],["Treasury","Sets exposure and country caps, never a single order"]].map(function(e,i){return "<div><b style='font-weight:500'>"+e[0]+"</b><div class='muted' style='font-size:12px'>"+e[1]+"</div></div>";}).join("")+"</div></div>"+
+      ann("Approves inside delegated policy, then escalates. The agent never changes a limit itself: only this reviewer can.","CreditIQ · Approves, then escalates")+
+    "</div></div>";
+};
+
+/* ---------- Reconciliation ---------- */
+VIEWS.recon=function(){
+  var tot=S.recon.length, matched=S.recon.filter(function(r){return r.status==="matched";}).length, ex=S.recon.filter(function(r){return r.status==="exception"||r.status==="overdue";});
+  var aw=S.recon.filter(function(r){return r.status==="awaiting";});
+  return "<div class='pagehd'><div><div class='eyebrow'>DealFlow AI</div><h1>Reconciliation</h1><p>Invoices against payments and hyperscaler disbursements. The agent matches what it can, explains every variance, and proposes the fix.</p></div>"+
+    "<button class='btn ai' data-act='payments' "+(aw.length?"":"disabled")+">Simulate payments arriving ("+aw.length+")</button></div>"+
+    "<div class='g g4' style='margin-bottom:16px'>"+kpi("Auto matched",tot?pct(matched/tot*100,0):"—",matched+" of "+tot+" items","ok")+kpi("Exceptions",ex.length,"Each explained")+kpi("Awaiting payment",aw.length,"Net 60")+kpi("Industry exception rate","14%","Ardent Partners 2024")+"</div>"+
+    "<div class='card flat'><table class='t'><thead><tr><th>Item</th><th>Order</th><th>From</th><th class='r'>Invoiced</th><th class='r'>Received</th><th>Status</th><th style='width:40%'>Explanation and proposal</th></tr></thead><tbody>"+
+    S.recon.map(function(r){
+      var st={matched:pill("Matched","ok"),awaiting:pill("Awaiting","out"),exception:pill("Exception","wn"),overdue:pill("Overdue","bad")}[r.status];
+      var act="";
+      if(r.sug&&r.status!=="matched"){
+        act=r.sug.level==="never"?"<div class='row' style='margin-top:6px'><button class='btn sm' disabled>Issue credit note</button>"+pill("Never by agent","bad")+"<button class='btn sm' data-act='toast' data-t='Sent to Finance with the agent summary attached'>Send to Finance</button></div>":
+          "<div class='row' style='margin-top:6px'><button class='btn sm "+(r.sug.level==="acts"?"ai":"")+"' data-act='rfix' data-id='"+r.id+"'>"+r.sug.label+"</button>"+lvlPill(r.sug.level)+"</div>";
+      }
+      return "<tr><td class='mono'>"+r.id+"</td><td>"+(r.order!=="—"&&OX(r.order)?"<a href='#/order/"+r.order+"'>"+r.order+"</a>":r.order)+"</td><td>"+r.invoicer+"</td><td class='r mono'>"+money(r.amount,r.cur)+"</td><td class='r mono'>"+(r.received?money(r.received,r.cur):"—")+"</td><td>"+st+"</td><td style='font-size:12.5px'>"+(r.why?esc(r.why):"<span class='muted'>—</span>")+act+"</td></tr>";
+    }).join("")+"</tbody></table></div>"+
+    "<div style='margin-top:16px'>"+ann("When the hyperscaler invoices, reconciling against disbursement reports gets harder; the unmatched share is where manual cost sits. The agent explains, proposes and acts inside rules, but credit notes stay with Finance.","Enabler 2 · AI agents on exceptions")+"</div>";
+};
+
+/* ---------- Audit ---------- */
+var AF="all";
+VIEWS.audit=function(){
+  var list=S.audit.filter(function(a){return AF==="all"||(AF==="ai"?(a.actor==="DealFlow AI"||a.actor==="CreditIQ"):(a.actor!=="DealFlow AI"&&a.actor!=="CreditIQ"));});
+  return "<div class='pagehd'><div><h1>Audit trail</h1><p>Every action by an agent, a rule or a person, in one log. Overrides are recorded as decisions with a name on them.</p></div>"+
+    "<div class='chips'>"+[["all","All"],["ai","Agents"],["people","People and rules"]].map(function(f){return "<button class='chip' data-act='af' data-f='"+f[0]+"' aria-pressed='"+(AF===f[0])+"'>"+f[1]+"</button>";}).join("")+"</div></div>"+
+    "<div class='card flat'><table class='t'><thead><tr><th>Time</th><th>Actor</th><th>Authority</th><th>What happened</th><th>Ref</th></tr></thead><tbody>"+
+    (list.length?list.map(function(a){return "<tr><td class='mono'>"+tm(a.t)+"</td><td><b style='font-weight:500'>"+a.actor+"</b></td><td>"+(LV[a.kind]?lvlPill(a.kind):pill(a.kind==="rules"?"Rule":a.kind,"out"))+"</td><td>"+esc(a.text)+"</td><td>"+(a.ref&&OX(a.ref)?"<a href='#/order/"+a.ref+"'>"+a.ref+"</a>":"<span class='mono muted'>"+esc(a.ref)+"</span>")+"</td></tr>";}).join(""):"<tr><td colspan='5' class='muted'>Nothing logged yet.</td></tr>")+
+    "</tbody></table></div>";
+};
+
+/* ---------- Policy ---------- */
+VIEWS.policy=function(){
+  var p=S.policy;
+  function num(k,l,suf,h){return "<div class='field'><label>"+l+"</label><div class='row' style='flex-wrap:nowrap'><input class='inp' type='number' data-act='pol' data-k='"+k+"' value='"+p[k]+"'><span class='muted nowrap'>"+suf+"</span></div><span class='muted' style='font-size:11.5px'>"+h+"</span></div>";}
+  return "<div class='pagehd'><div><h1>Policy and rules</h1><p>Thresholds, the route matrix and what the agent may do. Change something here and the cart, checkout and pipeline follow it immediately.</p></div>"+pill("Owner: Finance","out")+"</div>"+
+    "<div class='stack'>"+
+    "<div class='card'><h2>Thresholds and delegation of authority</h2><div class='g g4' style='margin-top:14px'>"+
+      num("buyerAuto","Buyer auto approve limit","AED","Partner's own rule, in "+BUYER.tool)+
+      num("floor","Margin floor","%","Below this, a person decides")+
+      num("band","Credit reviewer band","% of limit","Up to this, one reviewer; above, Finance")+
+      num("sla","Reviewer SLA","hours","Clock starts when the order is held")+
+    "</div></div>"+
+    "<div class='card flat'><div style='padding:16px'><h2>Route matrix</h2><p class='ink2' style='margin-top:4px'>Which programme may transact in which market. OneCart reads this on every cart.</p></div>"+
+      "<table class='t'><thead><tr><th>Market</th>"+ROUTE_ORDER.map(function(r){return "<th>"+ROUTES[r].name+"</th>";}).join("")+"</tr></thead><tbody>"+
+      MKO.map(function(k){return "<tr><td><b>"+MK[k].name+"</b><div class='muted' style='font-size:11.5px'>"+MK[k].taxLabel+"</div></td>"+ROUTE_ORDER.map(function(r){var v=p.routes[k][r];
+        return "<td><select class='inp' style='padding:4px 6px;color:"+(v==="open"?"var(--ok)":v==="blocked"?"var(--bad)":"var(--wn)")+"' data-act='rt' data-mk='"+k+"' data-r='"+r+"'>"+["open","restricted","blocked"].map(function(o){return "<option"+(o===v?" selected":"")+">"+o+"</option>";}).join("")+"</select></td>";}).join("")+"</tr>";}).join("")+
+      "</tbody></table></div>"+
+    "<div class='card flat'><div style='padding:16px'><h2>What the agent may do, per stage</h2><p class='ink2' style='margin-top:4px'>Set a stage to Person and DealFlow will stop there for sign off on every order.</p></div>"+
+      "<table class='t'><thead><tr><th>#</th><th>Stage</th><th>Authority</th></tr></thead><tbody>"+
+      STAGES.map(function(s,i){return "<tr><td class='mono'>"+(i+1)+"</td><td>"+s.name+"</td><td><select class='inp' style='max-width:200px;padding:4px 6px' data-act='ag' data-s='"+s.id+"'>"+Object.keys(LV).map(function(k){return "<option value='"+k+"'"+(p.agent[s.id]===k?" selected":"")+">"+LV[k][0]+"</option>";}).join("")+"</select></td></tr>";}).join("")+
+      "<tr><td class='mono'>—</td><td><b>Approve its own order, change a credit limit, issue a credit note</b></td><td>"+pill("Never, at any level","bad")+" <span class='muted' style='font-size:12px'>locked</span></td></tr>"+
+      "</tbody></table></div>"+
+    "<div class='g g4'>"+[["Accountable","A named business owner, never the agent."],["Escalate","High value and non standard, always."],["Override","Available everywhere, and logged as a decision."],["Audit","AI actions sit beside user actions."]].map(function(g){return "<div class='lane'><h3>"+g[0]+"</h3><p class='ink2' style='font-size:12.5px;margin-top:6px'>"+g[1]+"</p></div>";}).join("")+"</div>"+
+    ann("Fund these first: master data and the policy and rules engine. Everything else assumes them.","The ask")+
+    "</div>";
+};
+
+/* ============================================================
+   Events
+   ============================================================ */
+function go(h){ if(location.hash===h) render(); else location.hash=h; }
+document.addEventListener("click",function(e){
+  var g=e.target.closest("[data-go]"); if(g && !e.target.closest("a,button:not([data-go])")){ go(g.dataset.go); return; }
+  var b=e.target.closest("[data-act]"); if(!b) return;
+  var a=b.dataset.act, id=b.dataset.id;
+  switch(a){
+    case "menu": document.body.classList.toggle("menu"); break;
+    case "notes": S.notes=!S.notes; save(); render(); break;
+    case "reset": if(confirm("Reset all demo data?")){ Object.keys(timers).forEach(function(k){clearTimeout(timers[k]);}); S=seed(); seedHistory(); save(); go("#/overview"); toast("Demo data reset"); } break;
+    case "toast": toast(b.dataset.t); break;
+    case "cv": CF.v=b.dataset.v; render(); break;
+    case "add": var ex=S.cart.filter(function(c){return c.sku===b.dataset.sku;})[0]; if(ex) ex.qty++; else S.cart.push({sku:b.dataset.sku,qty:PX[b.dataset.sku].unit.indexOf("seat")>=0?10:1}); S.co.checked=false; save(); render(); toast("Added to OneCart 360"); break;
+    case "qty": var it=S.cart.filter(function(c){return c.sku===b.dataset.sku;})[0]; if(it){ it.qty=Math.max(1,it.qty+(+b.dataset.d)*(it.qty>=20?10:1)); S.co.checked=false; save(); render(); } break;
+    case "rm": S.cart=S.cart.filter(function(c){return c.sku!==b.dataset.sku;}); save(); render(); break;
+    case "clearcart": S.cart=[]; save(); render(); break;
+    case "democart": S.cart=seed().cart; save(); render(); break;
+    case "setmk": S.market=b.dataset.mk; S.co.checked=false; save(); render(); break;
+    case "checkout": S.co.step=1; S.co.checked=false; S.co.appr=null; save(); go("#/checkout"); break;
+    case "step": var n=+b.dataset.s; if(n===3&&!S.co.checked) n=2; S.co.step=n; save(); render(); window.scrollTo(0,0); break;
+    case "ins": S.co.ins=b.dataset.i; save(); keepScroll(); break;
+    case "opt": S.co.opt=b.dataset.o; save(); keepScroll(); break;
+    case "sendappr": S.co.appr="pending"; save(); render(); log(BUYER.name,"person","Sent cart to "+BUYER.approver+" in "+BUYER.tool+" for approval",""); setTimeout(function(){S.co.appr="approved";S.co.apprAt=Date.now();log(BUYER.approver,"person","Approved in "+BUYER.tool+" (signed mandate)","");save(); if(route().r==="checkout") keepScroll(); toast(BUYER.approver+" approved in "+BUYER.tool);},1600); break;
+    case "place": placeCart(); break;
+    case "upload": openUpload(); break;
+    case "closemodal": $("#modal").innerHTML=""; break;
+    case "douploadpo": $("#modal").innerHTML=""; partnerUpload(); break;
+    case "runpo": runPO(id); break;
+    case "newpo": newPO(); break;
+    case "res": resolve(id,b.dataset.k); break;
+    case "cdec": creditDecision(id,b.dataset.d); break;
+    case "paygap": var o=OX(id); o.credit.paid=true; release(o,o.buyer,"Paid "+money(o.credit.gap,o.cur)+" by card to release the rest"); break;
+    case "uploadbg": var o2=OX(id); release(o2,o2.hold&&route().r==="exceptions"?"Sara Nair":o2.buyer,"Bank guarantee for "+money(o2.credit.gap,o2.cur)+" received and verified with the issuing bank",function(){o2.credit.docOk=true;}); break;
+    case "payments": simulatePayments(); break;
+    case "rfix": fixRecon(id); break;
+    case "af": AF=b.dataset.f; render(); break;
+  }
+});
+function keepScroll(){ var y=window.scrollY; $("#main").innerHTML="<div>"+VIEWS[route().r](route().a)+"</div>"; window.scrollTo(0,y); }
+document.addEventListener("input",function(e){
+  var t=e.target, a=t.dataset.act;
+  if(a==="cq"){ CF.q=t.value; var g=$("#grid"); if(g){ g.innerHTML=P.filter(function(p){return (CF.v==="All"||p.vendor===CF.v)&&(!CF.q||(p.name+" "+p.vendor+" "+p.cat).toLowerCase().indexOf(CF.q.toLowerCase())>=0);}).map(tile).join(""); } }
+  if(a==="poin"){ S.co.po=t.value; save(); }
+});
+document.addEventListener("change",function(e){
+  var t=e.target, a=t.dataset.act;
+  if(a==="market"){ S.market=t.value; S.co.checked=false; save(); render(); toast("Buying in "+MK[S.market].name+": routes, tax and entity re-resolved"); }
+  if(a==="qtyset"){ var it=S.cart.filter(function(c){return c.sku===t.dataset.sku;})[0]; if(it){ it.qty=Math.max(1,parseInt(t.value,10)||1); S.co.checked=false; save(); render(); } }
+  if(a==="pol"){ var v=parseFloat(t.value); if(!isNaN(v)){ var old=S.policy[t.dataset.k]; S.policy[t.dataset.k]=v; log("Policy owner","rules","Changed "+t.dataset.k+" from "+old+" to "+v,""); save(); toast("Policy updated and logged"); renderSide(); } }
+  if(a==="rt"){ S.policy.routes[t.dataset.mk][t.dataset.r]=t.value; log("Policy owner","rules","Route matrix: "+ROUTES[t.dataset.r].name+" in "+MK[t.dataset.mk].name+" set to "+t.value,""); save(); render(); toast("Route matrix updated: carts re-route on next view"); }
+  if(a==="ag"){ S.policy.agent[t.dataset.s]=t.value; log("Policy owner","rules","Agent authority at "+t.dataset.s+" set to "+LV[t.value][0],""); save(); toast("Agent authority updated"); }
+});
+window.addEventListener("hashchange",function(){ render(); window.scrollTo(0,0); });
+
+/* ============================================================
+   Actions
+   ============================================================ */
+function placeCart(){
+  var items=S.cart.map(function(c){return {sku:c.sku,qty:c.qty};}), c=calc(items,S.market), cr=credit(c), opt=cr.gap?S.co.opt:null, saved=null;
+  if(opt==="trim"){ var tp=trimPlan(c,cr); if(tp){ items.forEach(function(i){ if(i.sku===tp.sku) i.qty-=tp.n; }); saved={sku:tp.sku,qty:tp.n}; c=calc(items,S.market); cr=credit(c); } }
+  var need=aedEq(c.total,S.market)>S.policy.buyerAuto;
+  var o=makeOrder(items,S.market,{src:"OneCart 360",ref:S.co.po,approval:need?"approved by "+BUYER.approver+" in "+BUYER.tool:"by rule",
+    credit:{grade:"B+",avail:cr.avail,gap:cr.gap,released:cr.released,opt:cr.gap?opt:null,ins:S.co.ins,inBand:cr.inBand,created:Date.now()}});
+  log(BUYER.name,"person","Placed "+o.id+" from OneCart 360: "+money(o.total,o.cur)+", "+o.txns.length+" transactions",o.id);
+  if(saved) { S.saved.push(saved); log("OneCart 360","acts","Moved "+saved.qty+" × "+PX[saved.sku].name+" to a saved quote at today's price",o.id); }
+  S.cart=[]; S.co={step:1,ins:"open",opt:"increase",appr:null,checked:false,po:"GITS-PO-"+(7782+S.orders.length)};
+  save(); go("#/order/"+o.id); toast(o.id+" placed. DealFlow is running it.","ai");
+  setTimeout(function(){advance(o.id);},500);
+}
+function runPO(id){
+  var po=POX(id); if(!po||po.status!=="new") return;
+  po.status="reading"; save(); refresh();
+  log("DealFlow AI","acts","Reading "+po.id+" ("+po.via+")",po.id);
+  setTimeout(function(){
+    var flags={};
+    if(po.issue==="deviation") flags.deviation="Customer PO prices Microsoft 365 at "+MK[po.market].cur+" "+fmt(80*MK[po.market].fx)+" a seat against "+fmt(82*MK[po.market].fx)+" on quote "+po.quote+". Line margin 9.6% is below the "+S.policy.floor+"% floor.";
+    if(po.issue==="readiness") flags.readiness="The partner's commercial registration for this customer expired on 30 Sep 2026. Invoices cannot be issued against it.";
+    var o=makeOrder(po.lines.map(function(l){return {sku:l.sku,qty:l.qty,price:l.price};}),po.market,{src:"Customer PO",customer:po.customer,partner:po.partner,po:{via:po.via,from:po.from},quote:po.quote,flags:flags});
+    po.status="ordered"; po.order=o.id; save(); refresh(); toast(po.id+" read: "+o.id+" created","ai");
+    setTimeout(function(){advance(o.id);},300);
+  },1800);
+}
+var NEWPOS=[
+  {id:"PO-SR-5530",from:"buying@sandrose.ae",via:"Email, PDF",src:"PDF",customer:"Sand Rose Hotels",partner:"Nexa Systems FZ LLC",market:"uae",quote:"Q-22951",lines:[{sku:"r760",qty:2,price:38500},{sku:"fg100f",qty:1,price:14200}],issue:null},
+  {id:"PO-AK-7712",from:"procure@alkhobar-eng.sa",via:"Email, PDF",src:"PDF",customer:"Al Khobar Engineering",partner:"Najd Digital Co.",market:"ksa",quote:"Q-22960",lines:[{sku:"cloudguard",qty:80,price:220},{sku:"m365bp",qty:80,price:82}],issue:null},
+  {id:"PO-MC-0118",from:"Partner portal upload",via:"Upload, PDF",src:"UP",customer:"Meridian Clinics",partner:"Gulf IT Solutions LLC",market:"uae",quote:"Q-22966",lines:[{sku:"copilot",qty:20,price:110}],issue:null}
+];
+function newPO(){
+  var used=S.pos.map(function(p){return p.id;}), n=NEWPOS.filter(function(p){return used.indexOf(p.id)<0&&p.src!=="UP";})[0];
+  if(!n){ toast("No more sample POs"); return; }
+  var p=JSON.parse(JSON.stringify(n)); p.received=tm(Date.now()); p.status="new"; S.pos.unshift(p);
+  log("DealFlow AI","acts","New PO "+p.id+" received from "+p.from,p.id); save(); go("#/inbox/"+p.id); toast("New email PO from "+p.from,"ai");
+}
+function openUpload(){
+  $("#modal").innerHTML="<div class='modal-bg' data-act='closemodal'><div class='modal' data-act='noop'><h2>Upload a customer PO</h2><p class='ink2' style='margin-top:4px'>PDF, scan, Excel or forward the email to po@redington.example. DealFlow reads it, checks it against your quote and builds the order.</p>"+
+    "<div class='drop'><div style='font-size:26px'>⇪</div><b>Drop a file here</b><div class='muted' style='font-size:12px'>or use the sample below</div></div>"+
+    "<div class='row sb' style='border:1px solid var(--line);border-radius:8px;padding:10px 12px'><span class='mono'>PO_Meridian_Clinics.pdf · 84 KB</span><button class='btn ai sm' data-act='douploadpo'>Upload sample</button></div>"+
+    "<div class='row' style='justify-content:flex-end;margin-top:14px'><button class='btn' data-act='closemodal'>Cancel</button></div></div></div>";
+}
+function partnerUpload(){
+  var n=NEWPOS[2], ex=POX(n.id);
+  if(ex){ toast("That PO was already uploaded"); return; }
+  var p=JSON.parse(JSON.stringify(n)); p.received=tm(Date.now()); p.status="new"; S.pos.unshift(p);
+  log(BUYER.name,"person","Uploaded "+p.id+" in the partner portal",p.id); save();
+  toast("DealFlow is reading PO_Meridian_Clinics.pdf…","ai");
+  runPO(p.id);
+  setTimeout(function(){ var q=POX(p.id); if(q&&q.order){ go("#/order/"+q.order); } },2200);
+}
+function resolve(id,k){
+  var o=OX(id); if(!o) return;
+  if(k==="ask"){ o.flags.asked=true; o.timeline.push({t:Date.now(),stage:"validate",actor:"DealFlow AI",level:"proposes",text:"Drafted email to "+o.customer+" asking for a revised PO at the quoted price; sent by Sara Nair"}); log("Sara Nair","person","Sent DealFlow's drafted email for a revised PO",o.id); save(); refresh(); toast("Email sent. DealFlow will remind in 24h","ai"); return; }
+  if(k==="askcert"){ o.flags.asked=true; log("Sara Nair","person","Requested renewed commercial registration from the partner",o.id); save(); refresh(); toast("Request sent to "+o.partner); return; }
+  if(k==="revised") release(o,"Sara Nair","Revised PO received at the quoted price; deviation closed",function(){o.ok.dev=true; var l=o.lines.filter(function(x){return x.sku==="m365bp";})[0]; if(l) l.mgp=11.8;});
+  if(k==="accept") release(o,"Sara Nair","Accepted the customer's price as a one off under Finance override (logged as a decision)",function(){o.ok.dev=true;});
+  if(k==="cert") release(o,"Sara Nair","Renewed commercial registration received and verified",function(){o.ok.ready=true;});
+  if(k==="manual") release(o,"Sara Nair","Signed off "+STAGES[o.stage].name,function(){o.ok["manual_"+STAGES[o.stage].id]=true;});
+  if(k==="margin") release(o,"Finance","Approved margin below floor under override",function(){o.ok.margin=true;});
+  toast("Released. DealFlow continues.","ai");
+}
+function creditDecision(id,d){
+  var o=OX(id); if(!o) return;
+  if(d==="approved") release(o,"Imran Qureshi","Approved a 30 day temporary increase of "+money(o.credit.gap,o.cur)+" (inside the reviewer band)",function(){o.credit.decision="approved";o.credit.by="Imran Qureshi";});
+  if(d==="declined"){ o.credit.decision="declined"; o.credit.by="Imran Qureshi"; o.hold=null; log("Imran Qureshi","person","Declined the increase on "+o.id+"; partner asked to pay or cover the gap",o.id); o.timeline.push({t:Date.now(),stage:"credit",actor:"Imran Qureshi",level:"person",text:"Declined the temporary increase"}); save(); advance(o.id); }
+  if(d==="instrument"){ o.credit.decision="guarantee requested"; o.credit.opt="secure"; o.credit.by="Imran Qureshi"; o.hold=null; o.timeline.push({t:Date.now(),stage:"credit",actor:"Imran Qureshi",level:"person",text:"Asked for a bank guarantee instead of an increase"}); log("Imran Qureshi","person","Asked for a bank guarantee on "+o.id,o.id); save(); advance(o.id); }
+  toast("Decision recorded for "+o.id);
+}
+function simulatePayments(){
+  var n=0;
+  S.recon.forEach(function(r){
+    if(r.status!=="awaiting") return; n++;
+    if(r.invoicer==="AWS"){ r.received=Math.round(r.amount*0.97); r.status="exception"; r.kind="fee"; r.why="AWS disbursed "+money(r.received,r.cur)+". The "+money(r.amount-r.received,r.cur)+" difference is exactly the 3% listing fee on the private offer; nothing is short paid."; r.sug={label:"Post the fee to the agreed GL and close",level:"proposes"}; }
+    else if(r.market==="ind"){ r.received=Math.round(r.amount*0.98); r.status="exception"; r.kind="tds"; r.why="2% short: TDS withheld at source. Request the certificate, not the cash."; r.sug={label:"Request the TDS certificate",level:"proposes"}; }
+    else { r.received=r.amount; r.status="matched"; r.why="Exact match on amount and remittance reference."; }
+  });
+  S.orders.forEach(finishCollect);
+  log("DealFlow AI","acts","Matched incoming payments and disbursements: "+n+" items","");
+  save(); render(); toast(n+" payments processed","ai");
+}
+function fixRecon(id){
+  var r=S.recon.filter(function(x){return x.id===id;})[0]; if(!r) return;
+  var who=r.sug.level==="acts"?"DealFlow AI":"Sara Nair";
+  if(r.kind==="cash"){ var k=ckey("uae"); S.used[k]=(S.used[k]||0)-64250; log("CreditIQ","acts","Freed AED 64,250 of "+BUYER.co+" credit after cash applied",""); }
+  if(r.kind==="overdue"){ r.status="awaiting"; r.why="Reminder sent with the PO cross reference. Promise to pay logged for Friday."; r.sug=null; }
+  else { r.status="matched"; r.why=r.why+" Resolved: "+r.sug.label.toLowerCase()+"."; r.sug=null; }
+  log(who,who==="DealFlow AI"?"acts":"person","Reconciliation "+id+": "+(r.why.split("Resolved: ")[1]||"reminder sent"),r.order);
+  S.orders.forEach(finishCollect);
+  save(); render(); toast("Done and logged");
+}
+
+render();
+})();
+</script>
+</body>
+</html>
