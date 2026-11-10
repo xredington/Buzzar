@@ -506,6 +506,17 @@ body.no-notes .ann{display:none !important}
 :root[data-theme=dark]{--bg:#0b0d12;--card:#141821;--sub:#181c26;--ink:#eef0f5;--ink2:#b6bccb;--ink3:#7f879a;--line:#262c38;--line2:#353c4b;--soft:#1e2330;--ac:#7393ff;--acs:#16214a;--ok:#3ddc97;--oks:#0f2b20;--wn:#ffb547;--wns:#2e2410;--bad:#ff6b5e;--bads:#34171a;--ai:#a48cff;--ais:#211a42;--note:#29270f;--noteb:#5e5520;--notetx:#f2e39b;--on-ink:#0b0d12;--topbg:rgba(11,13,18,.82);--c-k:#cbd5e1;--c-b:#5b8cff;--c-a:#fbbf24;--c-v:#a084ff;--c-g:#34d399;color-scheme:dark}:root[data-theme=dark] .flag.wn{color:#ffd28a}:root[data-theme=dark] .flag.bad{color:#ffb3ab}:root[data-theme=dark] .flag.ok{color:#8ff0c4}:root[data-theme=dark] .flag.ai{color:#cdbcff}:root[data-theme=dark] .flag.ac{color:#b9c8ff}:root[data-theme=dark] .btn.pri:hover{background:#d5d9e3}:root[data-theme=dark] .btn.cta-grad{background:linear-gradient(135deg,#3b6cff,#7c4dff);color:#fff;box-shadow:0 12px 30px rgba(79,70,229,.45)}:root[data-theme=dark] .btn.cta-grad:hover{background:linear-gradient(135deg,#4d7aff,#8d63ff)}:root[data-theme=dark] .ph{background:repeating-linear-gradient(135deg,#171b24 0 8px,#1b2029 8px 16px)}:root[data-theme=dark] .tile .ph,.side,.top{}:root[data-theme=dark] .sw::after{background:#0b0d12}:root[data-theme=dark] .sw[aria-pressed=true]::after{background:#0b0d12}:root[data-theme=dark] .t tr.click:hover td{background:var(--soft)}:root[data-theme=dark] .oc-hero,.router,.ba-card,.bento-card,.rt-card,.ln-card,.kpi,.card{box-shadow:0 1px 0 rgba(255,255,255,.03) inset,0 18px 40px rgba(0,0,0,.35)}:root[data-theme=dark] .rb-base{stroke:#3a4150}:root[data-theme=dark] .mini-pipe span{background:#262140}:root[data-theme=dark] .mini-ring .tr{stroke:#2a2f3c}:root[data-theme=dark] .brand .lg{color:#fff}:root[data-theme=dark] .modal-bg{background:rgba(0,0,0,.6)}
 .theme-b{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);display:grid;place-items:center;cursor:pointer;font-size:17px;flex:none;transition:transform .2s}.theme-b:hover{transform:rotate(-15deg)}
 html{transition:background-color .3s}body,.card,.side,.top{transition:background-color .3s,border-color .3s,color .3s}
+
+.disc-tag{text-align:right;min-width:120px;align-self:center}
+.disc-tag b{display:inline-block;font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px;background:var(--oks);color:var(--ok)}
+.disc-tag em{display:block;font-style:normal;font-family:var(--mono);font-size:12px;color:var(--ok);margin-top:4px}
+.grade-chip{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:15px;color:var(--ok);border:3px solid var(--ok);flex:none}
+.paybox{margin-top:14px;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.paybox>div{display:flex;justify-content:space-between;padding:10px 14px;font-size:13px;border-bottom:1px solid var(--line)}
+.paybox>div span{color:var(--ink2)} .paybox>div b{font-family:var(--mono)}
+.paybox>div.on b,.paybox>div.on span{color:var(--ok)}
+.paybox>div.tot{border-bottom:0;background:var(--sub);font-size:15px} .paybox>div.tot span{color:var(--ink);font-weight:600}
+.disc-h{display:inline-block;vertical-align:middle;font-size:13px;font-weight:700;padding:4px 10px;border-radius:99px;background:var(--oks);color:var(--ok);letter-spacing:0}
 </style>
 </head>
 <body>
@@ -591,12 +602,12 @@ var SIGNALS=[
   ["38% of their revenue is one end customer","The only negative, and what caps how far the limit stretches.","bad","Negative"]
 ];
 var INSTR=[
-  {id:"open",t:"Open credit, Net 60",w:"Standard trading inside the limit",days:60,carry:true,pfee:"No fee",note:"Banked on day 60. The default, and the most expensive for us to carry."},
-  {id:"pdc",t:"Post dated cheque",w:"Common across the UAE and KSA, secured by the instrument",days:60,carry:true,pfee:"No fee",note:"Presented on the due date. Same carry, but enforceable."},
-  {id:"lc",t:"Letter of credit",w:"Large orders or a new market; the issuing bank carries it",carry:false,pfee:"0.5 to 1.5% bank fee",note:"Our exposure becomes the bank's."},
-  {id:"bg",t:"Bank guarantee",w:"Covered to the guarantee value",carry:false,pfee:"About 1 to 2% a year",note:"Lets us trade where policy otherwise would not."},
-  {id:"adv",t:"Advance payment, proforma",w:"Releases when payment clears",carry:false,pfee:"No fee",note:"Full margin, zero carry."},
-  {id:"fund",t:"Pay later with a funder, Net 90",w:"A third party funder takes the receivable",carry:false,fund:true,pfee:"No fee to you",note:"1.2% fee paid by Redington; we are paid on day 2. This is the version that lowers DSO."}
+  {id:"open",disc:0,t:"Open credit, Net 60",w:"Standard trading inside the limit",days:60,carry:true,pfee:"No fee",note:"Banked on day 60. The default, and the most expensive for us to carry."},
+  {id:"pdc",disc:0,t:"Post dated cheque",w:"Common across the UAE and KSA, secured by the instrument",days:60,carry:true,pfee:"No fee",note:"Presented on the due date. Same carry, but enforceable."},
+  {id:"lc",disc:1,t:"Letter of credit",w:"Large orders or a new market; the issuing bank carries it",carry:false,pfee:"0.5 to 1.5% bank fee",note:"Our exposure becomes the bank's."},
+  {id:"bg",disc:1,t:"Bank guarantee",w:"Covered to the guarantee value",carry:false,pfee:"About 1 to 2% a year",note:"Lets us trade where policy otherwise would not."},
+  {id:"adv",disc:2,t:"Advance payment, proforma",w:"Releases when payment clears",carry:false,pfee:"No fee",note:"Full margin, zero carry."},
+  {id:"fund",disc:0,t:"Pay later with a funder, Net 90",w:"A third party funder takes the receivable",carry:false,fund:true,pfee:"No fee to you",note:"1.2% fee paid by Redington; we are paid on day 2. This is the version that lowers DSO."}
 ];
 var COC=0.08, FEE=0.012;
 var BUYER={name:"Omar Saleh",role:"Procurement lead",co:"Gulf IT Solutions LLC",approver:"Layla Haddad",approverRole:"Head of Procurement",tool:"Coupa"};
@@ -692,6 +703,7 @@ function credit(c){
   var a=avail(c.mk),gap=Math.max(0,c.total-a),m=MK[c.mk];
   return {limit:m.limit,used:m.limit-a,avail:a,total:c.total,gap:gap,released:Math.min(c.total,a),inBand:gap<=m.limit*S.policy.band/100};
 }
+function withDisc(c,iid){ var ins=INSTR.filter(function(x){return x.id===(iid||S.co.ins);})[0], p=(ins&&ins.disc)||0, o=Object.assign({},c); o.gross=c.total; o.discPct=p; o.disc=c.total*p/100; o.total=c.total-o.disc; return o; }
 function carryCost(ins,c){ if(ins.carry) return c.total*COC*ins.days/365; if(ins.fund) return c.total*FEE; return 0; }
 function aedEq(v,mk){return v/MK[mk].fx;}
 
@@ -1144,9 +1156,9 @@ VIEWS.checkout=function(){
   if(!S.cart.length) return "<div class='empty'>Nothing to check out. <a href='#/cart'>Back to cart</a></div>";
   var c=calc(S.cart,S.market);
   if(c.blocked.length) return "<div class='empty'>Some lines cannot transact in "+MK[S.market].name+". <a href='#/cart'>Back to cart</a></div>";
-  var st=S.co.step, cr=credit(c);
+  c=withDisc(c); var st=S.co.step, cr=credit(c);
   var steps=[["1","Routing and tax","Review the "+c.txns.length+" transactions"],["2","Credit and payment","CreditIQ decision"],["3","Approve and place","Your approval rules"]];
-  var head="<div class='pagehd'><div><div class='eyebrow'>Checkout · "+MK[S.market].name+"</div><h1>"+money(c.total)+" across "+c.txns.length+" transactions</h1></div><a class='btn sm' href='#/cart'>← Back to cart</a></div>"+
+  var head="<div class='pagehd'><div><div class='eyebrow'>Checkout · "+MK[S.market].name+"</div><h1>"+money(c.total)+" across "+c.txns.length+" transactions"+(c.disc?" <span class='disc-h'>"+c.discPct+"% off</span>":"")+"</h1></div><a class='btn sm' href='#/cart'>← Back to cart</a></div>"+
     "<div class='stepper'>"+steps.map(function(s,i){var n=i+1;return "<button data-act='step' data-s='"+n+"' class='"+(n===st?"on":n<st?"dn":"")+"' "+(n>st+0&&!(n===2&&st>=1)&&n>st?"":"")+"><i>"+(n<st?"✓":s[0])+"</i><span><b>"+s[1]+"</b><s>"+s[2]+"</s></span></button>";}).join("")+"</div>";
   if(st===1) return head+"<div class='split'><div class='stack'>"+c.txns.map(function(t,i){return txnCard(t,i,c,false);}).join("")+"</div>"+
     "<div class='stack'><div class='card'><h3>What happens on submit</h3><ol class='ink2' style='padding-left:18px;margin:8px 0 0;font-size:13px;line-height:1.7'>"+
@@ -1186,17 +1198,15 @@ function creditStep(c,cr){
       return "<button class='opt' data-act='opt' data-o='"+o.id+"' aria-pressed='"+(S.co.opt===o.id)+"' "+(o.dis?"disabled":"")+"><span class='rd'></span><span><span class='row'><b>"+o.t+"</b>"+pill(o.tag,"out")+"</span><span class='d' style='display:block'>"+o.d+"</span><span class='fx'>"+o.f.map(function(x){return "<span>"+x+"</span>";}).join("")+"</span></span><span></span></button>";
     }).join("")+"</div></div>":"")+
     "</div>";
-  var instr="<div class='card'><div class='hd'><div><h3>Payment instrument</h3><p>Terms for the released amount.</p></div></div><div class='optlist'>"+INSTR.map(function(o){
-      var cc=carryCost(o,c), ma=(c.margin-cc)/c.net*100;
-      return "<button class='opt' data-act='ins' data-i='"+o.id+"' aria-pressed='"+(S.co.ins===o.id)+"'><span class='rd'></span><span><b>"+o.t+"</b><span class='d' style='display:block'>"+o.w+" · "+o.pfee+"</span></span>"+
-        "<span class='side-v' title='Internal view'>"+pct(ma)+"<em>our margin</em></span></button>";
+  var instr="<div class='card'><div class='hd'><div><h3>Payment instrument</h3><p>Grade B+ unlocks all six. Secured or early payment earns a discount.</p></div><span class='grade-chip'>B+</span></div><div class='optlist'>"+INSTR.map(function(o){
+      var d=o.disc?c.gross*o.disc/100:0;
+      return "<button class='opt' data-act='ins' data-i='"+o.id+"' aria-pressed='"+(S.co.ins===o.id)+"'><span class='rd'></span><span><b>"+o.t+"</b><span class='d' style='display:block'>"+o.w+"</span></span>"+
+        (o.disc?"<span class='disc-tag'><b>"+o.disc+"% discount</b><em>− "+money(d)+"</em></span>":"<span class='disc-tag none'></span>")+"</button>";
     }).join("")+"</div>"+
-    "<div class='locked' style='margin-top:14px'><span class='lk'>Redington only · hidden from the partner</span><div class='row' style='gap:24px'>"+
-      "<div><div class='muted' style='font-size:12px'>Carry cost</div><b>"+(carry?money(carry):"None")+"</b></div>"+
-      "<div><div class='muted' style='font-size:12px'>Margin before</div><b>"+pct(c.mgp)+"</b></div>"+
-      "<div><div class='muted' style='font-size:12px'>Margin after</div><b style='color:"+(carry?"var(--wn)":"var(--ok)")+"'>"+pct(mAfter)+"</b></div></div>"+
-      "<p class='muted' style='font-size:12px;margin-top:8px'>"+ins.note+" Carry modelled at 8% annual cost of capital over the term.</p></div>"+
-    ann("The instrument decides the margin. In production the right column and this box are only visible to Redington; the partner sees terms and fees.","CreditIQ · Prices the terms")+"</div>";
+    "<div class='paybox'><div><span>Order total</span><b>"+money(c.gross)+"</b></div>"+
+      "<div class='"+(c.disc?"on":"")+"'><span>"+(c.disc?ins.t.split(",")[0]+" discount ("+c.discPct+"%)":"Instrument discount")+"</span><b>"+(c.disc?"− "+money(c.disc):"—")+"</b></div>"+
+      "<div class='tot'><span>You pay</span><b>"+money(c.total)+"</b></div></div>"+
+    ann("Letter of credit and bank guarantee take 1% off, advance payment 2%. Open credit, post dated cheque and the funder carry no discount.","CreditIQ · Prices the terms")+"</div>";
   return "<div class='split w'><div class='stack'>"+left+instr+"</div><div class='stack'>"+right+
     ann("Today this answer comes back by email about three days after the order went in. Here it is on the page before submit, from data Redington already holds.","CreditIQ · Real time checks")+
     "<button class='btn pri lg full' data-act='step' data-s='3'>Continue to approval →</button></div></div>";
@@ -1231,7 +1241,7 @@ function approveStep(c,cr){
     "<div class='field'><label>End customer</label><input class='inp' value='Desert Logistics LLC'></div></div></div>"+
     ann("Approval happens in the buyer's own procurement tool (punch out to Coupa or SAP Ariba), with a full audit trail. No distributor reviewed publishes this.","Gap 2 · Approval by rule")+
     "</div><div class='stack' style='position:sticky;top:72px'><div class='card'><h2>Ready to place</h2><div class='hr'></div><dl class='kv'>"+
-      "<dt>Transactions</dt><dd>"+c.txns.length+"</dd><dt>Total</dt><dd>"+money(c.total)+"</dd>"+
+      "<dt>Transactions</dt><dd>"+c.txns.length+"</dd>"+(c.disc?"<dt>Order total</dt><dd>"+money(c.gross)+"</dd><dt>Discount ("+c.discPct+"%)</dt><dd style='color:var(--ok)'>− "+money(c.disc)+"</dd>":"")+"<dt>"+(c.disc?"You pay":"Total")+"</dt><dd>"+money(c.total)+"</dd>"+
       "<dt>Released now</dt><dd style='color:var(--ok)'>"+money(cr.gap&&S.co.opt!=="trim"?cr.released:c.total)+"</dd>"+
       (cr.gap?"<dt>Gap</dt><dd>"+optName+"</dd>":"")+
       "<dt>Terms</dt><dd>"+INSTR.filter(function(x){return x.id===S.co.ins;})[0].t+"</dd></dl>"+
@@ -1287,7 +1297,7 @@ VIEWS.order=function(id){
       "<div class='card'><h3>Pipeline</h3><p class='muted' style='font-size:12px;margin:4px 0 8px'>What DealFlow does at each stage, and at what level of authority.</p>"+
       "<div style='border:1px solid var(--line);border-radius:8px;overflow:hidden'>"+STAGES.map(function(s,i){var cls=i<o.stage?"d":i===o.stage?(o.hold?"h":o.stage<8?"c":"f"):"f";return "<div class='stg "+cls+"'><span class='n'>"+(i<o.stage?"✓":i+1)+"</span><span>"+s.name+"</span>"+lvl(s.id)+"</div>";}).join("")+"</div></div>"+
     "</div><div class='stack'>"+
-      "<div class='card'><h3>Credit</h3>"+(cr?"<dl class='kv' style='margin-top:8px'><dt>Grade</dt><dd>"+(cr.grade||"B+")+"</dd><dt>Released inside policy</dt><dd>"+money(cr.released,o.cur)+"</dd><dt>Gap</dt><dd>"+(cr.gap?money(cr.gap,o.cur):"None")+"</dd>"+(cr.gap?"<dt>Covered by</dt><dd>"+({increase:"Temporary increase",pay:"Payment",secure:"Bank guarantee",trim:"Trim"}[cr.opt]||"—")+(cr.decision?" · "+cr.decision:"")+"</dd>":"")+"<dt>Terms</dt><dd>"+(INSTR.filter(function(x){return x.id===(cr.ins||"open");})[0].t)+"</dd></dl>":"<p class='muted' style='margin-top:6px'>Checked at the credit stage.</p>")+"</div>"+
+      "<div class='card'><h3>Credit</h3>"+(cr?"<dl class='kv' style='margin-top:8px'><dt>Grade</dt><dd>"+(cr.grade||"B+")+"</dd><dt>Released inside policy</dt><dd>"+money(cr.released,o.cur)+"</dd><dt>Gap</dt><dd>"+(cr.gap?money(cr.gap,o.cur):"None")+"</dd>"+(cr.gap?"<dt>Covered by</dt><dd>"+({increase:"Temporary increase",pay:"Payment",secure:"Bank guarantee",trim:"Trim"}[cr.opt]||"—")+(cr.decision?" · "+cr.decision:"")+"</dd>":"")+"<dt>Terms</dt><dd>"+(INSTR.filter(function(x){return x.id===(cr.ins||"open");})[0].t)+"</dd>"+(o.disc?"<dt>Instrument discount</dt><dd style='color:var(--ok)'>"+o.discPct+"% · − "+money(o.disc,o.cur)+"</dd>":"")+"</dl>":"<p class='muted' style='margin-top:6px'>Checked at the credit stage.</p>")+"</div>"+
       "<div class='card'><h3>Activity</h3><div class='tl' style='margin-top:12px'>"+(o.timeline.length?o.timeline.slice().reverse().map(function(e){var ai=e.actor==="DealFlow AI";return "<div class='e "+(ai?"":"h")+"'><div class='m'><b style='color:var(--ink)'>"+e.actor+"</b>"+(ai?lvlPill(e.level):pill("Person","wn"))+"<span class='mono'>"+tm(e.t)+"</span></div><div class='tx'>"+esc(e.text)+"</div></div>";}).join(""):"<div class='e x'><div class='tx muted'>Starting…</div></div>")+"</div></div>"+
       ann("AI actions sit beside human actions in one trail. The highlighted stage is the only place a person is needed on this order.","DealFlow AI · Governance")+
     "</div></div>";
@@ -1536,11 +1546,12 @@ try{ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change"
    Actions
    ============================================================ */
 function placeCart(){
-  var items=S.cart.map(function(c){return {sku:c.sku,qty:c.qty};}), c=calc(items,S.market), cr=credit(c), opt=cr.gap?S.co.opt:null, saved=null;
-  if(opt==="trim"){ var tp=trimPlan(c,cr); if(tp){ items.forEach(function(i){ if(i.sku===tp.sku) i.qty-=tp.n; }); saved={sku:tp.sku,qty:tp.n}; c=calc(items,S.market); cr=credit(c); } }
+  var items=S.cart.map(function(c){return {sku:c.sku,qty:c.qty};}), c=withDisc(calc(items,S.market)), cr=credit(c), opt=cr.gap?S.co.opt:null, saved=null;
+  if(opt==="trim"){ var tp=trimPlan(c,cr); if(tp){ items.forEach(function(i){ if(i.sku===tp.sku) i.qty-=tp.n; }); saved={sku:tp.sku,qty:tp.n}; c=withDisc(calc(items,S.market)); cr=credit(c); } }
   var need=aedEq(c.total,S.market)>S.policy.buyerAuto;
   var o=makeOrder(items,S.market,{src:"OneCart 360",ref:S.co.po,approval:need?"approved by "+BUYER.approver+" in "+BUYER.tool:"by rule",
     credit:{grade:"B+",avail:cr.avail,gap:cr.gap,released:cr.released,opt:cr.gap?opt:null,ins:S.co.ins,inBand:cr.inBand,created:Date.now()}});
+  if(c.discPct){ var k=1-c.discPct/100; o.discPct=c.discPct; o.disc=o.total*c.discPct/100; o.gross=o.total; o.total=o.total*k; o.txns.forEach(function(t){t.total=t.total*k;}); }
   log(BUYER.name,"person","Placed "+o.id+" from OneCart 360: "+money(o.total,o.cur)+", "+o.txns.length+" transactions",o.id);
   if(saved) { S.saved.push(saved); log("OneCart 360","acts","Moved "+saved.qty+" × "+PX[saved.sku].name+" to a saved quote at today's price",o.id); }
   S.cart=[]; S.co={step:1,ins:"open",opt:"increase",appr:null,checked:false,po:"GITS-PO-"+(7782+S.orders.length)};
