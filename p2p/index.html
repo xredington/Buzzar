@@ -1070,6 +1070,19 @@ a.nav{position:relative}
 .vp-why{display:flex;gap:8px;margin-top:8px;font-size:12.5px;line-height:1.5;padding:9px 11px;border-radius:10px;background:color-mix(in srgb,var(--ai) 10%,transparent);color:var(--ink)}.vp-why i{color:var(--ai);margin-top:3px}
 .flag.bad{background:var(--bads);border:1px solid color-mix(in srgb,var(--bad) 40%,transparent);color:var(--ink)}
 @media (max-width:900px){.vp-life{grid-template-columns:repeat(4,1fr);row-gap:14px}.vp-ls:nth-child(4)::after{display:none}.vp-ck{grid-template-columns:1fr}}
+
+/* CreditIQ gap meter */
+.cmeter{margin-bottom:12px}
+.cm-bar{position:relative;height:16px;border-radius:99px;background:var(--line);display:flex;overflow:visible}
+.cm-bar i{display:block;height:100%}.cm-bar i:first-child{border-radius:99px 0 0 99px}.cm-bar i:last-of-type{border-radius:0 99px 99px 0}
+.cm-bar i.u{background:color-mix(in srgb,var(--ink3) 45%,var(--line))}.cm-bar i.r{background:var(--ok)}
+.cm-bar i.g{background:repeating-linear-gradient(135deg,var(--wn) 0 6px,color-mix(in srgb,var(--wn) 70%,#fff) 6px 12px);animation:cmPulse 1.6s ease-in-out infinite}
+@keyframes cmPulse{50%{filter:brightness(1.15)}}
+.cm-bar em{position:absolute;top:-5px;bottom:-5px;width:2px;background:var(--ink);border-radius:2px}
+.cm-leg{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;font-size:11.5px;color:var(--ink2)}.cm-leg i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px;vertical-align:0}
+.cm-leg i.u{background:color-mix(in srgb,var(--ink3) 45%,var(--line))}.cm-leg i.r{background:var(--ok)}.cm-leg i.g{background:var(--wn)}.cm-leg .lim{margin-left:auto;font-family:var(--mono,monospace)}
+.ledger tr.gaprow td{font-weight:600}
+.card.cover.idle .opt{opacity:.55}.card.cover.idle .fx{display:none}
 </style>
 </head>
 <body>
@@ -1161,15 +1174,15 @@ var STAGES=[
   {id:"recon",name:"Reconciled to revenue",short:"Reconcile"}
 ];
 var SB=STAGES.map(function(s){return s.id;}).indexOf("collect");
-var VTERMS={"Microsoft":60,"AWS":30,"CrowdStrike":45,"Nutanix":45,"Fortinet":60,"Anthropic":30,"Datadog":30,"Red Hat":30,"Dell Technologies":90,"Veeam":45,"Palo Alto Networks":60,"Adobe":30,"VMware":45};
+var VTERMS={"Microsoft":60,"AWS":30,"CrowdStrike":45,"Nutanix":45,"Fortinet":60,"Anthropic":30,"Datadog":30,"Red Hat":30,"Veeam":45,"Palo Alto Networks":60,"Adobe":30,"VMware":45};
 var VSRC={"Microsoft":"Partner Center","AWS":"AWS Partner Central","CrowdStrike":"CrowdStrike distributor portal","Nutanix":"Nutanix partner portal","Fortinet":"FortiPartner portal"};
 var LIFE=[["sent","Sent"],["ack","Acknowledged"],["proc","Processing"],["ful","Fulfilled"],["grn","GRN completed"],["inv","Invoice matched"],["sched","Payment scheduled"],["paid","Paid"]];
 var LI={}; LIFE.forEach(function(l,i){LI[l[0]]=i;});
-var VKIND={"Microsoft":"hyperscaler","AWS":"hyperscaler","Google Cloud":"hyperscaler","Dell Technologies":"hardware"};
-var KINDL={hyperscaler:["Hyperscaler","ph-cloud"],software:["Software licence","ph-key"],hardware:["Hardware","ph-package"]};
-var VCH={"Microsoft":"API","AWS":"API","Fortinet":"EDI","CrowdStrike":"Vendor portal","Nutanix":"Vendor portal","Red Hat":"API","Dell Technologies":"EDI","Veeam":"Email","Palo Alto Networks":"EDI","Adobe":"Vendor portal","VMware":"Vendor portal"};
-var VM={"Microsoft":["Microsoft Ireland Operations Ltd","Citibank Dublin","IE29 CITI •••• 4471"],"AWS":["Amazon Web Services EMEA SARL","JPMorgan Luxembourg","LU28 CHAS •••• 0019"],"Fortinet":["Fortinet Inc.","Wells Fargo","US •••• 9920"],"CrowdStrike":["CrowdStrike Ireland Ltd","Bank of America Dublin","IE64 BOFA •••• 2280"],"Nutanix":["Nutanix Netherlands BV","ING Amsterdam","NL91 INGB •••• 6611"],"Red Hat":["Red Hat Ltd","HSBC London","GB33 HSBC •••• 3318"],"Dell Technologies":["Dell Gulf FZE","Emirates NBD","AE07 0260 •••• 5521"],"Veeam":["Veeam Software Group GmbH","UBS Zurich","CH93 0076 •••• 1204"],"Palo Alto Networks":["Palo Alto Networks (Netherlands) BV","ABN AMRO","NL02 ABNA •••• 7731"],"Adobe":["Adobe Systems Software Ireland Ltd","Citibank Dublin","IE12 CITI •••• 0921"],"VMware":["VMware International Unlimited Co","Bank of Ireland","IE81 BOFI •••• 3307"]};
-var VPREFIX={"Microsoft":"MSO-","AWS":"AWS-","Fortinet":"FTN-","CrowdStrike":"CS-","Nutanix":"NTX-","Red Hat":"RH-","Dell Technologies":"DELL-","Veeam":"VEE-","Palo Alto Networks":"PAN-","Adobe":"ADB-","VMware":"VMW-"};
+var VKIND={"Microsoft":"hyperscaler","AWS":"hyperscaler","Google Cloud":"hyperscaler"};
+var KINDL={hyperscaler:["Hyperscaler","ph-cloud"],software:["Software licence","ph-key"]};
+var VCH={"Microsoft":"API","AWS":"API","Fortinet":"EDI","CrowdStrike":"Vendor portal","Nutanix":"Vendor portal","Red Hat":"API","Veeam":"Email","Palo Alto Networks":"EDI","Adobe":"Vendor portal","VMware":"Vendor portal"};
+var VM={"Microsoft":["Microsoft Ireland Operations Ltd","Citibank Dublin","IE29 CITI •••• 4471"],"AWS":["Amazon Web Services EMEA SARL","JPMorgan Luxembourg","LU28 CHAS •••• 0019"],"Fortinet":["Fortinet Inc.","Wells Fargo","US •••• 9920"],"CrowdStrike":["CrowdStrike Ireland Ltd","Bank of America Dublin","IE64 BOFA •••• 2280"],"Nutanix":["Nutanix Netherlands BV","ING Amsterdam","NL91 INGB •••• 6611"],"Red Hat":["Red Hat Ltd","HSBC London","GB33 HSBC •••• 3318"],"Veeam":["Veeam Software Group GmbH","UBS Zurich","CH93 0076 •••• 1204"],"Palo Alto Networks":["Palo Alto Networks (Netherlands) BV","ABN AMRO","NL02 ABNA •••• 7731"],"Adobe":["Adobe Systems Software Ireland Ltd","Citibank Dublin","IE12 CITI •••• 0921"],"VMware":["VMware International Unlimited Co","Bank of Ireland","IE81 BOFI •••• 3307"]};
+var VPREFIX={"Microsoft":"MSO-","AWS":"AWS-","Fortinet":"FTN-","CrowdStrike":"CS-","Nutanix":"NTX-","Red Hat":"RH-","Veeam":"VEE-","Palo Alto Networks":"PAN-","Adobe":"ADB-","VMware":"VMW-"};
 var APPR={fin:{role:"Finance manager",name:"Priya Menon"},trs:{role:"Treasury",name:"Daniel Fernandes"},cfo:{role:"CFO",name:"Rakesh Iyer"}};
 var TEAMS={ops:"Operations",proc:"Procurement",pm:"Product management",fin:"Finance"};
 
@@ -1409,8 +1422,9 @@ function seedHistory(){
   var ad=hs("RO-1035","Cloudline Partners","Adobe","uae","AED","Adobe Acrobat Pro for teams",120,620,9,["ack","ful","grn","inv"]);
   ad.inv.amount=ad.cost*1.06; ad.vinv.amount=ad.inv.amount; ad.inv.status="disputed"; ad.inv.rows[1]=["Unit price",money(620,"AED"),"—",money(657.2,"AED"),false]; ad.inv.rows[2]=["Amount",money(ad.cost,"AED"),money(ad.cost,"AED"),money(ad.inv.amount,"AED"),false]; ad.status="grn";
   ad.hold={kind:"price",team:"pm",since:now-2*D,text:"Invoice 6% above the PO price.",why:"Adobe invoiced AED 657.20 a seat against the agreed AED 620 on the PO and the price list. That is AED 4,464 over, beyond the AED 372 tolerance. The quantity and GRN match, so only the price is wrong. Product management should confirm the price list before a credit note is requested."};
-  var dl=hs("","Redington stock","Dell Technologies","uae","AED","Dell PowerEdge R660 server",4,29800,6,["ack","ful"]); dl.method="LC backed, 90 days"; dl.terms=90;
-  dl.hold={kind:"serial",team:"ops",since:now-D,text:"POD received, GRN pending: serial mismatch.",why:"The signed POD lists 4 units, but one serial number on the delivery note does not match the vendor’s shipment file. I held the physical GRN so a wrong unit is not received into stock. Operations should scan the unit and confirm."};
+  var sk=hs("RO-1033","Nexa Systems FZ LLC","CrowdStrike","uae","AED","CrowdStrike Falcon Insight EDR",150,203,5,["ack","ful"]);
+  sk.evidence[0].fields[1]=["SKU","FALCON-PREVENT (PO says FALCON-INSIGHT-EDR)"];
+  sk.hold={kind:"sku",team:"ops",since:now-D,text:"POD received, GRN pending: wrong SKU.",why:"CrowdStrike’s entitlement is for Falcon Prevent, but the PO and the customer’s quote are for Falcon Insight EDR. Quantity and customer match, so only the SKU is wrong. I held the GRN so the partner is never billed for the wrong product, and asked Operations to get the entitlement reissued."};
   var vm=hs("RO-1034","Bahrain Tech Hub WLL","VMware","bhr","BHD","VMware vSphere Foundation, 32 cores",32,410,8,["ack"]); vm.ack.date=now-2*D;
   vm.hold={kind:"delay",team:"proc",since:now-2*D,text:"Past the committed fulfilment date.",why:"VMware committed to deliver the licence keys by "+dts(now-2*D)+" and has not. I sent an automatic reminder. The partner’s customer go live is in 5 days, so this is escalated to Procurement."};
   o.stage=SB; o.status="Invoiced";
@@ -1558,7 +1572,7 @@ function newVPO(o){
   if(!S.vpos) S.vpos=[]; if(!S.vseq) S.vseq=5120;
   var x={id:"VPO-"+(S.vseq++),order:o.order||"",partner:o.partner||"Redington stock",vendor:o.vendor,kind:vkind(o.vendor),ch:o.ch||VCH[o.vendor]||"Email",market:o.market||"uae",cur:o.cur||"AED",
     lines:o.lines.map(function(l){return {sku:l.sku||"",name:l.name,qty:l.qty,price:l.price,recv:0};}),terms:o.terms!=null?o.terms:vterms(o.vendor),method:o.method||"Net "+(o.terms!=null?o.terms:vterms(o.vendor)),
-    customer:o.customer||"",scen:o.scen||"",status:"sent",hold:null,events:[],ack:null,evidence:[],grns:[],inv:null,pay:null,pod:null,grn:null,vinv:null,placed:o.t||Date.now(),follow:0,auto:{},speed:o.speed||600};
+    customer:o.customer||"",scen:o.scen||"",split:o.split||0,status:"sent",hold:null,events:[],ack:null,evidence:[],grns:[],inv:null,pay:null,pod:null,grn:null,vinv:null,placed:o.t||Date.now(),follow:0,auto:{},speed:o.speed||600};
   x.cost=x.lines.reduce(function(a,l){return a+l.qty*l.price;},0);
   S.vpos.unshift(x);
   vev(x,"DealFlow AI","PO approved and transmitted to "+x.vendor+" by "+x.ch+(x.order?" for partner order "+x.order:""),x.ch);
@@ -1575,27 +1589,24 @@ function evidenceFor(x,qty,ship){
   var n=x.id.slice(4), now=Date.now(), L=x.lines[0];
   if(x.kind==="hyperscaler"){
     var az=/azure|consumption/i.test(L.name);
-    return {type:az?"Consumption report and provisioning":"Subscription provisioning",ch:"API",ref:"POD-"+n,t:now,qty:L.qty,fields:az?[
+    var q=qty||L.qty, b=x.split?"Batch "+(ship||1)+": ":"";
+    return {type:b+(az?"Consumption report and provisioning":"Subscription provisioning"),ch:"API",ref:"POD-"+n+(x.split?"-"+(ship||1):""),t:now,qty:q,fields:az?[
       ["Tenant ID","7f3c2a1e-…-"+n],["Subscription ID","az-sub-"+n+"-uae"],["Billing period","1 to 30 Nov 2026"],["Marketplace / transaction ref","MP-TX-"+(880000+ +n)],["Consumption","USD 4,860.20 of USD 5,000 commitment"],["Rates","Agreed price list v2026.10, 0 off list items"]]:[
-      ["Tenant ID","contoso-"+n+".onmicrosoft.com"],["Subscription ID","sub-"+n+"-csp"],["Seats provisioned",x.lines.map(function(l){return l.name+" × "+l.qty;}).join(", ")],["Billing period","Monthly, annual commitment"],["Transaction ref","PC-ORD-"+(660000+ +n)]]};
-  }
-  if(x.kind==="hardware"){
-    var s=ship||1;
-    return {type:"Shipment "+s+": delivery note and signed POD",ch:"EDI and upload",ref:"POD-"+n+"-"+s,t:now,qty:qty,ship:s,fields:[["Delivery note","DN-"+n+"-"+s],["Units",qty+" of "+L.qty],["Serial numbers","SRV"+n+"A01 … SRV"+n+"A"+("0"+qty).slice(-2)],["Courier","Aramex, AWB 3471"+n+s],["Signed POD","Received by Stores, Jebel Ali DC"]]};
+      ["Tenant ID","contoso-"+n+".onmicrosoft.com"],["Subscription ID","sub-"+n+"-csp"],["Seats provisioned",x.split?q+" of "+L.qty+" "+L.name:x.lines.map(function(l){return l.name+" × "+l.qty;}).join(", ")],["Billing period","Monthly, annual commitment"],["Transaction ref","PC-ORD-"+(660000+ +n)]]};
   }
   var st=new Date(now), en=new Date(now); en.setFullYear(en.getFullYear()+1);
-  return {type:"Licence activation and entitlement",ch:x.ch,ref:"POD-"+n,t:now,qty:L.qty,fields:[["Entitlement ID",(VPREFIX[x.vendor]||"ENT-")+"ENT-"+n],["SKU",L.sku||x.vendor.slice(0,3).toUpperCase()+"-SUB-"+n],["Quantity",x.lines.map(function(l){return l.qty;}).join(" + ")],["Subscription",dts(+st)+" "+st.getFullYear()+" to "+dts(+en)+" "+en.getFullYear()],["Customer",x.customer||"End customer on PO"],["Licence certificate","Uploaded, PDF, signature verified"]]};
+  return {type:"Licence activation and entitlement",ch:x.ch,ref:"POD-"+n,t:now,qty:qty||L.qty,fields:[["Entitlement ID",(VPREFIX[x.vendor]||"ENT-")+"ENT-"+n],["SKU",L.sku||x.vendor.slice(0,3).toUpperCase()+"-SUB-"+n],["Quantity",x.lines.map(function(l){return l.qty;}).join(" + ")],["Subscription",dts(+st)+" "+st.getFullYear()+" to "+dts(+en)+" "+en.getFullYear()],["Customer",x.customer||"End customer on PO"],["Licence certificate","Uploaded, PDF, signature verified"]]};
 }
 /* ---- GRN engine ---- */
 function grnChecks(x,ev){
-  var hw=x.kind==="hardware", L=x.lines[0];
+  var L=x.lines[0];
   return [
     ["Fulfilment evidence present",!!ev,ev?ev.type:"No delivery, provisioning or entitlement evidence"],
     ["PO number",!!ev,x.id+" quoted on the vendor document"],
-    [hw?"SKU and serial numbers":"SKU / entitlement",!!ev,hw?"Serials captured and unique":"Matches the PO line"],
+    ["SKU / entitlement",!!ev,"Matches the PO line"],
     ["Quantity",!!ev,ev?(ev.qty+" of "+L.qty+(ev.qty<L.qty?" (partial)":"")):"—"],
     ["Customer and commercial terms",!!ev,(x.customer||"Stock")+" · "+x.method],
-    [hw?"Delivery details":"Subscription validity",!!ev,hw?"Signed POD, Jebel Ali DC":"Active, not expired"],
+    ["Subscription validity",!!ev,"Active, not expired"],
     ["Duplicate fulfilment",true,"Not seen on any other PO"]
   ];
 }
@@ -1604,16 +1615,16 @@ function runGrn(x,ev){
   if(!ev){ x.hold={kind:"noevidence",team:"ops",since:Date.now(),text:"GRN blocked: no verified fulfilment evidence.",why:"The vendor acknowledged the PO and has now invoiced it, but there is no activation, entitlement or delivery evidence. A vendor acknowledgment alone never creates a GRN, so the invoice cannot be matched and the payment is on hold. I alerted "+x.vendor+" and Operations and asked for the licence certificate."}; x.grnBlocked=ck; vev(x,"DealFlow AI","GRN blocked: invoice received without fulfilment evidence. Payment on hold; vendor and Operations alerted"); return false; }
   var L=x.lines[0], q=ev.qty, part=(x.lines.length===1)&&(L.recv+q<L.qty);
   x.lines.forEach(function(l,i){ l.recv=x.lines.length===1?l.recv+q:l.qty; });
-  var g={no:"GRN-"+x.id.slice(4)+(x.grns.length?"-"+(x.grns.length+1):""),t:Date.now(),type:x.kind==="hardware"?"Physical":"Virtual",partial:part,qty:q,auto:true,checks:ck,ev:ev.ref};
+  var g={no:"GRN-"+x.id.slice(4)+(x.grns.length?"-"+(x.grns.length+1):""),t:Date.now(),type:"Virtual",partial:part,qty:q,auto:true,checks:ck,ev:ev.ref};
   x.grns.push(g); if(!x.grn) x.grn={no:g.no,t:g.t};
   x.status="grn"; x.partial=part;
   vev(x,"DealFlow AI",(part?"Partial "+g.type.toLowerCase():g.type)+" GRN "+g.no+" created touchless: "+ck.length+" of "+ck.length+" checks passed"+(part?" ("+L.recv+" of "+L.qty+" received)":""));
   return true;
 }
 /* ---- invoice capture and three way match ---- */
-function taxFor(x){ var foreign=x.vendor!=="Dell Technologies"; if(x.market==="ind") return {lab:"India GST 18% and TDS 2% withheld",rate:.18,wht:.02}; if(x.market==="ksa") return {lab:"KSA VAT 15%, reverse charge"+(foreign?", WHT 5% on services":""),rate:.15,wht:foreign?.05:0}; return {lab:foreign?"UAE VAT 5%, reverse charge (self assessed)":"UAE VAT 5% charged by the vendor",rate:.05,wht:0,rc:foreign}; }
+function taxFor(x){ var foreign=true; if(x.market==="ind") return {lab:"India GST 18% and TDS 2% withheld",rate:.18,wht:.02}; if(x.market==="ksa") return {lab:"KSA VAT 15%, reverse charge"+(foreign?", WHT 5% on services":""),rate:.15,wht:foreign?.05:0}; return {lab:foreign?"UAE VAT 5%, reverse charge (self assessed)":"UAE VAT 5% charged by the vendor",rate:.05,wht:0,rc:foreign}; }
 function invoiceArrives(x,noEvidence){
-  var L=x.lines[0], billQ=x.kind==="hardware"?L.qty:null, amt=x.lines.reduce(function(a,l){return a+(billQ||l.qty)*l.price;},0);
+  var L=x.lines[0], billQ=x.split?L.qty:null, amt=x.lines.reduce(function(a,l){return a+(billQ||l.qty)*l.price;},0);
   var tx=taxFor(x);
   x.inv={no:(VPREFIX[x.vendor]||"V-")+"INV-"+(700000+parseInt(x.id.slice(4),10)*7),t:Date.now(),ch:x.ch==="Email"?"Email (PDF read by AI)":x.ch,amount:amt,qty:billQ||L.qty,tax:tx,status:"captured"};
   x.vinv={no:x.inv.no,amount:amt,t:x.inv.t};
@@ -1623,11 +1634,11 @@ function invoiceArrives(x,noEvidence){
 }
 function matchInvoice(x){
   var L=x.lines[0], recv=x.lines.reduce(function(a,l){return a+l.recv;},0), poQ=x.lines.reduce(function(a,l){return a+l.qty;},0), tx=x.inv.tax;
-  var elig=x.kind==="hardware"?L.recv*L.price:x.inv.amount, tol=Math.max(50,x.cost*0.005);
+  var elig=x.split?L.recv*L.price:x.inv.amount, tol=Math.max(50,x.cost*0.005);
   x.inv.rows=[
-    ["Quantity",poQ,recv,x.inv.qty,x.kind==="hardware"?recv<=x.inv.qty:recv===x.inv.qty],
+    ["Quantity",poQ,recv,x.inv.qty,x.split?recv<=x.inv.qty:recv===x.inv.qty],
     ["Unit price",money(L.price,x.cur),"—",money(L.price,x.cur),true],
-    ["Amount",money(x.cost,x.cur),money(x.kind==="hardware"?L.recv*L.price:x.cost,x.cur),money(x.inv.amount,x.cur),true],
+    ["Amount",money(x.cost,x.cur),money(x.split?L.recv*L.price:x.cost,x.cur),money(x.inv.amount,x.cur),true],
     ["Currency",x.cur,x.cur,x.cur,true],
     ["Tax",tx.lab,"—",tx.lab,true],
     ["Payment terms",x.method,"—",x.method,true],
@@ -1636,7 +1647,7 @@ function matchInvoice(x){
   ];
   x.inv.elig=elig; x.inv.tol=tol; x.inv.status="matched"; x.inv.auto=true;
   x.status="inv";
-  vev(x,"DealFlow AI","Three way match PO, GRN and invoice "+x.inv.no+": "+(x.kind==="hardware"&&L.recv<L.qty?"matched against received quantity, "+money(elig,x.cur)+" eligible of "+money(x.inv.amount,x.cur):"inside tolerance, auto approved")+". "+tx.lab);
+  vev(x,"DealFlow AI","Three way match PO, GRN and invoice "+x.inv.no+": "+(x.split&&L.recv<L.qty?"matched against provisioned seats, "+money(elig,x.cur)+" eligible of "+money(x.inv.amount,x.cur):"inside tolerance, auto approved")+". "+tx.lab);
 }
 /* ---- AP entry, due date, payment proposal ---- */
 function schedulePay(x){
@@ -1664,33 +1675,33 @@ function vNext(x,ms,fn){ clearTimeout(VT[x.id]); VT[x.id]=setTimeout(function(){
 function vRun(x){
   if(x.hold||x.status==="paid") return;
   var sp=x.speed, L=x.lines[0];
-  if(x.status==="sent"){ if(x.noAck) return; vNext(x,sp,function(y){ var c=new Date(Date.now()+(y.kind==="hardware"?5:1)*86400000);
-      y.ack={ref:(VPREFIX[y.vendor]||"V-")+(310000+ +y.id.slice(4)),date:+c,cur:y.cur,terms:y.method,cond:y.kind==="hardware"?"Incoterms DAP Jebel Ali, 3 year warranty":y.kind==="hyperscaler"?"Monthly billing in arrears, agreed price list":"12 month term, no cancellation after 7 days",t:Date.now()};
+  if(x.status==="sent"){ if(x.noAck) return; vNext(x,sp,function(y){ var c=new Date(Date.now()+86400000);
+      y.ack={ref:(VPREFIX[y.vendor]||"V-")+(310000+ +y.id.slice(4)),date:+c,cur:y.cur,terms:y.method,cond:y.kind==="hyperscaler"?"Monthly billing in arrears, agreed price list":"12 month term, no cancellation after 7 days",t:Date.now()};
       y.status="ack"; vev(y,y.vendor,"Acknowledged by "+y.ch+": order "+y.ack.ref+", committed "+dts(y.ack.date)+", "+y.cur+", "+y.method,y.ch); vRun(y); }); return; }
-  if(x.status==="ack"){ vNext(x,sp*.7,function(y){ y.status="proc"; vev(y,y.vendor,y.kind==="hardware"?"Order in processing: picking and shipping":y.kind==="hyperscaler"?"Provisioning started":"Licence generation started",y.ch); vRun(y); }); return; }
+  if(x.status==="ack"){ vNext(x,sp*.7,function(y){ y.status="proc"; vev(y,y.vendor,y.kind==="hyperscaler"?"Provisioning started":"Licence generation started",y.ch); vRun(y); }); return; }
   if(x.status==="proc"){
     if(x.scen==="E"){ vNext(x,sp*1.2,function(y){ invoiceArrives(y,true); }); return; }
     if(x.waitShip) return;
-    vNext(x,sp*1.3,function(y){ var hw=y.kind==="hardware", q=hw&&y.scen==="D"&&!y.grns.length?Math.ceil(L.qty*.6):L.qty-(hw?L.recv:0);
+    vNext(x,sp*1.3,function(y){ var hw=y.split, q=hw&&!y.grns.length?Math.round(L.qty*.6):L.qty-L.recv;
       var ev=evidenceFor(y,q,y.evidence.length+1); y.evidence.push(ev); y.pod={ref:ev.ref,t:ev.t,text:ev.type}; y.status="ful";
-      vev(y,y.vendor,ev.type+" received by "+ev.ch+(hw?" ("+q+" units)":""),ev.ch); vRun(y); }); return; }
+      vev(y,y.vendor,ev.type+" received by "+ev.ch+(hw?" ("+q+" of "+L.qty+" seats)":""),ev.ch); vRun(y); }); return; }
   if(x.status==="ful"){ vNext(x,sp,function(y){ if(runGrn(y,y.evidence[y.evidence.length-1])) vRun(y); }); return; }
   if(x.status==="grn"){ if(x.inv&&x.inv.status==="matched"&&!x.partial) return; vNext(x,sp*1.4,function(y){ if(!y.inv) invoiceArrives(y); else matchInvoice(y); vRun(y); }); return; }
-  if(x.status==="inv"){ vNext(x,sp,function(y){ schedulePay(y); if(y.partial){ y.waitShip=true; vev(y,"DealFlow AI","Remaining "+(L.qty-L.recv)+" units open; their payment waits for the next shipment and GRN"); } }); return; }
+  if(x.status==="inv"){ vNext(x,sp,function(y){ schedulePay(y); if(y.partial){ y.waitShip=true; vev(y,"DealFlow AI","Remaining "+(L.qty-L.recv)+" seats not yet provisioned; their payment waits for the next batch and its GRN"); } }); return; }
 }
-function vSecondShipment(x){
+function vNextBatch(x){
   var L=x.lines[0], q=L.qty-L.recv; if(q<=0) return;
-  x.waitShip=false; var ev=evidenceFor(x,q,x.evidence.length+1); x.evidence.push(ev); vev(x,x.vendor,ev.type+" received ("+q+" units)",ev.ch);
+  x.waitShip=false; var ev=evidenceFor(x,q,x.evidence.length+1); x.evidence.push(ev); vev(x,x.vendor,ev.type+" received ("+q+" seats)",ev.ch);
   runGrn(x,ev); x.partial=false; matchInvoice(x);
   var add=q*L.price; x.pay.amount+=add; x.pay.status="Scheduled"; x.status="sched";
-  vev(x,"DealFlow AI","Final GRN closes the PO. Payment proposal "+x.pay.pp+" raised to "+money(x.pay.amount,x.cur)+" for all "+L.qty+" units");
+  vev(x,"DealFlow AI","Final GRN closes the PO. Payment proposal "+x.pay.pp+" raised to "+money(x.pay.amount,x.cur)+" for all "+L.qty+" seats");
 }
 function vResolve(x,k){
   if(k==="evidence"){ x.hold=null; var ev=evidenceFor(x,x.lines[0].qty); x.evidence.push(ev); x.pod={ref:ev.ref,t:ev.t,text:ev.type}; x.status="ful"; vev(x,x.vendor,"Licence certificate and entitlement sent after the alert",ev.ch); if(runGrn(x,ev)){ matchInvoice(x); schedulePay(x); } }
   if(k==="ack"){ x.noAck=false; x.hold=null; vRun(x); }
   if(k==="chase"){ x.follow=(x.follow||0)+1; vev(x,"DealFlow AI","Follow up "+x.follow+" sent to "+x.vendor+" by email and portal; escalated to the vendor account manager"); }
   if(k==="price"){ x.hold=null; x.inv.status="matched"; x.status="inv"; vev(x,x.vendor,"Credit note CN-"+x.id.slice(4)+" issued for the price difference"); vev(x,"DealFlow AI","Invoice now matches the PO price. Approved within tolerance"); schedulePay(x); }
-  if(k==="serial"){ x.hold=null; var ev2=x.evidence[x.evidence.length-1]; vev(x,"Sara Nair","Operations verified the corrected serial numbers","","person"); runGrn(x,ev2); }
+  if(k==="sku"){ x.hold=null; var ev2=evidenceFor(x,x.lines[0].qty); x.evidence.push(ev2); x.pod={ref:ev2.ref,t:ev2.t,text:ev2.type}; vev(x,"Sara Nair","Operations asked "+x.vendor+" to reissue the entitlement","","person"); vev(x,x.vendor,"Entitlement reissued with the correct SKU",ev2.ch); if(runGrn(x,ev2)) vRun(x); }
 }
 /* ---- partner order integration ---- */
 function awaitVendor(o){
@@ -1717,7 +1728,7 @@ function vSeed(o,steps){
   var saveNow=Date.now; function step(dt,fn){ var tt=at(dt); Date.now=function(){return tt;}; try{ fn(); } finally{ Date.now=saveNow; } }
   step(0,function(){ x=newVPO(o); });
   if(steps.indexOf("ack")<0){ x.follow=steps.follow||0; return x; }
-  step(D*(.03+(parseInt(x.id.slice(4),10)%5)*.06),function(){ x.ack={ref:(VPREFIX[x.vendor]||"V-")+(310000+ +x.id.slice(4)),date:Date.now()+(x.kind==="hardware"?5:1)*D,cur:x.cur,terms:x.method,cond:"Standard reseller terms",t:Date.now()}; x.status="ack"; vev(x,x.vendor,"Acknowledged by "+x.ch+": order "+x.ack.ref+", committed "+dts(x.ack.date),x.ch); });
+  step(D*(.03+(parseInt(x.id.slice(4),10)%5)*.06),function(){ x.ack={ref:(VPREFIX[x.vendor]||"V-")+(310000+ +x.id.slice(4)),date:Date.now()+D,cur:x.cur,terms:x.method,cond:"Standard reseller terms",t:Date.now()}; x.status="ack"; vev(x,x.vendor,"Acknowledged by "+x.ch+": order "+x.ack.ref+", committed "+dts(x.ack.date),x.ch); });
   step(D*.1,function(){ x.status="proc"; vev(x,x.vendor,"Processing",x.ch); });
   if(steps.indexOf("ful")<0) return x;
   step(D*.8,function(){ var ev=evidenceFor(x,x.lines[0].qty); x.evidence.push(ev); x.pod={ref:ev.ref,t:ev.t,text:ev.type}; x.status="ful"; vev(x,x.vendor,ev.type+" received",ev.ch); });
@@ -1745,7 +1756,7 @@ function deliveryCard(o){
 /* ---------- shared bits ---------- */
 function lifeBar(x){ var i=LI[x.status]; return "<div class='lf'>"+LIFE.map(function(l,k){ var c=k<i||x.status==="paid"?"d":k===i?(x.hold?"h":"c"):""; return "<span class='"+c+"' title='"+l[1]+"'></span>"; }).join("")+"</div>"; }
 function vStatusPill(x){
-  if(x.hold) return pill(x.hold.kind==="noevidence"?"GRN blocked":x.hold.kind==="unack"?"Not acknowledged":x.hold.kind==="delay"?"Delayed":x.hold.kind==="price"?"Invoice disputed":"Exception","bad");
+  if(x.hold) return pill(x.hold.kind==="noevidence"?"GRN blocked":x.hold.kind==="unack"?"Not acknowledged":x.hold.kind==="delay"?"Delayed":x.hold.kind==="price"?"Invoice disputed":x.hold.kind==="sku"?"Wrong SKU":"Exception","bad");
   if(x.status==="sched"&&x.pay) return pill(x.pay.status==="Initiated"?"Payment initiated":Object.keys(x.pay.ok).length?"Approving payment":"Payment scheduled",x.pay.status==="Initiated"?"ai":"ac");
   if(x.status==="paid") return pill("Paid","ok");
   var l=LIFE[LI[x.status]][1]; return pill((x.partial&&LI[x.status]>=LI.ful?"Partial · ":"")+l,LI[x.status]<LI.ful?"wn":"ai");
@@ -1760,14 +1771,14 @@ var VSCEN=[
   {k:"A",v:"Microsoft",t:"Microsoft Azure",s:"PO → subscription provisioned → consumption validated → virtual GRN → monthly invoice matched → payment scheduled",ic:"ph-cloud",c:"b"},
   {k:"B",v:"Fortinet",t:"Fortinet",s:"PO → licence activated → entitlement received → virtual GRN → invoice reconciled → payment initiated after approval",ic:"ph-shield-check",c:"v"},
   {k:"C",v:"Red Hat",t:"Red Hat",s:"PO → subscription entitlement → fulfilment validated → GRN → invoice matched → payment scheduled",ic:"ph-key",c:"g"},
-  {k:"D",v:"Dell Technologies",t:"Hardware",s:"PO → partial shipment → signed POD → partial GRN → invoice matched to received quantity → eligible payment",ic:"ph-package",c:"a"},
+  {k:"D",v:"Microsoft",t:"Partial delivery",s:"PO → 300 of 500 seats provisioned → partial virtual GRN → invoice matched to delivered seats → eligible payment scheduled",ic:"ph-stack",c:"a"},
   {k:"E",v:"Veeam",t:"Exception",s:"PO → invoice arrives with no fulfilment → GRN blocked → payment on hold → vendor and Operations alerted",ic:"ph-warning-octagon",c:"r"}
 ];
 function runScenario(k){
   var D={A:{vendor:"Microsoft",lines:[{sku:"AZ-PLAN-CONS",name:"Azure plan · November consumption",qty:1,price:17850}],customer:"Desert Logistics LLC",order:"RO-1039",partner:"Gulf IT Solutions LLC"},
     B:{vendor:"Fortinet",lines:[{sku:"FC-10-FVM04-247-02-12",name:"FortiGate VM04 and FortiEDR, 12 months",qty:1,price:130500}],customer:"Al Hamra Retail",order:"RO-1040",partner:"Cloudline Partners"},
     C:{vendor:"Red Hat",lines:[{sku:"RH00004F3",name:"Red Hat Enterprise Linux Server, Premium, 2 sockets",qty:50,price:4650}],customer:"NileBridge Trading WLL",order:"RO-1041",partner:"Bahrain Tech Hub WLL",terms:30},
-    D:{vendor:"Dell Technologies",lines:[{sku:"PER760-GLD6430",name:"Dell PowerEdge R760 server",qty:10,price:38500}],customer:"Redington DC stock",order:"",partner:"Redington stock",terms:90,method:"LC backed, 90 days"},
+    D:{vendor:"Microsoft",lines:[{sku:"M365-E7-ANNUAL",name:"Microsoft 365 E7, annual",qty:500,price:330}],customer:"Desert Logistics LLC",order:"RO-1036",partner:"Gulf IT Solutions LLC",split:1},
     E:{vendor:"Veeam",lines:[{sku:"V-VBRVUL-0I-SU1YP-00",name:"Veeam Data Platform, 100 workloads",qty:100,price:410}],customer:"Oasis Clinics",order:"RO-1038",partner:"Gulf IT Solutions LLC",terms:45}}[k];
   D.scen=k; D.speed=1100; var x=newVPO(D); save(); go("#/vpo/"+x.id); vRun(x); toast("Scenario "+k+" started: "+x.id+" sent to "+x.vendor,"ai");
 }
@@ -1778,7 +1789,7 @@ VIEWS.tower=function(){
   var st={}; LIFE.forEach(function(l){ st[l[0]]=n(function(x){return x.status===l[0];}); });
   var ackP=n(function(x){return x.status==="sent";}), ackLate=n(function(x){return x.status==="sent"&&now-x.placed>D;});
   var fulP=n(function(x){return LI[x.status]<LI.ful&&x.status!=="sent";}), part=n(function(x){return x.partial;}), fulD=n(function(x){return LI[x.status]>=LI.ful&&!x.partial;});
-  var podNoGrn=n(function(x){return x.status==="ful"||(x.hold&&x.hold.kind==="serial");});
+  var podNoGrn=n(function(x){return x.status==="ful"||(x.hold&&x.hold.kind==="sku");});
   var G=[].concat.apply([],A.map(function(x){return x.grns;})), gA=G.filter(function(g){return g.auto;}).length, gM=G.length-gA;
   var invM=n(function(x){return x.inv&&x.inv.status==="matched";}), invU=n(function(x){return x.inv&&x.inv.status==="blocked";}), invD=n(function(x){return x.inv&&x.inv.status==="disputed";});
   var open=A.filter(function(x){return x.pay&&x.pay.status!=="Settled";});
@@ -1815,7 +1826,7 @@ VIEWS.tower=function(){
       vend.map(function(r){ return "<tr><td><span class='row' style='gap:8px;flex-wrap:nowrap'>"+vlogo(r.v,20)+r.v+"</span></td><td class='r mono'>"+r.open+"</td>"+r.b.slice(0,3).map(function(v){return "<td class='r mono'>"+(v?fmt(v):"—")+"</td>";}).join("")+"<td class='r mono'>"+(r.ack!=null?(r.ack<1?Math.round(r.ack*60)+" min":r.ack.toFixed(1)+" h"):"<span style='color:var(--bad)'>pending</span>")+"</td><td class='r mono'>"+(r.ot!=null?r.ot+"%":"—")+"</td><td class='r'>"+(r.exc?pill(r.exc,"bad"):"<span class='muted'>0</span>")+"</td></tr>"; }).join("")+"</tbody></table></div>"+
     "</div><div class='stack'>"+
       "<div class='card'><h3>Governance</h3><div class='tw-gov'>"+[["ph-robot","DealFlow AI","Reads evidence, creates GRNs, matches invoices, prepares payment proposals. Never releases money."],["ph-user-check","Procurement","Approves and issues POs; owns vendor follow ups."],["ph-wrench","Operations","Resolves fulfilment and GRN exceptions."],["ph-seal-check","Finance manager","Approves payment proposals; cannot release."],["ph-bank","Treasury","Releases payments; cannot approve their own."]].map(function(r){return "<div><i class='ph-fill "+r[0]+"'></i><span><b>"+r[1]+"</b><small>"+r[2]+"</small></span></div>";}).join("")+"</div><p class='muted' style='font-size:11.5px;margin-top:10px'>Segregation of duties: preparer, approver and releaser are always different. Every step is in the audit trail.</p></div>"+
-      "<div class='card'><h3>Connected systems</h3><div class='tw-int'>"+[["ph-database","ERP","Sales orders, POs, GRN, AP entries"],["ph-plugs-connected","Vendor APIs and EDI","Microsoft, AWS, Red Hat, Fortinet, Dell"],["ph-globe","Vendor portals","CrowdStrike, Nutanix, Adobe"],["ph-envelope-simple","Email and documents","AI reads PDFs, scans and certificates"],["ph-bank","Banking","Host to host instructions and acknowledgments"]].map(function(r){return "<div><i class='ph-fill "+r[0]+"'></i><span><b>"+r[1]+"</b><small>"+r[2]+"</small></span><em>Live</em></div>";}).join("")+"</div></div>"+
+      "<div class='card'><h3>Connected systems</h3><div class='tw-int'>"+[["ph-database","ERP","Sales orders, POs, GRN, AP entries"],["ph-plugs-connected","Vendor APIs and EDI","Microsoft, AWS, Red Hat, Fortinet, Veeam"],["ph-globe","Vendor portals","CrowdStrike, Nutanix, Adobe"],["ph-envelope-simple","Email and documents","AI reads PDFs, scans and certificates"],["ph-bank","Banking","Host to host instructions and acknowledgments"]].map(function(r){return "<div><i class='ph-fill "+r[0]+"'></i><span><b>"+r[1]+"</b><small>"+r[2]+"</small></span><em>Live</em></div>";}).join("")+"</div></div>"+
     "</div></div>";
 };
 /* ---------- vendor PO list ---------- */
@@ -1835,12 +1846,12 @@ VIEWS.vpo=function(id){
   function kv(rows){ return "<dl class='kv' style='margin-top:10px'>"+rows.map(function(r){return "<dt>"+r[0]+"</dt><dd>"+r[1]+"</dd>";}).join("")+"</dl>"; }
   function checks(rows){ return "<div class='vp-ck'>"+rows.map(function(r){return "<div class='"+(r[1]?"ok":"no")+"'><i class='ph-bold "+(r[1]?"ph-check":"ph-x")+"'></i><b>"+r[0]+"</b><small>"+esc(r[2])+"</small></div>";}).join("")+"</div>"; }
   var hold="";
-  if(x.hold){ var acts={noevidence:[["evidence","Request fulfilment evidence from "+x.vendor]],unack:[["chase","Send follow up now"],["ack","Simulate vendor acknowledgment"]],delay:[["chase","Escalate to vendor account manager"]],price:[["price","Ask "+x.vendor+" for a credit note"]],serial:[["serial","Operations verified serials"]]}[x.hold.kind]||[];
+  if(x.hold){ var acts={noevidence:[["evidence","Request fulfilment evidence from "+x.vendor]],unack:[["chase","Send follow up now"],["ack","Simulate vendor acknowledgment"]],delay:[["chase","Escalate to vendor account manager"]],price:[["price","Ask "+x.vendor+" for a credit note"]],sku:[["sku","Ask "+x.vendor+" to reissue the entitlement"]]}[x.hold.kind]||[];
     hold="<div class='flag bad vp-hold'><span><i class='ph-fill ph-warning-octagon'></i></span><span style='flex:1'><b>"+esc(x.hold.text)+"</b> Routed to "+TEAMS[x.hold.team]+".<div class='vp-why'><i class='ph-fill ph-sparkle'></i>"+esc(x.hold.why)+"</div></span><span class='row' style='gap:6px'>"+acts.map(function(a){return "<button class='btn sm pri' data-act='vfix' data-id='"+x.id+"' data-k='"+a[0]+"'>"+a[1]+"</button>";}).join("")+"</span></div>"; }
   var ack=sec(1,"PO dispatch and vendor acknowledgment",true,kv([["Transmitted by",x.ch+" · "+dtm(x.placed)],["Vendor order reference",x.ack?"<span class='mono'>"+x.ack.ref+"</span>":"<span class='muted'>Waiting"+(x.follow?", "+x.follow+" follow up"+(x.follow>1?"s":"")+" sent":"")+"</span>"],["Committed fulfilment",x.ack?dts(x.ack.date):"—"],["Currency and terms",x.ack?x.ack.cur+" · "+esc(x.ack.terms):"—"],["Commercial conditions",x.ack?esc(x.ack.cond):"—"]])+"<p class='vp-note'><i class='ph-fill ph-info'></i>An acknowledgment confirms the order. It never creates a GRN.</p>");
-  var evid=sec(2,"Fulfilment evidence · "+KINDL[x.kind][0],i>=LI.ful||x.evidence.length,x.evidence.length?x.evidence.map(function(e){return "<div class='vp-ev'><div class='row sb'><b><i class='ph-fill ph-file-text'></i> "+esc(e.type)+"</b><span class='mono muted' style='font-size:11px'>"+e.ref+" · "+esc(e.ch)+" · "+tm(e.t)+"</span></div>"+kv(e.fields)+"</div>";}).join("")+(x.waitShip?"<button class='btn sm' data-act='vship' data-id='"+x.id+"'><i class='ph-fill ph-truck'></i>Simulate the second shipment ("+(L.qty-L.recv)+" units)</button>":""):"<p class='muted' style='margin-top:8px'>"+(x.kind==="hyperscaler"?"Waiting for provisioning confirmation, tenant and subscription IDs, consumption and billing period.":x.kind==="hardware"?"Waiting for shipment confirmation, delivery note, serials, tracking and signed POD.":"Waiting for licence activation, entitlement ID, term, SKU, quantity and customer.")+"</p>");
+  var evid=sec(2,"Fulfilment evidence · "+KINDL[x.kind][0],i>=LI.ful||x.evidence.length,x.evidence.length?x.evidence.map(function(e){return "<div class='vp-ev'><div class='row sb'><b><i class='ph-fill ph-file-text'></i> "+esc(e.type)+"</b><span class='mono muted' style='font-size:11px'>"+e.ref+" · "+esc(e.ch)+" · "+tm(e.t)+"</span></div>"+kv(e.fields)+"</div>";}).join("")+(x.waitShip?"<button class='btn sm' data-act='vship' data-id='"+x.id+"'><i class='ph-fill ph-stack'></i>Simulate the next provisioning batch ("+(L.qty-L.recv)+" seats)</button>":""):"<p class='muted' style='margin-top:8px'>"+(x.kind==="hyperscaler"?"Waiting for provisioning confirmation, tenant and subscription IDs, consumption and billing period.":"Waiting for licence activation, entitlement ID, term, SKU, quantity and customer.")+"</p>");
   var grn=sec(3,"GRN engine",x.grns.length||x.grnBlocked,(x.grns.length?x.grns.map(function(g){return "<div class='vp-grn'><span class='vp-gb'>"+g.type+(g.partial?" · partial":"")+"</span><b class='mono'>"+g.no+"</b><span class='muted'>"+g.qty+" of "+L.qty+" · "+(g.auto?"touchless":"manual")+" · "+tm(g.t)+"</span></div>";}).join("")+checks(x.grns[x.grns.length-1].checks):x.grnBlocked?checks(x.grnBlocked):"<p class='muted' style='margin-top:8px'>Runs as soon as verified fulfilment evidence arrives: PO, SKU, quantity, customer, terms and delivery are matched; duplicates, wrong SKUs and expired subscriptions are caught.</p>"));
-  var inv=sec(4,"Vendor invoice · three way match",!!x.inv,x.inv?kv([["Invoice",x.inv.no+" · "+esc(x.inv.ch)],["Amount",money(x.inv.amount,x.cur)],["Tax",esc(x.inv.tax.lab)]])+(x.inv.rows?"<table class='t vp-m'><thead><tr><th></th><th>PO</th><th>GRN</th><th>Invoice</th><th></th></tr></thead><tbody>"+x.inv.rows.map(function(r){return "<tr><td><b style='font-weight:500'>"+r[0]+"</b></td><td>"+r[1]+"</td><td>"+r[2]+"</td><td>"+r[3]+"</td><td>"+(r[4]?"<i class='ph-bold ph-check' style='color:var(--ok)'></i>":"<i class='ph-bold ph-x' style='color:var(--bad)'></i>")+"</td></tr>";}).join("")+"</tbody></table><p class='vp-note'><i class='ph-fill ph-check-circle' style='color:var(--ok)'></i>"+(x.kind==="hardware"&&x.inv.elig<x.inv.amount?"Matched against received quantity: "+money(x.inv.elig,x.cur)+" eligible now, the rest on the next GRN.":"Inside the "+money(x.inv.tol,x.cur)+" tolerance. Approved automatically.")+"</p>":"<p class='vp-note bad'><i class='ph-fill ph-x-circle'></i>Not matched: there is no GRN to match against.</p>"):"<p class='muted' style='margin-top:8px'>Captured by API, EDI, portal or email; checked for amount, currency, quantity, tax, withholding, terms, vendor details and duplicates.</p>");
+  var inv=sec(4,"Vendor invoice · three way match",!!x.inv,x.inv?kv([["Invoice",x.inv.no+" · "+esc(x.inv.ch)],["Amount",money(x.inv.amount,x.cur)],["Tax",esc(x.inv.tax.lab)]])+(x.inv.rows?"<table class='t vp-m'><thead><tr><th></th><th>PO</th><th>GRN</th><th>Invoice</th><th></th></tr></thead><tbody>"+x.inv.rows.map(function(r){return "<tr><td><b style='font-weight:500'>"+r[0]+"</b></td><td>"+r[1]+"</td><td>"+r[2]+"</td><td>"+r[3]+"</td><td>"+(r[4]?"<i class='ph-bold ph-check' style='color:var(--ok)'></i>":"<i class='ph-bold ph-x' style='color:var(--bad)'></i>")+"</td></tr>";}).join("")+"</tbody></table><p class='vp-note'><i class='ph-fill ph-check-circle' style='color:var(--ok)'></i>"+(x.split&&x.inv.elig<x.inv.amount?"Matched against provisioned seats: "+money(x.inv.elig,x.cur)+" eligible now, the rest on the next GRN.":"Inside the "+money(x.inv.tol,x.cur)+" tolerance. Approved automatically.")+"</p>":"<p class='vp-note bad'><i class='ph-fill ph-x-circle'></i>Not matched: there is no GRN to match against.</p>"):"<p class='muted' style='margin-top:8px'>Captured by API, EDI, portal or email; checked for amount, currency, quantity, tax, withholding, terms, vendor details and duplicates.</p>");
   var p=x.pay, payB;
   if(p){ var steps=p.need.map(function(k){ var a=APPR[k], ok=p.ok[k], prev=p.need.slice(0,p.need.indexOf(k)).every(function(q){return p.ok[q];});
       return "<div class='vp-ap"+(ok?" d":"")+"'><i class='ph-fill "+(ok?"ph-check-circle":"ph-circle-dashed")+"'></i><span><b>"+a.role+"</b><small>"+a.name+(ok?" · "+(k==="trs"?"released":"approved")+" "+tm(ok.t):"")+"</small></span>"+(!ok&&prev&&!x.hold?"<button class='btn sm pri' data-act='vappr' data-id='"+x.id+"' data-k='"+k+"'>"+(k==="trs"?"Release payment":"Approve")+"</button>":"")+"</div>"; }).join("");
@@ -2164,26 +2175,29 @@ function creditStep(c,cr){
       "<p class='muted' style='font-size:12px;margin-top:10px'>Four signals positive, one neutral, one negative → grade B+. Policy lets B+ release automatically up to the available limit. No bureau file and no forms: four years of trading history with us.</p></div>";
   if(!checked) return "<div class='split'><div>"+left+"</div><div class='card'><div class='ph' style='height:260px'>Waiting for the decision</div></div></div>";
   var carry=carryCost(ins,c), mAfter=(c.margin-carry)/c.net*100;
+  var used=cr.limit-cr.avail, rel=cr.released, gap=cr.gap, sc=Math.max(cr.limit,used+c.total);
+  var meter="<div class='cmeter'><div class='cm-bar'><i class='u' style='width:"+(used/sc*100).toFixed(2)+"%'></i><i class='r' style='width:"+(rel/sc*100).toFixed(2)+"%'></i>"+(gap?"<i class='g' style='width:"+(gap/sc*100).toFixed(2)+"%'></i>":"")+"<em style='left:"+(cr.limit/sc*100).toFixed(2)+"%'></em></div>"+
+    "<div class='cm-leg'><span><i class='u'></i>Already used "+money(used)+"</span><span><i class='r'></i>Released now "+money(rel)+"</span><span><i class='g'></i>"+(gap?"Credit gap "+money(gap):"No gap")+"</span><span class='lim'>Limit "+money(cr.limit)+"</span></div></div>";
   var ledger="<table class='ledger'>"+
     "<tr><td>Approved credit limit</td><td class='r'>"+money(cr.limit)+"</td></tr>"+
     "<tr><td>Open exposure: unpaid invoices and orders in flight</td><td class='r'>− "+money(cr.used)+"</td></tr>"+
     "<tr class='tot'><td>Available right now</td><td class='r'>= "+money(cr.avail)+"</td></tr>"+
     "<tr><td>This order</td><td class='r'>"+money(c.total)+"</td></tr>"+
     "<tr class='tot'><td>Released immediately, inside policy</td><td class='r ok'>"+money(cr.released)+"</td></tr>"+
-    (cr.gap?"<tr><td>Gap to cover</td><td class='r wn'>"+money(cr.gap)+"</td></tr>":"")+"</table>";
+    "<tr class='gaprow"+(cr.gap?"":" none")+"'><td>Credit gap to cover</td><td class='r "+(cr.gap?"wn":"ok")+"'>"+(cr.gap?money(cr.gap):"None")+"</td></tr></table>";
   var trimInfo=trimPlan(c,cr);
   var OPTS=[
-    {id:"pay",t:"Pay the gap now",tag:"Minutes",d:"Card or virtual IBAN. Releases as soon as it clears.",f:["Now "+money(cr.gap),"On account "+money(cr.released),"No fee"]},
-    {id:"increase",t:"Request a temporary limit increase",tag:"One reviewer, "+S.policy.sla+"h SLA",d:"Goes to credit control. "+money(cr.released)+" releases now; the rest when decided.",f:["Requested "+money(cr.gap),"30 days",pct(cr.gap/cr.limit*100)+" of limit",cr.inBand?"Inside reviewer band":"Above band: Finance"]},
+    {id:"pay",t:"Advance pay the gap",tag:"Minutes",d:"Pay the gap upfront by card or virtual IBAN. The order releases as soon as it clears.",f:["Pay now "+money(cr.gap),"On account "+money(cr.released),"No fee"]},
+    {id:"increase",t:"Temporary credit limit increase",tag:"One reviewer, "+S.policy.sla+"h SLA",d:"Goes to credit control. "+money(cr.released)+" releases now; the rest when decided.",f:["Requested "+money(cr.gap),"30 days",pct(cr.gap/cr.limit*100)+" of limit",cr.inBand?"Inside reviewer band":"Above band: Finance"]},
     {id:"trim",t:"Reduce the order to fit",tag:"Releases now",d:trimInfo?trimInfo.n+" × "+trimInfo.name+" move to a saved quote at today's price.":"No line can be trimmed to fit.",f:trimInfo?["Removes "+money(trimInfo.v),"No payment today","Fits inside the limit"]:["Not available"],dis:!trimInfo},
     {id:"secure",t:"Cover it with a bank guarantee",tag:"Same day",d:"A guarantee lifts the usable limit; no balance sheet exposure for us.",f:["Clears "+money(cr.gap),"Partner pays the bank fee"]}
   ];
   var right="<div class='stack'>"+
-    "<div class='card'><h3>The credit answer</h3><div style='margin-top:10px'>"+ledger+"</div>"+
+    "<div class='card'><h3>The credit answer</h3><div style='margin-top:10px'>"+meter+ledger+"</div>"+
       (cr.gap?"<div class='flag wn' style='margin-top:12px'><span>!</span><span><b>Not a rejection.</b> "+money(cr.gap)+" is over the available limit. Pick how to cover it below; you see the answer before you submit.</span></div>":"<div class='flag ok' style='margin-top:12px'><span>✓</span><span><b>Approved.</b> The whole order fits inside your available limit.</span></div>")+"</div>"+
-    (cr.gap?"<div class='card'><h3>Cover the gap</h3><div class='optlist' style='margin-top:10px'>"+OPTS.map(function(o){
-      return "<button class='opt' data-act='opt' data-o='"+o.id+"' aria-pressed='"+(S.co.opt===o.id)+"' "+(o.dis?"disabled":"")+"><span class='rd'></span><span><span class='row'><b>"+o.t+"</b>"+pill(o.tag,"out")+"</span><span class='d' style='display:block'>"+o.d+"</span><span class='fx'>"+o.f.map(function(x){return "<span>"+x+"</span>";}).join("")+"</span></span><span></span></button>";
-    }).join("")+"</div></div>":"")+
+    ("<div class='card cover"+(cr.gap?"":" idle")+"'><div class='row sb'><h3>Cover the gap</h3>"+(cr.gap?pill(money(cr.gap)+" to cover","wn"):pill("Not needed for this order","ok"))+"</div><p class='muted' style='font-size:12px;margin-top:4px'>"+(cr.gap?money(cr.released)+" is released now, inside policy. Choose how to cover the rest:":"Everything is released inside policy. If an order goes over the limit, these are the ways to cover the gap:")+"</p><div class='optlist' style='margin-top:10px'>"+OPTS.map(function(o){
+      return "<button class='opt' data-act='opt' data-o='"+o.id+"' aria-pressed='"+(cr.gap&&S.co.opt===o.id)+"' "+(o.dis||!cr.gap?"disabled":"")+"><span class='rd'></span><span><span class='row'><b>"+o.t+"</b>"+pill(o.tag,"out")+"</span><span class='d' style='display:block'>"+o.d+"</span><span class='fx'>"+o.f.map(function(x){return "<span>"+x+"</span>";}).join("")+"</span></span><span></span></button>";
+    }).join("")+"</div></div>")+
     "</div>";
   var instr="<div class='card'><div class='hd'><div><h3>Payment instrument</h3><p>Grade B+ unlocks all six. Secured or early payment earns a discount.</p></div><span class='grade-chip'>B+</span></div><div class='optlist'>"+INSTR.map(function(o){
       var d=o.disc?c.gross*o.disc/100:0;
@@ -3196,8 +3210,8 @@ document.addEventListener("click",function(e){
     case "vf": VF=b.dataset.f; render(); break;
     case "vscen": runScenario(b.dataset.s); break;
     case "vappr": var va=VX(b.dataset.id); if(va){ vApprove(va,b.dataset.k); save(); refresh(); toast(APPR[b.dataset.k].role+" "+(b.dataset.k==="trs"?"released":"approved")+" "+va.pay.pp,b.dataset.k==="trs"?"ai":""); } break;
-    case "vfix": var vf=VX(b.dataset.id); if(vf){ vResolve(vf,b.dataset.k); save(); refresh(); toast({evidence:"Evidence received; GRN created and invoice matched",ack:"Vendor acknowledged",chase:"Follow up sent and logged",price:"Credit note received; invoice approved",serial:"Serials verified; GRN created"}[b.dataset.k]); } break;
-    case "vship": var vs=VX(b.dataset.id); if(vs){ vSecondShipment(vs); save(); refresh(); toast("Second shipment received; final GRN created"); } break;
+    case "vfix": var vf=VX(b.dataset.id); if(vf){ vResolve(vf,b.dataset.k); save(); refresh(); toast({evidence:"Evidence received; GRN created and invoice matched",ack:"Vendor acknowledged",chase:"Follow up sent and logged",price:"Credit note received; invoice approved",sku:"Entitlement reissued; GRN created"}[b.dataset.k]); } break;
+    case "vship": var vs=VX(b.dataset.id); if(vs){ vNextBatch(vs); save(); refresh(); toast("Remaining seats provisioned; final GRN created"); } break;
   }
 });
 function keepScroll(){ var y=window.scrollY; $("#main").innerHTML="<div>"+VIEWS[route().r](route().a)+"</div>"; window.scrollTo(0,y); }
