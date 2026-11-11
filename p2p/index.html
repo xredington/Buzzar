@@ -1070,6 +1070,19 @@ a.nav{position:relative}
 .vp-why{display:flex;gap:8px;margin-top:8px;font-size:12.5px;line-height:1.5;padding:9px 11px;border-radius:10px;background:color-mix(in srgb,var(--ai) 10%,transparent);color:var(--ink)}.vp-why i{color:var(--ai);margin-top:3px}
 .flag.bad{background:var(--bads);border:1px solid color-mix(in srgb,var(--bad) 40%,transparent);color:var(--ink)}
 @media (max-width:900px){.vp-life{grid-template-columns:repeat(4,1fr);row-gap:14px}.vp-ls:nth-child(4)::after{display:none}.vp-ck{grid-template-columns:1fr}}
+
+/* CreditIQ gap meter */
+.cmeter{margin-bottom:12px}
+.cm-bar{position:relative;height:16px;border-radius:99px;background:var(--line);display:flex;overflow:visible}
+.cm-bar i{display:block;height:100%}.cm-bar i:first-child{border-radius:99px 0 0 99px}.cm-bar i:last-of-type{border-radius:0 99px 99px 0}
+.cm-bar i.u{background:color-mix(in srgb,var(--ink3) 45%,var(--line))}.cm-bar i.r{background:var(--ok)}
+.cm-bar i.g{background:repeating-linear-gradient(135deg,var(--wn) 0 6px,color-mix(in srgb,var(--wn) 70%,#fff) 6px 12px);animation:cmPulse 1.6s ease-in-out infinite}
+@keyframes cmPulse{50%{filter:brightness(1.15)}}
+.cm-bar em{position:absolute;top:-5px;bottom:-5px;width:2px;background:var(--ink);border-radius:2px}
+.cm-leg{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;font-size:11.5px;color:var(--ink2)}.cm-leg i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px;vertical-align:0}
+.cm-leg i.u{background:color-mix(in srgb,var(--ink3) 45%,var(--line))}.cm-leg i.r{background:var(--ok)}.cm-leg i.g{background:var(--wn)}.cm-leg .lim{margin-left:auto;font-family:var(--mono,monospace)}
+.ledger tr.gaprow td{font-weight:600}
+.card.cover.idle .opt{opacity:.55}.card.cover.idle .fx{display:none}
 </style>
 </head>
 <body>
@@ -2162,26 +2175,29 @@ function creditStep(c,cr){
       "<p class='muted' style='font-size:12px;margin-top:10px'>Four signals positive, one neutral, one negative → grade B+. Policy lets B+ release automatically up to the available limit. No bureau file and no forms: four years of trading history with us.</p></div>";
   if(!checked) return "<div class='split'><div>"+left+"</div><div class='card'><div class='ph' style='height:260px'>Waiting for the decision</div></div></div>";
   var carry=carryCost(ins,c), mAfter=(c.margin-carry)/c.net*100;
+  var used=cr.limit-cr.avail, rel=cr.released, gap=cr.gap, sc=Math.max(cr.limit,used+c.total);
+  var meter="<div class='cmeter'><div class='cm-bar'><i class='u' style='width:"+(used/sc*100).toFixed(2)+"%'></i><i class='r' style='width:"+(rel/sc*100).toFixed(2)+"%'></i>"+(gap?"<i class='g' style='width:"+(gap/sc*100).toFixed(2)+"%'></i>":"")+"<em style='left:"+(cr.limit/sc*100).toFixed(2)+"%'></em></div>"+
+    "<div class='cm-leg'><span><i class='u'></i>Already used "+money(used)+"</span><span><i class='r'></i>Released now "+money(rel)+"</span><span><i class='g'></i>"+(gap?"Credit gap "+money(gap):"No gap")+"</span><span class='lim'>Limit "+money(cr.limit)+"</span></div></div>";
   var ledger="<table class='ledger'>"+
     "<tr><td>Approved credit limit</td><td class='r'>"+money(cr.limit)+"</td></tr>"+
     "<tr><td>Open exposure: unpaid invoices and orders in flight</td><td class='r'>− "+money(cr.used)+"</td></tr>"+
     "<tr class='tot'><td>Available right now</td><td class='r'>= "+money(cr.avail)+"</td></tr>"+
     "<tr><td>This order</td><td class='r'>"+money(c.total)+"</td></tr>"+
     "<tr class='tot'><td>Released immediately, inside policy</td><td class='r ok'>"+money(cr.released)+"</td></tr>"+
-    (cr.gap?"<tr><td>Gap to cover</td><td class='r wn'>"+money(cr.gap)+"</td></tr>":"")+"</table>";
+    "<tr class='gaprow"+(cr.gap?"":" none")+"'><td>Credit gap to cover</td><td class='r "+(cr.gap?"wn":"ok")+"'>"+(cr.gap?money(cr.gap):"None")+"</td></tr></table>";
   var trimInfo=trimPlan(c,cr);
   var OPTS=[
-    {id:"pay",t:"Pay the gap now",tag:"Minutes",d:"Card or virtual IBAN. Releases as soon as it clears.",f:["Now "+money(cr.gap),"On account "+money(cr.released),"No fee"]},
-    {id:"increase",t:"Request a temporary limit increase",tag:"One reviewer, "+S.policy.sla+"h SLA",d:"Goes to credit control. "+money(cr.released)+" releases now; the rest when decided.",f:["Requested "+money(cr.gap),"30 days",pct(cr.gap/cr.limit*100)+" of limit",cr.inBand?"Inside reviewer band":"Above band: Finance"]},
+    {id:"pay",t:"Advance pay the gap",tag:"Minutes",d:"Pay the gap upfront by card or virtual IBAN. The order releases as soon as it clears.",f:["Pay now "+money(cr.gap),"On account "+money(cr.released),"No fee"]},
+    {id:"increase",t:"Temporary credit limit increase",tag:"One reviewer, "+S.policy.sla+"h SLA",d:"Goes to credit control. "+money(cr.released)+" releases now; the rest when decided.",f:["Requested "+money(cr.gap),"30 days",pct(cr.gap/cr.limit*100)+" of limit",cr.inBand?"Inside reviewer band":"Above band: Finance"]},
     {id:"trim",t:"Reduce the order to fit",tag:"Releases now",d:trimInfo?trimInfo.n+" × "+trimInfo.name+" move to a saved quote at today's price.":"No line can be trimmed to fit.",f:trimInfo?["Removes "+money(trimInfo.v),"No payment today","Fits inside the limit"]:["Not available"],dis:!trimInfo},
     {id:"secure",t:"Cover it with a bank guarantee",tag:"Same day",d:"A guarantee lifts the usable limit; no balance sheet exposure for us.",f:["Clears "+money(cr.gap),"Partner pays the bank fee"]}
   ];
   var right="<div class='stack'>"+
-    "<div class='card'><h3>The credit answer</h3><div style='margin-top:10px'>"+ledger+"</div>"+
+    "<div class='card'><h3>The credit answer</h3><div style='margin-top:10px'>"+meter+ledger+"</div>"+
       (cr.gap?"<div class='flag wn' style='margin-top:12px'><span>!</span><span><b>Not a rejection.</b> "+money(cr.gap)+" is over the available limit. Pick how to cover it below; you see the answer before you submit.</span></div>":"<div class='flag ok' style='margin-top:12px'><span>✓</span><span><b>Approved.</b> The whole order fits inside your available limit.</span></div>")+"</div>"+
-    (cr.gap?"<div class='card'><h3>Cover the gap</h3><div class='optlist' style='margin-top:10px'>"+OPTS.map(function(o){
-      return "<button class='opt' data-act='opt' data-o='"+o.id+"' aria-pressed='"+(S.co.opt===o.id)+"' "+(o.dis?"disabled":"")+"><span class='rd'></span><span><span class='row'><b>"+o.t+"</b>"+pill(o.tag,"out")+"</span><span class='d' style='display:block'>"+o.d+"</span><span class='fx'>"+o.f.map(function(x){return "<span>"+x+"</span>";}).join("")+"</span></span><span></span></button>";
-    }).join("")+"</div></div>":"")+
+    ("<div class='card cover"+(cr.gap?"":" idle")+"'><div class='row sb'><h3>Cover the gap</h3>"+(cr.gap?pill(money(cr.gap)+" to cover","wn"):pill("Not needed for this order","ok"))+"</div><p class='muted' style='font-size:12px;margin-top:4px'>"+(cr.gap?money(cr.released)+" is released now, inside policy. Choose how to cover the rest:":"Everything is released inside policy. If an order goes over the limit, these are the ways to cover the gap:")+"</p><div class='optlist' style='margin-top:10px'>"+OPTS.map(function(o){
+      return "<button class='opt' data-act='opt' data-o='"+o.id+"' aria-pressed='"+(cr.gap&&S.co.opt===o.id)+"' "+(o.dis||!cr.gap?"disabled":"")+"><span class='rd'></span><span><span class='row'><b>"+o.t+"</b>"+pill(o.tag,"out")+"</span><span class='d' style='display:block'>"+o.d+"</span><span class='fx'>"+o.f.map(function(x){return "<span>"+x+"</span>";}).join("")+"</span></span><span></span></button>";
+    }).join("")+"</div></div>")+
     "</div>";
   var instr="<div class='card'><div class='hd'><div><h3>Payment instrument</h3><p>Grade B+ unlocks all six. Secured or early payment earns a discount.</p></div><span class='grade-chip'>B+</span></div><div class='optlist'>"+INSTR.map(function(o){
       var d=o.disc?c.gross*o.disc/100:0;
