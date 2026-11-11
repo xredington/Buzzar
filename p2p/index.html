@@ -922,6 +922,42 @@ body{background-image:radial-gradient(900px 500px at 15% -10%,rgba(59,130,246,.1
 .ch-b b{display:block;font-size:13px}.ch-b small{display:block;font-size:11.5px;color:var(--ink3)}.ch-b small.ok{color:var(--ok);font-weight:600}
 @media (max-width:1280px){.th-grid{grid-template-columns:260px minmax(0,1fr)}.th-panel{grid-column:1/-1;position:static}}
 @media (max-width:860px){.th-grid{grid-template-columns:1fr}}
+
+.ind-tag{display:inline-block;margin-left:6px;font-size:10.5px;font-weight:600;padding:1px 7px;border-radius:99px;color:var(--wn);background:var(--wns);vertical-align:middle;letter-spacing:.02em}
+
+/* ===== Anya panel tabs ===== */
+#anya.wide{width:520px}
+.an-tabs{display:flex;gap:4px;padding:8px 10px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.an-tabs button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:0;border-radius:12px;background:none;color:var(--ink3);font-size:11.5px;font-weight:600;cursor:pointer;position:relative;min-width:64px}
+.an-tabs button i{font-size:18px}
+.an-tabs button:hover{background:var(--soft);color:var(--ink)}
+.an-tabs button[aria-selected=true]{background:linear-gradient(135deg,#efecff,#d9d3ff);color:#1d1650}
+.an-tabs em{position:absolute;top:2px;right:8px;font-style:normal;font-size:10px;min-width:16px;height:16px;border-radius:99px;background:var(--c-v);color:#fff;display:grid;place-items:center;padding:0 4px}
+.an-pane{flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+.ap-lead{display:flex;gap:12px;align-items:flex-start;padding:14px;border-radius:16px;border:1.5px solid transparent;background:linear-gradient(var(--panel),var(--panel)) padding-box,linear-gradient(120deg,#2f63ff,#7c4dff,#f59e0b) border-box}
+.ap-lead p{font-size:14px;line-height:1.55;font-weight:500}
+.an-pane>.btn{align-self:flex-start}
+.ap-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ap-stats>div{display:grid;grid-template-columns:auto 1fr;column-gap:8px;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:var(--sub)}
+.ap-stats i{grid-row:span 2;color:var(--c-v);font-size:20px;align-self:center}
+.ap-stats b{font-size:17px}.ap-stats small{font-size:11.5px;color:var(--ink3)}
+.ap-h{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-top:6px}
+.ap-p{font-size:13px;color:var(--ink2);line-height:1.5}
+.ap-ch{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;text-align:left;padding:12px 14px;border-radius:16px;border:1px solid var(--line);background:var(--sub);color:var(--ink);cursor:pointer;transition:transform .2s,border-color .2s}
+.ap-ch:hover{transform:translateX(3px);border-color:var(--c-v)}
+.ap-ch b{display:block;font-size:14px}.ap-ch small{font-size:12px;color:var(--ink3)}
+.ap-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ap-steps>div{display:flex;flex-direction:column;gap:4px;padding:10px;border-radius:14px;border:1px solid var(--line);background:var(--sub);font-size:12px}
+.ap-steps i{color:var(--c-v);font-size:18px}.ap-steps small{color:var(--ink3)}
+.ap-ex{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:var(--sub);border-left:3px solid var(--c)}
+.ap-ex .ex-ic{background:var(--c);box-shadow:none;width:30px;height:30px;font-size:14px}
+.ap-ex small{display:block;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3)}.ap-ex b{font-size:13px}
+.ap-ag{padding:12px 14px;border-radius:16px;border:1px solid var(--line);background:var(--sub);display:flex;flex-direction:column;gap:6px}
+.ap-ag.never{border-style:dashed}
+.ap-ag .ag-ic{width:28px;height:28px;font-size:14px;border-radius:9px}
+.ap-ag-t{font-size:14px}
+.fab-bd{position:absolute;top:-6px;right:-6px;min-width:22px;height:22px;border-radius:99px;background:var(--c-v);color:#fff;font-size:11.5px;font-weight:700;display:grid;place-items:center;padding:0 6px;box-shadow:0 0 0 3px var(--bg)}
+@media (max-width:640px){#anya.wide{width:100%}}
 </style>
 </head>
 <body>
@@ -980,14 +1016,14 @@ var WHY={
 var P=[
   {id:"m365bp",name:"Microsoft 365 Business Premium",vendor:"Microsoft",cat:"Software",prog:"microsoft.csp",unit:"seat / month",price:82,mg:11.8,term:"Annual commitment, billed monthly"},
   {id:"copilot",name:"Microsoft 365 Copilot",vendor:"Microsoft",cat:"AI",prog:"microsoft.csp",unit:"seat / month",price:110,mg:10.5,term:"Annual commitment"},
-  {id:"o365e3",name:"Office 365 E3",vendor:"Microsoft",cat:"Software",prog:"microsoft.csp",unit:"user / month",price:85,mg:11,term:"Annual commitment, billed monthly"},
-  {id:"azure",name:"Azure plan",vendor:"Microsoft",cat:"Cloud",prog:"microsoft.csp",unit:"USD 5,000 monthly commitment",price:18365,mg:6,term:"Consumption, billed monthly"},
+  {id:"m365e7",name:"Microsoft 365 E7",vendor:"Microsoft",cat:"AI",prog:"microsoft.csp",unit:"user / month",price:364,mg:9,term:"Annual commitment",ind:1},
+  {id:"azure",name:"Azure plan",vendor:"Microsoft",cat:"Cloud",prog:"microsoft.csp",unit:"USD 5,000 monthly commitment",price:18365,mg:6,term:"Consumption, billed monthly",ind:1},
   {id:"bc",name:"Dynamics 365 Business Central",vendor:"Microsoft",cat:"Software",prog:"microsoft.csp",unit:"user / month",price:260,mg:12,term:"Annual commitment"},
-  {id:"crowdstrike",name:"CrowdStrike Falcon Insight EDR",vendor:"CrowdStrike",cat:"Security",prog:"redington.software",unit:"endpoint / year",price:220,mg:14,term:"12 month subscription"},
-  {id:"nutanix",name:"Nutanix NC2 on Azure",vendor:"Nutanix",cat:"Cloud",prog:"redington.software",unit:"node / year",price:48000,mg:12,term:"Hybrid cloud cluster, 12 months"},
-  {id:"fortinet",name:"Fortinet Security Fabric: FortiGate VM and FortiEDR",vendor:"Fortinet",cat:"Security",prog:"redington.software",unit:"bundle / year",price:120000,mg:13,term:"12 month subscription"},
-  {id:"awsplan",name:"AWS subscription",vendor:"AWS",cat:"Cloud",prog:"aws.resale",unit:"USD 5,000 monthly commitment",price:18365,mg:5,term:"Consumption, billed monthly by Redington"},
-  {id:"claude",name:"Anthropic Claude on AWS",vendor:"Anthropic",cat:"AI",prog:"aws.cppo",unit:"annual commitment",price:55000,mg:8,term:"AWS Marketplace private offer, 12 months"},
+  {id:"crowdstrike",name:"CrowdStrike Falcon Insight EDR",vendor:"CrowdStrike",cat:"Security",prog:"redington.software",unit:"endpoint / year",price:220,mg:14,term:"12 month subscription",ind:1},
+  {id:"nutanix",name:"Nutanix NC2 on Azure",vendor:"Nutanix",cat:"Cloud",prog:"redington.software",unit:"node / year",price:48000,mg:12,term:"Hybrid cloud cluster, 12 months",ind:1},
+  {id:"fortinet",name:"Fortinet Security Fabric: FortiGate VM and FortiEDR",vendor:"Fortinet",cat:"Security",prog:"redington.software",unit:"bundle / year",price:150000,mg:13,term:"12 month subscription",ind:1},
+  {id:"awsplan",name:"AWS subscription",vendor:"AWS",cat:"Cloud",prog:"aws.resale",unit:"USD 5,000 monthly commitment",price:18365,mg:5,term:"Consumption, billed monthly by Redington",ind:1},
+  {id:"claude",name:"Anthropic Claude on AWS",vendor:"Anthropic",cat:"AI",prog:"aws.cppo",unit:"annual commitment",price:55000,mg:8,term:"AWS Marketplace private offer, 12 months",ind:1},
   {id:"datadog",name:"Datadog Pro, 50 hosts",vendor:"Datadog",cat:"Cloud",prog:"aws.cppo",unit:"pack / year",price:61200,mg:8.5,term:"AWS Marketplace private offer, 12 months"},
   {id:"mig",name:"Azure migration, up to 50 VMs",vendor:"Redington Services",cat:"Services",prog:"redington.services",unit:"fixed fee",price:45000,mg:28,term:"6 week delivery"},
   {id:"m365dep",name:"Microsoft 365 deployment",vendor:"Redington Services",cat:"Services",prog:"redington.services",unit:"fixed fee",price:12000,mg:30,term:"2 week delivery"}
@@ -996,7 +1032,7 @@ var PX={}; P.forEach(function(p){PX[p.id]=p;});
 var SCEN=[
   {id:"s1",name:"Scenario 1",tag:"Modern workplace, security and hybrid cloud",items:[{sku:"m365bp",qty:200},{sku:"crowdstrike",qty:200},{sku:"azure",qty:1},{sku:"nutanix",qty:1}]},
   {id:"s2",name:"Scenario 2",tag:"AWS with Anthropic and Datadog, plus Copilot",items:[{sku:"awsplan",qty:1},{sku:"claude",qty:1},{sku:"datadog",qty:1},{sku:"copilot",qty:100}]},
-  {id:"s3",name:"Scenario 3",tag:"Fortinet, Office 365 and Azure",items:[{sku:"fortinet",qty:1},{sku:"o365e3",qty:750},{sku:"azure",qty:1}]}
+  {id:"s3",name:"Scenario 3",tag:"Fortinet, Microsoft 365 E7 and Azure",items:[{sku:"fortinet",qty:1},{sku:"m365e7",qty:50},{sku:"azure",qty:1}]}
 ];
 var STAGES=[
   {id:"intake",name:"Order received",short:"Intake"},
@@ -1033,7 +1069,7 @@ var BUYER={name:"Omar Saleh",role:"Procurement lead",co:"Gulf IT Solutions LLC",
 /* ============================================================
    State
    ============================================================ */
-var KEY="p2p-proto-v2";
+var KEY="p2p-proto-v3";
 function seed(){
   return {
     market:"uae", notes:true, seq:1042,
@@ -1041,7 +1077,7 @@ function seed(){
     co:{step:1,ins:"open",opt:"increase",appr:null,checked:false,po:"GITS-PO-7781"},
     used:{},
     policy:{
-      buyerAuto:50000, floor:7, band:20, sla:4, autoRelease:true, apPM:50000, apPMM:150000, apGM:500000,
+      buyerAuto:50000, floor:7, band:20, sla:4, autoRelease:true, apCCH:50000, apGM:150000,
       routes:{
         uae:{"microsoft.csp":"open","aws.cppo":"open","aws.resale":"open","redington.software":"open","redington.services":"open"},
         ksa:{"microsoft.csp":"open","aws.cppo":"blocked","aws.resale":"open","redington.software":"open","redington.services":"open"},
@@ -1058,7 +1094,7 @@ function seed(){
       {id:"PO-AH-0932",from:"Coupa punch out",via:"API, cXML",src:"API",customer:"Al Hamra Retail",partner:"Cloudline Partners",market:"uae",received:"08:47",status:"new",quote:"Q-22871",
        lines:[{sku:"copilot",qty:50,price:110},{sku:"m365dep",qty:1,price:12000}],issue:null},
       {id:"PO-NB-2210",from:"it@nilebridge.com.bh",via:"Email, scanned PDF",src:"SCAN",customer:"NileBridge Trading WLL",partner:"Bahrain Tech Hub WLL",market:"bhr",received:"07:58",status:"new",quote:"Q-22790",
-       lines:[{sku:"o365e3",qty:60,price:85},{sku:"fortinet",qty:1,price:120000}],issue:"readiness"}
+       lines:[{sku:"m365e7",qty:20,price:364},{sku:"fortinet",qty:1,price:150000}],issue:"readiness"}
     ]
   };
 }
@@ -1271,13 +1307,7 @@ var NAV=[
   {r:"credit",l:"Credit desk",ic:"<i class='ph ph-gauge'></i>",tag:"credit"},
   {r:"recon",l:"Reconciliation",ic:"<i class='ph ph-arrows-left-right'></i>",tag:"recon"},
   {r:"audit",l:"Audit trail",ic:"<i class='ph ph-list-magnifying-glass'></i>"},
-  {r:"policy",l:"Policy and rules",ic:"<i class='ph ph-sliders-horizontal'></i>"},
-  {sec:"Anya AI",sub:"Concept preview"},
-  {r:"anya",l:"Ask Anya",ic:"<i class='ph ph-sparkle'></i>"},
-  {r:"briefing",l:"Daily briefing",ic:"<i class='ph ph-sun-horizon'></i>"},
-  {r:"intake",l:"Order from anything",ic:"<i class='ph ph-magic-wand'></i>"},
-  {r:"explain",l:"Explain any decision",ic:"<i class='ph ph-lightbulb'></i>"},
-  {r:"agent",l:"Agent desk",ic:"<i class='ph ph-robot'></i>",tag:"agent"}
+  {r:"policy",l:"Policy and rules",ic:"<i class='ph ph-sliders-horizontal'></i>"}
 ];
 var PERSONA={
   partner:{c:"",i:"OS",t:BUYER.name+" · "+BUYER.co},
@@ -1303,6 +1333,7 @@ function counts(){
 var CUR="#/overview"; try{ if(location.hash&&location.hash.indexOf("#/")===0) CUR=location.hash; }catch(e){}
 function route(){ var h=CUR.slice(2).split("?")[0].split("/"); return {r:h[0]||"overview",a:h[1]||""}; }
 function renderSide(){
+  if(typeof anyaFabBadge==="function") try{ anyaFabBadge(); }catch(e){}
   var R=route().r, c=counts();
   if(R==="checkout") R="cart"; if(R==="order") R="orders"; if(R==="po") R="inbox";
   $("#side").innerHTML="<div class='brand cq-brand'><img class='cq-logo cq-l' src='"+CQLOGO.light+"' alt='CloudQuarks by Redington'><img class='cq-logo cq-d' src='"+CQLOGO.dark+"' alt='CloudQuarks by Redington'><div class='cq-sub'><span class='cq-dot'></span><b>Procure to Pay</b><s>Deal Ninjas · prototype</s></div></div>"+
@@ -1489,7 +1520,7 @@ function tile(p){
   return "<div class='tile'>"+(ART[BANNER[p.id]||"b_"+p.id]?"<div class='logo-hero has-banner'><img class='lh-ban' src='"+ART[BANNER[p.id]||"b_"+p.id]+"' alt='"+esc(p.vendor)+"'><span class='lh-cat'><i class='ph-fill "+(CATIC[p.cat]||"ph-cube")+"'></i>"+p.cat+"</span></div>":"<div class='logo-hero' style='--t:"+(VTINT[VK[p.vendor]]||"#888")+"'>"+vlg(p.vendor,40)+"<span class='lh-art'><i class='ph-fill "+(CATIC[p.cat]||"ph-cube")+"'></i></span><svg class='lh-wave' viewBox='0 0 300 56' preserveAspectRatio='none' aria-hidden='true'><path d='M0 38 C60 8 120 58 180 28 S270 18 300 34'/><path d='M0 48 C70 24 130 60 190 38 S270 32 300 44'/></svg><span class='lh-cat'><i class='ph-fill "+(CATIC[p.cat]||"ph-cube")+"'></i>"+p.cat+"</span></div>")+"<div class='row sb'><span class='muted' style='font-size:12px'>"+p.vendor+" · "+p.cat+"</span>"+rp+"</div>"+
     "<div class='nm'>"+p.name+"</div><div class='muted' style='font-size:12px'>"+p.term+"</div>"+
     (r.rerouted?"<div class='flag wn' style='padding:6px 9px;font-size:11.5px'>Rerouted here: "+r.why+"</div>":"")+
-    "<div class='ft'><div class='pr'>"+money(p.price*m.fx,m.cur)+" <s>/ "+p.unit+"</s></div>"+
+    "<div class='ft'><div class='pr'>"+money(p.price*m.fx,m.cur)+" <s>/ "+p.unit+"</s>"+(p.ind?"<span class='ind-tag' title='Placeholder price for the demo'>Indicative</span>":"")+"</div>"+
     (r.route?"<button class='btn sm "+(inCart?"":"pri")+"' data-act='add' data-sku='"+p.id+"'>"+(inCart?"✓ In cart ("+inCart.qty+")":"Add")+"</button>":"<button class='btn sm' disabled>Unavailable</button>")+"</div></div>";
 }
 
@@ -1522,19 +1553,11 @@ VIEWS.cart=function(){
       "<button class='btn cta-grad lg full' data-act='checkout' "+(c.blocked.length||!c.txns.length?"disabled":"")+">Check out <i class='ph ph-arrow-right'></i></button></div>"+
   "</section>";
 
-  /* market strip */
-  var strip="<div class='mk-strip'>"+MKO.map(function(k){
-    var cc=calc(S.cart,k), rr=cc.lines.some(function(l){return l.rr.rerouted;}), bl=cc.blocked.length;
-    return "<button class='mk-pill' data-act='setmk' data-mk='"+k+"' aria-pressed='"+(k===S.market)+"'><span class='mk-code'>"+MKCODE[k]+"</span>"+
-      "<span class='mk-t'><b>"+MK[k].name+"</b><small>"+MK[k].cur+" "+(cc.total>=1e6?(cc.total/1e6).toFixed(2)+"m":fmt(cc.total))+" · "+Math.round(MK[k].tax*100)+"% tax</small></span>"+
-      (rr?"<span class='mk-flag' title='A line is rerouted here'><i class='ph-bold ph-arrows-clockwise'></i></span>":"")+(bl?"<span class='mk-flag bad'><i class='ph-bold ph-x'></i></span>":"")+"</button>";
-  }).join("")+"</div>";
-
   /* router */
   var lines=c.lines.map(function(l){var p=PX[l.sku], col=l.route?RC[l.route][0]:"#e5484d";
     return "<div class='ln-card"+(l.route?"":" blk")+"' id='ln-"+l.sku+"' data-route='"+(l.route||"")+"' style='--c:"+col+"'>"+
       ""+vlg(p.vendor,44,'ln-lg')+""+
-      "<div class='ln-mid'><b>"+l.name+"</b><small>"+money(l.unit)+" / "+p.unit+"</small>"+
+      "<div class='ln-mid'><b>"+l.name+"</b><small>"+money(l.unit)+" / "+p.unit+(p.ind?" · <span class='ind-tag'>Indicative</span>":"")+"</small>"+
         (l.rr.rerouted?"<span class='rr-badge' title='"+esc(l.rr.why)+"'><i class='ph-bold ph-arrows-clockwise'></i>Rerouted: AWS can’t sell in "+m.name+"</span> "+whyBtn("Why was "+l.name+" rerouted?"):"")+
         (!l.route?"<span class='rr-badge bad'><i class='ph-bold ph-prohibit'></i>Not sold in "+m.name+"</span>":"")+"</div>"+
       "<div class='qty'><button data-act='qty' data-sku='"+l.sku+"' data-d='-1' aria-label='Less'>−</button><input data-act='qtyset' data-sku='"+l.sku+"' value='"+l.qty+"' inputmode='numeric' aria-label='Quantity'><button data-act='qty' data-sku='"+l.sku+"' data-d='1' aria-label='More'>+</button></div>"+
@@ -1573,17 +1596,6 @@ function drawBeams(){
 }
 window.addEventListener("resize",function(){ drawBeams(); });
 function uniq(a){return a.filter(function(x,i){return a.indexOf(x)===i;});}
-function marketStrip(){
-  var rows=MKO.map(function(k){
-    var c=calc(S.cart,k), open=ROUTE_ORDER.filter(function(r){return S.policy.routes[k][r]!=="blocked";}).length;
-    return "<button class='opt' style='grid-template-columns:1fr;padding:10px 12px' data-act='setmk' data-mk='"+k+"' aria-pressed='"+(k===S.market)+"'>"+
-      "<span class='row sb'><b>"+MK[k].name+"</b><span class='mono muted'>"+open+"/5 routes</span></span>"+
-      "<span class='mono' style='font-size:12px'>"+money(c.total,MK[k].cur)+"</span><span class='muted' style='font-size:11.5px'>"+pct(MK[k].tax*100,0)+" tax · "+c.txns.length+" txns"+(c.lines.some(function(l){return l.rr.rerouted;})?" · rerouted":"")+"</span></button>";
-  }).join("");
-  return "<div class='card' style='margin-bottom:16px;padding:14px'><div class='row sb' style='margin-bottom:10px'><h3>The same cart, resolved per market</h3><span class='muted' style='font-size:12px'>Pick one to buy in</span></div>"+
-    "<div class='g' style='grid-template-columns:repeat(5,minmax(0,1fr));gap:8px'>"+rows+"</div>"+
-    "<div style='margin-top:10px'>"+ann("Same three lines, five answers. Tax, selling entity and which programmes may transact all change; KSA and Türkiye lose the AWS private offer route.","OneCart 360 · Applies local rules")+"</div></div>";
-}
 function txnCard(t,i,c,edit){
   var R=ROUTES[t.route];
   return "<div class='txn "+R.cls+"'><div class='th'><span class='ix'>"+(i+1)+"</span><div><b>"+R.name+"</b><div class='muted' style='font-size:12px'>"+R.desc+"</div></div>"+
@@ -1914,7 +1926,7 @@ VIEWS.policy=function(){
       num("band","Credit reviewer band","% of limit","Up to this, one reviewer; above, Finance")+
       num("sla","Reviewer SLA","hours","Clock starts when the order is held")+
     "</div></div>"+
-    "<div class='card'><h2>Email order approvals</h2><p class='ink2' style='margin-top:4px'>DealFlow never places an order from email without these approvals. Every email order needs the BSM’s reporting manager; higher values add the next level.</p><div class='g g3' style='margin-top:14px'>"+num("apPM","Product manager above","AED","Adds Karim Haddad")+num("apPMM","PM’s reporting manager above","AED","Adds Leena Thomas")+num("apGM","General manager above","AED","Adds Ahmed Al Mansoori")+"</div></div>"+
+    "<div class='card'><h2>Email order approvals</h2><p class='ink2' style='margin-top:4px'>DealFlow never places an order from email without these approvals. The product manager approves every email order; higher values add the cluster category head, then the general manager.</p><div class='g g3' style='margin-top:14px'><div class='field'><label>Product manager</label><div class='inp' style='background:var(--soft)'>Every email order</div><span class='muted' style='font-size:11.5px'>Karim Haddad</span></div>"+num("apCCH","Cluster category head above","AED","Adds Leena Thomas")+num("apGM","General manager above","AED","Adds Ahmed Al Mansoori")+"</div></div>"+
     "<div class='card flat'><div style='padding:16px'><h2>Route matrix</h2><p class='ink2' style='margin-top:4px'>Which programme may transact in which market. OneCart reads this on every cart.</p></div>"+
       "<table class='t'><thead><tr><th>Market</th>"+ROUTE_ORDER.map(function(r){return "<th>"+ROUTES[r].name+"</th>";}).join("")+"</tr></thead><tbody>"+
       MKO.map(function(k){return "<tr><td><b>"+MK[k].name+"</b><div class='muted' style='font-size:11.5px'>"+MK[k].taxLabel+"</div></td>"+ROUTE_ORDER.map(function(r){var v=p.routes[k][r];
@@ -1937,7 +1949,7 @@ VIEWS.policy=function(){
 var ANYA={open:false,msgs:[],busy:false};
 if(!S.dismissed) S.dismissed=[];
 function whyBtn(q,label){ return "<button class='why' data-act='why' data-q=\""+esc(q)+"\"><i class='ph-fill ph-sparkle'></i>"+(label||"Why?")+"</button>"; }
-function anyaPage(){ var R=route(); return ({overview:"Overview",home:"Home",catalogue:"Catalogue",cart:"OneCart 360",checkout:"Checkout",orders:"My orders",order:"Order "+R.a,statement:"Invoices",inbox:"DealFlow inbox",exceptions:"Exceptions",credit:"Credit desk",recon:"Reconciliation",audit:"Audit trail",policy:"Policy and rules",agent:"Agent desk",anya:"Ask Anya",briefing:"Daily briefing",intake:"Order from anything",explain:"Explain any decision"})[R.r]||"the portal"; }
+function anyaPage(){ var R=route(); return ({overview:"Overview",home:"Home",catalogue:"Catalogue",cart:"OneCart 360",checkout:"Checkout",orders:"My orders",order:"Order "+R.a,statement:"Invoices",inbox:"DealFlow inbox",exceptions:"Exceptions",credit:"Credit desk",recon:"Reconciliation",audit:"Audit trail",policy:"Policy and rules",agent:"Agent desk",threads:"Email orders",anya:"Ask Anya",briefing:"Daily briefing",intake:"Order from anything",explain:"Explain any decision"})[R.r]||"the portal"; }
 function anyaSuggest(){
   var r=route().r;
   if(r==="cart"||r==="checkout"||r==="catalogue") return S.cart.length?["Why is there a gap?","What if I pay by letter of credit?","Which instrument saves the most?","What tax applies here?"]:["How much credit do I have?","Order from an email or voice note"];
@@ -1964,16 +1976,18 @@ function anyaRender(){
   var p=document.getElementById("anya"); if(!p) return;
   var keep=document.getElementById("anya-in"); var val=keep?keep.value:"";
   document.body.classList.toggle("anya-on",ANYA.open);
-  p.className=ANYA.open?"open":"";
-  p.innerHTML="<div class='an-h'><span class='orb sm'><i class='ph-fill ph-sparkle'></i></span><div><b>Anya</b><small><span class='live'></span>Knows this page · "+esc(anyaPage())+"</small></div><button class='an-x an-vol' data-act='anya-voice' aria-label='"+(VOICE.on?"Mute Anya’s voice":"Turn Anya’s voice on")+"' title='"+(VOICE.on?"Mute voice":"Voice on")+"'><i class='ph-fill "+(VOICE.on?"ph-speaker-high":"ph-speaker-slash")+"'></i></button><button class='an-x' data-act='anya' aria-label='Close Anya'><i class='ph ph-x'></i></button></div>"+
-    "<div class='an-voice'>"+vStage()+"</div>"+
+  p.className=(ANYA.open?"open":"")+(ANYA.mode&&ANYA.mode!=="talk"?" wide":"");
+  var head="<div class='an-h'><span class='orb sm'><i class='ph-fill ph-sparkle'></i></span><div><b>Anya</b><small><span class='live'></span>Knows this page · "+esc(anyaPage())+"</small></div><button class='an-x an-vol' data-act='anya-voice' aria-label='"+(VOICE.on?"Mute Anya’s voice":"Turn Anya’s voice on")+"' title='"+(VOICE.on?"Mute voice":"Voice on")+"'><i class='ph-fill "+(VOICE.on?"ph-speaker-high":"ph-speaker-slash")+"'></i></button><button class='an-x' data-act='anya' aria-label='Close Anya'><i class='ph ph-x'></i></button></div>";
+  var main=(!ANYA.mode||ANYA.mode==="talk")?"<div class='an-voice'>"+vStage()+"</div>"+
     "<div class='an-body' id='an-body'>"+anyaHello()+ANYA.msgs.map(anyaMsg).join("")+(ANYA.busy?"<div class='an-m bot'><span class='typing'><i></i><i></i><i></i></span></div>":"")+"</div>"+
     "<div class='an-sug'>"+anyaSuggest().map(function(q){return "<button data-act='anya-ask' data-q=\""+esc(q)+"\">"+esc(q)+"</button>";}).join("")+"</div>"+
-    "<div class='an-in'><button class='an-mic"+(ANYA.listening?" on":"")+"' data-act='anya-mic' aria-label='Ask by voice'><i class='ph-fill ph-microphone'></i></button><input id='anya-in' placeholder='"+(ANYA.listening?"Listening…":"Ask about this page…")+"' autocomplete='off' value=\""+esc(val)+"\"><button class='an-send' data-act='anya-send' aria-label='Send'><i class='ph-fill ph-paper-plane-right'></i></button></div>";
+    "<div class='an-in'><button class='an-mic"+(ANYA.listening?" on":"")+"' data-act='anya-mic' aria-label='Ask by voice'><i class='ph-fill ph-microphone'></i></button><input id='anya-in' placeholder='"+(ANYA.listening?"Listening…":"Ask about this page…")+"' autocomplete='off' value=\""+esc(val)+"\"><button class='an-send' data-act='anya-send' aria-label='Send'><i class='ph-fill ph-paper-plane-right'></i></button></div>":"<div class='an-pane'>"+anyaPane(ANYA.mode)+"</div>";
+  p.innerHTML=head+anyaTabs()+main;
   var b=document.getElementById("an-body"); if(b) b.scrollTop=b.scrollHeight;
   if(typeof syncAnyaPage==="function") syncAnyaPage();
+  anyaFabBadge();
 }
-function openAnya(q){ ANYA.open=true; anyaRender(); if(q) anyaAsk(q); else setTimeout(function(){var i=document.getElementById("anya-in"); if(i) i.focus();},250); }
+function openAnya(q){ ANYA.open=true; if(q) ANYA.mode="talk"; anyaRender(); if(q) anyaAsk(q); else setTimeout(function(){var i=document.getElementById("anya-in"); if(i) i.focus();},250); }
 function anyaAsk(q,fromVoice){
   q=String(q||"").trim(); if(!q||ANYA.busy) return;
   if(typeof stopVoice==="function"&&VOICE.state==="speaking") stopVoice();
@@ -1987,6 +2001,7 @@ function anyaDo(a){
   if(a.indexOf("ins:")===0){ var id=a.slice(4), ins=INSTR.filter(function(x){return x.id===id;})[0]; S.co.ins=id; save(); toast(ins.t+" selected"+(ins.disc?": "+ins.disc+"% off":"")); render(); return; }
   if(a.indexOf("mk:")===0){ S.market=a.slice(3); S.co.checked=false; save(); go("#/cart"); toast("Buying in "+MK[S.market].name); return; }
   if(a.indexOf("ask:")===0){ anyaAsk(a.slice(4)); return; }
+  if(a.indexOf("mode:")===0){ ANYA.mode=a.slice(5); anyaRender(); return; }
   if(a==="po"){ openIntake("email"); return; }
 }
 /* ---- the answer engine ---- */
@@ -2001,7 +2016,7 @@ function anyaAnswer(q){
   var rid=(q.match(/\b(INV-[A-Z]+-\d+-\d+|AWS-\d+-\d+|CASH-\d+|DSP-\d+)\b/i)||[])[1];
   if(rid){ var r=S.recon.filter(function(x){return x.id.toLowerCase()===rid.toLowerCase();})[0];
     if(r) return {html:"<b>"+r.id+"</b>: "+money(r.amount,r.cur)+" invoiced, "+(r.received?money(r.received,r.cur):"nothing yet")+" received.<br><br>"+esc(r.why||"Waiting for payment. Nothing unusual.")+(r.sug?"<br><br>"+(r.sug.level==="never"?"I can’t act on this one: <b>credit notes stay with Finance</b>.":"I propose: <b>"+esc(r.sug.label)+"</b>. A person approves it in the Agent desk."):""),
-      actions:r.sug&&r.sug.level!=="never"?[["Open Agent desk","go:#/agent"]]:[["Open reconciliation","go:#/recon"]]}; }
+      actions:r.sug&&r.sug.level!=="never"?[["Open Agent desk","mode:agent"]]:[["Open reconciliation","go:#/recon"]]}; }
   /* reroutes */
   if(/rerout|can.?t sell|not sold|why.*(aws|saudi|turk)/.test(t)){
     var rr=cc?cc.c0.lines.filter(function(l){return l.rr.rerouted;}):[];
@@ -2041,11 +2056,11 @@ function anyaAnswer(q){
   if(/agent|allowed|guardrail|authority|permission/.test(t)) return {html:"I work at four levels, set per stage by Finance:<ul><li><b>Acts</b>: finishes work inside rules a named owner set</li><li><b>Proposes</b>: recommends and shows why; a person decides</li><li><b>Explains</b>: turns what happened into something you can act on</li><li><b>Never</b>: approve my own order, change a credit limit or issue a credit note</li></ul>Every action I take sits in the audit trail next to yours.",actions:[["Open Policy and rules","go:#/policy"]]};
   if(/needs me|today|\bto-?do\b|briefing|morning|exceptions/.test(t)){
     var P=agentProposals().filter(function(p){return !p.never;}), H=S.orders.filter(function(o){return o.hold;}), N=S.pos.filter(function(p){return p.status==="new";}).length;
-    return {html:"Here’s today:<ul><li><b>"+P.length+"</b> agent proposal"+(P.length===1?"":"s")+" waiting for your approval</li><li><b>"+H.length+"</b> order"+(H.length===1?"":"s")+" on hold"+(H.length?" ("+H.map(function(o){return o.id;}).join(", ")+")":"")+"</li><li><b>"+N+"</b> new customer PO"+(N===1?"":"s")+" in the inbox</li></ul>",actions:[["Open Agent desk","go:#/agent"],["Open exceptions","go:#/exceptions"]]}; }
+    return {html:"Here’s today:<ul><li><b>"+P.length+"</b> agent proposal"+(P.length===1?"":"s")+" waiting for your approval</li><li><b>"+H.length+"</b> order"+(H.length===1?"":"s")+" on hold"+(H.length?" ("+H.map(function(o){return o.id;}).join(", ")+")":"")+"</li><li><b>"+N+"</b> new customer PO"+(N===1?"":"s")+" in the inbox</li></ul>",actions:[["Open Agent desk","mode:agent"],["Open exceptions","go:#/exceptions"]]}; }
   if(/reconcil|difference|variance|mismatch/.test(t)){
     var X=S.recon.filter(function(r){return r.status==="exception"||r.status==="overdue";});
     if(!X.length) return {html:"Everything is matched. Nothing to explain."};
-    return {html:"<b>"+X.length+"</b> items don’t match yet:<ul>"+X.map(function(r){return "<li><b>"+r.id+"</b>: "+esc((r.why||"").split(". ")[0])+".</li>";}).join("")+"</ul>Each has a proposed fix in the Agent desk, apart from the credit note, which stays with Finance.",actions:[["Open Agent desk","go:#/agent"]]}; }
+    return {html:"<b>"+X.length+"</b> items don’t match yet:<ul>"+X.map(function(r){return "<li><b>"+r.id+"</b>: "+esc((r.why||"").split(". ")[0])+".</li>";}).join("")+"</ul>Each has a proposed fix in the Agent desk, apart from the credit note, which stays with Finance.",actions:[["Open Agent desk","mode:agent"]]}; }
   if(/what can you|help|hello|\bhi\b|who are you/.test(t)) return {html:"I can:<ul><li>explain any decision: a grade, a reroute, a hold, a reconciliation difference</li><li>price your options: instruments, discounts, the credit gap</li><li>build a cart from an email, a photo or a voice note</li><li>brief you on what needs a person today</li></ul>"};
   return {html:"I can answer about this page, your cart, orders, credit and reconciliation. Try one of the questions below.",actions:[["What needs me today?","ask:What needs me today?"]]};
 }
@@ -2054,10 +2069,10 @@ function anyaAnswer(q){
 var INTAKE={tab:"email",text:"",phase:"",result:null};
 var SAMPLE={
   email:"Hi Omar,\n\nPlease quote and order 200 Microsoft 365 Business Premium seats, 200 CrowdStrike EDR endpoints and 1 Azure plan for Desert Logistics.\n\nThanks,\nKhalid, IT Manager",
-  photo:"PURCHASE ORDER  PO-DL-5102\nCustomer: Desert Logistics\n1 x Fortinet Security Fabric bundle\n750 x Office 365 E3\n1 x Azure plan",
+  photo:"PURCHASE ORDER  PO-DL-5102\nCustomer: Desert Logistics\n1 x Fortinet Security Fabric bundle\n50 x Microsoft 365 E7\n1 x Azure plan",
   voice:"200 Microsoft seats and 200 CrowdStrike endpoints for Desert Logistics"
 };
-var SYN=[["m365dep",/deployment/],["mig",/migration/],["o365e3",/office 365|o365|\be3\b/],["m365bp",/microsoft 365|m365|microsoft seats?|microsoft licen[cs]es?|business premium/],["copilot",/copilot/],["bc",/business central|dynamics/],["crowdstrike",/crowdstrike|falcon|edr|endpoint/],["nutanix",/nutanix|nc2/],["fortinet",/fortinet|fortigate|security fabric/],["azure",/azure/],["claude",/anthropic|claude/],["datadog",/datadog/],["awsplan",/aws (subscription|plan|usage)/]];
+var SYN=[["m365dep",/deployment/],["mig",/migration/],["m365e7",/\be7\b|microsoft 365 e7/],["m365bp",/microsoft 365|m365|microsoft seats?|microsoft licen[cs]es?|business premium/],["copilot",/copilot/],["bc",/business central|dynamics/],["crowdstrike",/crowdstrike|falcon|edr|endpoint/],["nutanix",/nutanix|nc2/],["fortinet",/fortinet|fortigate|security fabric/],["azure",/azure/],["claude",/anthropic|claude/],["datadog",/datadog/],["awsplan",/aws (subscription|plan|usage)/]];
 function parseOrder(text){
   var low=text.toLowerCase().replace(/\r/g,""), parts=low.split(/\n|,|;|\band\b|\.(?=\s)/), lines=[], seen={};
   parts.forEach(function(p){ var n=p.match(/(\d[\d,]*)\s*(?:x\s*)?/); if(!n) return;
@@ -2231,7 +2246,7 @@ function briefingData(){
   var util=Math.round((MK.uae.limit-avail("uae"))/MK.uae.limit*100);
   return {held:held,P:P,X:X,newPO:newPO,inflight:inflight,aw:aw,cash:cash,util:util};
 }
-function briefingText(d){ return "Good morning, Sara. "+d.inflight+" orders are in flight and "+d.held.length+" need a person. "+d.P.length+" agent proposals are waiting for your approval. About AED "+fmt(d.aw)+" is expected in payments"+(d.cash?", and AED 64,250 of cash is still unapplied":"")+". Gulf IT Solutions is at "+d.util+" percent of its credit limit."; }
+function briefingText(d){ var pl=function(n,one,many){return n+" "+(n===1?one:many);}; return "Good morning, Sara. "+pl(d.inflight,"order is","orders are")+" in flight and "+(d.held.length?pl(d.held.length,"needs","need")+" a person":"none needs a person")+". "+pl(d.P.length,"agent proposal is","agent proposals are")+" waiting for your approval. About AED "+fmt(d.aw)+" is expected in payments"+(d.cash?", and AED 64,250 of cash is still unapplied":"")+". Gulf IT Solutions is at "+d.util+" percent of its credit limit."; }
 VIEWS.briefing=function(){
   var d=briefingData();
   var focus=[];
@@ -2401,10 +2416,9 @@ function scenStrip(){
    confirmation, checks for duplicates and routes for approval before ordering
    ============================================================ */
 var APPROVERS=[
-  {k:"mgr",role:"BSM’s reporting manager",name:"Priya Nair",title:"Sales Manager",min:function(){return 0;}},
-  {k:"pm",role:"Product manager",name:"Karim Haddad",title:"Product Manager",min:function(){return S.policy.apPM;}},
-  {k:"pmm",role:"Product manager’s reporting manager",name:"Leena Thomas",title:"Head of Product",min:function(){return S.policy.apPMM;}},
-  {k:"gm",role:"General manager",name:"Ahmed Al Mansoori",title:"General Manager",min:function(){return S.policy.apGM;}}
+  {k:"pm",role:"Product manager",name:"Karim Haddad",title:"Product Manager",min:function(){return 0;}},
+  {k:"cch",role:"Cluster category head",name:"Leena Thomas",title:"Cluster Category Head",min:function(){return S.policy.apCCH!=null?S.policy.apCCH:50000;}},
+  {k:"gm",role:"General manager",name:"Ahmed Al Mansoori",title:"General Manager",min:function(){return S.policy.apGM!=null?S.policy.apGM:150000;}}
 ];
 function seedThreads(){
   return [
@@ -2422,9 +2436,9 @@ function seedThreads(){
      msgs:[{from:"Omar Saleh",to:"Rahul Menon",at:"Wed 08:30",body:"Hi Rahul, please process the same as last week for Oasis Clinics: 50 Microsoft 365 Business Premium seats and the deployment service. Go ahead and place it.",tag:"confirm",hl:"Go ahead and place it."}]}
   ];
 }
-var NEWTHREAD={id:"TH-2044",subject:"Riyadh Health Group: Fortinet, Office 365 and Azure",partner:"Najd Digital Co.",contact:"Faisal Al-Harbi",contactAddr:"faisal.alharbi@najddigital.sa",bsm:"Rahul Menon",bsmRole:"BSM, Modern Work and Security",customer:"Riyadh Health Group",market:"ksa",quote:"Q-23020",po:"ND-PO-1188",kind:"confirm",
-  lines:[{sku:"fortinet",qty:1},{sku:"o365e3",qty:750},{sku:"azure",qty:24}],
-  msgs:[{from:"Faisal Al-Harbi",to:"Rahul Menon",at:"Today 08:55",body:"Hi Rahul, Riyadh Health Group approved the budget. We need the Fortinet Security Fabric bundle, 750 Office 365 E3 users and 24 months of the Azure plan."},
+var NEWTHREAD={id:"TH-2044",subject:"Riyadh Health Group: Fortinet, Microsoft 365 E7 and Azure",partner:"Najd Digital Co.",contact:"Faisal Al-Harbi",contactAddr:"faisal.alharbi@najddigital.sa",bsm:"Rahul Menon",bsmRole:"BSM, Modern Work and Security",customer:"Riyadh Health Group",market:"ksa",quote:"Q-23020",po:"ND-PO-1188",kind:"confirm",
+  lines:[{sku:"fortinet",qty:1},{sku:"m365e7",qty:300},{sku:"azure",qty:24}],
+  msgs:[{from:"Faisal Al-Harbi",to:"Rahul Menon",at:"Today 08:55",body:"Hi Rahul, Riyadh Health Group approved the budget. We need the Fortinet Security Fabric bundle, 300 Microsoft 365 E7 users and 24 months of the Azure plan."},
     {from:"Rahul Menon",to:"Faisal Al-Harbi",at:"Today 09:30",body:"Hi Faisal, quote Q-23020 attached, priced in SAR for Redington Saudi Arabia. ZATCA clearance applies on invoicing.",att:"Q-23020.pdf",tag:"quote"},
     {from:"Faisal Al-Harbi",to:"Rahul Menon",at:"Today 09:48",body:"Perfect. We confirm the order on Q-23020, PO ND-PO-1188 attached. Please proceed.",att:"ND-PO-1188.pdf",tag:"confirm",hl:"We confirm the order on Q-23020, PO ND-PO-1188 attached. Please proceed."}]};
 function THX(id){ return (S.threads||[]).filter(function(t){return t.id===id;})[0]; }
@@ -2433,7 +2447,7 @@ function thDup(t){
   if(t.kind!=="confirm") return null;
   return S.orders.filter(function(o){ return o.customer===t.customer&&o.lines.length===t.lines.length&&t.lines.every(function(l){return o.lines.some(function(x){return x.sku===l.sku&&x.qty===l.qty;});}); })[0]||null;
 }
-function thNeeded(t){ var v=thValue(t).aed; return APPROVERS.filter(function(a){return a.k==="mgr"||v>a.min();}); }
+function thNeeded(t){ var v=thValue(t).aed; return APPROVERS.filter(function(a){return a.k==="pm"||v>a.min();}); }
 function thState(t){
   if(t.reading) return "reading"; if(t.order) return "ordered"; if(t.rejected) return "rejected"; if(t.closed) return "closed";
   if(t.kind==="negotiate") return "watching";
@@ -2480,9 +2494,9 @@ function thPanel(t){
   var chain="";
   if(st==="approval"||st==="ordered"||st==="rejected"){
     var nextK=null; need.forEach(function(a){ if(!nextK&&!(t.appr&&t.appr[a.k])) nextK=a.k; });
-    chain="<div class='th-sec'><div class='th-k'>Approval chain · "+need.length+" of 4 needed for "+money(v.aed,"AED")+"</div><div class='chain'>"+APPROVERS.map(function(a,i){
+    chain="<div class='th-sec'><div class='th-k'>Approval chain · "+need.length+" of 3 needed for "+money(v.aed,"AED")+"</div><div class='chain'>"+APPROVERS.map(function(a,i){
       var needed=need.indexOf(a)>=0, done=t.appr&&t.appr[a.k], cur=st==="approval"&&a.k===nextK;
-      var thr=a.k==="mgr"?"Every email order":"Above "+money(a.min(),"AED");
+      var thr=a.k==="pm"?"Every email order":"Above "+money(a.min(),"AED");
       return "<div class='ch-step"+(done?" done":"")+(cur?" cur":"")+(needed?"":" skip")+"'><span class='ch-dot'>"+(done?"<i class='ph-bold ph-check'></i>":(i+1))+"</span><span class='ch-b'><b>"+a.role+"</b><small>"+a.name+" · "+thr+"</small>"+
         (done?"<small class='ok'>Approved "+tm(done)+"</small>":needed?(cur?"<span class='row' style='gap:6px;margin-top:6px'><button class='btn sm ok' data-act='th-approve' data-id='"+t.id+"' data-k='"+a.k+"'><i class='ph-bold ph-check'></i>Approve as "+a.name.split(" ")[0]+"</button><button class='btn sm bad' data-act='th-reject' data-id='"+t.id+"'>Reject</button></span>":"<small class='muted'>Waiting</small>"):"<small class='muted'>Not needed at this value</small>")+"</span></div>";}).join("")+"</div></div>";
   }
@@ -2500,6 +2514,59 @@ function thApprove(id,k){
     save(); render(); toast(o.id+" placed from the email thread","ai"); setTimeout(function(){advance(o.id);},500); return;
   }
   save(); render(); toast("Approved. Next: "+need.filter(function(x){return !t.appr[x.k];})[0].role);
+}
+
+/* ---------- everything Anya does, inside the Ask Anya panel ---------- */
+var ANYA_TABS=[["talk","ph-microphone","Talk"],["brief","ph-sun-horizon","Briefing"],["intake","ph-magic-wand","Order"],["explain","ph-lightbulb","Explain"],["agent","ph-robot","Agent"]];
+if(!ANYA.mode) ANYA.mode="talk";
+function anyaTabs(){
+  var n=agentProposals().filter(function(p){return !p.never;}).length;
+  return "<div class='an-tabs' role='tablist'>"+ANYA_TABS.map(function(t){return "<button role='tab' data-act='anya-mode' data-m='"+t[0]+"' aria-selected='"+(ANYA.mode===t[0])+"'><i class='ph-fill "+t[1]+"'></i>"+t[2]+(t[0]==="agent"&&n?"<em>"+n+"</em>":"")+"</button>";}).join("")+"</div>";
+}
+function explainCards(){
+  var cards=[["ph-gauge","Credit grade","B+ for "+BUYER.co,"Why is my credit grade B+?","a"]];
+  var ksa=calc([{sku:"claude",qty:1}],"ksa").lines.filter(function(l){return l.rr.rerouted;})[0];
+  if(ksa) cards.push(["ph-arrows-clockwise","Reroute",ksa.name+" in Saudi Arabia","Why was "+ksa.name+" rerouted?","b"]);
+  S.orders.filter(function(o){return o.hold;}).forEach(function(o){ cards.push(["ph-pause-circle","Hold",o.id+" at "+STAGES[o.stage].short,"Why is "+o.id+" on hold?","a"]); });
+  S.recon.filter(function(r){return r.status==="exception"||r.status==="overdue";}).forEach(function(r){ cards.push(["ph-arrows-left-right","Payment difference",r.id+" · "+money(r.amount,r.cur),"Why is "+r.id+" different?","v"]); });
+  if(S.cart.length) cards.push(["ph-coins","Credit gap","Your current cart","Why is there a gap?","g"]);
+  return cards;
+}
+function anyaPane(m){
+  if(m==="brief"){
+    var d=briefingData(), focus=[];
+    d.held.forEach(function(o){ focus.push(["ph-warning-diamond",o.id+" waiting at "+STAGES[o.stage].short,o.hold.text.split(". ")[0]+".",o.hold.kind==="credit"?"#/credit":"#/exceptions"]); });
+    var thw=(S.threads||[]).filter(function(t){return thState(t)==="approval";}).length; if(thw) focus.push(["ph-envelope-simple-open",thw+" email order"+(thw>1?"s":"")+" waiting for approval","Product manager first, then by value","#/threads"]);
+    if(d.newPO) focus.push(["ph-tray-arrow-down",d.newPO+" new customer PO"+(d.newPO>1?"s":""),"Read and ready for DealFlow","#/inbox"]);
+    return "<div class='ap-lead'>"+anyaOrb(36)+"<p>"+esc(briefingText(d))+"</p></div>"+
+      "<button class='btn sm pri' data-act='brief-listen'><i class='ph-fill "+(window.__speaking?"ph-stop-circle":"ph-speaker-high")+"'></i>"+(window.__speaking?"Stop":"Listen to the briefing")+"</button>"+
+      "<div class='ap-stats'>"+[["Orders in flight",d.inflight,"ph-package"],["Agent proposals",d.P.length,"ph-robot"],["Payments expected","AED "+fmt(d.aw),"ph-coins"],["Credit used",d.util+"%","ph-gauge"]].map(function(x){return "<div><i class='ph-fill "+x[2]+"'></i><b>"+x[1]+"</b><small>"+x[0]+"</small></div>";}).join("")+"</div>"+
+      "<div class='ap-h'>Today’s focus</div>"+(focus.length?focus.map(function(f,i){return "<a class='focus-i' href='"+f[3]+"'><span class='focus-n'>"+(i+1)+"</span><span class='focus-ic'><i class='ph-fill "+f[0]+"'></i></span><span><b>"+esc(f[1])+"</b><small>"+esc(f[2])+"</small></span><i class='ph ph-arrow-right'></i></a>";}).join(""):"<p class='muted'>Nothing needs a person. Everything is flowing.</p>")+
+      "<div class='ap-h'>Anya noticed</div>"+[["ph-currency-circle-dollar","FX moves are inside tolerance","The Türkiye lira moved 0.6%; policy allows it."],["ph-file-text","TDS short payments come from India","Ask for certificates, not cash: 2% withheld at source."],["ph-chart-line-up","Concentration is the one credit risk","38% of Gulf IT’s revenue is one end customer."]].map(function(n){return "<div class='notice'><span class='focus-ic'><i class='ph-fill "+n[0]+"'></i></span><span><b>"+n[1]+"</b><small>"+n[2]+"</small></span></div>";}).join("");
+  }
+  if(m==="intake"){
+    return "<p class='ap-p'>However the customer sends it, it becomes a cart in seconds. No re-keying.</p>"+
+      [["email","ph-envelope-simple","Email","Paste or forward the customer’s email"],["photo","ph-camera","Photo","Snap a paper PO on a phone"],["voice","ph-microphone","Voice note","Just say what they want"]].map(function(c){return "<button class='ap-ch' data-act='intake-open' data-t='"+c[0]+"'><span class='ch-ic'><i class='ph-fill "+c[1]+"'></i></span><span><b>"+c[2]+"</b><small>"+c[3]+"</small></span><i class='ph ph-arrow-right'></i></button>";}).join("")+
+      "<div class='ap-h'>How it works</div><div class='ap-steps'>"+[["ph-scan","Read","Text, scan or speech becomes lines"],["ph-link","Match","Each line matched to the catalogue"],["ph-shopping-cart-simple","Build","Routes, tax and credit applied"]].map(function(s,i){return "<div><span class='focus-n'>"+(i+1)+"</span><i class='ph-fill "+s[0]+"'></i><b>"+s[1]+"</b><small>"+s[2]+"</small></div>";}).join("")+"</div>";
+  }
+  if(m==="explain"){
+    return "<p class='ap-p'>Every grade, reroute, hold and difference in plain words, from the signals and the policy behind it.</p>"+
+      explainCards().map(function(c){return "<div class='ap-ex' style='--c:var(--c-"+c[4]+")'><span class='ex-ic'><i class='ph-fill "+c[0]+"'></i></span><span><small>"+c[1]+"</small><b>"+esc(c[2])+"</b></span><button class='btn sm ai' data-act='why' data-q=\""+esc(c[3])+"\"><i class='ph-fill ph-sparkle'></i>Explain</button></div>";}).join("");
+  }
+  if(m==="agent"){
+    var P=agentProposals();
+    if(!P.length) return "<div class='empty'>Nothing waiting. The agent has no proposals for you.</div>";
+    return "<p class='ap-p'>The agent proposes, a person decides. Each proposal shows why and the guardrail it sits inside; everything is logged.</p>"+
+      P.map(function(p){return "<div class='ap-ag"+(p.never?" never":"")+"'><div class='row' style='gap:8px'><span class='ag-ic'><i class='ph-fill "+p.icon+"'></i></span><span class='ag-kind'>"+p.kind+"</span><span class='mono muted' style='font-size:11px'>"+esc(p.ref||"")+"</span><span style='margin-left:auto'>"+(p.never?pill("Never by agent","bad"):pill(p.conf+"%","ok"))+"</span></div>"+
+        "<b class='ap-ag-t'>"+esc(p.title)+"</b><ul class='ag-why'>"+p.why.slice(0,2).map(function(w){return "<li><i class='ph-bold ph-check'></i>"+esc(w)+"</li>";}).join("")+"</ul>"+
+        "<div class='ag-guard'><span><i class='ph-fill ph-shield-check'></i>"+esc(p.guard[0])+"</span></div>"+
+        "<div class='row' style='gap:8px;margin-top:8px'>"+(p.never?"<button class='btn sm' data-act='ag-ok' data-id='"+p.id+"'>"+p.runLabel+"</button>":"<button class='btn sm pri' data-act='ag-ok' data-id='"+p.id+"'><i class='ph-bold ph-check'></i>"+(p.runLabel||"Approve")+"</button><button class='btn sm' data-act='ag-no' data-id='"+p.id+"'>Reject</button>")+"</div></div>";}).join("");
+  }
+  return "";
+}
+function anyaFabBadge(){
+  var f=document.getElementById("anya-fab"); if(!f) return; var n=agentProposals().filter(function(p){return !p.never;}).length, e=f.querySelector(".fab-bd");
+  if(n){ if(!e){ e=document.createElement("span"); e.className="fab-bd"; f.appendChild(e); } e.textContent=n; e.title=n+" agent proposals waiting"; } else if(e) e.remove();
 }
 
 /* ============================================================
@@ -2521,11 +2588,12 @@ document.addEventListener("click",function(e){
     case "menu": document.body.classList.toggle("menu"); break;
     case "anya": ANYA.open=!ANYA.open; anyaRender(); if(ANYA.open){ if(!VOICE.greeted) anyaGreet(); } else stopVoice(); break;
     case "anya-talk": anyaTalk(); break;
+    case "anya-mode": ANYA.mode=b.dataset.m; if(ANYA.mode!=="talk") stopVoice(); anyaRender(); break;
     case "anya-voice": VOICE.on=!VOICE.on; try{ localStorage.setItem("anya-voice",VOICE.on?"on":"off"); }catch(err){} if(!VOICE.on) stopVoice(); anyaRender(); setVState(VOICE.state); toast(VOICE.on?"Anya’s voice is on":"Anya is muted"); break;
     case "anya-ask": anyaAsk(b.dataset.q); break;
     case "anya-page-send": var pi=document.getElementById("anya-page-in"); if(pi&&pi.value.trim()){ var pq=pi.value; pi.value=""; anyaAsk(pq); } break;
     case "intake-open": openIntake(b.dataset.t); break;
-    case "brief-listen": if(!window.speechSynthesis){ toast("Your browser can’t read aloud"); break; } if(window.__speaking){ speechSynthesis.cancel(); window.__speaking=false; render(); break; } var u=new SpeechSynthesisUtterance(briefingText(briefingData())); u.rate=1.02; u.onend=function(){ window.__speaking=false; if(route().r==="briefing") render(); }; window.__speaking=true; speechSynthesis.speak(u); render(); break;
+    case "brief-listen": if(!window.speechSynthesis){ toast("Your browser can’t read aloud"); break; } if(window.__speaking){ speechSynthesis.cancel(); window.__speaking=false; render(); anyaRender(); break; } var u=new SpeechSynthesisUtterance(briefingText(briefingData())); u.rate=1.02; u.onend=function(){ window.__speaking=false; anyaRender(); if(route().r==="briefing") render(); }; window.__speaking=true; speechSynthesis.speak(u); anyaRender(); break;
     case "why": VOICE.greeted=true; openAnya(b.dataset.q); break;
     case "anya-do": anyaDo(b.dataset.a); break;
     case "anya-send": var ai=document.getElementById("anya-in"); if(ai&&ai.value.trim()){ var qv=ai.value; ai.value=""; anyaAsk(qv); } break;
@@ -2537,8 +2605,8 @@ document.addEventListener("click",function(e){
     case "in-voice": if(REC){ REC.stop(); break; } INTAKE.phase="listen"; INTAKE.vt=""; var okv=listen(function(tx){ INTAKE.vt=tx; var vt=document.querySelector(".vt"); if(vt) vt.textContent=tx; },function(){ INTAKE.phase=""; if(INTAKE.vt) intakeRead(INTAKE.vt); else intakeRender(); }); if(!okv) INTAKE.phase=""; intakeRender(); break;
     case "in-again": INTAKE.result=null; INTAKE.phase=""; INTAKE.vt=""; intakeRender(); break;
     case "in-build": var lines=INTAKE.result.lines; S.cart=lines.map(function(l){return {sku:l.sku,qty:l.qty};}); S.co.checked=false; save(); $("#modal").innerHTML=""; log(BUYER.name,"person","Built a cart from a "+INTAKE.result.source+" order: "+lines.length+" lines",""); go("#/cart"); toast("Cart built from your "+INTAKE.result.source+(INTAKE.tab==="voice"?" note":""),"ai"); break;
-    case "ag-ok": var pp=agentProposals().filter(function(x){return x.id===b.dataset.id;})[0]; if(pp){ log("Sara Nair","person","Approved agent proposal: "+pp.title+". Reasoning: "+pp.why.join(" "),pp.ref||""); pp.run(); if(route().r==="agent") render(); toast(pp.never?"Sent":"Approved. The agent ran it and logged both of you.","ai"); } break;
-    case "ag-no": S.dismissed.push(b.dataset.id); var pr=agentProposals; log("Sara Nair","person","Rejected agent proposal "+b.dataset.id,""); save(); render(); toast("Rejected and logged"); break;
+    case "ag-ok": var pp=agentProposals().filter(function(x){return x.id===b.dataset.id;})[0]; if(pp){ log("Sara Nair","person","Approved agent proposal: "+pp.title+". Reasoning: "+pp.why.join(" "),pp.ref||""); pp.run(); if(route().r==="agent") render(); anyaRender(); toast(pp.never?"Sent":"Approved. The agent ran it and logged both of you.","ai"); } break;
+    case "ag-no": S.dismissed.push(b.dataset.id); var pr=agentProposals; log("Sara Nair","person","Rejected agent proposal "+b.dataset.id,""); save(); render(); anyaRender(); toast("Rejected and logged"); break;
     case "signin": signIn(); break;
     case "newthread": if(THX(NEWTHREAD.id)){ go("#/threads/"+NEWTHREAD.id); toast("That email is already in"); break; } var nt=JSON.parse(JSON.stringify(NEWTHREAD)); nt.reading=true; S.threads.unshift(nt); save(); go("#/threads/"+nt.id); toast("New email from "+nt.contact,"ai"); setTimeout(function(){ var x=THX(nt.id); if(x){ x.reading=false; log("DealFlow AI","acts","Read thread "+x.id+": order confirmation found, "+thNeeded(x).length+" approvals needed",x.id); save(); if(route().r==="threads") render(); } },1800); break;
     case "th-approve": thApprove(b.dataset.id,b.dataset.k); break;
@@ -2641,7 +2709,7 @@ function runPO(id){
   },1800);
 }
 var NEWPOS=[
-  {id:"PO-SR-5530",from:"buying@sandrose.ae",via:"Email, PDF",src:"PDF",customer:"Sand Rose Hotels",partner:"Nexa Systems FZ LLC",market:"uae",quote:"Q-22951",lines:[{sku:"o365e3",qty:300,price:85},{sku:"azure",qty:1,price:18365}],issue:null},
+  {id:"PO-SR-5530",from:"buying@sandrose.ae",via:"Email, PDF",src:"PDF",customer:"Sand Rose Hotels",partner:"Nexa Systems FZ LLC",market:"uae",quote:"Q-22951",lines:[{sku:"m365e7",qty:40,price:364},{sku:"azure",qty:1,price:18365}],issue:null},
   {id:"PO-AK-7712",from:"procure@alkhobar-eng.sa",via:"Email, PDF",src:"PDF",customer:"Al Khobar Engineering",partner:"Najd Digital Co.",market:"ksa",quote:"Q-22960",lines:[{sku:"datadog",qty:1,price:61200},{sku:"m365bp",qty:80,price:82}],issue:null},
   {id:"PO-MC-0118",from:"Partner portal upload",via:"Upload, PDF",src:"UP",customer:"Meridian Clinics",partner:"Gulf IT Solutions LLC",market:"uae",quote:"Q-22966",lines:[{sku:"copilot",qty:20,price:110}],issue:null}
 ];
