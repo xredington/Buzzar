@@ -1136,6 +1136,12 @@ a.nav{position:relative}
   .g.g4{grid-template-columns:1fr 1fr}
   .tw-life{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
+
+.an-guard{display:flex;align-items:center;gap:6px;font:600 10.5px/1 var(--mono,ui-monospace,monospace);letter-spacing:.06em;text-transform:uppercase;color:var(--ok);background:var(--oks);border-radius:99px;padding:5px 9px;margin:0 0 8px;width:max-content}
+.an-guard+br{display:none}
+.ag-rules{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:12px}
+.ag-rules div{display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:var(--soft)}
+.ag-rules i{color:var(--ok);font-size:18px;margin-top:1px}.ag-rules small{display:block;color:var(--ink3);font-size:11.5px;line-height:1.45;margin-top:2px}
 </style>
 </head>
 <body>
@@ -2524,6 +2530,7 @@ VIEWS.policy=function(){
       num("sla","Reviewer SLA","hours","Clock starts when the order is held")+
     "</div></div>"+
     "<div class='card'><h2>Email order approvals</h2><p class='ink2' style='margin-top:4px'>DealFlow never places an order from email without these approvals. The product manager approves every email order; higher values add the cluster category head, then the general manager.</p><div class='g g3' style='margin-top:14px'><div class='field'><label>Product manager</label><div class='inp' style='background:var(--soft)'>Every email order</div><span class='muted' style='font-size:11.5px'>Karim Haddad</span></div>"+num("apCCH","Cluster category head above","AED","Adds Leena Thomas")+num("apGM","General manager above","AED","Adds Ahmed Al Mansoori")+"</div></div>"+
+    "<div class='card'><div class='row sb'><h2>Anya’s guard rules</h2>"+pill(S.audit.filter(function(a){return /^Declined under/.test(a.text);}).length+" declined so far","out")+"</div><p class='ink2' style='margin-top:4px'>Anya answers general questions too, but these rules are checked first on every question, and every decline is logged in the audit trail.</p><div class='ag-rules'>"+ANYA_RULES.map(function(r){return "<div><i class='ph-fill ph-shield-check'></i><span><b>"+r.t+"</b><small>"+r.d+"</small></span></div>";}).join("")+"</div></div>"+
     "<div class='card'><h2>Vendor credit terms</h2><p class='ink2' style='margin-top:4px'>After the GRN, DealFlow schedules each vendor payment this many days from the vendor invoice. Indicative placeholders until the agreements are loaded.</p><div class='g g5v' style='margin-top:14px'>"+Object.keys(VTERMS).filter(function(v){return VSRC[v];}).map(function(v){return "<div class='field'><label class='row' style='gap:6px'>"+vlg(v,18)+v+"</label><div class='row' style='flex-wrap:nowrap'><span class='muted'>Net</span><input class='inp' type='number' min='0' data-act='vt' data-v='"+v+"' value='"+vterms(v)+"'><span class='muted nowrap'>days</span></div></div>";}).join("")+"</div></div>"+
     "<div class='card flat'><div style='padding:16px'><h2>Route matrix</h2><p class='ink2' style='margin-top:4px'>Which programme may transact in which market. OneCart reads this on every cart.</p></div>"+
       "<table class='t'><thead><tr><th>Market</th>"+ROUTE_ORDER.map(function(r){return "<th>"+ROUTES[r].name+"</th>";}).join("")+"</tr></thead><tbody>"+
@@ -2557,7 +2564,7 @@ function anyaSuggest(){
   if(r==="tower"||r==="vendors") return ["What do we owe vendors in 30 days?","Which vendor POs need a person?","What needs me today?"];
   if(r==="vpo") return ["What happens next on this PO?","Why is this on hold?","What needs me today?"];
   if(r==="inbox"||r==="exceptions"||r==="agent"||r==="audit"||r==="policy") return ["What needs me today?","What is the agent allowed to do?","Explain the reconciliation differences"];
-  if(r==="home") return ["How much credit do I have?","Order from an email or voice note","Where is my latest order?"];
+  if(r==="home") return ["How much credit do I have?","What is a GRN?","Convert 10,000 AED to SAR","Where is my latest order?"];
   return ["What can you do?","How much credit do I have?","What needs me today?"];
 }
 function anyaMount(){
@@ -2592,9 +2599,9 @@ function anyaAsk(q,fromVoice){
   q=String(q||"").trim(); if(!q||ANYA.busy) return;
   if(typeof stopVoice==="function"&&VOICE.state==="speaking") stopVoice();
   ANYA.msgs.push({who:"me",text:q}); ANYA.busy=true; anyaRender(); if(typeof setVState==="function") setVState("thinking");
-  setTimeout(function(){ var a; try{ a=anyaAnswer(q); }catch(e){ a={html:"Sorry, I couldn’t work that out from this page."}; }
-    ANYA.busy=false; ANYA.msgs.push({who:"bot",html:a.html,actions:a.actions||[]}); anyaRender(); log("Anya","explains","Answered: "+q,"");
-    say(spoken(a.html),function(){ if(fromVoice&&VOICE.convo) setTimeout(listenTurn,250); }); }, 650+Math.min(700,q.length*12));
+  setTimeout(function(){ var a; try{ a=anyaReply(q); }catch(e){ a={html:"Sorry, I couldn’t work that out from this page."}; }
+    ANYA.busy=false; ANYA.msgs.push({who:"bot",html:a.html,actions:a.actions||[],guard:a.guard}); anyaRender(); setTimeout(save,0); log("Anya",a.guard?"rules":"explains",(a.guard?"Declined under the "+ANYA_RULES.filter(function(r){return r.k===a.guard;})[0].t.toLowerCase()+" guard rule: ":"Answered: ")+q,"");
+    say(spoken(a.html.replace(/<span class='an-guard'>[\s\S]*?<\/span>/,"")),function(){ if(fromVoice&&VOICE.convo) setTimeout(listenTurn,250); }); }, 650+Math.min(700,q.length*12));
 }
 function anyaDo(a){
   if(a.indexOf("go:")===0){ go(a.slice(3)); return; }
@@ -2670,6 +2677,163 @@ function anyaAnswer(q){
     return {html:"<b>"+X.length+"</b> items don’t match yet:<ul>"+X.map(function(r){return "<li><b>"+r.id+"</b>: "+esc((r.why||"").split(". ")[0])+".</li>";}).join("")+"</ul>Each has a proposed fix in the Agent desk, apart from the credit note, which stays with Finance.",actions:[["Open Agent desk","mode:agent"]]}; }
   if(/what can you|help|hello|\bhi\b|who are you/.test(t)) return {html:"I can:<ul><li>explain any decision: a grade, a reroute, a hold, a reconciliation difference</li><li>price your options: instruments, discounts, the credit gap</li><li>build a cart from an email, a photo or a voice note</li><li>brief you on what needs a person today</li></ul>"};
   return {html:"I can answer about this page, your cart, orders, credit and reconciliation. Try one of the questions below.",actions:[["What needs me today?","ask:What needs me today?"]]};
+}
+
+/* ============================================================
+   Anya, smarter: guard rules first, then general answers,
+   then the page aware answers. Nothing here leaves the page.
+   ============================================================ */
+var ANYA_RULES=[
+  {k:"rules",t:"Keeps her rules",d:"Won’t ignore, bypass or rewrite her instructions, whoever asks."},
+  {k:"secrets",t:"No secrets",d:"Never asks for or shares passwords, one time codes, API keys or full bank details."},
+  {k:"authority",t:"No money or limit decisions",d:"Can’t approve orders, release payments, change credit limits or bank details, issue credit notes or delete records. She explains and prepares; people decide."},
+  {k:"privacy",t:"Partner privacy",d:"A partner only sees their own orders, credit and invoices. No other partner’s data and no Redington margins or vendor costs."},
+  {k:"advice",t:"Stays in her lane",d:"No medical, legal, investment or political advice. She points you to the right person instead."},
+  {k:"safety",t:"Safe and respectful",d:"Declines anything harmful or abusive, and keeps the conversation professional."},
+  {k:"honest",t:"Honest about limits",d:"If she doesn’t know, she says so. She never invents numbers: every figure comes from the portal."}
+];
+var PARTNERS=["gulf it","nexa","cloudline","bahrain tech","najd","redline","anatolia"];
+function guardHit(k,html,actions){ return {html:"<span class='an-guard'><i class='ph-fill ph-shield-check'></i>Guardrail · "+ANYA_RULES.filter(function(r){return r.k===k;})[0].t+"</span>"+html,actions:actions||[],guard:k}; }
+function anyaGuard(q){
+  var t=" "+q.toLowerCase().replace(/[’']/g,"'")+" ";
+  if(/(ignore|forget|disregard|override)\b.{0,40}\b(instruction|rule|guard|polic|previous|above|prompt)|jail ?break|developer mode|dan mode|system prompt|pretend (you are|to be|you're)|act as (an? )?(admin|administrator|system|developer|root)|you are now|no (rules|restrictions|limits)|bypass/.test(t))
+    return guardHit("rules","I can’t switch my rules off or take on a different role. They’re set by Finance and apply to everyone, including me. Ask me anything about your orders, credit or vendors and I’ll help.");
+  if(/\b(password|passcode|pass word|otp|one.?time code|pin code|api key|secret key|access token|credentials?|cvv|card number|login details|full iban|account number)\b/.test(t))
+    return guardHit("secrets","I never ask for or share passwords, codes, keys or full bank details, and nobody from Redington will ask you for them in chat. Sign in on the sign in page; bank details are only visible to Treasury, masked.");
+  var doIt=/^\s*(please |pls |kindly |can you |could you |will you |anya,? )*(approve|release|pay|transfer|wire|send (the )?(money|payment)|increase|raise|extend|change|update|edit|delete|remove|wipe|erase|issue|cancel|override|unblock|unhold|force)\b/.test(t)||/\b(do it|approve it|release it|pay it|pay them|send it) for me\b/.test(t)||/\b(approve|release|pay) (my|our|the|this|that) (own )?(order|payment|invoice|limit|po)\b.{0,20}(for me|now|yourself)/.test(t);
+  if(doIt&&/(approve|release|pay|transfer|wire|money|payment|limit|credit|bank|credit note|delete|remove|wipe|erase|audit|record|cancel|override|unblock|unhold|force|invoice|order|po\b)/.test(t)){
+    var who=/credit note/.test(t)?["Credit notes stay with Finance. I can show the reconciliation item and the proposed amount.","go:#/recon","Open reconciliation"]:/limit|credit/.test(t)?["Credit control decides limit changes. I can show the gap and your options.","go:#/credit","Open the credit desk"]:/payment|pay|release|transfer|wire|money/.test(t)?["Payments need Finance to approve and Treasury to release, as two different people. I prepare the proposal.","go:#/tower","Open the control tower"]:/bank/.test(t)?["Bank details are changed by Treasury, with a call back check. I can’t touch them.","go:#/tower","Open the control tower"]:/delete|remove|wipe|erase|audit|record/.test(t)?["Nothing in the audit trail can be deleted, by anyone. That’s what makes it an audit trail.","go:#/audit","Open the audit trail"]:/credit note/.test(t)?["Credit notes stay with Finance.","go:#/recon","Open reconciliation"]:["Approvals belong to the named owner for that step, never to me.","go:#/exceptions","Open exceptions"];
+    return guardHit("authority","I can’t do that myself. "+who[0],[[who[2],who[1]]]);
+  }
+  var partnerSide=personaFor(route().r)==="partner"&&!!S.session;
+  if(partnerSide&&/\b(margin|markup|mark up|cost price|buy price|vendor cost|how much do you (make|earn)|your profit|redington('s)? profit)\b/.test(t))
+    return guardHit("privacy","Redington’s margins and vendor costs aren’t shared in the partner portal. I can show your price, discounts and what you pay.");
+  if(partnerSide){ var me=(BUYER.co||"").toLowerCase(); var other=PARTNERS.filter(function(n){ return t.indexOf(n)>=0&&me.indexOf(n)<0; })[0];
+    if(other&&/\b(credit|limit|order|orders|invoice|invoices|statement|pay|paid|owe|balance|grade|price|deal|margin)\b/.test(t)) return guardHit("privacy","I can only share "+esc(BUYER.co)+"’s own orders, credit and invoices. Other partners’ data stays private, the same way yours does."); }
+  if(/\b(suicide|suicidal|self.?harm|hurt myself|end my life|kill myself)\b/.test(t))
+    return guardHit("safety","I’m really sorry you’re feeling this way. I’m not the right help for this, but please reach out now to someone you trust or your local emergency services. You don’t have to handle it alone.");
+  if(/\b(hack|hacking|malware|ransomware|phishing kit|bomb|weapon)\b|how (to|do i|can i|could i) (steal|launder|commit fraud|defraud|fake an? (invoice|pod|grn))/.test(t))
+    return guardHit("safety","I can’t help with that. If you’ve spotted something suspicious on an order or a payment, I can show you where to raise it.",[["Open exceptions","go:#/exceptions"]]);
+  if(/\b(fuck|shit|bitch|bastard|idiot|stupid|dumb|useless|asshole|crap)\b/.test(t))
+    return guardHit("safety","Let’s keep it professional. I’m here to help: ask me about your cart, credit, orders or vendor payments.");
+  if(/\b(diagnos|symptom|medicine|medication|dosage|doctor|disease|pregnan)\w*/.test(t))
+    return guardHit("advice","I can’t give medical advice. Please speak to a doctor or a pharmacist.");
+  if(/\b(lawsuit|sue |legal advice|lawyer|attorney|court case|contract dispute)\b/.test(t))
+    return guardHit("advice","I can’t give legal advice. Your account manager can bring in Redington’s legal team for anything contractual.");
+  if(/\b(stock tip|which stock|buy shares|share price|crypto|bitcoin|invest in|investment advice|forex)\b/.test(t))
+    return guardHit("advice","I can’t give investment advice. I can tell you what an order costs, the discount on each payment instrument, and your credit position.");
+  if(/\b(election|president|prime minister|politic\w*|religio\w*|parliament|war in)\b/.test(t))
+    return guardHit("advice","I stay out of politics and religion. Happy to help with anything about your orders, credit or vendors.");
+  return null;
+}
+/* glossary of procure to pay terms */
+var GLOSS=[
+  [/\bgrn\b|goods receipt/, "GRN (goods receipt note)", "The record that what was ordered was actually received. Here it’s created touchless once the vendor’s proof of delivery matches the PO; a vendor acknowledgment alone never creates one."],
+  [/\bpod\b|proof of delivery/, "POD (proof of delivery)", "The vendor’s evidence that the order was fulfilled: a provisioned subscription, a licence entitlement or a signed delivery note."],
+  [/three.?way match|3.?way match/, "Three way match", "Checking the PO, the GRN and the vendor invoice agree on product, quantity, price, tax and terms before a vendor is paid."],
+  [/\bcsp\b|cloud solution provider/, "Microsoft CSP", "Microsoft’s Cloud Solution Provider programme. Redington bills Microsoft licences and Azure as the indirect provider."],
+  [/private offer|\bcppo\b|marketplace/, "AWS Marketplace private offer", "A negotiated AWS Marketplace deal. AWS invoices and collects, and the spend counts toward the customer’s AWS commitment."],
+  [/\bedi\b|electronic data interchange/, "EDI", "Electronic data interchange: systems exchanging POs, acknowledgments and invoices in a standard format, with no email or re-keying."],
+  [/letter of credit|\blc\b/, "Letter of credit", "A bank promises to pay for the order. It’s secured, so it earns a 1% discount at checkout."],
+  [/bank guarantee/, "Bank guarantee", "A bank guarantees the partner will pay. It lifts the usable limit and earns a 1% discount."],
+  [/advance pay|pay in advance|prepay/, "Advance payment", "Paying before the order releases. It carries no credit risk, so it earns a 2% discount."],
+  [/net ?(30|45|60|90)|payment terms|credit terms/, "Payment terms", "How many days after the invoice payment is due, for example Net 60. Vendors have their own terms for what Redington pays them."],
+  [/credit limit|credit line/, "Credit limit", "The most a partner can owe at once. Available credit is the limit minus unpaid invoices and orders in flight."],
+  [/credit gap/, "Credit gap", "How far an order is over the available credit. It can be covered by advance payment, a temporary increase, a bank guarantee or trimming the order."],
+  [/\bdso\b|days sales outstanding/, "DSO", "Days sales outstanding: on average, how long it takes to collect after invoicing."],
+  [/\btds\b|withholding/, "Withholding tax", "Tax the customer keeps back and pays to the government, like India’s 2% TDS. The certificate settles it, not cash."],
+  [/reverse charge/, "Reverse charge VAT", "When a foreign vendor sells to a UAE business, the buyer self-accounts the VAT instead of the vendor charging it."],
+  [/e.?invoic|zatca|fatoora/, "E-invoicing", "Structured tax invoices sent to the tax authority. In Saudi Arabia, ZATCA must clear an invoice before it’s valid."],
+  [/\bap\b|accounts payable/, "Accounts payable", "What Redington owes vendors. Each matched vendor invoice becomes an AP entry with a due date from the vendor’s terms."],
+  [/\bar\b|accounts receivable/, "Accounts receivable", "What partners owe Redington, tracked invoice by invoice on the statement."],
+  [/\bpo\b|purchase order/, "Purchase order", "The buyer’s formal order. Partners send POs to Redington; Redington sends vendor POs to each vendor."],
+  [/\bsku\b|stock keeping unit/, "SKU", "The product code that identifies exactly what was ordered, used to match orders, entitlements and invoices."],
+  [/entitlement/, "Entitlement", "The vendor’s record that a customer has the right to use a licence: product, quantity and term. It’s the proof of delivery for software."],
+  [/\bkyc\b|know your customer/, "KYC", "Know your customer: checks that the partner and end customer are verified before trading."],
+  [/\bvat\b/, "VAT", "Value added tax. It differs by market: 5% in the UAE, 15% in Saudi Arabia; OneCart applies the right one per line."],
+  [/\berp\b/, "ERP", "The enterprise system that holds orders, GRNs, invoices and payables. DealFlow books into it, so nobody re-keys."],
+  [/reconcil/, "Reconciliation", "Matching every payment received against the invoices it pays, and explaining any difference."]
+];
+var HOWTO=[
+  [/download.*invoice|invoice.*download|get (my|the) invoice/, "Open the order (or Invoices and statement) and press Download invoice next to it.", ["Invoices and statement","go:#/statement"]],
+  [/dark mode|light mode|theme/, "Use the moon or sun button at the top right. The portal remembers your choice.", null],
+  [/change (the )?(country|market)|switch (country|market)|another country/, "Your country comes from your sign in. Sign out and sign in with the account for the other market.", null],
+  [/add (a )?product|add to (the )?cart|buy (a |something)/, "Open the Catalogue and press Add on any product, or load a ready made scenario in OneCart 360.", ["Open catalogue","go:#/catalogue"]],
+  [/export.*(audit|trail|csv)|download.*(audit|trail)/, "Open your Audit trail and press Export CSV.", ["Open audit trail","go:#/trail"]],
+  [/run (a )?scenario|demo scenario|scenario [a-e]\b/, "Open the P2P control tower and press Run on any of the five scenarios.", ["Open control tower","go:#/tower"]],
+  [/who approves|approval (chain|matrix)|how .*approv/, "Email orders: the product manager always, the cluster category head above AED 50,000, the general manager above AED 150,000. Vendor payments: Finance approves, then Treasury releases.", ["Policy and rules","go:#/policy"]],
+  [/sign out|log ?out/, "Use Sign out at the top right.", null],
+  [/(contact|reach|talk to|call) (support|someone|a person|account manager|human)/, "Your Redington account manager is the person to talk to. For an order question, open the order and use Why? beside any status.", ["My orders","go:#/orders"]],
+  [/track (my )?order|where is my order|order status/, "Every order shows its pipeline, from intake to reconciled, on My orders.", ["My orders","go:#/orders"]]
+];
+var PAGES={home:"home",catalogue:"catalogue",cart:"cart",checkout:"checkout",orders:"orders",statement:"statement|invoices",trail:"my audit|your audit|partner audit",threads:"email orders|threads",inbox:"po documents|inbox",exceptions:"exceptions",credit:"credit desk",tower:"control tower|tower",vendors:"vendor pos|vendor orders",recon:"reconciliation|recon",audit:"audit trail|audit",policy:"policy|rules",overview:"overview"};
+var JOKES=["Why did the invoice go to therapy? It had too many unresolved issues. Mine get matched three ways.","I tried to tell a joke about credit limits, but it went over.","Why don’t GRNs trust acknowledgments? Because talk is cheap. Evidence isn’t."];
+function anyaCalc(q){
+  var m=q.toLowerCase().match(/([\d.,]+)\s*%\s*(of|on)\s*(aed|sar|bhd|inr|try)?\s*([\d.,]+)/);
+  if(m){ var p=parseFloat(m[1].replace(/,/g,"")), v=parseFloat(m[4].replace(/,/g,"")); return p+"% of "+fmtN(v)+" is <b>"+fmtN(v*p/100)+"</b>."; }
+  var e=q.replace(/^.*?(what is|what's|calculate|compute|=)\s*/i,"").replace(/[x×]/g,"*").replace(/÷/g,"/").replace(/,/g,"").replace(/\?$/,"").trim();
+  if(/^[\d\s+\-*/().]+$/.test(e)&&/\d\s*[+\-*/]\s*\d/.test(e)){ try{ var r=Function('"use strict";return ('+e+')')(); if(isFinite(r)) return esc(e)+" = <b>"+fmtN(r)+"</b>"; }catch(x){} }
+  return null;
+}
+function fmtN(n){ return (Math.round(n*100)/100).toLocaleString("en-US",{maximumFractionDigits:2}); }
+function fxConvert(q){
+  var m=q.toLowerCase().match(/([\d.,]+)\s*(aed|sar|bhd|inr|try|dirhams?|riyals?|rupees?|lira)\s*(to|in|into)\s*(aed|sar|bhd|inr|try|dirhams?|riyals?|rupees?|lira)/);
+  if(!m) return null;
+  var code=function(s){ return /dirham|aed/.test(s)?"AED":/riyal|sar/.test(s)?"SAR":/bhd/.test(s)?"BHD":/rupee|inr/.test(s)?"INR":"TRY"; };
+  var rate=function(c){ for(var k in MK) if(MK[k].cur===c) return MK[k].fx; return 1; };
+  var a=parseFloat(m[1].replace(/,/g,"")), f=code(m[2]), to=code(m[4]), v=a/rate(f)*rate(to);
+  return fmtN(a)+" "+f+" is about <b>"+fmtN(v)+" "+to+"</b> at the portal’s current rate. Indicative; invoices use the rate on the invoice date.";
+}
+function tzTime(q){
+  var zones={dubai:4,uae:4,"abu dhabi":4,riyadh:3,saudi:3,ksa:3,bahrain:3,manama:3,india:5.5,mumbai:5.5,delhi:5.5,bangalore:5.5,istanbul:3,"türkiye":3,turkey:3,london:0};
+  var n=new Date(), utc=n.getTime()+n.getTimezoneOffset()*60000, hit=null;
+  for(var z in zones) if(q.toLowerCase().indexOf(z)>=0){ hit=z; break; }
+  var d=hit?new Date(utc+zones[hit]*3600000):n, hh=("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2);
+  var day=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][d.getDay()]+", "+d.getDate()+" "+["January","February","March","April","May","June","July","August","September","October","November","December"][d.getMonth()]+" "+d.getFullYear();
+  return (hit?"In "+hit.replace(/\b\w/g,function(c){return c.toUpperCase();})+" it’s ":"It’s ")+"<b>"+hh+"</b> on "+day+".";
+}
+function anyaSmart(q){
+  var t=q.toLowerCase().replace(/[’']/g,"'").replace(/\s+/g," ").trim();
+  /* take me somewhere */
+  var nav=t.match(/^(please )?(open|go to|show me|take me to|navigate to)\s+(the |my )?(.+?)\??$/);
+  if(nav){ for(var k in PAGES){ if(new RegExp("^("+PAGES[k]+")\\b").test(nav[4])){ setTimeout(function(){ go("#/"+k); },700); return {html:"Opening <b>"+esc(nav[4])+"</b>.",actions:[]}; } } }
+  /* small talk */
+  if(/^(hi|hello|hey|salam|salaam|marhaba|good (morning|afternoon|evening))\b/.test(t)){ var h=new Date().getHours(); return {html:(h<12?"Good morning":h<17?"Good afternoon":"Good evening")+(S.session?", "+esc(BUYER.name.split(" ")[0]):"")+"! I’m Anya. Ask me about your cart, credit, orders or vendor payments, or anything about procure to pay."}; }
+  if(/how are you|how's it going|how are things/.test(t)) return {html:"All good, thanks for asking! Everything’s flowing: "+S.orders.filter(function(o){return o.hold;}).length+" order(s) need a person and "+(S.vpos||[]).filter(function(x){return x.hold;}).length+" vendor exception(s) are open. How can I help?"};
+  if(/^(thanks|thank you|thx|shukran|cheers)\b/.test(t)) return {html:"Anytime! Anything else on your orders or credit?"};
+  if(/^(bye|goodbye|see you|that's all)\b/.test(t)) return {html:"Bye for now! I’ll be right here when the next order comes in."};
+  if(/are you (a )?(human|real|robot|bot|ai)|what are you/.test(t)) return {html:"I’m Anya, the AI assistant in this portal. I read the live portal data to answer, I follow Redington’s guard rules, and I never make money decisions: people do."};
+  if(/your name|who (made|built|created) you/.test(t)) return {html:"I’m Anya, built by Deal Ninjas into the CloudQuarks procure to pay portal."};
+  if(/joke|make me laugh|something funny/.test(t)) return {html:JOKES[(ANYA.msgs.length)%JOKES.length]};
+  if(/^(what time|what's the time|time (in|now)|current time)|what (day|date) is (it|today)|today's date/.test(t)) return {html:tzTime(t)};
+  if(/weather|temperature outside/.test(t)) return {html:"I can’t see the weather from here, I only read the portal. In Dubai, I’d guess it’s sunny."};
+  /* numbers */
+  var fx=fxConvert(t); if(fx) return {html:fx};
+  var c=anyaCalc(q); if(c) return {html:c};
+  if(/vat (on|for) ([\d,.]+)|add vat to ([\d,.]+)/.test(t)){ var v=parseFloat((t.match(/([\d,.]+)/)||[])[1].replace(/,/g,"")), mm=MK[S.market]; return {html:mm.taxLabel+" on "+fmtN(v)+" "+mm.cur+" is "+fmtN(v*mm.tax)+", so <b>"+fmtN(v*(1+mm.tax))+" "+mm.cur+"</b> with tax."}; }
+  /* how to */
+  if(/\bhow (do|can|to|would)\b|\bwhere (do|can|is)\b|\bwho approves\b/.test(t)) for(var i=0;i<HOWTO.length;i++) if(HOWTO[i][0].test(t)) return {html:HOWTO[i][1],actions:HOWTO[i][2]?[HOWTO[i][2]]:[]};
+  /* definitions */
+  if(/^(what is|what's|what are|whats|define|meaning of|what does|explain|tell me about)\b/.test(t)) for(var g=0;g<GLOSS.length;g++) if(GLOSS[g][0].test(t)) return {html:"<b>"+GLOSS[g][1]+"</b>: "+GLOSS[g][2]};
+  /* controls and fraud */
+  if(/(prevent|stop|detect|avoid|catch|protect).{0,40}(fraud|duplicate|errors?|mistakes?)|what controls|how (is|are) (it|this|payments?) (safe|secure|controlled)/.test(t)) return {html:"Several controls work together:<ul><li><b>Three way match</b>: no vendor is paid unless the PO, the GRN and the invoice agree</li><li><b>Evidence first</b>: a GRN needs verified proof of delivery; an acknowledgment alone never counts</li><li><b>Duplicate checks</b> on orders, fulfilment and invoices</li><li><b>Bank details</b> checked against the vendor master, changes verified by Treasury</li><li><b>Segregation of duties</b>: AI prepares, Finance approves, Treasury releases</li><li>Every step is in the <b>audit trail</b></li></ul>",actions:[["Open control tower","go:#/tower"]]};
+  /* orders for a named customer */
+  var cust=S.orders.filter(function(o){ return o.customer&&t.indexOf(o.customer.toLowerCase().split(" ").slice(0,2).join(" "))>=0; });
+  if(cust.length) return {html:cust.length+" order"+(cust.length>1?"s":"")+" for <b>"+esc(cust[0].customer)+"</b>:<ul>"+cust.map(function(o){return "<li><b>"+o.id+"</b>: "+money(o.total,o.cur)+", "+(o.hold?"on hold":o.stage>=SB+2?"reconciled":o.stage>=SB?"invoiced":"in progress")+"</li>";}).join("")+"</ul>",actions:cust.slice(0,2).map(function(o){return ["Open "+o.id,"go:#/order/"+o.id];})};
+  var known=["Desert Logistics","Al Hamra Retail","NileBridge Trading","Oasis Clinics"].concat(S.pos.map(function(p){return p.customer;})).filter(function(n){ return n&&t.indexOf(n.toLowerCase().split(" ").slice(0,2).join(" "))>=0; })[0];
+  if(known&&/order|buy|bought|purchase|invoice|status/.test(t)) return {html:"There are no orders for <b>"+esc(known)+"</b> yet. "+(S.pos.some(function(p){return p.customer===known&&p.status==="new";})?"Their purchase order is waiting in PO documents.":"When one comes in, it will show on My orders."),actions:S.pos.some(function(p){return p.customer===known;})?[["Open PO documents","go:#/inbox"]]:[["My orders","go:#/orders"]]};
+  /* live counts */
+  if(/how many (vendor pos?|vendor orders)/.test(t)){ var A=S.vpos||[]; return {html:"<b>"+A.length+"</b> vendor POs: "+A.filter(function(x){return x.status==="paid";}).length+" paid, "+A.filter(function(x){return x.hold;}).length+" with an exception, the rest in progress.",actions:[["Vendor POs","go:#/vendors"]]}; }
+  if(/how many orders|number of orders/.test(t)) return {html:"<b>"+S.orders.length+"</b> orders: "+S.orders.filter(function(o){return o.hold;}).length+" on hold, "+S.orders.filter(function(o){return o.stage>=SB;}).length+" invoiced or further."};
+  if(/(biggest|largest|highest) order/.test(t)){ var o=S.orders.slice().sort(function(a,b){return aedEq(b.total,b.market)-aedEq(a.total,a.market);})[0]; return o?{html:"The largest is <b>"+o.id+"</b>: "+money(o.total,o.cur)+" for "+esc(o.customer)+".",actions:[["Open "+o.id,"go:#/order/"+o.id]]}:null; }
+  return null;
+}
+function anyaReply(q){
+  var g=anyaGuard(q); if(g) return g;
+  var s=anyaSmart(q); if(s) return s;
+  var a=anyaAnswer(q);
+  if(/^I can answer about this page/.test(a.html)) a={html:"I don’t know that one, and I won’t guess. I’m best at your cart, credit, orders, vendor POs and payments, and procure to pay terms like GRN, POD or three way match.",actions:[["What needs me today?","ask:What needs me today?"],["What is a GRN?","ask:What is a GRN?"]]};
+  return a;
 }
 
 /* ---- PO intake: email, photo or voice ---- */
