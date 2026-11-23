@@ -8,13 +8,13 @@
 // On-device mode (default) runs entirely in the browser. Live AI mode uses the Buzzar advisor API
 // (POST /api/advisor/match) when the site is served from the API's own domain (see config.js).
 
-import { h, fmt, toast, lists } from '../ui.js?v=202611090805';
-import { all, get, detail, understand, matchU, industryLabel, catLabel, label, getMeta } from '../data.js?v=202611090805';
-import { requestDialog, KIND, kindTag } from '../components.js?v=202611090805';
-import { buildPlan, renderPlan, downloadPlan, scopeSteps, prerequisites, skuLine } from '../plan.js?v=202611090805';
-import { createOrb } from '../orb.js?v=202611090805';
-import { CONFIG } from '../config.js?v=202611090805';
-import { go } from '../main.js?v=202611090805';
+import { h, fmt, toast, lists } from '../ui.js?v=202611230716';
+import { all, get, detail, understand, matchU, industryLabel, catLabel, label, getMeta } from '../data.js?v=202611230716';
+import { requestDialog, KIND, kindTag } from '../components.js?v=202611230716';
+import { buildPlan, renderPlan, downloadPlan, scopeSteps, prerequisites, skuLine } from '../plan.js?v=202611230716';
+import { createOrb } from '../orb.js?v=202611230716';
+import { CONFIG } from '../config.js?v=202611230716';
+import { go } from '../main.js?v=202611230716';
 
 const SHORT_KEY = 'bz:sami-shortlist';
 
@@ -35,6 +35,16 @@ const STARTERS = [
   ['Security', 'A zero-trust programme for a bank in Riyadh'],
   ['Data', 'One trusted sales dashboard across six countries'],
 ];
+
+// the four doors on Sami's welcome screen
+const TOPICS = [
+  ['ph-laptop', 'AI & automation', 'Find my first use case', 'A first AI use case for our customer service team'],
+  ['ph-cloud', 'Cloud', 'Plan my next move', 'Move our ERP and file servers to Azure'],
+  ['ph-shield-check', 'Security', 'Protect my business', 'A zero-trust programme for a bank in Riyadh'],
+  ['ph-stack', 'Business solutions', 'Explore the right fit', 'We run out of stock but still throw fresh food away'],
+];
+const AVATAR = 'assets/img/sami/sami.webp';
+const AVATAR_SM = 'assets/img/sami/sami-face.webp';
 
 const Q = {
   industry: { ask: 'Which industry are you in? It changes the ranking more than anything else.', opts: ['Retail & e-commerce', 'Financial services', 'Healthcare', 'Manufacturing', 'Public sector', 'Telecommunications', 'Logistics & distribution', 'Energy & utilities', 'Other / cross-industry'] },
@@ -96,7 +106,7 @@ export default function advisor(route) {
   const stateEl = h('span', { class: 'sami-state' }, 'Ready');
   const thread = h('div', { class: 'thread', 'aria-live': 'polite' });
   const scroller = h('div', { class: 'sami-scroll' }, thread);
-  const ta = h('textarea', { rows: 1, placeholder: 'Describe the change you want to make…', 'aria-label': 'Message Sami', maxlength: 600 });
+  const ta = h('textarea', { rows: 1, placeholder: 'Ask Sami a question…', 'aria-label': 'Message Sami', maxlength: 600 });
   const micBtn = h('button', { class: 'round', type: 'button', 'aria-label': 'Speak to Sami', title: 'Speak', html: '<svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>' });
   const sendBtn = h('button', { class: 'round send', type: 'submit', 'aria-label': 'Send', html: '<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' });
   const form = h('form', null, micBtn, ta, sendBtn);
@@ -118,9 +128,9 @@ export default function advisor(route) {
   const main = h(
     'section',
     { class: 'sami-main', 'aria-label': 'Conversation with Sami' },
-    h('div', { class: 'sami-bar' }, barOrb, h('div', null, h('b', null, 'Sami'), stateEl), h('div', { class: 'tools' }, h('span', { class: 'advisory' }, 'Advisory only · from published Buzzar listings'), modeEl, speakBtn, resetBtn)),
+    h('div', { class: 'sami-bar' }, h('img', { class: 'sami-face', src: AVATAR_SM, alt: '', width: 44, height: 44 }), barOrb, h('div', null, h('b', null, 'Sami'), stateEl), h('div', { class: 'tools' }, h('span', { class: 'advisory' }, 'Advisory only · from published Buzzar listings'), modeEl, speakBtn, resetBtn)),
     scroller,
-    h('div', { class: 'composer' }, form, h('p', { class: 'hint' }, h('span', null, 'Enter to send · Shift+Enter for a new line'), h('span', null, 'On device answers never leave your browser'))),
+    h('div', { class: 'composer' }, form, h('p', { class: 'hint' }, h('span', null, 'Enter to send · Shift+Enter for a new line'), h('span', null, 'You’re interacting with an AI-generated avatar · on device answers never leave your browser'))),
   );
   const boardCol = h(
     'aside',
@@ -133,12 +143,14 @@ export default function advisor(route) {
   // ---------- orb state ----------
   const orb = createOrb(barOrb, { halo: false });
   let introOrb = null;
+  let hero = null;
   const STATE_TXT = { idle: 'Ready', listening: 'Listening', thinking: 'Thinking', talking: 'Answering' };
   let talkTimer;
   function setState(s) {
     orb.setState(s);
     introOrb?.setState(s);
     stateEl.textContent = STATE_TXT[s];
+    hero?.setState(s);
     clearTimeout(talkTimer);
     if (s === 'talking') talkTimer = setTimeout(() => setState('idle'), 1800);
   }
@@ -147,18 +159,22 @@ export default function advisor(route) {
   const scrollDown = () => requestAnimationFrame(() => scroller.scrollTo({ top: scroller.scrollHeight, behavior: 'smooth' }));
   const textOf = (nodes) => nodes.flat(Infinity).map((n) => (typeof n === 'string' ? n : n?.textContent || '')).join(' ');
   function say(...content) {
-    const av = h('canvas', { class: 'av', width: 60, height: 60, 'aria-hidden': 'true' });
+    const av = h('img', { class: 'av face', src: AVATAR_SM, alt: '', width: 30, height: 30 });
+    leaveIntro();
     thread.append(h('div', { class: 'msg' }, av, h('div', { class: 'bubble' }, content)));
-    createOrb(av, { halo: false, density: 0.6 });
     setState('talking');
     scrollDown();
     if (S.speak && 'speechSynthesis' in window) {
       const u = new SpeechSynthesisUtterance(textOf(content).replace(/\s+/g, ' ').slice(0, 420));
+      // the presenter keeps talking for as long as Sami's voice does
+      u.onstart = () => { clearTimeout(talkTimer); orb.setState('talking'); hero?.setState('talking'); stateEl.textContent = STATE_TXT.talking; };
+      u.onend = () => setState('idle');
       speechSynthesis.cancel();
       speechSynthesis.speak(u);
     }
   }
   function me(text) {
+    leaveIntro();
     thread.append(h('div', { class: 'msg me' }, h('div', { class: 'bubble' }, text)));
     scrollDown();
   }
@@ -536,19 +552,68 @@ export default function advisor(route) {
   }
 
   // ---------- intro & reset ----------
+  // the welcome screen: a familiar face, two ways to start, four doors
+  function leaveIntro() {
+    if (!root.classList.contains('intro')) return;
+    root.classList.remove('intro');
+    thread.querySelector('.sx')?.remove();
+    hero = null;
+  }
   function intro() {
-    const big = h('canvas', { width: 360, height: 360, 'aria-hidden': 'true' });
+    root.classList.add('intro');
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const vid = (src, cls) => (still ? null : h('video', { class: 'sx-vid ' + cls, src, muted: true, loop: true, playsinline: true, autoplay: true, preload: 'auto', poster: AVATAR, 'aria-hidden': 'true' }));
+    const idle = vid('assets/img/sami/sami-idle.mp4', 'idle');
+    const talk = vid('assets/img/sami/sami-talk.mp4', 'talk');
+    for (const v of [idle, talk]) if (v) { v.muted = true; v.addEventListener('canplay', () => v.play().catch(() => {}), { once: true }); }
+    const wave = h('span', { class: 'sx-wave', 'aria-hidden': 'true' }, Array.from({ length: 13 }, (_, i) => h('i', { style: { animationDelay: `${(i % 7) * 90}ms` } })));
+    const stTitle = h('b', null, 'Ready to listen');
+    const arch = h(
+      'div',
+      { class: 'sx-arch st-idle' },
+      h('img', { class: 'sx-still', src: AVATAR, alt: 'Sami, an AI-generated avatar', width: 600, height: 800 }),
+      idle,
+      talk,
+      h('div', { class: 'sx-status', 'aria-live': 'polite' }, wave, h('span', { class: 'sx-div', 'aria-hidden': 'true' }), h('div', null, stTitle, h('small', null, 'Sami · AI solutions advisor'))),
+    );
+    const TITLES = { idle: 'Ready to listen', listening: 'Listening…', thinking: 'Thinking…', talking: 'Speaking' };
+    hero = {
+      setState(st) {
+        arch.className = 'sx-arch st-' + st;
+        stTitle.textContent = TITLES[st] || TITLES.idle;
+        if (talk) talk.play().catch(() => {});
+      },
+    };
+    const start = h('button', { class: 'sx-btn primary', type: 'button' }, h('i', { class: 'ph ph-microphone', 'aria-hidden': 'true' }), 'Start talking');
+    start.addEventListener('click', () => {
+      if ('speechSynthesis' in window) {
+        S.speak = true;
+        speakBtn.setAttribute('aria-pressed', 'true');
+      }
+      micBtn.click();
+    });
+    const typeIt = h('button', { class: 'sx-btn', type: 'button', onclick: () => ta.focus() }, h('i', { class: 'ph ph-keyboard', 'aria-hidden': 'true' }), 'Type instead');
     thread.replaceChildren(
       h(
         'div',
-        { class: 'sami-intro' },
-        big,
-        h('h1', null, 'Talk to Sami'),
-        h('p', null, 'Say what you want to change. I ask, you answer, and the right fit appears.'),
-        h('div', { class: 'starters' }, STARTERS.map(([k, t]) => h('button', { type: 'button', onclick: () => onUser(t) }, h('small', null, k), t))),
+        { class: 'sx' },
+        h('div', { class: 'sx-top' }, h('span', { class: 'sx-mark' }, h('i', { class: 'ph ph-sparkle', 'aria-hidden': 'true' })), h('div', null, h('b', null, 'Sami'), h('small', null, 'Your AI solutions advisor')), h('a', { class: 'sx-how', href: '#/how-it-works' }, 'How it works'), h('span', { class: 'sx-pill' }, h('i', { class: 'ph ph-sparkle', 'aria-hidden': 'true' }), 'AI avatar')),
+        h(
+          'div',
+          { class: 'sx-body' },
+          h(
+            'div',
+            { class: 'sx-l' },
+            h('h1', null, 'A familiar face.', h('br'), 'A smarter conversation.'),
+            h('p', { class: 'sx-lede' }, 'Meet Sami, your AI advisor. Speak naturally, explore ideas and find answers for your business.'),
+            h('div', { class: 'sx-cta' }, start, typeIt),
+            h('p', { class: 'sx-hint' }, 'Enable your microphone to begin'),
+            h('div', { class: 'sx-topics' }, TOPICS.map(([ic, t, sub, q], i) => h('button', { type: 'button', class: 'sx-topic', style: { animationDelay: `${120 + i * 60}ms` }, onclick: () => onUser(q) }, h('i', { class: `ph ${ic}`, 'aria-hidden': 'true' }), h('span', null, h('b', null, t), h('small', null, sub))))),
+          ),
+          h('div', { class: 'sx-r' }, h('span', { class: 'sx-ring', 'aria-hidden': 'true' }), h('div', { class: 'sx-archw' }, arch, h('span', { class: 'sx-tag' }, h('i', { class: 'ph ph-sparkle', 'aria-hidden': 'true' }), 'AI avatar')), h('p', { class: 'sx-quote' }, '“Hi, I’m Sami. What would you like to solve today?”')),
+        ),
       ),
     );
-    introOrb = createOrb(big, { halo: true });
   }
   function reset() {
     S.b = blank();
@@ -611,6 +676,7 @@ export default function advisor(route) {
     rec.start();
   });
 
+  const root = h('div', { class: 'sami' }, main, boardCol);
   intro();
   paintBoard();
   const q = route.params.get('q');
@@ -625,5 +691,5 @@ export default function advisor(route) {
   if (q) setTimeout(() => onUser(q), 250);
   else setTimeout(() => ta.focus(), 250);
 
-  return h('div', { class: 'sami' }, main, boardCol);
+  return root;
 }

@@ -1,24 +1,24 @@
-import { $, $$, h, onListChange, fmt, revealIn, bindLogos } from './ui.js?v=202611090805';
-import { load, getMeta, all, match, TYPE, catLabel, logoParts } from './data.js?v=202611090805';
-import { compareTray, syncToggles } from './components.js?v=202611090805';
+import { $, $$, h, onListChange, fmt, revealIn, bindLogos } from './ui.js?v=202611230716';
+import { load, getMeta, all, match, TYPE, catLabel, logoParts } from './data.js?v=202611230716';
+import { compareTray, syncToggles } from './components.js?v=202611230716';
 
 const routes = {
-  '': () => import('./views/home.js?v=202611090805'),
-  catalogue: () => import('./views/catalogue.js?v=202611090805'),
-  listing: () => import('./views/listing.js?v=202611090805'),
-  discover: () => import('./views/discover.js?v=202611090805'),
-  ask: () => import('./views/advisor.js?v=202611090805'),
-  advisor: () => import('./views/advisor.js?v=202611090805'),
-  compare: () => import('./views/lists.js?v=202611090805'),
-  saved: () => import('./views/lists.js?v=202611090805'),
-  journey: () => import('./views/lists.js?v=202611090805'),
-  industries: () => import('./views/browse.js?v=202611090805'),
-  providers: () => import('./views/providers.js?v=202611090805'),
-  'how-it-works': () => import('./views/about.js?v=202611090805'),
-  partners: () => import('./views/about.js?v=202611090805'),
-  agents: () => import('./views/about.js?v=202611090805'),
-  privacy: () => import('./views/about.js?v=202611090805'),
-  terms: () => import('./views/about.js?v=202611090805'),
+  '': () => import('./views/home.js?v=202611230716'),
+  catalogue: () => import('./views/catalogue.js?v=202611230716'),
+  listing: () => import('./views/listing.js?v=202611230716'),
+  discover: () => import('./views/discover.js?v=202611230716'),
+  ask: () => import('./views/advisor.js?v=202611230716'),
+  advisor: () => import('./views/advisor.js?v=202611230716'),
+  compare: () => import('./views/lists.js?v=202611230716'),
+  saved: () => import('./views/lists.js?v=202611230716'),
+  journey: () => import('./views/lists.js?v=202611230716'),
+  industries: () => import('./views/browse.js?v=202611230716'),
+  providers: () => import('./views/providers.js?v=202611230716'),
+  'how-it-works': () => import('./views/about.js?v=202611230716'),
+  partners: () => import('./views/about.js?v=202611230716'),
+  agents: () => import('./views/about.js?v=202611230716'),
+  privacy: () => import('./views/about.js?v=202611230716'),
+  terms: () => import('./views/about.js?v=202611230716'),
 };
 
 export function parseHash() {
@@ -281,7 +281,7 @@ function wire() {
   window.__bzBuilt = recent / Math.max(1, all().length) < 0.25 ? latest : null;
   const mini = $('.mini-orb');
   const fab = $('.fab-orb');
-  import('./orb.js?v=202611090805').then(({ createOrb }) => {
+  import('./orb.js?v=202611230716').then(({ createOrb }) => {
     if (mini) createOrb(mini, { halo: false, density: 1 });
     if (fab) createOrb(fab, { halo: false, density: 1 });
   });
