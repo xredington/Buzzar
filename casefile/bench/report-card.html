@@ -1,0 +1,230 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bench Desk Report Card</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one column. The verdict and overall grade first, then nine areas each with its own grade and checklist, then the build order. */
+:root {
+  --bg: #eef2f9; --glow1: rgba(13, 148, 136, .16); --glow2: rgba(79, 70, 229, .12);
+  --surface: rgba(255, 255, 255, .74); --solid: #ffffff; --sunk: rgba(15, 23, 42, .045); --line: rgba(15, 23, 42, .10);
+  --ink: #0b1220; --muted: #48546f; --faint: #7a87a4;
+  --accent: #0d9488; --accent2: #0284c7; --on-accent: #ffffff; --accent-soft: rgba(13, 148, 136, .12);
+  --ai: #6652e0; --ai-soft: rgba(102, 82, 224, .11);
+  --warn: #92580a; --warn-bg: rgba(234, 179, 8, .18); --ok: #15703a; --ok-bg: rgba(34, 197, 94, .15); --bad: #b3261e; --bad-bg: rgba(239, 68, 68, .13);
+  --shadow: 0 1px 2px rgba(15, 23, 42, .05), 0 14px 34px -14px rgba(15, 23, 42, .20); --glow: 0 6px 22px -6px rgba(13, 148, 136, .55);
+  --display: "Sora", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --sans: "Manrope", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #060a13; --glow1: rgba(45, 212, 191, .14); --glow2: rgba(99, 102, 241, .17);
+  --surface: rgba(255, 255, 255, .052); --solid: #101829; --sunk: rgba(255, 255, 255, .045); --line: rgba(255, 255, 255, .10);
+  --ink: #e9eefc; --muted: #a4b1cd; --faint: #7180a0;
+  --accent: #5eead4; --accent2: #38bdf8; --on-accent: #041318; --accent-soft: rgba(94, 234, 212, .12);
+  --ai: #b0a4ff; --ai-soft: rgba(176, 164, 255, .14);
+  --warn: #fcd34d; --warn-bg: rgba(252, 211, 77, .13); --ok: #5ee08f; --ok-bg: rgba(74, 222, 128, .13); --bad: #fca5a5; --bad-bg: rgba(248, 113, 113, .15);
+  --shadow: inset 0 1px 0 rgba(255, 255, 255, .05), 0 22px 50px -22px rgba(0, 0, 0, .7); --glow: 0 6px 26px -6px rgba(94, 234, 212, .5); color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #060a13; --glow1: rgba(45, 212, 191, .14); --glow2: rgba(99, 102, 241, .17);
+  --surface: rgba(255, 255, 255, .052); --solid: #101829; --sunk: rgba(255, 255, 255, .045); --line: rgba(255, 255, 255, .10);
+  --ink: #e9eefc; --muted: #a4b1cd; --faint: #7180a0;
+  --accent: #5eead4; --accent2: #38bdf8; --on-accent: #041318; --accent-soft: rgba(94, 234, 212, .12);
+  --ai: #b0a4ff; --ai-soft: rgba(176, 164, 255, .14);
+  --warn: #fcd34d; --warn-bg: rgba(252, 211, 77, .13); --ok: #5ee08f; --ok-bg: rgba(74, 222, 128, .13); --bad: #fca5a5; --bad-bg: rgba(248, 113, 113, .15);
+  --shadow: inset 0 1px 0 rgba(255, 255, 255, .05), 0 22px 50px -22px rgba(0, 0, 0, .7); --glow: 0 6px 26px -6px rgba(94, 234, 212, .5); color-scheme: dark }
+
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--ink); font: 15px/1.55 var(--sans); background: radial-gradient(900px 520px at 8% -8%, var(--glow1), transparent 62%), radial-gradient(1000px 620px at 104% 4%, var(--glow2), transparent 60%), var(--bg); background-attachment: fixed; }
+h1, h2, h3, p, ul, ol { margin: 0; padding: 0; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent2); outline-offset: 2px; border-radius: 8px; }
+.wrap { max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 24px 64px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 18px 20px; box-shadow: var(--shadow); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); min-width: 0; }
+.top { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px 32px; align-items: center; padding: 26px 28px; }
+.eyebrow { font: 700 11.5px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+h1 { font: 600 clamp(24px, 3.6vw, 34px)/1.15 var(--display); letter-spacing: -.02em; text-wrap: balance; margin-top: 8px; }
+.lede { color: var(--muted); max-width: 64ch; margin-top: 10px; font-size: 16px; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 16px; }
+h2 { font: 700 11.5px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--faint); margin-top: 14px; }
+h3 { font: 600 18px/1.25 var(--display); letter-spacing: -.01em; }
+.faint { color: var(--faint); font-size: 13px; }
+.chip { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.ok { color: var(--ok); } .warn { color: var(--warn); } .bad { color: var(--bad); } .ai { color: var(--ai); }
+.chip.ok { background: var(--ok-bg); } .chip.warn { background: var(--warn-bg); } .chip.bad { background: var(--bad-bg); }
+.ring { position: relative; width: 150px; height: 150px; }
+.ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring circle { fill: none; stroke-width: 9; stroke-linecap: round; } .ring .track { stroke: var(--sunk); }
+.ring div { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+.ring b { font: 600 52px/1 var(--display); } .ring span { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 12px; }
+.tile b { display: block; font: 600 32px/1.05 var(--display); font-variant-numeric: tabular-nums; } .tile span { color: var(--muted); font-size: 13px; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 15px; cursor: pointer; font-weight: 600; }
+.btn:hover { border-color: var(--accent); }
+.btn.on { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: var(--on-accent); border-color: transparent; }
+.areas { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 14px; align-items: start; }
+.ahead { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+.g { text-align: center; min-width: 58px; padding: 6px 8px; border-radius: 14px; background: var(--sunk); }
+.g b { display: block; font: 600 24px/1 var(--display); } .g span { font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.gA b, .gB b { color: var(--ok); } .gC b { color: var(--warn); } .gD b, .gE b { color: var(--bad); }
+.bar { height: 5px; border-radius: 3px; background: var(--sunk); margin: 14px 0 6px; overflow: hidden; }
+.bar i { display: block; height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+.area ul { list-style: none; display: flex; flex-direction: column; }
+.area li { display: grid; grid-template-columns: 78px minmax(0, 1fr); gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); align-items: start; }
+.area li:first-child { border-top: 0; }
+.area li b { font-weight: 600; display: block; } .area li div span { display: block; color: var(--muted); font-size: 13.5px; margin-top: 1px; }
+.next { list-style: none; counter-reset: n; display: flex; flex-direction: column; gap: 8px; }
+.next li { counter-increment: n; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 2px 14px; padding: 14px 18px; }
+.next li::before { content: counter(n); grid-row: 1 / 3; width: 36px; height: 36px; border-radius: 12px; display: grid; place-items: center; font: 600 15px var(--display); background: var(--accent-soft); color: var(--accent); }
+.next b { font: 600 16px var(--display); } .next span { color: var(--muted); grid-column: 2; }
+.prose { display: flex; flex-direction: column; gap: 10px; } .prose p { max-width: 74ch; color: var(--muted); }
+@media (max-width: 640px) { .top { grid-template-columns: minmax(0, 1fr); padding: 20px; } .ring { width: 120px; height: 120px; } .ring b { font-size: 42px; } }
+</style>
+
+<div class="wrap">
+  <header class="card top">
+    <div>
+      <p class="eyebrow">Bench Desk · report card</p>
+      <h1>Can a judge run the whole working day on this? Not yet.</h1>
+      <p class="lede">It remembers each case and assembles a draft. It does not yet prepare the board, produce the signed order, watch the clocks, or work with the other Member. And it has never read a real order.</p>
+      <div class="legend"><span class="chip ok">Working</span><span class="chip warn">Partly</span><span class="chip bad">Missing</span><span class="faint">An asterisk means it works with a stand-in for Claude's reading, and has not yet run on a real file.</span></div>
+    </div>
+    <div class="ring" id="ring"></div>
+  </header>
+
+  <section class="tiles" id="totals"></section>
+
+  <div class="row" id="filters" role="group" aria-label="Show"></div>
+  <section class="areas" id="areas"></section>
+
+  <h2>What to build next, in order</h2>
+  <ol class="next" id="next"></ol>
+
+  <h2>How this was marked</h2>
+  <div class="card prose">
+    <p>The checkpoints come from three places: what the judge asked for in the first conversation, the stages a matter passes through under the NCLT Rules, and what courts' own systems and AI policies expect (eCourts Digital Courts 2.1, SUPACE, the Kerala High Court policy of 2025, the UK judicial guidance of 2025, Singapore's tribunal tool).</p>
+    <p>A checkpoint counts as Working only if it exists in the live app and passed a test. Partly counts for half. The grade for an area is the share of its checkpoints met: A is 80 per cent or more, B 65, C 45, D 25, and E below that.</p>
+    <p>Every test so far used a scripted stand-in for Claude's reading, because the app was tested outside Claude. So the marks for anything that depends on reading are provisional until real orders go through it.</p>
+  </div>
+</div>
+
+<script>
+'use strict';
+// status: 2 working, 1 partly, 0 missing.  star: depends on Claude's reading, tested only with a stand-in.
+const AREAS = [
+  ['Before court', 'Preparing for the day', [
+    [2, 'Cause list with a brief of each matter', 'The original request.', 1],
+    [2, 'What was filed since the last hearing', ''],
+    [2, 'Find any file by number, party or advocate', 'Search bar, press /.'],
+    [0, 'The official cause list, in its order and item numbers', 'Only the earlier offline tool can match a pasted cause list.'],
+    [0, 'Statutory clocks worked out: CIRP day count, days since filing, limitation', 'The demo shows a typed label, not a computed one.'],
+    [0, 'Which Members are sitting on each matter', ''],
+    [0, 'Order of business and time needed for the board', ''],
+  ]],
+  ['In court', 'The hearing itself', [
+    [2, 'Open a matter: last order, directions outstanding, every hearing', ''],
+    [2, 'Private bench notes', 'Stored per person; nobody else can read them.'],
+    [2, 'Record what happened, the order and the next date', ''],
+    [1, 'Dictation by voice', 'Built, never tried live. Chrome or Edge only, and not for people outside the owner\'s organisation.'],
+    [0, 'The order sheet in the tribunal\'s format, ready to sign', 'The app records a summary of the order; it does not produce the order.'],
+    [0, 'Transcript of the hearing from the video recording', ''],
+    [1, 'Who appeared at each hearing', 'Only as read from the order.'],
+    [0, 'Usable on a weak courtroom connection or offline', ''],
+  ]],
+  ['After court', 'Follow-through', [
+    [2, 'Diary of every date given', ''],
+    [2, 'Reserved matters counted in days', ''],
+    [2, 'Dates that passed with no order filed', ''],
+    [1, 'Compliance with directions', 'Typed by hand; not drawn from the directions in the order.'],
+    [0, 'Reminders: reserved too long, compliance overdue, a clock running out', ''],
+    [0, 'Signed order uploaded to the tribunal\'s site and marked done', ''],
+  ]],
+  ['Writing', 'Orders and judgments', [
+    [2, 'Points for determination with each side\'s case and sources', '', 1],
+    [2, 'Findings recorded by the judge, kept private', ''],
+    [2, 'Draft assembled with sources, gaps marked', ''],
+    [1, 'Save to Word', 'Built; not yet saved from the live app.'],
+    [0, 'The Bench\'s own template and house style', ''],
+    [0, 'The other Member: share the draft, comment, concur or dissent', ''],
+    [0, 'Versions and tracked changes', ''],
+    [1, 'Pronouncement: date, signed copy, certified copy', 'A status label only.'],
+  ]],
+  ['Library', 'Authorities and research', [
+    [2, 'Add judgments; each is read once and summarised', '', 1],
+    [2, 'Cite into a matter and see where it has been cited', ''],
+    [1, 'Search the library', 'Names, citations, topics and notes. Not the full text.'],
+    [0, 'Suggest authorities for a point', ''],
+    [0, 'Pinpoint the paragraph and check the quotation exists', 'The main defence against invented citations.'],
+    [0, 'Statutes, rules and circulars at hand', ''],
+    [0, 'Ask a question of a file and get the answer with its page', ''],
+  ]],
+  ['Registry', 'Intake and the file', [
+    [2, 'Create a matter', ''],
+    [2, 'A dropped file goes to the right matter by case number', '', 1],
+    [1, 'Scanned orders', 'Built to read page images; never tried live.'],
+    [0, 'Read straight from the court\'s folders', 'Files are dropped in by hand.'],
+    [0, 'Bring in the backlog: thousands of files, about fifty orders each', 'One file at a time, and room for a few thousand matters at most.'],
+    [1, 'Registry stages: scrutiny, defects, re-filing', 'A stage label only.'],
+    [0, 'Interlocutory applications tied to their main matter', ''],
+  ]],
+  ['Safeguards', 'What judicial AI policies ask for', [
+    [2, 'AI never writes a finding or the order', 'By design.'],
+    [2, 'A record of every AI reading', ''],
+    [1, 'A source beside every statement', 'Names the document or order, not the page, and does not open it.'],
+    [0, 'A person confirms each AI summary before it is relied on', 'Asked for by the UK guidance.'],
+    [0, 'Tool and hosting approved by the tribunal; where the data sits', 'Files are stored on Claude\'s platform today.'],
+    [1, 'Roles: judge, other Member, court officer, private secretary', 'Sharing levels and private notes; no roles.'],
+    [0, 'Audit trail of who changed what', ''],
+    [0, 'Backup and export of the whole register', ''],
+  ]],
+  ['Proof', 'Evidence that it works', [
+    [0, 'Run on real orders', 'Nothing matters more. Every test so far used a stand-in.'],
+    [0, 'Used by a judge for a week', ''],
+    [1, 'Holds one Bench\'s live docket', 'A ceiling of a few thousand matters, untested.'],
+    [1, 'Two people working at once', 'The last save wins.'],
+    [2, 'Phone and tablet', ''],
+    [0, 'Hindi and other languages', ''],
+  ]],
+  ['Beyond cases', 'The rest of a judge\'s work', [
+    [0, 'Disposal and pendency figures: monthly statement, ageing', ''],
+    [0, 'Planning how many matters to list', ''],
+    [0, 'Calendar, leave and circuit sittings', 'Possibly out of scope.'],
+  ]],
+];
+const NEXT = [
+  ['Prove it on real orders', 'Put twenty real orders from five files through the live app. Fix what the reading gets wrong. Until this is done every other mark is provisional.'],
+  ['Connect the folders and bring in the backlog', 'Read from where the court\'s files already live, and load history in bulk. This also decides whether the app can stay on this platform or needs its own backend.'],
+  ['Clocks and reminders', 'Work out CIRP day counts and days reserved, and raise them before they are missed.'],
+  ['The order sheet and pronouncement', 'Produce the day\'s order in the tribunal\'s format from what was dictated, and track it to signed and uploaded.'],
+  ['Page-level sources and a verified tick', 'Every line opens its page; a person confirms each summary. This is what makes the briefs safe to rely on.'],
+  ['Ask the file, suggest authorities, search the full text', 'The research layer.'],
+  ['The other Member and versions', 'Share a draft, comment, concur or dissent, keep history.'],
+  ['The official cause list', 'Take the day\'s list in its own order with item numbers.'],
+  ['Roles, audit trail, backup, and the hosting decision', 'Needed before a tribunal can approve it.'],
+  ['Figures, hearing transcripts, Hindi', 'Disposal statements, video-hearing transcripts, other languages.'],
+];
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+const grade = p => p >= 80 ? 'A' : p >= 65 ? 'B' : p >= 45 ? 'C' : p >= 25 ? 'D' : 'E';
+const pct = items => Math.round(100 * items.reduce((n, x) => n + x[0], 0) / (items.length * 2));
+const all = AREAS.flatMap(a => a[2]), total = pct(all), count = s => all.filter(x => x[0] === s).length;
+const LABEL = ['Missing', 'Partly', 'Working'], CLS = ['bad', 'warn', 'ok'];
+let filter = -1;
+function ringSvg(p, big) { const r = 52, C = 2 * Math.PI * r; return `<svg viewBox="0 0 120 120"><defs><linearGradient id="g${big}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--accent)"/><stop offset="1" style="stop-color:var(--accent2)"/></linearGradient></defs><circle class="track" cx="60" cy="60" r="${r}"/><circle class="val" cx="60" cy="60" r="${r}" stroke="url(#g${big})" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${(C * (1 - p / 100)).toFixed(1)}"/></svg>`; }
+function draw() {
+  document.getElementById('ring').innerHTML = ringSvg(total, 1) + `<div><b>${grade(total)}</b><span>${total} of 100</span></div>`;
+  document.getElementById('totals').innerHTML = [[count(2), 'working', 'ok'], [count(1), 'partly there', 'warn'], [count(0), 'missing', 'bad'], [all.filter(x => x[3]).length, 'working but unproven on real files', 'ai']].map(([n, l, c]) => `<div class="card tile"><b class="${c}">${n}</b><span>${l}</span></div>`).join('');
+  document.getElementById('filters').innerHTML = [[-1, `All ${all.length}`], [2, 'Working'], [1, 'Partly'], [0, 'Missing']].map(([v, l]) => `<button class="btn${filter === v ? ' on' : ''}" data-f="${v}" aria-pressed="${filter === v}">${l}</button>`).join('');
+  document.getElementById('areas').innerHTML = AREAS.map(([name, sub, items]) => {
+    const p = pct(items), rows = items.filter(x => filter < 0 || x[0] === filter);
+    return rows.length ? `<article class="card area"><div class="ahead"><div><h3>${esc(name)}</h3><p class="faint">${esc(sub)}</p></div><div class="g g${grade(p)}"><b>${grade(p)}</b><span>${p}%</span></div></div>
+      <div class="bar"><i style="width:${p}%"></i></div>
+      <ul>${rows.map(([s, t, why, star]) => `<li><span class="chip ${CLS[s]}">${LABEL[s]}${star ? '*' : ''}</span><div><b>${esc(t)}</b>${why ? `<span>${esc(why)}</span>` : ''}</div></li>`).join('')}</ul></article>` : '';
+  }).join('');
+  document.getElementById('next').innerHTML = NEXT.map(([t, d]) => `<li class="card"><b>${esc(t)}</b><span>${esc(d)}</span></li>`).join('');
+}
+document.addEventListener('click', e => { const b = e.target.closest('[data-f]'); if (b) { filter = Number(b.dataset.f); draw(); } });
+draw();
+</script>

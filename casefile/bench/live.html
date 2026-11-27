@@ -3,162 +3,246 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Bench Desk Live</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
 <style>
-/* Layout: a desk. A rail of sections on the left, one working surface on the right.
-   A matter opens as a file with tabs; the judgment draft is the only thing set as a document. */
+/* Layout: a flight deck for the bench. A slim rail of sections, a search bar that reaches everything,
+   and glass panels floating over a quiet glow. The day is the hero; a matter is a file with tabs.
+   Only the judgment draft is set as paper. */
 :root {
-  --bg: #edf0f5; --surface: #ffffff; --sunk: #f5f7fa; --ink: #131a26; --muted: #556074; --faint: #8590a3;
-  --rule: #d4dae5; --accent: #1e3f8f; --accent-soft: #e2e9fb; --on-accent: #ffffff; --ribbon: #b23a5b;
-  --warn: #875800; --warn-bg: #fcefcf; --ok: #1a6a47; --ok-bg: #dcf2e6; --bad: #a12d28; --bad-bg: #fbe2df;
-  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --bg: #eef2f9; --glow1: rgba(13, 148, 136, .16); --glow2: rgba(79, 70, 229, .12);
+  --surface: rgba(255, 255, 255, .74); --solid: #ffffff; --sunk: rgba(15, 23, 42, .045); --line: rgba(15, 23, 42, .10);
+  --ink: #0b1220; --muted: #48546f; --faint: #7a87a4;
+  --accent: #0d9488; --accent2: #0284c7; --on-accent: #ffffff; --accent-soft: rgba(13, 148, 136, .12);
+  --ai: #6652e0; --ai-soft: rgba(102, 82, 224, .11);
+  --warn: #92580a; --warn-bg: rgba(234, 179, 8, .18); --ok: #15703a; --ok-bg: rgba(34, 197, 94, .15); --bad: #b3261e; --bad-bg: rgba(239, 68, 68, .13);
+  --shadow: 0 1px 2px rgba(15, 23, 42, .05), 0 14px 34px -14px rgba(15, 23, 42, .20); --glow: 0 6px 22px -6px rgba(13, 148, 136, .55);
+  --display: "Sora", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --sans: "Manrope", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
   --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
-  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #0f131a; --surface: #171c26; --sunk: #1d2330; --ink: #e7ebf3; --muted: #a0aabb; --faint: #717c8f;
-  --rule: #2c3444; --accent: #9db7ff; --accent-soft: #1f2b49; --on-accent: #0f131a; --ribbon: #ef8fa8;
-  --warn: #f0c267; --warn-bg: #372b10; --ok: #86d3ab; --ok-bg: #16301f; --bad: #f29b94; --bad-bg: #3a1b19; color-scheme: dark } }
+  --bg: #060a13; --glow1: rgba(45, 212, 191, .14); --glow2: rgba(99, 102, 241, .17);
+  --surface: rgba(255, 255, 255, .052); --solid: #101829; --sunk: rgba(255, 255, 255, .045); --line: rgba(255, 255, 255, .10);
+  --ink: #e9eefc; --muted: #a4b1cd; --faint: #7180a0;
+  --accent: #5eead4; --accent2: #38bdf8; --on-accent: #041318; --accent-soft: rgba(94, 234, 212, .12);
+  --ai: #b0a4ff; --ai-soft: rgba(176, 164, 255, .14);
+  --warn: #fcd34d; --warn-bg: rgba(252, 211, 77, .13); --ok: #5ee08f; --ok-bg: rgba(74, 222, 128, .13); --bad: #fca5a5; --bad-bg: rgba(248, 113, 113, .15);
+  --shadow: inset 0 1px 0 rgba(255, 255, 255, .05), 0 22px 50px -22px rgba(0, 0, 0, .7); --glow: 0 6px 26px -6px rgba(94, 234, 212, .5); color-scheme: dark } }
 :root[data-theme="dark"] {
-  --bg: #0f131a; --surface: #171c26; --sunk: #1d2330; --ink: #e7ebf3; --muted: #a0aabb; --faint: #717c8f;
-  --rule: #2c3444; --accent: #9db7ff; --accent-soft: #1f2b49; --on-accent: #0f131a; --ribbon: #ef8fa8;
-  --warn: #f0c267; --warn-bg: #372b10; --ok: #86d3ab; --ok-bg: #16301f; --bad: #f29b94; --bad-bg: #3a1b19; color-scheme: dark }
+  --bg: #060a13; --glow1: rgba(45, 212, 191, .14); --glow2: rgba(99, 102, 241, .17);
+  --surface: rgba(255, 255, 255, .052); --solid: #101829; --sunk: rgba(255, 255, 255, .045); --line: rgba(255, 255, 255, .10);
+  --ink: #e9eefc; --muted: #a4b1cd; --faint: #7180a0;
+  --accent: #5eead4; --accent2: #38bdf8; --on-accent: #041318; --accent-soft: rgba(94, 234, 212, .12);
+  --ai: #b0a4ff; --ai-soft: rgba(176, 164, 255, .14);
+  --warn: #fcd34d; --warn-bg: rgba(252, 211, 77, .13); --ok: #5ee08f; --ok-bg: rgba(74, 222, 128, .13); --bad: #fca5a5; --bad-bg: rgba(248, 113, 113, .15);
+  --shadow: inset 0 1px 0 rgba(255, 255, 255, .05), 0 22px 50px -22px rgba(0, 0, 0, .7); --glow: 0 6px 26px -6px rgba(94, 234, 212, .5); color-scheme: dark }
 
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 var(--sans); }
+body { margin: 0; color: var(--ink); font: 15px/1.55 var(--sans);
+  background: radial-gradient(900px 520px at 8% -8%, var(--glow1), transparent 62%), radial-gradient(1000px 620px at 104% 4%, var(--glow2), transparent 60%), var(--bg); background-attachment: fixed; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
 button, input, select, textarea { font: inherit; color: inherit; }
-a { color: var(--accent); }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+a { color: var(--accent); text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--accent2); outline-offset: 2px; border-radius: 8px; }
 h1, h2, h3, p { margin: 0; }
+svg.i { width: 18px; height: 18px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 
-.shell { display: grid; grid-template-columns: 208px minmax(0, 1fr); gap: 28px; max-width: 1240px; margin: 0 auto;
-  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 56px; }
-.rail { min-width: 0; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 20px); align-self: start; display: flex; flex-direction: column; gap: 18px; }
-.brand { font: 600 19px/1.1 var(--serif); letter-spacing: .01em; }
-.brand span { display: block; font: 12.5px/1.4 var(--sans); color: var(--muted); margin-top: 3px; }
-.nav { display: flex; flex-direction: column; gap: 2px; }
-.nav a { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 7px; text-decoration: none; color: var(--muted); font-weight: 500; white-space: nowrap; }
-.nav a:hover { background: var(--surface); color: var(--ink); }
-.nav a[aria-current] { background: var(--surface); color: var(--ink); box-shadow: inset 3px 0 0 var(--ribbon); }
-.nav .n { font: 500 12px var(--mono); color: var(--faint); }
-.navsep { height: 1px; background: var(--rule); margin: 6px 0; }
-.role { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
-.role button { border: 0; background: transparent; padding: 6px 4px; cursor: pointer; font-size: 13px; color: var(--muted); }
-.role button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); font-weight: 600; }
-.rail small { color: var(--faint); font-size: 12px; line-height: 1.4; }
+.shell { display: grid; grid-template-columns: 224px minmax(0, 1fr); gap: 26px; max-width: 1280px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 18px 64px; }
+.rail { min-width: 0; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 18px); align-self: start; display: flex; flex-direction: column; gap: 18px; }
+.brand { display: flex; align-items: center; gap: 11px; text-decoration: none; color: var(--ink); font: 600 17px/1.15 var(--display); letter-spacing: -.01em; }
+.brand small { display: block; font: 500 12px/1.3 var(--sans); color: var(--faint); letter-spacing: 0; margin-top: 2px; }
+.logo { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; color: var(--on-accent); background: linear-gradient(135deg, var(--accent), var(--accent2)); box-shadow: var(--glow); }
+.logo svg { width: 21px; height: 21px; stroke-width: 1.9; }
+.nav { display: flex; flex-direction: column; gap: 3px; }
+.nav a { display: flex; align-items: center; gap: 11px; padding: 9px 12px; border-radius: 12px; text-decoration: none; color: var(--muted); font-weight: 600; white-space: nowrap; border: 1px solid transparent; }
+.nav a:hover { background: var(--sunk); color: var(--ink); }
+.nav a[aria-current] { background: var(--surface); border-color: var(--line); color: var(--ink); box-shadow: var(--shadow); }
+.nav a[aria-current] svg { color: var(--accent); }
+.nav .n { margin-left: auto; font: 600 11.5px var(--mono); color: var(--faint); background: var(--sunk); border-radius: 8px; padding: 1px 7px; }
+.nav .n:empty { display: none; }
+.navsep { height: 1px; background: var(--line); margin: 8px 4px; }
+.railfoot { font-size: 12.5px; color: var(--faint); line-height: 1.45; }
+
+.col { min-width: 0; display: flex; flex-direction: column; gap: 18px; }
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 6; display: flex; gap: 12px; align-items: center; padding: 8px 0;
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); -webkit-mask-image: linear-gradient(#000 78%, transparent); mask-image: linear-gradient(#000 78%, transparent); padding-bottom: 14px; margin-bottom: -6px; }
+.search { position: relative; flex: 1; min-width: 0; }
+.search > svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--faint); pointer-events: none; }
+.search input { width: 100%; padding: 11px 44px 11px 42px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow); }
+.search input:focus { outline: none; border-color: var(--accent); box-shadow: var(--glow); }
+kbd { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font: 600 11px var(--mono); color: var(--faint); border: 1px solid var(--line); border-radius: 6px; padding: 1px 7px; background: var(--sunk); }
+#cmdlist { position: absolute; left: 0; right: 0; top: calc(100% + 8px); background: var(--solid); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); padding: 6px; max-height: 60vh; overflow: auto; }
+#cmdlist button { display: flex; gap: 10px; align-items: baseline; width: 100%; text-align: left; border: 0; background: none; padding: 9px 12px; border-radius: 10px; cursor: pointer; }
+#cmdlist button.on, #cmdlist button:hover { background: var(--accent-soft); }
+#cmdlist small { color: var(--faint); margin-left: auto; white-space: nowrap; }
+#cmdlist p { padding: 10px 12px; color: var(--faint); }
+.status { display: flex; align-items: center; gap: 8px; white-space: nowrap; font-size: 13px; color: var(--muted); }
+.pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 4px var(--ok-bg); }
+.pulse.demo { background: var(--ai); box-shadow: 0 0 0 4px var(--ai-soft); }
 
 .main { min-width: 0; display: flex; flex-direction: column; gap: 16px; }
-.sample { background: var(--warn-bg); color: var(--warn); border-radius: 8px; padding: 7px 12px; font-size: 13px; }
+@media (prefers-reduced-motion: no-preference) {
+  .main.enter > * { animation: rise .42s cubic-bezier(.2, .8, .2, 1) both; }
+  .main.enter > *:nth-child(2) { animation-delay: .04s; } .main.enter > *:nth-child(3) { animation-delay: .08s; } .main.enter > *:nth-child(4) { animation-delay: .12s; } .main.enter > *:nth-child(n+5) { animation-delay: .16s; }
+  @keyframes rise { from { opacity: 0; transform: translateY(10px); } }
+  .card, .btn, .nav a, .tile { transition: border-color .18s, box-shadow .18s, transform .18s, background .18s; }
+  .ring circle.val { transition: stroke-dashoffset .8s cubic-bezier(.2, .8, .2, 1); }
+}
 .pagehead { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 10px 16px; }
-h1 { font: 600 clamp(22px, 3.4vw, 28px)/1.2 var(--serif); text-wrap: balance; }
-.sub { color: var(--muted); margin-top: 3px; }
-.screen-note { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: 8px 12px; border-radius: 0 8px 8px 0; font-size: 13.5px; color: var(--ink); }
-.screen-note b { font-weight: 600; }
-h2 { font: 600 12px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font: 600 clamp(24px, 3.4vw, 32px)/1.15 var(--display); letter-spacing: -.02em; text-wrap: balance; }
+.eyebrow { font: 700 11.5px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+.sub { color: var(--muted); margin-top: 4px; }
+h2 { font: 700 11.5px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
 .stack { display: flex; flex-direction: column; gap: 12px; }
 .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 14px; }
-.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 12px; }
+.grid3, .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); gap: 12px; }
 
-.card { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; min-width: 0; }
-.stat b { display: block; font: 600 26px/1.1 var(--serif); font-variant-numeric: tabular-nums; }
-.stat span { color: var(--muted); font-size: 13px; }
-.btn { border: 1px solid var(--rule); background: var(--surface); border-radius: 7px; padding: 6px 12px; cursor: pointer; font-weight: 500; white-space: nowrap; text-decoration: none; color: var(--ink); display: inline-block; }
-.btn:hover { border-color: var(--faint); }
-.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
-.btn.small { padding: 3px 9px; font-size: 13px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 16px 18px; min-width: 0; box-shadow: var(--shadow); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.screen-note { display: flex; gap: 10px; align-items: flex-start; background: var(--ai-soft); border: 1px solid transparent; padding: 10px 14px; border-radius: 14px; font-size: 13.5px; }
+.screen-note svg { color: var(--ai); margin-top: 2px; }
+.callout { display: flex; gap: 10px; align-items: flex-start; background: var(--warn-bg); color: var(--warn); border-radius: 14px; padding: 10px 14px; }
+.callout a { color: inherit; font-weight: 700; }
+.banner { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; justify-content: space-between; background: var(--ai-soft); border-radius: 14px; padding: 9px 14px; font-size: 13.5px; }
+.banner b { color: var(--ai); }
+
+/* the day */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px 28px; align-items: center; padding: 22px 24px; position: relative; overflow: hidden; }
+.hero::after { content: ""; position: absolute; inset: auto -80px -140px auto; width: 380px; height: 300px; background: radial-gradient(closest-side, var(--glow1), transparent); pointer-events: none; }
+.hero h1 { font-size: clamp(26px, 4vw, 38px); margin-top: 6px; }
+.ring { position: relative; width: 132px; height: 132px; }
+.ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring circle { fill: none; stroke-width: 9; stroke-linecap: round; }
+.ring .track { stroke: var(--sunk); } .ring .val { stroke: url(#ringg); }
+.ring div { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+.ring b { font: 600 30px/1 var(--display); letter-spacing: -.02em; } .ring span { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.daystrip { display: flex; align-items: center; gap: 0; margin-top: 18px; overflow-x: auto; padding: 4px 2px 6px; }
+.daystrip button { flex: none; width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--line); background: var(--solid); cursor: pointer; font: 600 13px var(--mono); color: var(--muted); display: grid; place-items: center; }
+.daystrip button:hover { border-color: var(--accent); color: var(--ink); }
+.daystrip button.done { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: var(--on-accent); border-color: transparent; }
+.daystrip button.next { border-color: var(--accent); color: var(--ink); box-shadow: 0 0 0 4px var(--accent-soft); }
+.daystrip i { flex: 1 0 18px; max-width: 54px; height: 2px; background: var(--line); }
+.daystrip i.done { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+.tile { display: flex; gap: 12px; align-items: center; padding: 14px 16px; text-decoration: none; color: inherit; }
+a.tile:hover { border-color: var(--accent); transform: translateY(-1px); }
+.tile .ic { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); flex: none; }
+.tile .ic.warn { background: var(--warn-bg); color: var(--warn); } .tile .ic.ai { background: var(--ai-soft); color: var(--ai); }
+.tile b { display: block; font: 600 24px/1.05 var(--display); font-variant-numeric: tabular-nums; }
+.tile span { color: var(--muted); font-size: 13px; line-height: 1.3; display: block; }
+
+.btn { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 8px 14px; cursor: pointer; font-weight: 600; white-space: nowrap; text-decoration: none; color: var(--ink); }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); border-color: transparent; color: var(--on-accent); box-shadow: var(--glow); }
+.btn.primary:hover { transform: translateY(-1px); }
+.btn.small { padding: 4px 11px; font-size: 13px; border-radius: 10px; }
 .btn[disabled] { opacity: .5; cursor: default; }
-.chip { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 12.5px; font-weight: 500; background: var(--sunk); color: var(--muted); border: 1px solid var(--rule); max-width: 100%; }
-.chip.stage { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
-.chip.warn { background: var(--warn-bg); color: var(--warn); border-color: transparent; }
-.chip.ok { background: var(--ok-bg); color: var(--ok); border-color: transparent; }
-.chip.bad { background: var(--bad-bg); color: var(--bad); border-color: transparent; }
-.caseno { font: 500 13px var(--mono); }
+.link { background: none; border: 0; padding: 0; color: var(--muted); cursor: pointer; font-size: inherit; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+.link:hover { color: var(--ink); }
+.chip { display: inline-flex; align-items: center; gap: 5px; padding: 2px 10px; border-radius: 999px; font-size: 12.5px; font-weight: 600; background: var(--sunk); color: var(--muted); max-width: 100%; }
+.chip.stage { background: var(--accent-soft); color: var(--accent); }
+.chip.warn { background: var(--warn-bg); color: var(--warn); } .chip.ok { background: var(--ok-bg); color: var(--ok); } .chip.bad { background: var(--bad-bg); color: var(--bad); } .chip.ai { background: var(--ai-soft); color: var(--ai); }
+.chip svg { width: 13px; height: 13px; }
+.caseno { font: 600 13px var(--mono); letter-spacing: -.01em; }
 .muted { color: var(--muted); } .faint { color: var(--faint); font-size: 13px; }
 
-/* cause list */
-.matter { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 4px 14px; align-items: start; }
-.matter .sn { font: 600 20px/1.3 var(--serif); color: var(--ribbon); text-align: right; font-variant-numeric: tabular-nums; }
-.matter h3 { font: 600 17px/1.3 var(--serif); margin: 3px 0 1px; text-wrap: balance; }
-.brief { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 5px 12px; margin: 10px 0 0; padding-top: 10px; border-top: 1px solid var(--rule); }
-.brief dt { font: 600 11px/1.9 var(--sans); letter-spacing: .07em; text-transform: uppercase; color: var(--faint); }
+/* a matter on the list */
+.matter { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 4px 16px; align-items: start; padding: 18px 20px; }
+.matter:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+.matter .sn { width: 40px; height: 40px; border-radius: 13px; display: grid; place-items: center; font: 600 16px var(--display); background: var(--accent-soft); color: var(--accent); }
+.matter.done { opacity: .72; } .matter.done .sn { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: var(--on-accent); }
+.matter h3 { font: 600 18px/1.3 var(--display); letter-spacing: -.015em; margin: 6px 0 2px; text-wrap: balance; }
+.stagebar { display: flex; gap: 3px; margin: 10px 0 0; max-width: 360px; }
+.stagebar i { flex: 1; height: 4px; border-radius: 2px; background: var(--sunk); }
+.stagebar i.done { background: color-mix(in srgb, var(--accent) 55%, transparent); } .stagebar i.cur { background: linear-gradient(90deg, var(--accent), var(--accent2)); box-shadow: 0 0 10px var(--accent); }
+.brief { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 6px 14px; margin: 12px 0 0; padding-top: 12px; border-top: 1px solid var(--line); }
+.brief dt { font: 700 10.5px/2.1 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
 .brief dd { margin: 0; max-width: 72ch; }
-.brief dd.now { font-weight: 600; }
+.brief dd.now { font-weight: 700; }
+.card > .brief:first-child { border-top: 0; margin-top: 0; padding-top: 0; }
 
-/* tables */
-.tablewrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; }
+.tablewrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
 table { border-collapse: collapse; width: 100%; font-size: 14px; }
-th { text-align: left; font: 600 11px var(--sans); letter-spacing: .07em; text-transform: uppercase; color: var(--faint); padding: 9px 12px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
-td { padding: 9px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { text-align: left; font: 700 10.5px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--faint); padding: 12px 16px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+td { padding: 11px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
 tr:last-child td { border-bottom: 0; }
-tr.click { cursor: pointer; } tr.click:hover { background: var(--sunk); }
+tr.click { cursor: pointer; } tr.click:hover { background: var(--accent-soft); }
 td.num { white-space: nowrap; font-variant-numeric: tabular-nums; }
 
-/* matter workspace */
-.stepper { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 4px; }
-.stepper span { flex: 1 0 auto; min-width: 86px; padding: 6px 8px 5px; border-top: 3px solid var(--rule); font-size: 12px; color: var(--faint); line-height: 1.3; }
-.stepper span.done { border-color: var(--accent); color: var(--muted); }
-.stepper span.cur { border-color: var(--ribbon); color: var(--ink); font-weight: 600; }
-.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--rule); overflow-x: auto; }
-.tabs button { border: 0; background: none; padding: 8px 13px; cursor: pointer; color: var(--muted); font-weight: 500; border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
-.tabs button[aria-selected="true"] { color: var(--ink); border-color: var(--ribbon); }
-.timeline { list-style: none; margin: 0; padding: 0 0 0 16px; border-left: 2px solid var(--rule); display: flex; flex-direction: column; gap: 14px; }
+/* a matter opened */
+.facts { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 12px; }
+.facts div { display: flex; flex-direction: column; } .facts b { font: 600 18px/1.2 var(--display); } .facts span { font-size: 12px; color: var(--faint); }
+.stepper { display: flex; gap: 4px; overflow-x: auto; padding: 14px 0 2px; }
+.stepper span { flex: 1 0 auto; min-width: 84px; padding: 8px 6px 0; border-top: 4px solid var(--sunk); border-radius: 2px; font-size: 11.5px; color: var(--faint); line-height: 1.3; }
+.stepper span.done { border-color: color-mix(in srgb, var(--accent) 55%, transparent); color: var(--muted); }
+.stepper span.cur { border-image: linear-gradient(90deg, var(--accent), var(--accent2)) 1; color: var(--ink); font-weight: 700; }
+.tabs { display: flex; gap: 4px; overflow-x: auto; background: var(--sunk); padding: 4px; border-radius: 14px; align-self: flex-start; max-width: 100%; }
+.tabs button { border: 0; background: none; padding: 7px 14px; cursor: pointer; color: var(--muted); font-weight: 600; border-radius: 10px; white-space: nowrap; }
+.tabs button[aria-selected="true"] { color: var(--ink); background: var(--solid); box-shadow: 0 1px 3px rgba(0, 0, 0, .12); }
+.timeline { list-style: none; margin: 0; padding: 0 0 0 20px; border-left: 2px solid var(--line); display: flex; flex-direction: column; gap: 16px; }
 .timeline > li { position: relative; }
-.timeline > li::before { content: ""; position: absolute; left: -22px; top: 7px; width: 10px; height: 10px; border-radius: 50%; background: var(--surface); border: 2px solid var(--accent); }
+.timeline > li::before { content: ""; position: absolute; left: -27px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent2)); box-shadow: 0 0 0 4px var(--bg); }
 .timeline p { max-width: 74ch; margin-top: 3px; }
 .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 12px; }
-.side { background: var(--sunk); border-radius: 8px; padding: 9px 12px; min-width: 0; }
-.side b { display: block; font: 600 11px var(--sans); letter-spacing: .07em; text-transform: uppercase; color: var(--faint); margin-bottom: 2px; }
-label { display: flex; flex-direction: column; gap: 3px; font-size: 13px; color: var(--muted); font-weight: 500; min-width: 0; }
-input[type=text], input[type=date], input[type=search], input[type=number], select, textarea { border: 1px solid var(--rule); border-radius: 7px; padding: 7px 9px; background: var(--surface); color: var(--ink); width: 100%; min-width: 0; }
-input, select, textarea { font-weight: 400; }
-select[data-act="auth-add"] { max-width: 260px; }
-textarea { min-height: 76px; resize: vertical; line-height: 1.45; }
-.form { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 10px 12px; }
+.side { background: var(--sunk); border-radius: 14px; padding: 10px 14px; min-width: 0; }
+.side b { display: block; font: 700 10.5px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--faint); margin-bottom: 3px; }
+label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--muted); font-weight: 600; min-width: 0; }
+input[type=text], input[type=date], input[type=number], #app input[type=search], select, textarea { border: 1px solid var(--line); border-radius: 12px; padding: 9px 12px; background: var(--solid); color: var(--ink); width: 100%; min-width: 0; font-weight: 400; }
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+textarea { min-height: 80px; resize: vertical; line-height: 1.5; }
+select[data-act="auth-add"] { width: auto; max-width: 260px; }
+.form { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 12px 14px; }
 .form .wide { grid-column: 1 / -1; }
-details.card > summary { cursor: pointer; font-weight: 600; }
-details.card[open] > summary { margin-bottom: 12px; }
-.check { display: flex; gap: 8px; align-items: flex-start; flex-direction: row; font-size: 14px; color: var(--ink); font-weight: 400; }
-.check input { margin-top: 4px; }
+details.card > summary { cursor: pointer; font-weight: 700; }
+details.card[open] > summary { margin-bottom: 14px; }
+.check { display: flex; gap: 9px; align-items: flex-start; flex-direction: row; font-size: 14px; color: var(--ink); font-weight: 400; }
+.check input { margin-top: 4px; accent-color: var(--accent); }
+.drop { border: 1.5px dashed color-mix(in srgb, var(--accent) 50%, var(--line)); border-radius: 18px; padding: 18px 20px; background: var(--accent-soft); display: flex; gap: 14px; align-items: center; }
+.drop .ic { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: var(--on-accent); flex: none; box-shadow: var(--glow); }
+.drop.over { border-style: solid; border-color: var(--accent); }
+.drop span { color: var(--muted); font-size: 14px; display: block; }
+.spin { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--accent-soft); border-top-color: var(--accent); animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
 
 /* the draft: set like the order it will become */
-.paper { background: var(--surface); border: 1px solid var(--rule); border-radius: 4px; padding: clamp(18px, 4vw, 44px); font: 16px/1.65 var(--serif); max-width: 800px; }
-.paper .cap { text-align: center; margin-bottom: 18px; }
-.paper .cap b { display: block; letter-spacing: .04em; }
+.paper { background: var(--solid); border: 1px solid var(--line); border-radius: 6px; padding: clamp(18px, 4vw, 48px); font: 16px/1.7 var(--serif); max-width: 820px; box-shadow: var(--shadow); }
+.paper .cap { text-align: center; margin-bottom: 18px; } .paper .cap b { display: block; letter-spacing: .04em; }
 .paper h4 { font: 600 16px var(--serif); margin: 20px 0 6px; text-decoration: underline; text-underline-offset: 3px; }
 .paper p { margin: 0 0 10px; }
-.paper .hole { background: var(--warn-bg); color: var(--warn); padding: 6px 10px; border-radius: 6px; font: 14px/1.5 var(--sans); }
-.src { font: 11.5px var(--mono); color: var(--accent); background: var(--accent-soft); border-radius: 4px; padding: 0 5px; margin-left: 5px; white-space: nowrap; }
-.toast { position: fixed; left: 50%; bottom: calc(22px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 9px 15px; border-radius: 9px; z-index: 20; max-width: min(92vw, 520px); font-size: 14px; }
+.paper .hole { background: var(--warn-bg); color: var(--warn); padding: 7px 12px; border-radius: 10px; font: 14px/1.5 var(--sans); }
+.src { font: 500 11px var(--mono); color: var(--ai); background: var(--ai-soft); border-radius: 6px; padding: 1px 6px; margin-left: 5px; white-space: nowrap; }
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 14px; z-index: 20; max-width: min(92vw, 520px); font-size: 14px; font-weight: 600; box-shadow: var(--shadow); }
+.empty { text-align: center; padding: 36px 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.empty .logo { width: 56px; height: 56px; border-radius: 18px; } .empty .logo svg { width: 28px; height: 28px; }
 
-@media (max-width: 860px) {
-  .shell { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+@media (max-width: 880px) {
+  .shell { grid-template-columns: minmax(0, 1fr); gap: 12px; }
   .rail { position: static; gap: 10px; }
   .nav { flex-direction: row; overflow-x: auto; padding-bottom: 4px; }
-  .nav a[aria-current] { box-shadow: inset 0 -3px 0 var(--ribbon); }
-  .navsep, .rail small { display: none; }
-  .matter { grid-template-columns: minmax(0, 1fr); } .matter .sn { text-align: left; }
-  .brief { grid-template-columns: minmax(0, 1fr); gap: 0; } .brief dt { margin-top: 7px; }
+  .navsep, .railfoot { display: none; }
+  .topbar { flex-wrap: wrap; } .status { font-size: 12px; }
+  .hero { grid-template-columns: minmax(0, 1fr); } .ring { width: 104px; height: 104px; }
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tile { padding: 12px; gap: 10px; } .tile .ic { width: 34px; height: 34px; }
+  .matter { grid-template-columns: minmax(0, 1fr); }
+  .brief { grid-template-columns: minmax(0, 1fr); gap: 0; } .brief dt { margin-top: 6px; }
 }
-@media (prefers-reduced-motion: no-preference) { .card, .btn { transition: border-color .15s; } }
-
-.drop { border: 1.5px dashed var(--faint); border-radius: 10px; padding: 14px 16px; background: var(--surface); display: flex; flex-direction: column; gap: 2px; }
-.drop.over { border-color: var(--accent); background: var(--accent-soft); }
-.drop span { color: var(--muted); font-size: 14px; }
-.link { background: none; border: 0; padding: 0; color: var(--muted); cursor: pointer; font-size: inherit; text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 3px; }
-.link:hover { color: var(--ink); }
-.callout { background: var(--warn-bg); color: var(--warn); border-radius: 8px; padding: 9px 13px; }
-.callout a { color: inherit; font-weight: 600; }
-select[data-act="auth-add"] { width: auto; }
 </style>
 
 <div class="shell">
   <aside class="rail">
-    <div class="brand">Bench Desk<span>Company law bench</span></div>
+    <a class="brand" href="#today"><span class="logo"><svg class="i" viewBox="0 0 24 24"><path d="M12 4v16M7 20h10M5 8h14"/><path d="M5 8l-2.5 6a2.8 2.8 0 0 0 5 0zM19 8l-2.5 6a2.8 2.8 0 0 0 5 0z"/></svg></span><span>Bench Desk<small>Company law bench</small></span></a>
     <nav class="nav" id="nav" aria-label="Sections"></nav>
-    <small id="mode"></small>
+    <div class="railfoot" id="mode"></div>
   </aside>
-  <main class="main" id="app"><p class="muted">Opening the register…</p></main>
+  <div class="col">
+    <header class="topbar">
+      <div class="search"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+        <input id="cmd" type="search" placeholder="Search a case number, party or advocate" autocomplete="off" aria-label="Search everything"><kbd>/</kbd><div id="cmdlist" hidden></div></div>
+      <div class="status" id="status"></div>
+    </header>
+    <main class="main" id="app"><p class="muted">Opening the register…</p></main>
+  </div>
 </div>
 <input type="file" id="picker" multiple hidden accept=".pdf,.docx,.txt,.md,.htm,.html,image/png,image/jpeg,image/webp">
 
@@ -182,6 +266,24 @@ const norm = s => String(s || '').toUpperCase().replace(/\s+OF\s+/g, '/').replac
 const str = v => typeof v === 'string' ? v.trim() : v == null ? '' : String(v);
 const safeUrl = u => typeof u === 'string' && (u.startsWith('/_blob/') || u.startsWith('https://')) ? u : '';
 function toast(msg) { document.querySelector('.toast')?.remove(); const t = Object.assign(document.createElement('div'), {className: 'toast', textContent: msg}); t.setAttribute('role', 'status'); document.body.append(t); setTimeout(() => t.remove(), 5200); }
+
+const ICONS = {
+  today: '<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/><circle cx="12" cy="15" r="1.6"/>',
+  matters: '<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  diary: '<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4M8 14h3M8 17h6"/>',
+  library: '<path d="M5 4h10a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h10"/>',
+  inbox: '<path d="M4 13l2.5-7h11L20 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M4 13h4.5a3.5 3.5 0 0 0 7 0H20"/>',
+  sources: '<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/>',
+  spark: '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/>',
+  alert: '<path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17.2v.3"/>',
+  upload: '<path d="M12 16V5M7.5 9.5L12 5l4.5 4.5"/><path d="M5 16v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2"/>',
+  doc: '<path d="M7 3h7l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M14 3v5h5"/>',
+  clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+  arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+  check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+};
+const icon = n => `<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n] || ''}</svg>`;
+const DEMO = {"library":{"L1":{"name":"Innoventive Industries Ltd. v. ICICI Bank","cite":"(2018) 1 SCC 407","court":"Supreme Court","year":"","tags":["IBC s. 7","Admission"],"note":"On a financial creditor's application the Adjudicating Authority looks for a debt that is due and a default; a dispute about the debt is not a ground to refuse.","file":"","asset":""},"L2":{"name":"Mobilox Innovations (P) Ltd. v. Kirusa Software (P) Ltd.","cite":"(2018) 1 SCC 353","court":"Supreme Court","year":"","tags":["IBC s. 9","Pre-existing dispute"],"note":"An operational creditor's application fails if a plausible dispute existed before the demand notice; the defence must not be spurious or illusory.","file":"","asset":""},"L3":{"name":"B.K. Educational Services (P) Ltd. v. Parag Gupta & Associates","cite":"(2019) 11 SCC 633","court":"Supreme Court","year":"","tags":["Limitation","IBC s. 7","IBC s. 9"],"note":"The Limitation Act applies to applications under sections 7 and 9; time runs from the date of default.","file":"","asset":""},"L4":{"name":"Asset Reconstruction Co. (India) Ltd. v. Bishal Jaiswal","cite":"(2021) 6 SCC 366","court":"Supreme Court","year":"","tags":["Limitation","Acknowledgment"],"note":"An entry in a balance sheet can be an acknowledgment of debt under section 18 of the Limitation Act, read with any caveat in the notes.","file":"","asset":""},"L5":{"name":"Dena Bank v. C. Shivakumar Reddy","cite":"(2021) 10 SCC 330","court":"Supreme Court","year":"","tags":["Limitation","Acknowledgment","IBC s. 7"],"note":"Later acknowledgments and a settlement offer can extend limitation; further documents may be brought on record before final orders.","file":"","asset":""},"L6":{"name":"Vidarbha Industries Power Ltd. v. Axis Bank Ltd.","cite":"(2022) 8 SCC 352","court":"Supreme Court","year":"","tags":["IBC s. 7","Discretion"],"note":"Section 7(5)(a) uses \"may\"; the Adjudicating Authority may consider the corporate debtor's overall position before admitting.","file":"","asset":""},"L7":{"name":"M. Suresh Kumar Reddy v. Canara Bank","cite":"(2023) 8 SCC 387","court":"Supreme Court","year":"","tags":["IBC s. 7","Discretion"],"note":"Vidarbha is confined to its own facts; where debt and default are shown, admission ordinarily follows.","file":"","asset":""},"L8":{"name":"K. Sashidhar v. Indian Overseas Bank","cite":"(2019) 12 SCC 150","court":"Supreme Court","year":"","tags":["Resolution plan","Commercial wisdom"],"note":"The commercial wisdom of the Committee of Creditors in approving or rejecting a plan is not open to review on merits.","file":"","asset":""},"L9":{"name":"Committee of Creditors of Essar Steel India Ltd. v. Satish Kumar Gupta","cite":"(2020) 8 SCC 531","court":"Supreme Court","year":"","tags":["Resolution plan","Operational creditors"],"note":"Review of an approved plan is limited to the section 30(2) requirements; equitable, not equal, treatment of different classes of creditors.","file":"","asset":""},"L10":{"name":"Needle Industries (India) Ltd. v. Needle Industries Newey (India) Holding Ltd.","cite":"(1981) 3 SCC 333","court":"Supreme Court","year":"","tags":["Oppression","Allotment of shares"],"note":"Oppression needs conduct lacking in probity and fair dealing towards a member; an unlawful act is not by itself oppressive.","file":"","asset":""},"L11":{"name":"Dale & Carrington Invt. (P) Ltd. v. P.K. Prathapan","cite":"(2005) 1 SCC 212","court":"Supreme Court","year":"","tags":["Oppression","Allotment of shares"],"note":"Directors who allot shares to themselves to gain control, without need for funds and without notice, breach their fiduciary duty.","file":"","asset":""},"L12":{"name":"Tata Consultancy Services Ltd. v. Cyrus Investments (P) Ltd.","cite":"(2021) 9 SCC 449","court":"Supreme Court","year":"","tags":["Oppression","Removal of director"],"note":"Removal of a director is not by itself oppression; the test remains prejudicial conduct lacking in probity.","file":"","asset":""},"L13":{"name":"Miheer H. Mafatlal v. Mafatlal Industries Ltd.","cite":"(1997) 1 SCC 579","court":"Supreme Court","year":"","tags":["Scheme","Sanction"],"note":"In sanctioning a scheme the court checks legality, fairness and the statutory majority; it does not sit in appeal over the commercial decision.","file":"","asset":""},"L14":{"name":"Own bench: order admitting a section 7 application after restructuring had lapsed","cite":"Sample entry (fictional)","court":"This Bench","year":"","tags":["IBC s. 7","Own orders"],"note":"A restructuring that was conditional on an upfront payment never made was held not to have postponed the default.","file":"","asset":""}},"matters":{"A":{"type":"ibc","stage":4,"status":"pending","no":"CP(IB) 412/2024","a":"Sarvodaya Co-operative Bank Ltd.","b":"Trident Alloys Pvt. Ltd.","la":"Financial Creditor","lb":"Corporate Debtor","ca":"Mr. Rohan Mathur, Advocate","cb":"Ms. Ishita Banerjee, Advocate","provision":"Section 7 of the Insolvency and Bankruptcy Code, 2016","about":"The bank seeks to start insolvency resolution of Trident Alloys for a default of Rs. 38.60 crore on a term loan and a cash credit facility. The company says the account was restructured in March 2021 and that the application is barred by limitation.","clock":"","next":"@0","purpose":"remaining arguments of the Corporate Debtor and rejoinder","reserved":"","folder":"","first":"@-410","hearings":5,"fresh":2,"adjA":0,"adjB":1,"last":{"date":"@-62","sum":"Arguments of the Financial Creditor heard and concluded. Arguments of the Corporate Debtor heard in part.","order":"Part heard. Corporate Debtor to place the restructuring sanction letter on record within two weeks."},"todo":[{"t":"Corporate Debtor to file the restructuring sanction letter","done":true},{"t":"Financial Creditor to file written submissions","done":true}],"auth":["L3","L4","L5","L1","L14","L6","L7"],"brief":{"about":"The bank seeks to start insolvency resolution of Trident Alloys for a default of Rs. 38.60 crore on a term loan and a cash credit facility. The company says the account was restructured in March 2021 and that the application is barred by limitation.","last":"Arguments of the Financial Creditor heard and concluded. Arguments of the Corporate Debtor heard in part. Part heard. Corporate Debtor to place the restructuring sanction letter on record within two weeks.","today":"For remaining arguments of the Corporate Debtor and rejoinder.","watch":["Part heard","New since last hearing: sanction letter filed by the Corporate Debtor"],"by":"ai"},"created":"","updated":""},"B":{"type":"co","stage":5,"status":"pending","no":"CP 96/2023","a":"Meera Vasudevan & Anr.","b":"Vasudevan Spices Pvt. Ltd. & Ors.","la":"Petitioners","lb":"Respondents","ca":"Mr. Arjun Pillai, Senior Advocate","cb":"Ms. Devika Rao, Advocate","provision":"Sections 241 and 242 of the Companies Act, 2013","about":"A family company. The petitioners say their holding was cut from 34 per cent to 21 per cent by an allotment of 40,000 shares on 14.02.2022 made without notice to them, and that the first petitioner was then removed as director.","clock":"","next":"@0","purpose":"arguments of the Respondents","reserved":"","folder":"","first":"@-940","hearings":4,"fresh":0,"adjA":0,"adjB":1,"last":{"date":"@-33","sum":"Arguments of the Petitioners concluded.","order":"Respondents to produce the valuation report relied on for the allotment. Listed for arguments of the Respondents."},"todo":[{"t":"Respondents to produce the valuation report relied on for the allotment","done":false}],"auth":["L10","L11","L12"],"brief":{"about":"A family company. The petitioners say their holding was cut from 34 per cent to 21 per cent by an allotment of 40,000 shares on 14.02.2022 made without notice to them, and that the first petitioner was then removed as director.","last":"Arguments of the Petitioners concluded. Respondents to produce the valuation report relied on for the allotment. Listed for arguments of the Respondents.","today":"For arguments of the Respondents.","watch":["Interim order in force: status quo on shareholding and fixed assets"],"by":"ai"},"created":"","updated":""},"C":{"type":"ia","stage":3,"status":"pending","no":"IA 1873/2025 in CP(IB) 127/2023","a":"Anand Kulkarni, Resolution Professional of Kestrel Infra Ltd.","b":"Committee of Creditors & Anr.","la":"Applicant","lb":"Respondents","ca":"Ms. Sana Merchant, Advocate","cb":"Mr. Vivek Chari, Advocate (for the objector)","provision":"Sections 30(6) and 31 of the Insolvency and Bankruptcy Code, 2016","about":"Approval of the resolution plan of Halcyon Roadways for Kestrel Infra. The plan offers Rs. 214 crore against admitted claims of Rs. 612 crore and was approved by the Committee of Creditors with 87.4 per cent of the vote. An operational creditor objects to a nil payout.","clock":"CIRP day 318 of 330","next":"@0","purpose":"hearing on approval of the resolution plan","reserved":"","folder":"","first":"@-70","hearings":2,"fresh":1,"adjA":1,"adjB":0,"last":{"date":"@-28","sum":"Objector heard on maintainability. Resolution Professional sought time to reply.","order":"Reply within ten days. To be heard with IA 2011/2025."},"todo":[{"t":"Resolution Professional to file the compliance certificate in Form H","done":true}],"auth":["L8","L9"],"brief":{"about":"Approval of the resolution plan of Halcyon Roadways for Kestrel Infra. The plan offers Rs. 214 crore against admitted claims of Rs. 612 crore and was approved by the Committee of Creditors with 87.4 per cent of the vote. An operational creditor objects to a nil payout.","last":"Objector heard on maintainability. Resolution Professional sought time to reply. Reply within ten days. To be heard with IA 2011/2025.","today":"For hearing on approval of the resolution plan.","watch":["Twelve days left on the CIRP period","Objection IA 2011/2025 is to be heard together"],"by":"ai"},"created":"","updated":""},"D":{"type":"caa","stage":5,"status":"pending","no":"CP(CAA) 31/2026","a":"Lumen Retail Pvt. Ltd. (Transferor) and Lumen Brands Ltd. (Transferee)","b":"Regional Director and Official Liquidator","la":"Petitioner companies","lb":"Regulators","ca":"Mr. Kabir Anand, Advocate","cb":"Representative of the Regional Director","provision":"Sections 230 to 232 of the Companies Act, 2013","about":"Second motion for sanction of the amalgamation of Lumen Retail with its holding company Lumen Brands. Meetings of shareholders were dispensed with on consent affidavits. The Regional Director has two observations: the appointed date and the accounting treatment.","clock":"","next":"@0","purpose":"final hearing on sanction of the scheme","reserved":"","folder":"","first":"@-110","hearings":2,"fresh":0,"adjA":0,"adjB":1,"last":{"date":"@-45","sum":"Affidavit of service on record. Report of the Regional Director awaited.","order":"Regional Director to file the report within three weeks."},"todo":[{"t":"Petitioners to file an affidavit answering the Regional Director's observations","done":false}],"auth":["L13"],"brief":{"about":"Second motion for sanction of the amalgamation of Lumen Retail with its holding company Lumen Brands. Meetings of shareholders were dispensed with on consent affidavits. The Regional Director has two observations: the appointed date and the accounting treatment.","last":"Affidavit of service on record. Report of the Regional Director awaited. Regional Director to file the report within three weeks.","today":"For final hearing on sanction of the scheme.","watch":[],"by":"ai"},"created":"","updated":""},"E":{"type":"ibc","stage":3,"status":"pending","no":"CP(IB) 588/2025","a":"Orchid Packaging LLP","b":"Navsari Foods Ltd.","la":"Operational Creditor","lb":"Corporate Debtor","ca":"Mr. Farhan Siddiqui, Advocate","cb":"Ms. Lata Krishnan, Advocate","provision":"Section 9 of the Insolvency and Bankruptcy Code, 2016","about":"Unpaid invoices of Rs. 1.84 crore for packaging material supplied between January and June 2024. The company says the material was defective and that it complained by e-mail in August 2024, before the demand notice.","clock":"","next":"@0","purpose":"reply and arguments","reserved":"","folder":"","first":"@-250","hearings":4,"fresh":0,"adjA":0,"adjB":3,"last":{"date":"@-41","sum":"Reply not filed. Counsel for the Corporate Debtor sought a final accommodation.","order":"Last opportunity, subject to costs of Rs. 10,000 payable to the Operational Creditor. If no reply is filed the right to file it shall stand closed."},"todo":[{"t":"Corporate Debtor to file reply","done":false},{"t":"Corporate Debtor to pay costs of Rs. 10,000","done":false}],"auth":["L2","L3"],"brief":{"about":"Unpaid invoices of Rs. 1.84 crore for packaging material supplied between January and June 2024. The company says the material was defective and that it complained by e-mail in August 2024, before the demand notice.","last":"Reply not filed. Counsel for the Corporate Debtor sought a final accommodation. Last opportunity, subject to costs of Rs. 10,000 payable to the Operational Creditor. If no reply is filed the right to file it shall stand closed.","today":"For reply and arguments.","watch":["3 adjournments at the Corporate Debtor's request","Last opportunity given, with costs of Rs. 10,000","Reply still not filed"],"by":"ai"},"created":"","updated":""},"F":{"type":"ibc","stage":5,"status":"reserved","no":"CP(IB) 203/2022","a":"Zenith Finlease Ltd.","b":"Arbor Hospitality Pvt. Ltd.","la":"Financial Creditor","lb":"Corporate Debtor","ca":"Mr. Nikhil Bose, Advocate","cb":"Mr. Tarun Sachdev, Advocate","provision":"Section 7 of the Insolvency and Bankruptcy Code, 2016","about":"Section 7 application on an inter-corporate deposit of Rs. 9.2 crore. The defence is that the money was an investment in a hotel project and not a financial debt.","clock":"","next":"","purpose":"","reserved":"@-44","folder":"","first":"@-44","hearings":1,"fresh":0,"adjA":0,"adjB":0,"last":{"date":"@-44","sum":"Arguments of both sides heard at length.","order":"Order reserved. Written notes within one week."},"todo":[],"auth":["L1"],"brief":{"about":"Section 7 application on an inter-corporate deposit of Rs. 9.2 crore. The defence is that the money was an investment in a hotel project and not a financial debt.","last":"Arguments of both sides heard at length. Order reserved. Written notes within one week.","today":"","watch":[],"by":"ai"},"created":"","updated":""},"G":{"type":"co","stage":2,"status":"pending","no":"CP 41/2025","a":"Pinewood Exports Pvt. Ltd.","b":"Registrar of Companies","la":"Petitioner","lb":"Respondent","ca":"Ms. Ritu Saxena, Company Secretary","cb":"None yet","provision":"Section 252 of the Companies Act, 2013","about":"Restoration of the company's name, struck off in 2023 for not filing returns. The company says it was carrying on business throughout and holds immovable property.","clock":"","next":"@-1","purpose":"report of the Registrar of Companies","reserved":"","folder":"","first":"@-30","hearings":1,"fresh":0,"adjA":0,"adjB":0,"last":{"date":"@-30","sum":"First listing.","order":"Notice to the Registrar of Companies. Report within four weeks."},"todo":[{"t":"Registrar of Companies to file report","done":false}],"auth":[],"brief":{"about":"Restoration of the company's name, struck off in 2023 for not filing returns. The company says it was carrying on business throughout and holds immovable property.","last":"First listing. Notice to the Registrar of Companies. Report within four weeks.","today":"For report of the Registrar of Companies.","watch":[],"by":"ai"},"created":"","updated":""}},"files":{"A":{"hearings":[{"id":"h0","date":"@-410","sum":"First listing. Counsel for the Financial Creditor heard.","sa":"","sb":"","order":"Notice issued. Reply within three weeks.","next":"@-330","purpose":"","adj":"","reserved":false,"disposed":false,"by":"ai","file":"Order.pdf","asset":"","note":""},{"id":"h1","date":"@-330","sum":"Reply on record.","sa":"","sb":"Raised limitation as a preliminary objection.","order":"Rejoinder, if any, within two weeks.","next":"@-240","purpose":"","adj":"","reserved":false,"disposed":false,"by":"ai","file":"Order.pdf","asset":"","note":""},{"id":"h2","date":"@-240","sum":"Pleadings complete. Limitation taken up first.","sa":"Balance sheets for FY 2019-20 and 2020-21 and the settlement letter extend limitation.","sb":"Default is of 30.06.2019; the application of 2024 is beyond three years.","order":"Financial Creditor to file the Information Utility record and the settlement letter of 11.01.2022 on affidavit.","next":"@-150","purpose":"","adj":"","reserved":false,"disposed":false,"by":"ai","file":"Order.pdf","asset":"","note":""},{"id":"h3","date":"@-150","sum":"Additional affidavit filed. Corporate Debtor sought time to respond.","sa":"","sb":"Sought time.","order":"Time granted as a last opportunity.","next":"@-62","purpose":"","adj":"b","reserved":false,"disposed":false,"by":"ai","file":"Order.pdf","asset":"","note":""},{"id":"h4","date":"@-62","sum":"Arguments of the Financial Creditor heard and concluded. Arguments of the Corporate Debtor heard in part.","sa":"Debt and default are shown by the Information Utility record. Acknowledgments keep the claim within time.","sb":"The settlement letter was without prejudice and is no acknowledgment. After the restructuring of 18.03.2021 nothing was due on the date of filing.","order":"Part heard. Corporate Debtor to place the restructuring sanction letter on record within two weeks.","next":"@0","purpose":"remaining arguments of the Corporate Debtor and rejoinder","adj":"","reserved":false,"disposed":false,"by":"ai","file":"Order.pdf","asset":"","note":""}],"docs":[{"id":"d0","date":"@-470","t":"Application in Form 1 with annexures","who":"a","pp":214,"sum":"Term loan of Rs. 30 crore and cash credit of Rs. 10 crore sanctioned in 2016. Date of default stated as 30.06.2019; account classified NPA on 28.09.2019. Amount claimed Rs. 38.60 crore.","by":"ai","file":"Application in Form 1 with annexures.pdf","asset":"","note":""},{"id":"d1","date":"@-350","t":"Reply of the Corporate Debtor","who":"b","pp":96,"sum":"Denies default as on the date of filing. Relies on a restructuring sanctioned on 18.03.2021. Pleads that the application is barred by limitation, being filed more than three years after 30.06.2019.","by":"ai","file":"Reply of the Corporate Debtor.pdf","asset":"","note":""},{"id":"d2","date":"@-260","t":"Rejoinder","who":"a","pp":38,"sum":"Says the restructuring was conditional on an upfront payment of Rs. 2 crore that was never made. Relies on balance sheets and the settlement letter of 11.01.2022 as acknowledgments.","by":"ai","file":"Rejoinder.pdf","asset":"","note":""},{"id":"d3","date":"@-170","t":"Additional affidavit: record of default and settlement letter","who":"a","pp":27,"sum":"Record of default from the Information Utility, authenticated. Letter dated 11.01.2022 from the company offering Rs. 24 crore in full settlement.","by":"ai","file":"Additional affidavit.pdf","asset":"","note":""},{"id":"d4","date":"@-6","t":"Affidavit with restructuring sanction letter dated 18.03.2021","who":"b","pp":19,"sum":"Sanction letter filed. Clause 4 makes the restructuring effective on receipt of Rs. 2 crore within 30 days. The affidavit does not say whether that amount was paid.","by":"ai","file":"Affidavit with restructuring sanction letter dated 18.03.2021.pdf","asset":"","note":""},{"id":"d5","date":"@-3","t":"Written submissions of the Financial Creditor","who":"a","pp":12,"sum":"Three points: acknowledgment in balance sheets, the settlement letter, and that the restructuring never took effect.","by":"ai","file":"Written submissions of the Financial Creditor.pdf","asset":"","note":""}],"issues":[{"id":"p0","q":"Whether the application is within limitation","a":"Default occurred on 30.06.2019. The balance sheets for FY 2019-20 and 2020-21 show the loan as outstanding, and the letter of 11.01.2022 offers settlement. Each is an acknowledgment under section 18 of the Limitation Act and gives a fresh period.","as":["Doc 3, p. 9","Doc 4, p. 14"],"b":"The balance sheets carry a note disputing the amount. The settlement letter is marked without prejudice. Neither amounts to an acknowledgment, and three years from 30.06.2019 ran out in 2022.","bs":["Doc 2, p. 31"],"auth":["L3","L4","L5"]},{"id":"p1","q":"Whether a debt was due and in default on the date of filing, given the restructuring of 18.03.2021","a":"The restructuring was conditional on an upfront payment of Rs. 2 crore within 30 days. It was never paid, so the restructuring never took effect. The Information Utility record shows the default as authenticated.","as":["Doc 3, p. 17","Doc 4, p. 3"],"b":"The sanction letter was acted upon by both sides. Under the revised schedule no instalment had fallen due on the date of filing.","bs":["Doc 2, p. 44","Doc 5, p. 6"],"auth":["L1","L14"]},{"id":"p2","q":"Whether admission should be declined even if default is shown","a":"Once debt and default are established the application has to be admitted. Vidarbha has been confined to its facts.","as":["Doc 6, p. 10"],"b":"The company is a going concern with 640 workers and holds an arbitral award of Rs. 52 crore, more than the debt claimed. The discretion under section 7(5)(a) should be exercised in its favour.","bs":["Doc 2, p. 70"],"auth":["L6","L7"]}]},"B":{"hearings":[{"id":"h0","date":"@-940","sum":"Petition taken up for admission and interim relief.","sa":"Urgency: a further allotment was proposed.","sb":"","order":"Notice issued. Status quo to be maintained on shareholding and fixed assets until further orders.","next":"@-700","purpose":"","adj":"","reserved":false,"disposed":false,"by":"ai","file":"Order.pdf","asset":"","note":""},{"id":"h1","date":"@-700","sum":"Pleadings complete.","sa":"","sb":"","order":"Interim order to continue. Listed for final hearing.","next":"@-180","purpose":"","adj":"","reserved":false,"disposed":false,"by":"ai","file":"Order.pdf","asset":"","note":""},{"id":"h2","date":"@-180","sum":"Arguments of the Petitioners heard in part.","sa":"No offer letter was ever served. The company had no need for funds when the shares were issued.","sb":"","order":"Part heard.","next":"@-33","purpose":"","adj":"","reserved":false,"disposed":false,"by":"ai","file":"Order.pdf","asset":"","note":""},{"id":"h3","date":"@-33","sum":"Arguments of the Petitioners concluded.","sa":"Sought cancellation of the allotment; in the alternative a buy-out at a fair value fixed by an independent valuer.","sb":"Sought time to produce the valuation report.","order":"Respondents to produce the valuation report relied on for the allotment. Listed for arguments of the Respondents.","next":"@0","purpose":"arguments of the Respondents","adj":"b","reserved":false,"disposed":false,"by":"ai","file":"Order.pdf","asset":"","note":""}],"docs":[{"id":"d0","date":"@-980","t":"Company petition with annexures","who":"a","pp":302,"sum":"Shareholding history, the allotment of 14.02.2022, and the EGM of 03.06.2022 removing the first petitioner. Seeks cancellation of the allotment and her reinstatement.","by":"ai","file":"Company petition with annexures.pdf","asset":"","note":""},{"id":"d1","date":"@-860","t":"Reply of Respondents 1 to 4","who":"b","pp":148,"sum":"Says the allotment was a rights issue offered to all members and that the petitioners did not subscribe. Notices were sent by courier to the registered address.","by":"ai","file":"Reply of Respondents 1 to 4.pdf","asset":"","note":""},{"id":"d2","date":"@-790","t":"Rejoinder","who":"a","pp":41,"sum":"Denies receipt of any offer letter. Points out that the courier receipts bear an old address.","by":"ai","file":"Rejoinder.pdf","asset":"","note":""}],"issues":[{"id":"p0","q":"Whether the allotment of 40,000 shares on 14.02.2022 was valid and made in good faith","a":"No notice of the board meeting or offer letter reached the petitioners. The company had cash reserves and no need for capital. The only effect was to reduce the petitioners below 25 per cent.","as":["Doc 1, p. 56","Doc 3, p. 12"],"b":"It was a rights issue under section 62 offered to every member in proportion. The petitioners chose not to subscribe.","bs":["Doc 2, p. 37"],"auth":["L10","L11"]},{"id":"p1","q":"Whether the removal of the first petitioner as director was oppressive","a":"The EGM was called on short notice sent to an old address. The removal followed within four months of the allotment and is part of one design.","as":["Doc 1, p. 88"],"b":"Removal was by the requisite majority under section 169. A director has no right to remain in office.","bs":["Doc 2, p. 61"],"auth":["L12"]},{"id":"p2","q":"What relief should follow","a":"Cancellation of the allotment and reinstatement; in the alternative a buy-out at fair value.","as":["Doc 1, p. 120"],"b":"No relief is called for. If any, the petitioners may exit at a value as on the date of the petition.","bs":["Doc 2, p. 140"],"auth":[]}]},"C":{"hearings":[{"id":"h0","date":"@-70","sum":"Application for plan approval moved.","sa":"","sb":"","order":"Notice to the successful resolution applicant and the objector.","next":"@-28","purpose":"","adj":"","reserved":false,"disposed":false,"by":"ai","file":"Order.pdf","asset":"","note":""},{"id":"h1","date":"@-28","sum":"Objector heard on maintainability. Resolution Professional sought time to reply.","sa":"Sought time.","sb":"The plan gives operational creditors nothing while related-party dues are paid in part.","order":"Reply within ten days. To be heard with IA 2011/2025.","next":"@0","purpose":"hearing on approval of the resolution plan","adj":"a","reserved":false,"disposed":false,"by":"ai","file":"Order.pdf","asset":"","note":""}],"docs":[{"id":"d0","date":"@-75","t":"Application for approval of resolution plan with Form H","who":"a","pp":188,"sum":"Plan value Rs. 214 crore. Secured financial creditors receive 34.9 per cent of admitted claims. Operational creditors other than workmen receive nil. Voting share in favour 87.4 per cent.","by":"ai","file":"Application for approval of resolution plan with Form H.pdf","asset":"","note":""},{"id":"d1","date":"@-40","t":"IA 2011/2025: objections of Bharat Aggregates","who":"b","pp":44,"sum":"Operational creditor with an admitted claim of Rs. 6.3 crore. Says a nil payout fails section 30(2)(b) and that the liquidation value was understated.","by":"ai","file":"IA 2011/2025.pdf","asset":"","note":""},{"id":"d2","date":"@-12","t":"Reply of the Resolution Professional to the objections","who":"a","pp":22,"sum":"Liquidation value available to operational creditors is nil on both valuations, so section 30(2)(b) is met.","by":"ai","file":"Reply of the Resolution Professional to the objections.pdf","asset":"","note":""}],"issues":[{"id":"p0","q":"Whether the plan meets section 30(2), in particular the minimum payment to operational creditors","a":"On both valuations the amount operational creditors would get in liquidation is nil. Section 30(2)(b) is satisfied.","as":["Doc 3, p. 8"],"b":"The liquidation value was understated and a nil payout is inequitable.","bs":["Doc 2, p. 19"],"auth":["L8","L9"]}]},"D":{"hearings":[{"id":"h0","date":"@-110","sum":"Second motion petition admitted.","sa":"","sb":"","order":"Notices to the statutory authorities; publication directed.","next":"@-45","purpose":"","adj":"","reserved":false,"disposed":false,"by":"ai","file":"Order.pdf","asset":"","note":""},{"id":"h1","date":"@-45","sum":"Affidavit of service on record. Report of the Regional Director awaited.","sa":"","sb":"Sought time for the report.","order":"Regional Director to file the report within three weeks.","next":"@0","purpose":"final hearing on sanction of the scheme","adj":"b","reserved":false,"disposed":false,"by":"ai","file":"Order.pdf","asset":"","note":""}],"docs":[{"id":"d0","date":"@-120","t":"Second motion petition with scheme","who":"a","pp":164,"sum":"Appointed date 01.04.2025. Transferor is a wholly owned subsidiary; no shares are to be issued. Consent affidavits of all shareholders and 96 per cent in value of unsecured creditors.","by":"ai","file":"Second motion petition with scheme.pdf","asset":"","note":""},{"id":"d1","date":"@-85","t":"Affidavit of service and publication","who":"a","pp":18,"sum":"Notices served on the Regional Director, Registrar of Companies, Official Liquidator and Income Tax Department; advertisement published in two newspapers.","by":"ai","file":"Affidavit of service and publication.pdf","asset":"","note":""}],"issues":[{"id":"p0","q":"Whether the scheme should be sanctioned, with or without modification","a":"All statutory steps are complete and no objection has been received from any creditor.","as":["Doc 1, p. 12","Doc 2, p. 3"],"b":"The appointed date precedes the board approval by eleven months and the accounting treatment should follow Ind AS 103.","bs":[],"auth":["L13"]}]},"E":{"hearings":[{"id":"h0","date":"@-250","sum":"First listing.","sa":"","sb":"","order":"Notice issued.","next":"@-190","purpose":"","adj":"","reserved":false,"disposed":false,"by":"ai","file":"Order.pdf","asset":"","note":""},{"id":"h1","date":"@-190","sum":"Corporate Debtor appeared and sought time to file reply.","sa":"","sb":"Sought time.","order":"Two weeks granted.","next":"@-120","purpose":"","adj":"b","reserved":false,"disposed":false,"by":"ai","file":"Order.pdf","asset":"","note":""},{"id":"h2","date":"@-120","sum":"Reply not filed. Further time sought.","sa":"Opposed.","sb":"Sought time; said settlement was being explored.","order":"Two weeks more.","next":"@-41","purpose":"","adj":"b","reserved":false,"disposed":false,"by":"ai","file":"Order.pdf","asset":"","note":""},{"id":"h3","date":"@-41","sum":"Reply not filed. Counsel for the Corporate Debtor sought a final accommodation.","sa":"Opposed.","sb":"Sought time.","order":"Last opportunity, subject to costs of Rs. 10,000 payable to the Operational Creditor. If no reply is filed the right to file it shall stand closed.","next":"@0","purpose":"reply and arguments","adj":"b","reserved":false,"disposed":false,"by":"ai","file":"Order.pdf","asset":"","note":""}],"docs":[{"id":"d0","date":"@-300","t":"Application in Form 5 with demand notice and invoices","who":"a","pp":126,"sum":"Demand notice in Form 3 delivered on 02.12.2024. No reply to the demand notice within ten days. Affidavit under section 9(3)(b) filed.","by":"ai","file":"Application in Form 5 with demand notice and invoices.pdf","asset":"","note":""}],"issues":[{"id":"p0","q":"Whether there was a pre-existing dispute before the demand notice","a":"No complaint was made until after the demand notice. The e-mails are an afterthought.","as":["Doc 1, p. 40"],"b":"Quality complaints were raised by e-mail in August 2024. (No reply on record yet.)","bs":[],"auth":["L2","L3"]}]},"F":{"hearings":[{"id":"h0","date":"@-44","sum":"Arguments of both sides heard at length.","sa":"The agreement carries interest and a repayment date; it is a financial debt.","sb":"The money was a share of project cost with a profit share, not a loan.","order":"Order reserved. Written notes within one week.","next":"","purpose":"","adj":"","reserved":true,"disposed":false,"by":"ai","file":"Order.pdf","asset":"","note":""}],"docs":[{"id":"d0","date":"@-900","t":"Application in Form 1","who":"a","pp":88,"sum":"Deposit agreement of 2018 with interest at 14 per cent. Default from 31.03.2020.","by":"ai","file":"Application in Form 1.pdf","asset":"","note":""}],"issues":[{"id":"p0","q":"Whether the deposit is a financial debt","a":"Disbursed against the time value of money: interest at 14 per cent with a fixed repayment date.","as":["Doc 1, p. 22"],"b":"The parties were joint venturers; returns depended on project profit.","bs":[],"auth":["L1"]}]},"G":{"hearings":[{"id":"h0","date":"@-30","sum":"First listing.","sa":"","sb":"","order":"Notice to the Registrar of Companies. Report within four weeks.","next":"@-1","purpose":"report of the Registrar of Companies","adj":"","reserved":false,"disposed":false,"by":"ai","file":"Order.pdf","asset":"","note":""}],"docs":[{"id":"d0","date":"@-60","t":"Petition with bank statements and tax returns","who":"a","pp":72,"sum":"GST returns and bank statements for 2021 to 2024 to show the company was in operation when struck off.","by":"ai","file":"Petition with bank statements and tax returns.pdf","asset":"","note":""}],"issues":[]}},"mine":{"A":{"notes":[{"at":"@-62","t":"Mr. Mathur finished. Strongest point is the FY 2020-21 balance sheet. Ask Ms. Banerjee whether the Rs. 2 crore upfront amount was ever paid."}],"findings":{"p0":"The note to the FY 2020-21 balance sheet questions the rate of interest, not the existence of the debt. Read as a whole the entry acknowledges a subsisting liability. The application is within time. It is not necessary to rest this conclusion on the settlement letter."},"operative":"","draft":null}}};
 
 const TYPES = {
   ibc: {name: 'Insolvency application (IBC s. 7, 9, 10)', a: 'Applicant', b: 'Corporate Debtor',
@@ -217,24 +319,52 @@ function memDb() {
 }
 
 // ---------- platform ----------
+let unsubFile = null;
 const P = {db: null, local: false, user: null, uid: null, sample: null, imgMax: 0, assets: null, downloads: null, dictation: null, aiOff: false};
 const S = {matters: [], library: [], inbox: [], log: [], loaded: false, slow: false, dead: '', cur: null, file: null, mine: null, tab: 'brief', casesq: '', libq: '', busy: [], armed: '', fresh: false};
 const chains = {};
 const queue = (key, fn) => (chains[key] = (chains[key] || Promise.resolve()).then(fn, fn));
 const fail = e => { if (e?.code === 'invalid_argument') toast('You can read this register but not change it. Ask its owner for edit access.'); else if (e?.code === 'quota_exceeded') toast('The register is full. Remove old entries before adding more.'); else toast('That could not be saved just now. Try again in a moment.'); };
 
+// Demo matters live in memory only. Dates in the demo data are written "@n": n days from today.
+function demoDb() {
+  const db = memDb(), off = n => { const d = new Date(TODAY + 'T12:00:00'); d.setDate(d.getDate() + Number(n)); return isoOf(d); };
+  const data = JSON.parse(JSON.stringify(DEMO).replace(/"@(-?\d+)"/g, (m, n) => '"' + off(n) + '"'));
+  for (const [id, v] of Object.entries(data.library)) db.doc('library/' + id).set(v);
+  for (const [id, v] of Object.entries(data.files)) db.doc('files/' + id).set(v);
+  for (const [id, v] of Object.entries(data.matters)) db.doc('matters/' + id).set(v);
+  for (const [id, v] of Object.entries(data.mine)) db.doc('data/users/demo/m_' + id).set(v);
+  db.collection('inbox').add({file: 'scan0043.pdf', asset: '', pages: 1, note: '', at: '', guess: '', sure: '', ex: {kind: 'document', doc_type: 'Office note', case_no: '', party_a: '', party_b: '', date: '', summary: 'A one page scanned note returning a record from the copying section. No case number or party name appears on it.'}});
+  db.doc('log/' + TODAY).set({items: [{at: new Date(Date.now() - 42e5).toISOString(), what: 'Read and filed: Affidavit with restructuring sanction letter.pdf', where: 'CP(IB) 412/2024'}, {at: new Date(Date.now() - 41e5).toISOString(), what: 'Brief rewritten from the record', where: 'CP(IB) 412/2024'}]});
+  return db;
+}
+let unsubs = [];
+function attach() {
+  unsubs.forEach(u => u()); unsubs = []; if (unsubFile) { unsubFile(); unsubFile = null; }
+  Object.assign(S, {matters: [], library: [], inbox: [], log: [], loaded: false, slow: false, dead: '', cur: null, file: null, mine: null, busy: []});
+  const timer = setTimeout(() => { if (!S.loaded) { S.slow = true; render(); } }, 10000);
+  for (const name of ['matters', 'library', 'inbox', 'log']) unsubs.push(P.db.collection(name).onSnapshot(s => {
+    S[name] = s.docs.map(d => ({id: d.id, ...d.data()}));
+    if (name === 'matters') { S.loaded = true; S.slow = false; clearTimeout(timer); if (!S.demo && !P.chosen && !S.matters.length && !s.metadata?.fromCache) { P.chosen = true; return setMode(true); } }
+    render();
+  }, e => { if (name === 'matters') { clearTimeout(timer); S.loaded = true; S.dead = e?.code === 'revoked' ? 'Access to this register was withdrawn.' : 'The register could not be opened.'; render(); } }));
+}
+function setMode(demo, remember) {
+  S.demo = demo; P.db = demo ? (P.demoDb ||= demoDb()) : P.realDb; P.uid = demo ? 'demo' : P.realUid;
+  if (remember) { P.chosen = true; try { localStorage.setItem('benchdesk:mode', demo ? 'demo' : 'real'); } catch {} }
+  attach(); if (location.hash && location.hash !== '#today') location.hash = '#today'; else render();
+}
 async function boot() {
   render();
   const use = n => window.claude?.use ? window.claude.use(n).catch(() => null) : Promise.resolve(null);
   const [db, user, sample, assets, downloads, dictation] = await Promise.all(['db', 'user', 'sample', 'assets', 'downloads', 'dictation'].map(use));
-  Object.assign(P, {db: db || memDb(), local: !db, user, sample, assets, downloads, dictation});
-  P.uid = db ? (user ? await user.id().catch(() => null) : null) : 'local';
+  Object.assign(P, {realDb: db, local: !db, user, sample, assets, downloads, dictation});
+  P.realUid = db && user ? await user.id().catch(() => null) : null;
   if (sample) { const lim = await sample.limits().catch(() => null); P.imgMax = lim?.images?.maxCount || 0; }
   if (dictation) wireDictation();
-  const timer = setTimeout(() => { if (!S.loaded) { S.slow = true; render(); } }, 10000);
-  const listen = (name, into) => P.db.collection(name).onSnapshot(s => { S[into] = s.docs.map(d => ({id: d.id, ...d.data()})); if (name === 'matters') { S.loaded = true; S.slow = false; clearTimeout(timer); } render(); },
-    e => { if (name === 'matters') { clearTimeout(timer); S.loaded = true; S.dead = e?.code === 'revoked' ? 'Access to this register was withdrawn.' : 'The register could not be opened.'; render(); } });
-  listen('matters', 'matters'); listen('library', 'library'); listen('inbox', 'inbox'); listen('log', 'log');
+  let pref = ''; try { pref = localStorage.getItem('benchdesk:mode') || ''; } catch {}
+  P.chosen = !!pref;
+  setMode(!db || pref === 'demo');
 }
 
 // ---------- reading and writing the register ----------
@@ -243,7 +373,6 @@ const title = c => [c.a, c.b].filter(Boolean).join(' v. ') || c.no || 'Untitled 
 const stageName = c => c.status === 'disposed' ? 'Disposed' : c.status === 'reserved' ? 'Reserved' : typeOf(c).stages[c.stage] || typeOf(c).stages[0];
 const emptyFile = () => ({hearings: [], docs: [], issues: []});
 const emptyMine = () => ({notes: [], findings: {}, operative: '', draft: null});
-let unsubFile = null;
 
 function openMatter(id, tab) {
   if (unsubFile) unsubFile();
@@ -274,7 +403,7 @@ async function recompute(id, opts = {}) {
   const c = M(id), f = await getFile(id); if (!c) return;
   const hs = [...f.hearings].sort((x, y) => (x.date || '').localeCompare(y.date || '')), last = hs[hs.length - 1] || null;
   const patch = {hearings: hs.length, adjA: hs.filter(h => h.adj === 'a' || h.adj === 'both').length, adjB: hs.filter(h => h.adj === 'b' || h.adj === 'both').length,
-    fresh: f.docs.filter(d => last && (d.date || '') > last.date).length, last: last ? {date: last.date, sum: last.sum, order: last.order} : null};
+    fresh: f.docs.filter(d => last && (d.date || '') > last.date).length, first: hs[0]?.date || '', last: last ? {date: last.date, sum: last.sum, order: last.order} : null};
   if (opts.fromHearing && last) {
     const st = typeOf(c).stages;
     if (last.disposed) Object.assign(patch, {status: 'disposed', next: '', purpose: '', reserved: '', stage: st.length - 1});
@@ -445,14 +574,14 @@ async function fileInto(id, item, opts = {}) {
 }
 
 // ---------- pieces of the page ----------
-const note = html => `<p class="screen-note">${html}</p>`;
+const note = html => `<p class="screen-note">${icon('spark')}<span>${html}</span></p>`;
 const chips = (arr, cls = 'warn') => (arr || []).map(w => `<span class="chip ${cls}">${esc(w)}</span>`).join(' ');
 const head = (h1, sub, right = '') => `<div class="pagehead"><div><h1>${h1}</h1>${sub ? `<p class="sub">${sub}</p>` : ''}</div><div class="row">${right}</div></div>`;
 const mic = id => P.dictation ? `<button class="btn small mic" data-act="mic" data-for="${id}" type="button">Dictate</button>` : '';
 const del = (kind, id, label = 'Remove') => `<button class="link" data-act="del" data-kind="${kind}" data-id="${esc(id)}">${S.armed === kind + id ? 'Click again to remove' : label}</button>`;
 const openLink = x => safeUrl('/_blob/' + x.asset) && x.asset ? ` · <a href="/_blob/${esc(x.asset)}" target="_blank" rel="noopener">Open the original</a>` : '';
-function dropzone(label, ctx) { return `<div class="drop" data-drop="${esc(ctx)}"><b>${label}</b><span>Drop files here or <button class="link" data-act="pick" data-ctx="${esc(ctx)}">choose files</button>. PDF, Word, text or a photo of a page.</span></div>` + busyList(); }
-function busyList() { return S.busy.length ? `<div class="card stack">${S.busy.map(j => `<div class="row"><span class="chip ${j.failed ? 'bad' : j.state === 'Done' ? 'ok' : 'stage'}">${esc(j.state)}</span><span>${esc(j.name)}</span>${j.failed ? `<button class="link" data-act="busy-clear" data-id="${j.id}">Dismiss</button>` : ''}</div>`).join('')}</div>` : ''; }
+function dropzone(label, ctx) { return `<div class="drop" data-drop="${esc(ctx)}"><span class="ic">${icon('upload')}</span><div><b>${label}</b><span>Drop files here or <button class="link" data-act="pick" data-ctx="${esc(ctx)}">choose files</button>. PDF, Word, text or a photo of a page.</span></div></div>` + busyList(); }
+function busyList() { return S.busy.length ? `<div class="card stack">${S.busy.map(j => `<div class="row"><span class="chip ${j.failed ? 'bad' : j.state === 'Done' ? 'ok' : 'ai'}">${j.failed || j.state === 'Done' ? '' : '<i class="spin"></i>'}${esc(j.state)}</span><span>${esc(j.name)}</span>${j.failed ? `<button class="link" data-act="busy-clear" data-id="${j.id}">Dismiss</button>` : ''}</div>`).join('')}</div>` : ''; }
 function briefRows(c) {
   const b = c.brief || {};
   return `<dl class="brief"><dt>About</dt><dd>${esc(b.about || c.about) || '<span class="faint">Not written yet. It appears once an order or document is read.</span>'}</dd>
@@ -463,28 +592,44 @@ const todays = () => S.matters.filter(c => c.next === TODAY && c.status !== 'dis
 const overdue = () => S.matters.filter(c => c.status === 'pending' && c.next && c.next < TODAY);
 const reservedList = () => S.matters.filter(c => c.status === 'reserved');
 
-function matterCard(c, sn) {
-  return `<article class="card matter"><div class="sn">${sn || ''}</div><div>
-    <div class="row"><span class="caseno">${esc(c.no)}</span><span class="chip stage">${esc(stageName(c))}</span>${c.hearings ? `<span class="faint">${c.status === 'pending' ? ordinal(c.hearings + 1) + ' hearing' : c.hearings + ' hearings'}</span>` : ''}</div>
+const since = c => c.first ? 'since ' + fd(c.first, {month: 'short', year: 'numeric'}) : '';
+function matterCard(c, sn, done) {
+  const st = typeOf(c).stages;
+  return `<article class="card matter${done ? ' done' : ''}" id="m-${esc(c.id)}"><div class="sn">${done ? icon('check') : sn || ''}</div><div>
+    <div class="row"><span class="caseno">${esc(c.no)}</span><span class="chip stage">${esc(stageName(c))}</span>${c.clock ? `<span class="chip bad">${icon('clock')}${esc(c.clock)}</span>` : ''}${done ? '<span class="chip ok">Heard today</span>' : ''}<span class="faint">${[c.hearings ? (c.status === 'pending' && !done ? ordinal(c.hearings + 1) + ' hearing' : c.hearings + ' hearings') : '', since(c)].filter(Boolean).join(' · ')}</span></div>
     <h3>${esc(title(c))}</h3>
     <p class="faint">${esc(c.la)}: ${esc(c.ca || 'not recorded')} · ${esc(c.lb)}: ${esc(c.cb || 'not recorded')}</p>
-    ${briefRows(c)}${c.brief?.watch?.length ? `<div class="row" style="margin-top:10px">${chips(c.brief.watch)}</div>` : ''}
-  </div><div><button class="btn primary" data-act="open" data-id="${c.id}" data-tab="hearing">Open</button></div></article>`;
+    <div class="stagebar" title="${esc(stageName(c))}">${st.map((x, i) => `<i class="${c.status === 'disposed' || i < c.stage ? 'done' : i === c.stage ? 'cur' : ''}"></i>`).join('')}</div>
+    ${briefRows(c)}${c.brief?.watch?.length ? `<div class="row" style="margin-top:12px">${chips(c.brief.watch)}</div>` : ''}
+  </div><div><button class="btn primary" data-act="open" data-id="${c.id}" data-tab="hearing">Open ${icon('arrow')}</button></div></article>`;
 }
 
 // ---------- pages ----------
 function pToday() {
-  const list = todays(), late = overdue();
-  return head(new Date().toLocaleDateString('en-GB', {weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'}), `${list.length} matter${list.length === 1 ? '' : 's'} on today's list`) +
-    `<div class="grid3">
-      <div class="card stat"><b>${list.length}</b><span>matters today</span></div>
-      <div class="card stat"><b>${list.reduce((n, c) => n + (c.fresh || 0), 0)}</b><span>documents filed since the last hearings</span></div>
-      <div class="card stat"><b>${reservedList().length}</b><span>reserved, order awaited</span></div>
-      <div class="card stat"><b>${S.inbox.length}</b><span>waiting in the inbox</span></div></div>` +
-    (late.length ? `<p class="callout">${late.length} matter${late.length === 1 ? ' was' : 's were'} listed on a date that has passed with no later order on file: ${late.map(c => `<a href="#matter" data-act="open" data-id="${c.id}" data-tab="hearing">${esc(c.no)}</a> (${fd(c.next)})`).join(', ')}. Add the order of that date.</p>` : '') +
-    (list.length ? list.map((c, i) => matterCard(c, i + 1)).join('')
-      : S.matters.length ? `<div class="card muted">Nothing is listed for today. The <a href="#diary">diary</a> shows what is coming.</div>`
-      : `<div class="card stack"><b>The register is empty.</b><p class="muted" style="max-width:70ch">Start by dropping an order or a petition into the <a href="#inbox">Inbox</a>. It is read, the matter is created from it, and its next date goes into the diary. A matter can also be created by hand under <a href="#matters">Matters</a>.</p></div>`);
+  const pend = todays(), done = S.matters.filter(c => c.last?.date === TODAY && c.next !== TODAY), all = [...done, ...pend], late = overdue(), res = reservedList();
+  const hour = new Date().getHours(), C = 2 * Math.PI * 52, frac = all.length ? done.length / all.length : 0;
+  if (!S.matters.length) return `<div class="card empty"><span class="logo">${icon('inbox')}</span><h1>Your register is empty</h1>
+    <p class="muted" style="max-width:56ch">Drop an order or a petition into the Inbox. It is read, the matter is created from it, and its next date goes into the diary.</p>
+    <div class="row" style="justify-content:center"><a class="btn primary" href="#inbox">${icon('upload')}Add the first file</a><button class="btn" data-act="mode" data-v="demo">Look around with demo matters</button></div></div>`;
+  return (S.demo ? `<div class="banner"><span><b>Demo matters.</b> Everything here is fictional, and nothing you change is saved.</span>${P.realDb ? `<button class="btn small" data-act="mode" data-v="real">Use my own register</button>` : ''}</div>` : '') +
+    `<section class="card hero"><div>
+      <p class="eyebrow">${hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening'}</p>
+      <h1>${new Date().toLocaleDateString('en-GB', {weekday: 'long', day: 'numeric', month: 'long'})}</h1>
+      <p class="sub">${all.length ? `${all.length} matter${all.length === 1 ? '' : 's'} on today's list${done.length ? `, ${done.length} heard` : ''}` : 'Nothing is listed for today'}</p>
+      ${all.length ? `<div class="daystrip" aria-label="Today's list">${all.map((c, i) => `${i ? `<i class="${i <= done.length ? 'done' : ''}"></i>` : ''}<button class="${i < done.length ? 'done' : i === done.length ? 'next' : ''}" data-act="jump" data-id="${c.id}" title="${esc(c.no)}">${i + 1}</button>`).join('')}</div>` : ''}
+    </div>
+    <div class="ring"><svg viewBox="0 0 120 120"><defs><linearGradient id="ringg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--accent)"/><stop offset="1" style="stop-color:var(--accent2)"/></linearGradient></defs>
+      <circle class="track" cx="60" cy="60" r="52"/><circle class="val" cx="60" cy="60" r="52" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${(C * (1 - frac)).toFixed(1)}"/></svg>
+      <div><b>${all.length ? done.length + '/' + all.length : '0'}</b><span>${all.length ? 'heard' : 'listed'}</span></div></div>
+    </section>
+    <div class="tiles">
+      <div class="card tile"><span class="ic">${icon('doc')}</span><div><b>${pend.reduce((n, c) => n + (c.fresh || 0), 0)}</b><span>new filings to read before court</span></div></div>
+      <a class="card tile" href="#diary"><span class="ic">${icon('clock')}</span><div><b>${res.length}</b><span>${res.length ? `reserved, oldest ${Math.max(...res.map(c => daysSince(c.reserved)))} days` : 'orders reserved'}</span></div></a>
+      <a class="card tile" href="#inbox"><span class="ic ai">${icon('inbox')}</span><div><b>${S.inbox.length}</b><span>waiting in the inbox</span></div></a>
+      <a class="card tile" href="#diary"><span class="ic ${late.length ? 'warn' : ''}">${icon('alert')}</span><div><b>${late.length}</b><span>dates passed with no order filed</span></div></a>
+    </div>` +
+    (late.length ? `<p class="callout">${icon('alert')}<span>${late.length} matter${late.length === 1 ? ' was' : 's were'} listed on a date that has passed with no later order on file: ${late.map(c => `<a href="#matter" data-act="open" data-id="${c.id}" data-tab="hearing">${esc(c.no)}</a> (${fd(c.next)})`).join(', ')}. Add the order of that date.</span></p>` : '') +
+    (all.length ? all.map((c, i) => matterCard(c, i + 1, i < done.length)).join('') : `<div class="card muted">Nothing is listed for today. The <a href="#diary">diary</a> shows what is coming.</div>`);
 }
 function pMatters() {
   const q = S.casesq.toLowerCase(), rows = S.matters.filter(c => !q || [c.no, c.a, c.b, c.ca, c.cb, c.provision, stageName(c)].join(' ').toLowerCase().includes(q));
@@ -508,15 +653,18 @@ function pMatter() {
   const t = typeOf(c), f = S.file;
   const tabs = [['brief', 'Brief'], ['hearing', `Hearings${f ? ` (${f.hearings.length})` : ''}`], ['docs', `Documents${f ? ` (${f.docs.length})` : ''}`], ['issues', 'Issues and findings'], ['draft', 'Judgment draft']];
   const body = {brief: tBrief, hearing: tHearing, docs: tDocs, issues: tIssues, draft: tDraft}[S.tab] || tBrief;
-  return `<div><a href="#matters" class="faint">← All matters</a></div>` +
-    head(esc(title(c)), `<span class="caseno">${esc(c.no)}</span>${c.provision ? ' · ' + esc(c.provision) : ''}`, c.next ? `<span class="chip">${c.next === TODAY ? 'Listed today' : 'Next ' + fd(c.next)}</span>` : c.status === 'reserved' ? `<span class="chip warn">Reserved ${daysSince(c.reserved)} days</span>` : '') +
-    `<div class="stepper" aria-label="Stage">${t.stages.map((s, i) => `<span class="${i < c.stage ? 'done' : i === c.stage ? 'cur' : ''}">${esc(s)}</span>`).join('')}</div>
+  const facts = [[c.hearings || 0, 'hearings'], [f ? f.docs.length : '–', 'documents'], c.status === 'reserved' ? [daysSince(c.reserved), 'days since reserved'] : c.next ? [c.next === TODAY ? 'Today' : fd(c.next, {day: 'numeric', month: 'short'}), 'next date'] : ['–', 'no next date'], ...(c.fresh ? [[c.fresh, 'new since last hearing']] : []), ...(c.first ? [[fd(c.first, {month: 'short', year: 'numeric'}), 'first heard']] : [])];
+  return `<div><a href="#matters" class="faint">← All matters</a></div>
+    <section class="card"><div class="pagehead"><div><p class="eyebrow">${esc(t.name.split(' (')[0])}</p><h1 style="margin-top:6px">${esc(title(c))}</h1><p class="sub"><span class="caseno">${esc(c.no)}</span>${c.provision ? ' · ' + esc(c.provision) : ''}</p></div>
+      <div class="row"><span class="chip stage">${esc(stageName(c))}</span>${c.clock ? `<span class="chip bad">${icon('clock')}${esc(c.clock)}</span>` : ''}</div></div>
+      <div class="facts">${facts.map(([v, l]) => `<div><b>${esc(v)}</b><span>${l}</span></div>`).join('')}</div>
+      <div class="stepper" aria-label="Stage">${t.stages.map((x, i) => `<span class="${i < c.stage ? 'done' : i === c.stage ? 'cur' : ''}">${esc(x)}</span>`).join('')}</div></section>
     <div class="tabs" role="tablist">${tabs.map(([k, l]) => `<button role="tab" aria-selected="${S.tab === k}" data-act="tab" data-v="${k}">${l}</button>`).join('')}</div>
     <div class="stack">${f ? body(c, f) : '<p class="muted">Opening the file…</p>'}</div>`;
 }
 function tBrief(c, f) {
   const t = typeOf(c), m = S.mine;
-  return `<div class="card">${briefRows(c)}<div class="row" style="margin-top:10px">${chips(c.brief?.watch)}${c.brief?.by === 'ai' ? '<span class="faint">Brief written by Claude from the record</span>' : ''}${P.sample && !P.aiOff ? `<button class="link" data-act="rebrief">Write the brief again</button>` : ''}</div></div>
+  return `<div class="card">${briefRows(c)}<div class="row" style="margin-top:10px">${chips(c.brief?.watch)}${c.brief?.by === 'ai' ? `<span class="chip ai">${icon('spark')}Brief written by Claude from the record</span>` : ''}${P.sample && !P.aiOff ? `<button class="link" data-act="rebrief">Write the brief again</button>` : ''}</div></div>
     <div class="grid2">
       <div class="card stack"><h2>Compliance with directions</h2>
         ${(c.todo || []).length ? c.todo.map((x, i) => `<label class="check"><input type="checkbox" data-act="todo" data-i="${i}" ${x.done ? 'checked' : ''}> <span>${esc(x.t)}</span></label>`).join('') : '<p class="muted">Nothing is being tracked.</p>'}
@@ -686,13 +834,15 @@ const PAGES = {today: pToday, matters: pMatters, matter: pMatter, diary: pDiary,
 let lastKey = '';
 function render() {
   if (S.pointer) { S.pending = true; return; }   // never redraw under a click in progress
-  const page = PAGES[location.hash.slice(1)] ? location.hash.slice(1) : 'today', app = $('#app'), key = page + '|' + S.cur + '|' + S.tab;
+  const page = PAGES[location.hash.slice(1)] ? location.hash.slice(1) : 'today', app = $('#app'), key = page + '|' + S.cur + '|' + S.tab + '|' + S.demo;
   $('#nav').innerHTML = [['today', 'Today', todays().length || ''], ['matters', 'Matters', S.matters.length || ''], ['diary', 'Diary', ''], ['library', 'Library', S.library.length || ''], ['inbox', 'Inbox', S.inbox.length || ''], ['sources', 'Sources', '']]
-    .map(([k, l, n], i) => `${i === 5 ? '<div class="navsep"></div>' : ''}<a href="#${k}" ${k === page || (page === 'matter' && k === 'matters') ? 'aria-current="page"' : ''}>${l}<span class="n">${n}</span></a>`).join('');
-  $('#mode').textContent = P.db ? (P.local ? 'Opened outside Claude: nothing you enter here is kept.' : (!P.sample || P.aiOff ? 'Claude is not reading files in this view.' : '')) : '';
+    .map(([k, l, n], i) => `${i === 5 ? '<div class="navsep"></div>' : ''}<a href="#${k}" ${k === page || (page === 'matter' && k === 'matters') ? 'aria-current="page"' : ''}>${icon(k)}${l}<span class="n">${n}</span></a>`).join('');
+  $('#status').innerHTML = !P.db ? '' : S.demo ? `<span class="pulse demo"></span>Demo matters${P.realDb ? ` <button class="btn small" data-act="mode" data-v="real">Use my own register</button>` : ''}` : `<span class="pulse"></span>Live register <button class="link" data-act="mode" data-v="demo">See the demo</button>`;
+  $('#mode').textContent = !P.db ? '' : P.local ? 'Opened outside Claude: demo only, nothing is kept.' : !P.sample || P.aiOff ? 'Claude is not reading files in this view.' : 'Press / to search. Files you drop are read by Claude.';
   // keep whatever is being typed across a refresh caused by new data
   const keepVals = key === lastKey && !S.fresh, vals = {}, opens = {}, active = document.activeElement?.id, sel = active && document.activeElement.selectionStart;
   if (keepVals) { app.querySelectorAll('input[id], textarea[id], select[id]').forEach(el => vals[el.id] = el.type === 'checkbox' ? el.checked : el.value); app.querySelectorAll('details[id]').forEach(el => opens[el.id] = el.open); }
+  app.classList.toggle('enter', key !== lastKey);
   lastKey = key; S.fresh = false;
   if (!P.db || (!S.loaded && !S.slow)) { app.innerHTML = '<p class="muted">Opening the register…</p>'; return; }
   if (S.dead) { app.innerHTML = `<div class="card muted">${esc(S.dead)}</div>`; return; }
@@ -700,9 +850,33 @@ function render() {
   app.innerHTML = PAGES[page]();
   for (const id in vals) { const el = document.getElementById(id); if (el) { if (el.type === 'checkbox') el.checked = vals[id]; else if (el.tagName !== 'SELECT' || [...el.options].some(o => o.value === vals[id])) el.value = vals[id]; } }
   for (const id in opens) { const el = document.getElementById(id); if (el) el.open = opens[id]; }
-  if (keepVals && active) { const el = document.getElementById(active); if (el) { el.focus(); try { el.setSelectionRange(sel, sel); } catch {} } }
+  if (keepVals && active && app.contains(document.getElementById(active))) { const el = document.getElementById(active); el.focus(); try { el.setSelectionRange(sel, sel); } catch {} }
   paintMic();
 }
+
+// ---------- search everything ----------
+let cmdItems = [], cmdAt = 0;
+function cmdShow() {
+  const q = $('#cmd').value.trim().toLowerCase(), box = $('#cmdlist'); cmdItems = [];
+  if (!q) { box.hidden = true; return; }
+  for (const c of S.matters) if ([c.no, c.a, c.b, c.ca, c.cb].join(' ').toLowerCase().includes(q)) cmdItems.push({label: title(c), pre: c.no, hint: c.next === TODAY ? 'Today' : c.next ? 'Next ' + fd(c.next) : stageName(c), go: () => openMatter(c.id, 'brief')});
+  for (const l of S.library) if ([l.name, l.cite, ...(l.tags || [])].join(' ').toLowerCase().includes(q)) cmdItems.push({label: l.name, pre: 'Library', hint: l.cite, go: () => { S.libq = l.name; location.hash = '#library'; render(); }});
+  for (const [k, l] of [['today', 'Today'], ['matters', 'Matters'], ['diary', 'Diary'], ['library', 'Library'], ['inbox', 'Inbox'], ['sources', 'Sources']]) if (l.toLowerCase().startsWith(q)) cmdItems.push({label: l, pre: 'Go to', hint: '', go: () => { location.hash = '#' + k; }});
+  cmdItems = cmdItems.slice(0, 9); cmdAt = Math.min(cmdAt, Math.max(0, cmdItems.length - 1));
+  box.innerHTML = cmdItems.length ? cmdItems.map((x, i) => `<button type="button" data-i="${i}" class="${i === cmdAt ? 'on' : ''}"><span class="caseno">${esc(x.pre)}</span><span>${esc(x.label)}</span><small>${esc(x.hint)}</small></button>`).join('') : '<p>Nothing on the register matches.</p>';
+  box.hidden = false;
+}
+function cmdRun(i) { const x = cmdItems[i]; if (!x) return; $('#cmd').value = ''; $('#cmdlist').hidden = true; $('#cmd').blur(); x.go(); }
+$('#cmd').addEventListener('input', () => { cmdAt = 0; cmdShow(); });
+$('#cmd').addEventListener('focus', cmdShow);
+$('#cmd').addEventListener('blur', () => setTimeout(() => { $('#cmdlist').hidden = true; }, 160));
+$('#cmd').addEventListener('keydown', e => {
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); cmdAt = (cmdAt + (e.key === 'ArrowDown' ? 1 : cmdItems.length - 1)) % Math.max(1, cmdItems.length); cmdShow(); }
+  else if (e.key === 'Enter') { e.preventDefault(); cmdRun(cmdAt); }
+  else if (e.key === 'Escape') { e.target.value = ''; e.target.blur(); }
+});
+$('#cmdlist').addEventListener('pointerdown', e => { const b = e.target.closest('button[data-i]'); if (b) { e.preventDefault(); cmdRun(Number(b.dataset.i)); } });
+addEventListener('keydown', e => { if ((e.key === '/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k')) { e.preventDefault(); $('#cmd').focus(); } });
 const until = async test => { for (let i = 0; i < 60 && !test(); i++) await new Promise(r => setTimeout(r, 50)); };
 const val = id => ($('#' + id)?.value || '').trim();
 const reset = () => { S.fresh = true; };
@@ -721,9 +895,12 @@ let pickCtx = '';
 document.addEventListener('click', async e => {
   const el = e.target.closest('[data-act]'); if (!el || ['SELECT', 'TEXTAREA'].includes(el.tagName) || el.type === 'checkbox') return;
   const act = el.dataset.act, c = M(), f = S.file, m = S.mine;
+  if (el.tagName === 'A' && el.getAttribute('href')?.startsWith('#') && act !== 'open') return;
   if (act === 'mic') { const d = P.dictation; if (!d) return; if (micFor === el.dataset.for) { d.stop().catch(() => {}); return; } micFor = el.dataset.for; paintMic(); d.start().catch(err => { micFor = ''; paintMic(); if (err?.code === 'not_granted' || err?.code === 'unavailable') { P.dictation = null; render(); toast('Dictation is not available here. Typing works as before.'); } }); return; }
   if (act === 'open') { e.preventDefault(); return openMatter(el.dataset.id, el.dataset.tab); }
   if (act === 'tab') { S.tab = el.dataset.v; return render(); }
+  if (act === 'mode') return setMode(el.dataset.v === 'demo', true);
+  if (act === 'jump') return document.getElementById('m-' + el.dataset.id)?.scrollIntoView({behavior: 'smooth', block: 'center'});
   if (act === 'pick') { pickCtx = el.dataset.ctx; $('#picker').value = ''; return $('#picker').click(); }
   if (act === 'busy-clear') { S.busy = S.busy.filter(j => j.id !== el.dataset.id); return render(); }
   if (act === 'libtag') { S.libq = el.dataset.v; return render(); }
