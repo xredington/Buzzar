@@ -10,6 +10,8 @@ Every order that is passed gets downloaded and dropped into one folder. The regi
 
 `casefile/bench/index.html` is a clickable prototype, on fictional sample data, of the one app this is meant to grow into for a company law bench: create a matter, add documents and hearings, open the day's cause list with a brief of each matter, keep bench notes, record findings point by point, have the judgment draft assembled for review, and cite from a library of past judgments. It has a Judge view and a Court officer view. The Blueprint page inside it lists the stages by kind of matter, the benchmarks it draws on, and every use case with its status. Open the file through any static server, for example `python3 serve.py` then `/casefile/bench/`.
 
+`casefile/bench/live.html` is the working version of the same desk. It is published as a Claude artifact, where it keeps a shared register, has Claude read each dropped order or document (scans included), files it to its matter, writes the brief, and keeps bench notes, findings and drafts private to each person. Opened outside Claude it runs, but nothing is kept and nothing is read.
+
 The Case Register below is the part that already works on real orders.
 
 ## Try it
