@@ -1,0 +1,729 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bench Desk</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+/* Layout: a desk. A rail of sections on the left, one working surface on the right.
+   A matter opens as a file with tabs; the judgment draft is the only thing set as a document. */
+:root {
+  --bg: #edf0f5; --surface: #ffffff; --sunk: #f5f7fa; --ink: #131a26; --muted: #556074; --faint: #8590a3;
+  --rule: #d4dae5; --accent: #1e3f8f; --accent-soft: #e2e9fb; --on-accent: #ffffff; --ribbon: #b23a5b;
+  --warn: #875800; --warn-bg: #fcefcf; --ok: #1a6a47; --ok-bg: #dcf2e6; --bad: #a12d28; --bad-bg: #fbe2df;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f131a; --surface: #171c26; --sunk: #1d2330; --ink: #e7ebf3; --muted: #a0aabb; --faint: #717c8f;
+  --rule: #2c3444; --accent: #9db7ff; --accent-soft: #1f2b49; --on-accent: #0f131a; --ribbon: #ef8fa8;
+  --warn: #f0c267; --warn-bg: #372b10; --ok: #86d3ab; --ok-bg: #16301f; --bad: #f29b94; --bad-bg: #3a1b19; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0f131a; --surface: #171c26; --sunk: #1d2330; --ink: #e7ebf3; --muted: #a0aabb; --faint: #717c8f;
+  --rule: #2c3444; --accent: #9db7ff; --accent-soft: #1f2b49; --on-accent: #0f131a; --ribbon: #ef8fa8;
+  --warn: #f0c267; --warn-bg: #372b10; --ok: #86d3ab; --ok-bg: #16301f; --bad: #f29b94; --bad-bg: #3a1b19; color-scheme: dark }
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 var(--sans); }
+button, input, select, textarea { font: inherit; color: inherit; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+h1, h2, h3, p { margin: 0; }
+
+.shell { display: grid; grid-template-columns: 208px minmax(0, 1fr); gap: 28px; max-width: 1240px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 56px; }
+.rail { min-width: 0; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 20px); align-self: start; display: flex; flex-direction: column; gap: 18px; }
+.brand { font: 600 19px/1.1 var(--serif); letter-spacing: .01em; }
+.brand span { display: block; font: 12.5px/1.4 var(--sans); color: var(--muted); margin-top: 3px; }
+.nav { display: flex; flex-direction: column; gap: 2px; }
+.nav a { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 7px; text-decoration: none; color: var(--muted); font-weight: 500; white-space: nowrap; }
+.nav a:hover { background: var(--surface); color: var(--ink); }
+.nav a[aria-current] { background: var(--surface); color: var(--ink); box-shadow: inset 3px 0 0 var(--ribbon); }
+.nav .n { font: 500 12px var(--mono); color: var(--faint); }
+.navsep { height: 1px; background: var(--rule); margin: 6px 0; }
+.role { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+.role button { border: 0; background: transparent; padding: 6px 4px; cursor: pointer; font-size: 13px; color: var(--muted); }
+.role button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); font-weight: 600; }
+.rail small { color: var(--faint); font-size: 12px; line-height: 1.4; }
+
+.main { min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+.sample { background: var(--warn-bg); color: var(--warn); border-radius: 8px; padding: 7px 12px; font-size: 13px; }
+.pagehead { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 10px 16px; }
+h1 { font: 600 clamp(22px, 3.4vw, 28px)/1.2 var(--serif); text-wrap: balance; }
+.sub { color: var(--muted); margin-top: 3px; }
+.screen-note { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: 8px 12px; border-radius: 0 8px 8px 0; font-size: 13.5px; color: var(--ink); }
+.screen-note b { font-weight: 600; }
+h2 { font: 600 12px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.stack { display: flex; flex-direction: column; gap: 12px; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 14px; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 12px; }
+
+.card { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; min-width: 0; }
+.stat b { display: block; font: 600 26px/1.1 var(--serif); font-variant-numeric: tabular-nums; }
+.stat span { color: var(--muted); font-size: 13px; }
+.btn { border: 1px solid var(--rule); background: var(--surface); border-radius: 7px; padding: 6px 12px; cursor: pointer; font-weight: 500; white-space: nowrap; text-decoration: none; color: var(--ink); display: inline-block; }
+.btn:hover { border-color: var(--faint); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.btn.small { padding: 3px 9px; font-size: 13px; }
+.btn[disabled] { opacity: .5; cursor: default; }
+.chip { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 12.5px; font-weight: 500; background: var(--sunk); color: var(--muted); border: 1px solid var(--rule); max-width: 100%; }
+.chip.stage { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+.chip.warn { background: var(--warn-bg); color: var(--warn); border-color: transparent; }
+.chip.ok { background: var(--ok-bg); color: var(--ok); border-color: transparent; }
+.chip.bad { background: var(--bad-bg); color: var(--bad); border-color: transparent; }
+.caseno { font: 500 13px var(--mono); }
+.muted { color: var(--muted); } .faint { color: var(--faint); font-size: 13px; }
+
+/* cause list */
+.matter { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 4px 14px; align-items: start; }
+.matter .sn { font: 600 20px/1.3 var(--serif); color: var(--ribbon); text-align: right; font-variant-numeric: tabular-nums; }
+.matter h3 { font: 600 17px/1.3 var(--serif); margin: 3px 0 1px; text-wrap: balance; }
+.brief { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 5px 12px; margin: 10px 0 0; padding-top: 10px; border-top: 1px solid var(--rule); }
+.brief dt { font: 600 11px/1.9 var(--sans); letter-spacing: .07em; text-transform: uppercase; color: var(--faint); }
+.brief dd { margin: 0; max-width: 72ch; }
+.brief dd.now { font-weight: 600; }
+
+/* tables */
+.tablewrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th { text-align: left; font: 600 11px var(--sans); letter-spacing: .07em; text-transform: uppercase; color: var(--faint); padding: 9px 12px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+tr.click { cursor: pointer; } tr.click:hover { background: var(--sunk); }
+td.num { white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* matter workspace */
+.stepper { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 4px; }
+.stepper span { flex: 1 0 auto; min-width: 86px; padding: 6px 8px 5px; border-top: 3px solid var(--rule); font-size: 12px; color: var(--faint); line-height: 1.3; }
+.stepper span.done { border-color: var(--accent); color: var(--muted); }
+.stepper span.cur { border-color: var(--ribbon); color: var(--ink); font-weight: 600; }
+.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--rule); overflow-x: auto; }
+.tabs button { border: 0; background: none; padding: 8px 13px; cursor: pointer; color: var(--muted); font-weight: 500; border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-color: var(--ribbon); }
+.timeline { list-style: none; margin: 0; padding: 0 0 0 16px; border-left: 2px solid var(--rule); display: flex; flex-direction: column; gap: 14px; }
+.timeline > li { position: relative; }
+.timeline > li::before { content: ""; position: absolute; left: -22px; top: 7px; width: 10px; height: 10px; border-radius: 50%; background: var(--surface); border: 2px solid var(--accent); }
+.timeline p { max-width: 74ch; margin-top: 3px; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 12px; }
+.side { background: var(--sunk); border-radius: 8px; padding: 9px 12px; min-width: 0; }
+.side b { display: block; font: 600 11px var(--sans); letter-spacing: .07em; text-transform: uppercase; color: var(--faint); margin-bottom: 2px; }
+label { display: flex; flex-direction: column; gap: 3px; font-size: 13px; color: var(--muted); font-weight: 500; min-width: 0; }
+input[type=text], input[type=date], input[type=search], input[type=number], select, textarea { border: 1px solid var(--rule); border-radius: 7px; padding: 7px 9px; background: var(--surface); color: var(--ink); width: 100%; min-width: 0; }
+input, select, textarea { font-weight: 400; }
+select[data-act="auth-add"] { max-width: 260px; }
+textarea { min-height: 76px; resize: vertical; line-height: 1.45; }
+.form { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 10px 12px; }
+.form .wide { grid-column: 1 / -1; }
+details.card > summary { cursor: pointer; font-weight: 600; }
+details.card[open] > summary { margin-bottom: 12px; }
+.check { display: flex; gap: 8px; align-items: flex-start; flex-direction: row; font-size: 14px; color: var(--ink); font-weight: 400; }
+.check input { margin-top: 4px; }
+
+/* the draft: set like the order it will become */
+.paper { background: var(--surface); border: 1px solid var(--rule); border-radius: 4px; padding: clamp(18px, 4vw, 44px); font: 16px/1.65 var(--serif); max-width: 800px; }
+.paper .cap { text-align: center; margin-bottom: 18px; }
+.paper .cap b { display: block; letter-spacing: .04em; }
+.paper h4 { font: 600 16px var(--serif); margin: 20px 0 6px; text-decoration: underline; text-underline-offset: 3px; }
+.paper p { margin: 0 0 10px; }
+.paper .hole { background: var(--warn-bg); color: var(--warn); padding: 6px 10px; border-radius: 6px; font: 14px/1.5 var(--sans); }
+.src { font: 11.5px var(--mono); color: var(--accent); background: var(--accent-soft); border-radius: 4px; padding: 0 5px; margin-left: 5px; white-space: nowrap; }
+.toast { position: fixed; left: 50%; bottom: calc(22px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 9px 15px; border-radius: 9px; z-index: 20; max-width: min(92vw, 520px); font-size: 14px; }
+
+@media (max-width: 860px) {
+  .shell { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .rail { position: static; gap: 10px; }
+  .nav { flex-direction: row; overflow-x: auto; padding-bottom: 4px; }
+  .nav a[aria-current] { box-shadow: inset 0 -3px 0 var(--ribbon); }
+  .navsep, .rail small { display: none; }
+  .matter { grid-template-columns: minmax(0, 1fr); } .matter .sn { text-align: left; }
+  .brief { grid-template-columns: minmax(0, 1fr); gap: 0; } .brief dt { margin-top: 7px; }
+}
+@media (prefers-reduced-motion: no-preference) { .card, .btn { transition: border-color .15s; } }
+</style>
+
+<div class="shell">
+  <aside class="rail">
+    <div class="brand">Bench Desk<span>Company law bench · prototype</span></div>
+    <div class="role" role="group" aria-label="View as">
+      <button id="role-judge" data-act="role" data-v="judge">Judge</button>
+      <button id="role-officer" data-act="role" data-v="officer">Court officer</button>
+    </div>
+    <nav class="nav" id="nav" aria-label="Sections"></nav>
+    <small>Changes you make here stay in this browser. <a href="#today" data-act="reset">Reset the sample</a></small>
+  </aside>
+  <main class="main" id="app"></main>
+</div>
+
+<script>
+'use strict';
+// ---------- helpers ----------
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+const T0 = new Date(); T0.setHours(0, 0, 0, 0);
+const day = n => { const d = new Date(T0); d.setDate(d.getDate() + n); return d; };
+const fd = (n, o) => day(n).toLocaleDateString('en-GB', o || {day: 'numeric', month: 'short', year: 'numeric'});
+const ago = n => n === 0 ? 'today' : n > 0 ? `in ${n} day${n === 1 ? '' : 's'}` : `${-n} day${n === -1 ? '' : 's'} ago`;
+const uid = () => Math.random().toString(36).slice(2, 8);
+
+// ---------- what a case goes through, by kind of case ----------
+const TYPES = {
+  ibc: {name: 'Insolvency application (IBC s. 7, 9, 10)', a: 'Applicant', b: 'Corporate Debtor',
+        stages: ['Registry scrutiny', 'Registered', 'Notice', 'Pleadings', 'Hearing on admission', 'Reserved', 'Order on admission', 'CIRP applications', 'Plan or liquidation']},
+  co:  {name: 'Company petition (Companies Act, e.g. s. 241-242, 252)', a: 'Petitioner', b: 'Respondent',
+        stages: ['Registry scrutiny', 'Registered', 'Notice', 'Pleadings', 'Interim relief', 'Final hearing', 'Reserved', 'Final order', 'Compliance']},
+  caa: {name: 'Scheme of arrangement (s. 230-232)', a: 'Applicant companies', b: 'Regulators / objectors',
+        stages: ['Registry scrutiny', 'First motion', 'Meetings and notices', 'Second motion', 'Reports (RD, OL)', 'Final hearing', 'Reserved', 'Sanction order', 'Filing with ROC']},
+  ia:  {name: 'Interlocutory application in a pending matter', a: 'Applicant', b: 'Respondent',
+        stages: ['Filed', 'Notice', 'Reply', 'Hearing', 'Reserved', 'Order']},
+};
+
+// ---------- the library: real reported judgments, notes written for this demo ----------
+const LIB = [
+  {id: 'L1', name: 'Innoventive Industries Ltd. v. ICICI Bank', cite: '(2018) 1 SCC 407', court: 'Supreme Court', tags: ['IBC s. 7', 'Admission'], note: 'On a financial creditor\'s application the Adjudicating Authority looks for a debt that is due and a default; a dispute about the debt is not a ground to refuse.'},
+  {id: 'L2', name: 'Mobilox Innovations (P) Ltd. v. Kirusa Software (P) Ltd.', cite: '(2018) 1 SCC 353', court: 'Supreme Court', tags: ['IBC s. 9', 'Pre-existing dispute'], note: 'An operational creditor\'s application fails if a plausible dispute existed before the demand notice; the defence must not be spurious or illusory.'},
+  {id: 'L3', name: 'B.K. Educational Services (P) Ltd. v. Parag Gupta & Associates', cite: '(2019) 11 SCC 633', court: 'Supreme Court', tags: ['Limitation', 'IBC s. 7', 'IBC s. 9'], note: 'The Limitation Act applies to applications under sections 7 and 9; time runs from the date of default.'},
+  {id: 'L4', name: 'Asset Reconstruction Co. (India) Ltd. v. Bishal Jaiswal', cite: '(2021) 6 SCC 366', court: 'Supreme Court', tags: ['Limitation', 'Acknowledgment'], note: 'An entry in a balance sheet can be an acknowledgment of debt under section 18 of the Limitation Act, read with any caveat in the notes.'},
+  {id: 'L5', name: 'Dena Bank v. C. Shivakumar Reddy', cite: '(2021) 10 SCC 330', court: 'Supreme Court', tags: ['Limitation', 'Acknowledgment', 'IBC s. 7'], note: 'Later acknowledgments and a settlement offer can extend limitation; further documents may be brought on record before final orders.'},
+  {id: 'L6', name: 'Vidarbha Industries Power Ltd. v. Axis Bank Ltd.', cite: '(2022) 8 SCC 352', court: 'Supreme Court', tags: ['IBC s. 7', 'Discretion'], note: 'Section 7(5)(a) uses "may"; the Adjudicating Authority may consider the corporate debtor\'s overall position before admitting.'},
+  {id: 'L7', name: 'M. Suresh Kumar Reddy v. Canara Bank', cite: '(2023) 8 SCC 387', court: 'Supreme Court', tags: ['IBC s. 7', 'Discretion'], note: 'Vidarbha is confined to its own facts; where debt and default are shown, admission ordinarily follows.'},
+  {id: 'L8', name: 'K. Sashidhar v. Indian Overseas Bank', cite: '(2019) 12 SCC 150', court: 'Supreme Court', tags: ['Resolution plan', 'Commercial wisdom'], note: 'The commercial wisdom of the Committee of Creditors in approving or rejecting a plan is not open to review on merits.'},
+  {id: 'L9', name: 'Committee of Creditors of Essar Steel India Ltd. v. Satish Kumar Gupta', cite: '(2020) 8 SCC 531', court: 'Supreme Court', tags: ['Resolution plan', 'Operational creditors'], note: 'Review of an approved plan is limited to the section 30(2) requirements; equitable, not equal, treatment of different classes of creditors.'},
+  {id: 'L10', name: 'Needle Industries (India) Ltd. v. Needle Industries Newey (India) Holding Ltd.', cite: '(1981) 3 SCC 333', court: 'Supreme Court', tags: ['Oppression', 'Allotment of shares'], note: 'Oppression needs conduct lacking in probity and fair dealing towards a member; an unlawful act is not by itself oppressive.'},
+  {id: 'L11', name: 'Dale & Carrington Invt. (P) Ltd. v. P.K. Prathapan', cite: '(2005) 1 SCC 212', court: 'Supreme Court', tags: ['Oppression', 'Allotment of shares'], note: 'Directors who allot shares to themselves to gain control, without need for funds and without notice, breach their fiduciary duty.'},
+  {id: 'L12', name: 'Tata Consultancy Services Ltd. v. Cyrus Investments (P) Ltd.', cite: '(2021) 9 SCC 449', court: 'Supreme Court', tags: ['Oppression', 'Removal of director'], note: 'Removal of a director is not by itself oppression; the test remains prejudicial conduct lacking in probity.'},
+  {id: 'L13', name: 'Miheer H. Mafatlal v. Mafatlal Industries Ltd.', cite: '(1997) 1 SCC 579', court: 'Supreme Court', tags: ['Scheme', 'Sanction'], note: 'In sanctioning a scheme the court checks legality, fairness and the statutory majority; it does not sit in appeal over the commercial decision.'},
+  {id: 'L14', name: 'Own bench: order admitting a section 7 application after restructuring had lapsed', cite: 'Sample entry (fictional)', court: 'This Bench', tags: ['IBC s. 7', 'Own orders'], note: 'A restructuring that was conditional on an upfront payment never made was held not to have postponed the default.'},
+];
+
+// ---------- sample matters (fictional). Dates are offsets in days from today. ----------
+function sample() {
+  return {
+    role: 'judge', tab: 'brief', cur: 'A', libq: '', casesq: '', recordings: false,
+    log: [
+      {d: -6, what: 'Read and summarised: Affidavit of corporate debtor with sanction letter', where: 'CP(IB) 412/2024'},
+      {d: -1, what: 'Cause list briefs refreshed for 5 matters', where: 'Cause list'},
+    ],
+    inbox: [
+      {id: 'i1', file: 'Order_CP96_2023.pdf', from: 'Orders folder', kind: 'Order', guess: 'B', sure: 'High', why: 'Case number CP 96/2023 found on page 1'},
+      {id: 'i2', file: 'RD_Report_Lumen.pdf', from: 'Case files folder', kind: 'Report of Regional Director', guess: 'D', sure: 'High', why: 'Company names and CP(CAA) 31/2026 match'},
+      {id: 'i3', file: 'Written submissions CD.docx', from: 'Case files folder', kind: 'Written submissions', guess: 'A', sure: 'Medium', why: 'Party name Trident Alloys matches; no case number in the file'},
+      {id: 'i4', file: 'scan0043.pdf', from: 'Orders folder', kind: 'Unknown', guess: '', sure: '', why: 'Scanned page with no readable case number'},
+    ],
+    cases: [
+      {id: 'A', type: 'ibc', stage: 4, no: 'CP(IB) 412/2024', a: 'Sarvodaya Co-operative Bank Ltd.', b: 'Trident Alloys Pvt. Ltd.', la: 'Financial Creditor', lb: 'Corporate Debtor',
+       ca: 'Mr. Rohan Mathur, Advocate', cb: 'Ms. Ishita Banerjee, Advocate', provision: 'Section 7 of the Insolvency and Bankruptcy Code, 2016', next: 0, purpose: 'remaining arguments of the Corporate Debtor and rejoinder',
+       about: 'The bank seeks to start insolvency resolution of Trident Alloys for a default of Rs. 38.60 crore on a term loan and a cash credit facility. The company says the account was restructured in March 2021 and that the application is barred by limitation.',
+       watch: ['Part heard', 'New since last hearing: sanction letter filed by the Corporate Debtor'],
+       todo: [{t: 'Corporate Debtor to file the restructuring sanction letter', done: true}, {t: 'Financial Creditor to file written submissions', done: true}],
+       notes: [{d: -62, t: 'Mr. Mathur finished. Strongest point is the FY 2020-21 balance sheet. Ask Ms. Banerjee whether the Rs. 2 crore upfront amount was ever paid.'}],
+       docs: [
+         {id: 'd1', d: -470, t: 'Application in Form 1 with annexures', by: 'a', pp: 214, sum: 'Term loan of Rs. 30 crore and cash credit of Rs. 10 crore sanctioned in 2016. Date of default stated as 30.06.2019; account classified NPA on 28.09.2019. Amount claimed Rs. 38.60 crore.'},
+         {id: 'd2', d: -350, t: 'Reply of the Corporate Debtor', by: 'b', pp: 96, sum: 'Denies default as on the date of filing. Relies on a restructuring sanctioned on 18.03.2021. Pleads that the application is barred by limitation, being filed more than three years after 30.06.2019.'},
+         {id: 'd3', d: -260, t: 'Rejoinder', by: 'a', pp: 38, sum: 'Says the restructuring was conditional on an upfront payment of Rs. 2 crore that was never made. Relies on balance sheets and the settlement letter of 11.01.2022 as acknowledgments.'},
+         {id: 'd4', d: -170, t: 'Additional affidavit: record of default and settlement letter', by: 'a', pp: 27, sum: 'Record of default from the Information Utility, authenticated. Letter dated 11.01.2022 from the company offering Rs. 24 crore in full settlement.'},
+         {id: 'd5', d: -6, t: 'Affidavit with restructuring sanction letter dated 18.03.2021', by: 'b', pp: 19, fresh: true, sum: 'Sanction letter filed. Clause 4 makes the restructuring effective on receipt of Rs. 2 crore within 30 days. The affidavit does not say whether that amount was paid.'},
+         {id: 'd6', d: -3, t: 'Written submissions of the Financial Creditor', by: 'a', pp: 12, fresh: true, sum: 'Three points: acknowledgment in balance sheets, the settlement letter, and that the restructuring never took effect.'},
+       ],
+       hearings: [
+         {d: -410, sum: 'First listing. Counsel for the Financial Creditor heard.', order: 'Notice issued. Reply within three weeks.', sa: '', sb: ''},
+         {d: -330, sum: 'Reply on record.', order: 'Rejoinder, if any, within two weeks.', sa: '', sb: 'Raised limitation as a preliminary objection.'},
+         {d: -240, sum: 'Pleadings complete. Limitation taken up first.', order: 'Financial Creditor to file the Information Utility record and the settlement letter of 11.01.2022 on affidavit.', sa: 'Balance sheets for FY 2019-20 and 2020-21 and the settlement letter extend limitation.', sb: 'Default is of 30.06.2019; the application of 2024 is beyond three years.'},
+         {d: -150, sum: 'Additional affidavit filed. Corporate Debtor sought time to respond.', order: 'Time granted as a last opportunity.', sa: '', sb: 'Sought time.', adj: 'b'},
+         {d: -62, sum: 'Arguments of the Financial Creditor heard and concluded. Arguments of the Corporate Debtor heard in part.', order: 'Part heard. Corporate Debtor to place the restructuring sanction letter on record within two weeks.', sa: 'Debt and default are shown by the Information Utility record. Acknowledgments keep the claim within time.', sb: 'The settlement letter was without prejudice and is no acknowledgment. After the restructuring of 18.03.2021 nothing was due on the date of filing.'},
+       ],
+       issues: [
+         {q: 'Whether the application is within limitation', a: 'Default occurred on 30.06.2019. The balance sheets for FY 2019-20 and 2020-21 show the loan as outstanding, and the letter of 11.01.2022 offers settlement. Each is an acknowledgment under section 18 of the Limitation Act and gives a fresh period.', as: ['Doc 3, p. 9', 'Doc 4, p. 14'], b: 'The balance sheets carry a note disputing the amount. The settlement letter is marked without prejudice. Neither amounts to an acknowledgment, and three years from 30.06.2019 ran out in 2022.', bs: ['Doc 2, p. 31'], auth: ['L3', 'L4', 'L5'],
+          finding: 'The note to the FY 2020-21 balance sheet questions the rate of interest, not the existence of the debt. Read as a whole the entry acknowledges a subsisting liability. The application is within time. It is not necessary to rest this conclusion on the settlement letter.'},
+         {q: 'Whether a debt was due and in default on the date of filing, given the restructuring of 18.03.2021', a: 'The restructuring was conditional on an upfront payment of Rs. 2 crore within 30 days. It was never paid, so the restructuring never took effect. The Information Utility record shows the default as authenticated.', as: ['Doc 3, p. 17', 'Doc 4, p. 3'], b: 'The sanction letter was acted upon by both sides. Under the revised schedule no instalment had fallen due on the date of filing.', bs: ['Doc 2, p. 44', 'Doc 5, p. 6'], auth: ['L1', 'L14'], finding: ''},
+         {q: 'Whether admission should be declined even if default is shown', a: 'Once debt and default are established the application has to be admitted. Vidarbha has been confined to its facts.', as: ['Doc 6, p. 10'], b: 'The company is a going concern with 640 workers and holds an arbitral award of Rs. 52 crore, more than the debt claimed. The discretion under section 7(5)(a) should be exercised in its favour.', bs: ['Doc 2, p. 70'], auth: ['L6', 'L7'], finding: ''},
+       ], operative: '', draft: null},
+
+      {id: 'B', type: 'co', stage: 5, no: 'CP 96/2023', a: 'Meera Vasudevan & Anr.', b: 'Vasudevan Spices Pvt. Ltd. & Ors.', la: 'Petitioners', lb: 'Respondents',
+       ca: 'Mr. Arjun Pillai, Senior Advocate', cb: 'Ms. Devika Rao, Advocate', provision: 'Sections 241 and 242 of the Companies Act, 2013', next: 0, purpose: 'arguments of the Respondents',
+       about: 'A family company. The petitioners say their holding was cut from 34 per cent to 21 per cent by an allotment of 40,000 shares on 14.02.2022 made without notice to them, and that the first petitioner was then removed as director.',
+       watch: ['Interim order in force: status quo on shareholding and fixed assets', 'Order of last hearing waiting in the inbox'],
+       todo: [{t: 'Respondents to produce the valuation report relied on for the allotment', done: false}],
+       notes: [],
+       docs: [
+         {id: 'd1', d: -980, t: 'Company petition with annexures', by: 'a', pp: 302, sum: 'Shareholding history, the allotment of 14.02.2022, and the EGM of 03.06.2022 removing the first petitioner. Seeks cancellation of the allotment and her reinstatement.'},
+         {id: 'd2', d: -860, t: 'Reply of Respondents 1 to 4', by: 'b', pp: 148, sum: 'Says the allotment was a rights issue offered to all members and that the petitioners did not subscribe. Notices were sent by courier to the registered address.'},
+         {id: 'd3', d: -790, t: 'Rejoinder', by: 'a', pp: 41, sum: 'Denies receipt of any offer letter. Points out that the courier receipts bear an old address.'},
+       ],
+       hearings: [
+         {d: -940, sum: 'Petition taken up for admission and interim relief.', order: 'Notice issued. Status quo to be maintained on shareholding and fixed assets until further orders.', sa: 'Urgency: a further allotment was proposed.', sb: ''},
+         {d: -700, sum: 'Pleadings complete.', order: 'Interim order to continue. Listed for final hearing.', sa: '', sb: ''},
+         {d: -180, sum: 'Arguments of the Petitioners heard in part.', order: 'Part heard.', sa: 'No offer letter was ever served. The company had no need for funds when the shares were issued.', sb: ''},
+         {d: -33, sum: 'Arguments of the Petitioners concluded.', order: 'Respondents to produce the valuation report relied on for the allotment. Listed for arguments of the Respondents.', sa: 'Sought cancellation of the allotment; in the alternative a buy-out at a fair value fixed by an independent valuer.', sb: 'Sought time to produce the valuation report.', adj: 'b'},
+       ],
+       issues: [
+         {q: 'Whether the allotment of 40,000 shares on 14.02.2022 was valid and made in good faith', a: 'No notice of the board meeting or offer letter reached the petitioners. The company had cash reserves and no need for capital. The only effect was to reduce the petitioners below 25 per cent.', as: ['Doc 1, p. 56', 'Doc 3, p. 12'], b: 'It was a rights issue under section 62 offered to every member in proportion. The petitioners chose not to subscribe.', bs: ['Doc 2, p. 37'], auth: ['L10', 'L11'], finding: ''},
+         {q: 'Whether the removal of the first petitioner as director was oppressive', a: 'The EGM was called on short notice sent to an old address. The removal followed within four months of the allotment and is part of one design.', as: ['Doc 1, p. 88'], b: 'Removal was by the requisite majority under section 169. A director has no right to remain in office.', bs: ['Doc 2, p. 61'], auth: ['L12'], finding: ''},
+         {q: 'What relief should follow', a: 'Cancellation of the allotment and reinstatement; in the alternative a buy-out at fair value.', as: ['Doc 1, p. 120'], b: 'No relief is called for. If any, the petitioners may exit at a value as on the date of the petition.', bs: ['Doc 2, p. 140'], auth: [], finding: ''},
+       ], operative: '', draft: null},
+
+      {id: 'C', type: 'ia', stage: 3, no: 'IA 1873/2025 in CP(IB) 127/2023', a: 'Anand Kulkarni, Resolution Professional of Kestrel Infra Ltd.', b: 'Committee of Creditors & Anr.', la: 'Applicant', lb: 'Respondents',
+       ca: 'Ms. Sana Merchant, Advocate', cb: 'Mr. Vivek Chari, Advocate (for the objector)', provision: 'Sections 30(6) and 31 of the Insolvency and Bankruptcy Code, 2016', next: 0, purpose: 'hearing on approval of the resolution plan',
+       clock: 'CIRP day 318 of 330', about: 'Approval of the resolution plan of Halcyon Roadways for Kestrel Infra. The plan offers Rs. 214 crore against admitted claims of Rs. 612 crore and was approved by the Committee of Creditors with 87.4 per cent of the vote. An operational creditor objects to a nil payout.',
+       watch: ['Twelve days left on the CIRP period', 'Objection IA 2011/2025 is to be heard together'],
+       todo: [{t: 'Resolution Professional to file the compliance certificate in Form H', done: true}], notes: [],
+       docs: [
+         {id: 'd1', d: -75, t: 'Application for approval of resolution plan with Form H', by: 'a', pp: 188, sum: 'Plan value Rs. 214 crore. Secured financial creditors receive 34.9 per cent of admitted claims. Operational creditors other than workmen receive nil. Voting share in favour 87.4 per cent.'},
+         {id: 'd2', d: -40, t: 'IA 2011/2025: objections of Bharat Aggregates', by: 'b', pp: 44, sum: 'Operational creditor with an admitted claim of Rs. 6.3 crore. Says a nil payout fails section 30(2)(b) and that the liquidation value was understated.'},
+         {id: 'd3', d: -12, t: 'Reply of the Resolution Professional to the objections', by: 'a', pp: 22, fresh: true, sum: 'Liquidation value available to operational creditors is nil on both valuations, so section 30(2)(b) is met.'},
+       ],
+       hearings: [
+         {d: -70, sum: 'Application for plan approval moved.', order: 'Notice to the successful resolution applicant and the objector.', sa: '', sb: ''},
+         {d: -28, sum: 'Objector heard on maintainability. Resolution Professional sought time to reply.', order: 'Reply within ten days. To be heard with IA 2011/2025.', sa: 'Sought time.', sb: 'The plan gives operational creditors nothing while related-party dues are paid in part.', adj: 'a'},
+       ],
+       issues: [
+         {q: 'Whether the plan meets section 30(2), in particular the minimum payment to operational creditors', a: 'On both valuations the amount operational creditors would get in liquidation is nil. Section 30(2)(b) is satisfied.', as: ['Doc 3, p. 8'], b: 'The liquidation value was understated and a nil payout is inequitable.', bs: ['Doc 2, p. 19'], auth: ['L8', 'L9'], finding: ''},
+       ], operative: '', draft: null},
+
+      {id: 'D', type: 'caa', stage: 5, no: 'CP(CAA) 31/2026', a: 'Lumen Retail Pvt. Ltd. (Transferor) and Lumen Brands Ltd. (Transferee)', b: 'Regional Director and Official Liquidator', la: 'Petitioner companies', lb: 'Regulators',
+       ca: 'Mr. Kabir Anand, Advocate', cb: 'Representative of the Regional Director', provision: 'Sections 230 to 232 of the Companies Act, 2013', next: 0, purpose: 'final hearing on sanction of the scheme',
+       about: 'Second motion for sanction of the amalgamation of Lumen Retail with its holding company Lumen Brands. Meetings of shareholders were dispensed with on consent affidavits. The Regional Director has two observations: the appointed date and the accounting treatment.',
+       watch: ['Report of the Regional Director is in the inbox, not yet filed to the matter'],
+       todo: [{t: 'Petitioners to file an affidavit answering the Regional Director\'s observations', done: false}], notes: [],
+       docs: [
+         {id: 'd1', d: -120, t: 'Second motion petition with scheme', by: 'a', pp: 164, sum: 'Appointed date 01.04.2025. Transferor is a wholly owned subsidiary; no shares are to be issued. Consent affidavits of all shareholders and 96 per cent in value of unsecured creditors.'},
+         {id: 'd2', d: -85, t: 'Affidavit of service and publication', by: 'a', pp: 18, sum: 'Notices served on the Regional Director, Registrar of Companies, Official Liquidator and Income Tax Department; advertisement published in two newspapers.'},
+       ],
+       hearings: [
+         {d: -110, sum: 'Second motion petition admitted.', order: 'Notices to the statutory authorities; publication directed.', sa: '', sb: ''},
+         {d: -45, sum: 'Affidavit of service on record. Report of the Regional Director awaited.', order: 'Regional Director to file the report within three weeks.', sa: '', sb: 'Sought time for the report.', adj: 'b'},
+       ],
+       issues: [{q: 'Whether the scheme should be sanctioned, with or without modification', a: 'All statutory steps are complete and no objection has been received from any creditor.', as: ['Doc 1, p. 12', 'Doc 2, p. 3'], b: 'The appointed date precedes the board approval by eleven months and the accounting treatment should follow Ind AS 103.', bs: [], auth: ['L13'], finding: ''}],
+       operative: '', draft: null},
+
+      {id: 'E', type: 'ibc', stage: 3, no: 'CP(IB) 588/2025', a: 'Orchid Packaging LLP', b: 'Navsari Foods Ltd.', la: 'Operational Creditor', lb: 'Corporate Debtor',
+       ca: 'Mr. Farhan Siddiqui, Advocate', cb: 'Ms. Lata Krishnan, Advocate', provision: 'Section 9 of the Insolvency and Bankruptcy Code, 2016', next: 0, purpose: 'reply and arguments',
+       about: 'Unpaid invoices of Rs. 1.84 crore for packaging material supplied between January and June 2024. The company says the material was defective and that it complained by e-mail in August 2024, before the demand notice.',
+       watch: ['3 adjournments at the Corporate Debtor\'s request', 'Last opportunity given, with costs of Rs. 10,000', 'Reply still not filed'],
+       todo: [{t: 'Corporate Debtor to file reply', done: false}, {t: 'Corporate Debtor to pay costs of Rs. 10,000', done: false}], notes: [],
+       docs: [{id: 'd1', d: -300, t: 'Application in Form 5 with demand notice and invoices', by: 'a', pp: 126, sum: 'Demand notice in Form 3 delivered on 02.12.2024. No reply to the demand notice within ten days. Affidavit under section 9(3)(b) filed.'}],
+       hearings: [
+         {d: -250, sum: 'First listing.', order: 'Notice issued.', sa: '', sb: ''},
+         {d: -190, sum: 'Corporate Debtor appeared and sought time to file reply.', order: 'Two weeks granted.', sa: '', sb: 'Sought time.', adj: 'b'},
+         {d: -120, sum: 'Reply not filed. Further time sought.', order: 'Two weeks more.', sa: 'Opposed.', sb: 'Sought time; said settlement was being explored.', adj: 'b'},
+         {d: -41, sum: 'Reply not filed. Counsel for the Corporate Debtor sought a final accommodation.', order: 'Last opportunity, subject to costs of Rs. 10,000 payable to the Operational Creditor. If no reply is filed the right to file it shall stand closed.', sa: 'Opposed.', sb: 'Sought time.', adj: 'b'},
+       ],
+       issues: [{q: 'Whether there was a pre-existing dispute before the demand notice', a: 'No complaint was made until after the demand notice. The e-mails are an afterthought.', as: ['Doc 1, p. 40'], b: 'Quality complaints were raised by e-mail in August 2024. (No reply on record yet.)', bs: [], auth: ['L2', 'L3'], finding: ''}],
+       operative: '', draft: null},
+
+      {id: 'F', type: 'ibc', stage: 5, no: 'CP(IB) 203/2022', a: 'Zenith Finlease Ltd.', b: 'Arbor Hospitality Pvt. Ltd.', la: 'Financial Creditor', lb: 'Corporate Debtor',
+       ca: 'Mr. Nikhil Bose, Advocate', cb: 'Mr. Tarun Sachdev, Advocate', provision: 'Section 7 of the Insolvency and Bankruptcy Code, 2016', next: null, reserved: -44, purpose: '',
+       about: 'Section 7 application on an inter-corporate deposit of Rs. 9.2 crore. The defence is that the money was an investment in a hotel project and not a financial debt.',
+       watch: ['Reserved 44 days ago'], todo: [], notes: [], docs: [{id: 'd1', d: -900, t: 'Application in Form 1', by: 'a', pp: 88, sum: 'Deposit agreement of 2018 with interest at 14 per cent. Default from 31.03.2020.'}],
+       hearings: [{d: -44, sum: 'Arguments of both sides heard at length.', order: 'Order reserved. Written notes within one week.', sa: 'The agreement carries interest and a repayment date; it is a financial debt.', sb: 'The money was a share of project cost with a profit share, not a loan.'}],
+       issues: [{q: 'Whether the deposit is a financial debt', a: 'Disbursed against the time value of money: interest at 14 per cent with a fixed repayment date.', as: ['Doc 1, p. 22'], b: 'The parties were joint venturers; returns depended on project profit.', bs: [], auth: ['L1'], finding: ''}],
+       operative: '', draft: null},
+
+      {id: 'G', type: 'co', stage: 2, no: 'CP 41/2025', a: 'Pinewood Exports Pvt. Ltd.', b: 'Registrar of Companies', la: 'Petitioner', lb: 'Respondent',
+       ca: 'Ms. Ritu Saxena, Company Secretary', cb: 'None yet', provision: 'Section 252 of the Companies Act, 2013', next: 12, purpose: 'report of the Registrar of Companies',
+       about: 'Restoration of the company\'s name, struck off in 2023 for not filing returns. The company says it was carrying on business throughout and holds immovable property.',
+       watch: [], todo: [{t: 'Registrar of Companies to file report', done: false}], notes: [], docs: [{id: 'd1', d: -60, t: 'Petition with bank statements and tax returns', by: 'a', pp: 72, sum: 'GST returns and bank statements for 2021 to 2024 to show the company was in operation when struck off.'}],
+       hearings: [{d: -30, sum: 'First listing.', order: 'Notice to the Registrar of Companies. Report within four weeks.', sa: '', sb: ''}], issues: [], operative: '', draft: null},
+    ],
+  };
+}
+
+// ---------- state ----------
+let S;
+function loadState() {
+  try { const raw = localStorage.getItem('benchdesk:v1'); if (raw) { S = JSON.parse(raw); return; } } catch {}
+  S = sample();
+}
+function save() { try { localStorage.setItem('benchdesk:v1', JSON.stringify(S)); } catch {} }
+const C = id => S.cases.find(c => c.id === (id || S.cur));
+const title = c => `${c.a} v. ${c.b}`;
+const stageName = c => c.reserved != null && c.next == null ? 'Reserved' : TYPES[c.type].stages[c.stage];
+const lastH = c => c.hearings[c.hearings.length - 1];
+const todays = () => S.cases.filter(c => c.next === 0);
+const reservedList = () => S.cases.filter(c => c.reserved != null && c.next == null && !(c.draft && c.draft.status === 'Pronounced'));
+const citedIn = id => S.cases.filter(c => c.issues.some(i => i.auth.includes(id)));
+const adjCount = c => ['a', 'b'].map(s => c.hearings.filter(h => h.adj === s).length);
+function toast(msg) { document.querySelector('.toast')?.remove(); const t = Object.assign(document.createElement('div'), {className: 'toast', textContent: msg}); t.setAttribute('role', 'status'); document.body.append(t); setTimeout(() => t.remove(), 4200); }
+
+// ---------- pieces ----------
+const note = html => `<p class="screen-note">${html}</p>`;
+const chips = (arr, cls = 'warn') => arr.map(w => `<span class="chip ${cls}">${esc(w)}</span>`).join(' ');
+function head(h1, sub, right = '') { return `<div class="pagehead"><div><h1>${h1}</h1>${sub ? `<p class="sub">${sub}</p>` : ''}</div><div class="row">${right}</div></div>`; }
+
+function briefRows(c) {
+  const h = lastH(c);
+  return `<dl class="brief">
+    <dt>About</dt><dd>${esc(c.about)}</dd>
+    ${h ? `<dt>Last time</dt><dd><span class="muted">${fd(h.d)}.</span> ${esc(h.sum)} ${esc(h.order)}</dd>` : ''}
+    ${c.next != null ? `<dt>${c.next === 0 ? 'Today' : 'Listed'}</dt><dd class="now">${c.next === 0 ? '' : fd(c.next) + ': '}For ${esc(c.purpose || 'further proceedings')}.</dd>` : c.reserved != null ? `<dt>Status</dt><dd class="now">Order reserved on ${fd(c.reserved)}.</dd>` : ''}
+  </dl>`;
+}
+
+// ---------- pages ----------
+function pToday() {
+  const list = todays(), res = reservedList(), fresh = list.reduce((n, c) => n + c.docs.filter(d => d.fresh).length, 0);
+  return head(day(0).toLocaleDateString('en-GB', {weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'}), `${list.length} matters on today's cause list`) +
+    note(`<b>The morning view.</b> Each matter carries a short brief built from every order and document in its file: what the case is, what happened last time, what it is listed for, and what to watch. Open a matter to work on it.`) +
+    `<div class="grid3">
+      <div class="card stat"><b>${list.length}</b><span>matters today</span></div>
+      <div class="card stat"><b>${fresh}</b><span>documents filed since the last hearings</span></div>
+      <div class="card stat"><b>${res.length}</b><span>reserved, order awaited</span></div>
+      <div class="card stat"><b>${S.inbox.length}</b><span>items waiting in the inbox</span></div>
+    </div>` +
+    (list.length ? list.map((c, i) => {
+      const [aa, ab] = adjCount(c);
+      return `<article class="card matter">
+        <div class="sn">${i + 1}</div>
+        <div>
+          <div class="row"><span class="caseno">${esc(c.no)}</span><span class="chip stage">${esc(stageName(c))}</span>${c.clock ? `<span class="chip bad">${esc(c.clock)}</span>` : ''}<span class="faint">${ordinal(c.hearings.length + 1)} hearing</span></div>
+          <h3>${esc(title(c))}</h3>
+          <p class="faint">${esc(c.la)}: ${esc(c.ca)} · ${esc(c.lb)}: ${esc(c.cb)}</p>
+          ${briefRows(c)}
+          ${c.watch.length ? `<div class="row" style="margin-top:10px">${chips(c.watch)}</div>` : ''}
+        </div>
+        <div><button class="btn primary" data-act="open" data-id="${c.id}" data-tab="hearing">Open</button></div>
+      </article>`;
+    }).join('') : `<div class="card muted">Nothing is listed today.</div>`);
+}
+const ordinal = n => n + (['th', 'st', 'nd', 'rd'][(n % 100 - 20) % 10] || ['th', 'st', 'nd', 'rd'][n % 100] || 'th');
+
+function pCases() {
+  const q = S.casesq.toLowerCase();
+  const rows = S.cases.filter(c => !q || [c.no, c.a, c.b, c.ca, c.cb, c.provision, stageName(c)].join(' ').toLowerCase().includes(q));
+  return head('Matters', `${S.cases.length} on this Bench's register`) +
+    note(`<b>The register.</b> A matter is created once, by the court officer, from the registry's details. Its kind decides the stages it will pass through. Everything else in the app hangs off the matter.`) +
+    `<details class="card"><summary>Create a matter</summary>
+      <div class="form">
+        <label>Kind of matter<select id="nc-type">${Object.entries(TYPES).map(([k, t]) => `<option value="${k}">${esc(t.name)}</option>`).join('')}</select></label>
+        <label>Case number<input type="text" id="nc-no" placeholder="CP(IB) 000/2026"></label>
+        <label>Provision<input type="text" id="nc-prov" placeholder="Section 9 of the Code"></label>
+        <label>Applicant or petitioner<input type="text" id="nc-a"></label>
+        <label>Respondent<input type="text" id="nc-b"></label>
+        <label>Counsel for the applicant<input type="text" id="nc-ca"></label>
+        <label>First listed on<input type="date" id="nc-next"></label>
+        <label>Folder for this matter (link)<input type="text" id="nc-folder" placeholder="Paste the folder link"></label>
+        <label class="wide">What the matter is about, in two lines<textarea id="nc-about"></textarea></label>
+        <div class="wide row"><button class="btn primary" data-act="newcase">Create matter</button><span class="faint">Stages are taken from the kind of matter and can be seen under Blueprint.</span></div>
+      </div></details>
+    <input type="search" id="casesq" placeholder="Search by number, party, counsel, provision or stage" value="${esc(S.casesq)}" aria-label="Search matters">
+    <div class="tablewrap"><table><thead><tr><th>Case no.</th><th>Parties</th><th>Stage</th><th>Last heard</th><th>Next date</th></tr></thead><tbody>
+    ${rows.map(c => `<tr class="click" data-act="open" data-id="${c.id}" data-tab="brief"><td class="num caseno">${esc(c.no)}</td><td>${esc(title(c))}<div class="faint">${esc(c.provision)}</div></td><td><span class="chip stage">${esc(stageName(c))}</span></td><td class="num">${lastH(c) ? fd(lastH(c).d) : ''}</td><td class="num">${c.next != null ? (c.next === 0 ? '<b>Today</b>' : fd(c.next)) : '<span class="faint">none</span>'}</td></tr>`).join('') || `<tr><td colspan="5" class="muted">No matter matches.</td></tr>`}
+    </tbody></table></div>`;
+}
+
+function pCase() {
+  const c = C(); if (!c) return head('Matter not found', '');
+  const t = TYPES[c.type], judge = S.role === 'judge';
+  const tabs = [['brief', 'Brief'], ['hearing', 'Hearings'], ['docs', `Documents (${c.docs.length})`], ['issues', 'Issues and findings'], ['draft', 'Judgment draft']];
+  const body = {brief: tBrief, hearing: tHearing, docs: tDocs, issues: tIssues, draft: tDraft}[S.tab] || tBrief;
+  return `<div><a href="#cases" class="faint">← All matters</a></div>` +
+    head(esc(title(c)), `<span class="caseno">${esc(c.no)}</span> · ${esc(c.provision)}`, `${c.clock ? `<span class="chip bad">${esc(c.clock)}</span>` : ''}${c.next != null ? `<span class="chip">${c.next === 0 ? 'Listed today' : 'Next ' + fd(c.next)}</span>` : ''}`) +
+    `<div class="stepper" aria-label="Stage">${t.stages.map((s, i) => `<span class="${i < c.stage ? 'done' : i === c.stage ? 'cur' : ''}">${esc(s)}</span>`).join('')}</div>
+    <div class="row"><label style="flex-direction:row;align-items:center;gap:8px">Stage<select id="stage-set" style="width:auto">${t.stages.map((s, i) => `<option value="${i}" ${i === c.stage ? 'selected' : ''}>${esc(s)}</option>`).join('')}</select></label></div>
+    <div class="tabs" role="tablist">${tabs.map(([k, l]) => `<button role="tab" aria-selected="${S.tab === k}" data-act="tab" data-v="${k}">${l}</button>`).join('')}</div>
+    <div class="stack">${body(c, judge)}</div>`;
+}
+
+function tBrief(c, judge) {
+  const [aa, ab] = adjCount(c);
+  return note(`<b>The file at a glance.</b> The brief is rewritten whenever an order or document is added. Compliance tracks what each side was told to do. Bench notes are the judge's own and are never shown to the court officer.`) +
+    `<div class="card">${briefRows(c).replace('margin: 10px 0 0', '')}<div class="row" style="margin-top:10px">${chips(c.watch)}${aa >= 2 ? chips([`${aa} adjournments by the ${c.la}`]) : ''}${ab >= 2 && !c.watch.some(w => /adjournment/.test(w)) ? chips([`${ab} adjournments by the ${c.lb}`]) : ''}</div></div>
+    <div class="grid2">
+      <div class="card stack"><h2>Compliance with directions</h2>
+        ${c.todo.length ? c.todo.map((x, i) => `<label class="check"><input type="checkbox" data-act="todo" data-i="${i}" ${x.done ? 'checked' : ''}> <span>${esc(x.t)}</span></label>`).join('') : '<p class="muted">No directions outstanding.</p>'}
+        <div class="row"><input type="text" id="todo-new" placeholder="Add a direction to track" style="flex:1"><button class="btn small" data-act="todo-add">Add</button></div>
+      </div>
+      <div class="card stack"><h2>Bench notes</h2>
+        ${judge ? (c.notes.length ? c.notes.map(n => `<p><span class="faint">${fd(n.d)}</span><br>${esc(n.t)}</p>`).join('') : '<p class="muted">No notes yet.</p>') +
+          `<textarea id="note-new" placeholder="A note to yourself for the next hearing"></textarea><div><button class="btn small" data-act="note-add">Save note</button></div>`
+          : '<p class="muted">Private to the Bench. Not visible in the court officer\'s view.</p>'}
+      </div>
+    </div>
+    <div class="card stack"><h2>Parties and counsel</h2><div class="two"><div class="side"><b>${esc(c.la)}</b>${esc(c.a)}<div class="faint">${esc(c.ca)}</div></div><div class="side"><b>${esc(c.lb)}</b>${esc(c.b)}<div class="faint">${esc(c.cb)}</div></div></div></div>`;
+}
+
+function tHearing(c, judge) {
+  const fresh = c.docs.filter(d => d.fresh);
+  return note(`<b>On the day.</b> What was filed since the last hearing sits on top. Record what happened, the order passed and the next date; the brief, the diary and the cause list for that date update themselves. In the full app the "what happened" box is filled from the hearing recording or the judge's dictation.`) +
+    (fresh.length ? `<div class="card stack"><h2>Filed since the last hearing</h2>${fresh.map(d => `<p><b>${esc(d.t)}</b> <span class="faint">${fd(d.d)}, by the ${esc(d.by === 'a' ? c.la : c.lb)}, ${d.pp} pp.</span><br>${esc(d.sum)}</p>`).join('')}</div>` : '') +
+    `<details class="card" ${c.next === 0 ? 'open' : ''}><summary>Record a hearing</summary>
+      <div class="form">
+        <label>Date of hearing<input type="date" id="h-date" value="${iso(0)}"></label>
+        <label>Next date<input type="date" id="h-next"></label>
+        <label>Listed next for<input type="text" id="h-purpose" placeholder="final arguments"></label>
+        <label>Put off at whose request<select id="h-adj"><option value="">Not adjourned on request</option><option value="a">${esc(c.la)}</option><option value="b">${esc(c.lb)}</option></select></label>
+        <label class="wide">What happened<textarea id="h-sum" placeholder="Arguments of the Corporate Debtor concluded. Rejoinder heard."></textarea></label>
+        <label>${esc(c.la)} said<textarea id="h-sa"></textarea></label>
+        <label>${esc(c.lb)} said<textarea id="h-sb"></textarea></label>
+        <label class="wide">Order passed<textarea id="h-order" placeholder="Order reserved. Written notes within one week."></textarea></label>
+        <label class="check wide"><input type="checkbox" id="h-reserved"> <span>Order reserved (no next date)</span></label>
+        <div class="wide"><button class="btn primary" data-act="hearing-add">Save hearing</button></div>
+      </div></details>
+    <h2>Every hearing so far</h2>
+    <ol class="timeline">${[...c.hearings].reverse().map(h => `<li><b>${fd(h.d)}</b> ${h.adj ? `<span class="chip warn">Put off at the request of the ${esc(h.adj === 'a' ? c.la : c.lb)}</span>` : ''}
+      <p>${esc(h.sum)}</p>
+      ${h.sa || h.sb ? `<div class="two" style="margin-top:6px">${h.sa ? `<div class="side"><b>${esc(c.la)}</b>${esc(h.sa)}</div>` : ''}${h.sb ? `<div class="side"><b>${esc(c.lb)}</b>${esc(h.sb)}</div>` : ''}</div>` : ''}
+      <p><span class="faint">Order:</span> ${esc(h.order)}</p></li>`).join('')}</ol>`;
+}
+const iso = n => { const d = day(n); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+const offset = s => { const [y, m, d] = s.split('-').map(Number); return Math.round((new Date(y, m - 1, d) - T0) / 864e5); };
+
+function tDocs(c) {
+  return note(`<b>The paper book.</b> The court officer adds each pleading, affidavit and report as it is filed, or files it from the inbox. Each document is summarised once and indexed, so the judge can read the gist here and open the original for the page.`) +
+    `<details class="card"><summary>Add a document</summary><div class="form">
+      <label class="wide">Document<input type="text" id="d-t" placeholder="Reply to IA 2011/2025"></label>
+      <label>Filed by<select id="d-by"><option value="a">${esc(c.la)}</option><option value="b">${esc(c.lb)}</option></select></label>
+      <label>Pages<input type="number" id="d-pp" min="1" value="10"></label>
+      <div class="wide"><button class="btn primary" data-act="doc-add">Add to the matter</button></div></div></details>
+    <div class="tablewrap"><table><thead><tr><th>#</th><th>Document</th><th>Filed by</th><th>Filed on</th><th>Pages</th></tr></thead><tbody>
+    ${c.docs.map((d, i) => `<tr><td class="num">${i + 1}</td><td><b>${esc(d.t)}</b> ${d.fresh ? '<span class="chip warn">New since last hearing</span>' : ''}<div class="muted" style="margin-top:3px;max-width:70ch">${esc(d.sum)}</div></td><td>${esc(d.by === 'a' ? c.la : d.by === 'b' ? c.lb : 'Registry')}</td><td class="num">${fd(d.d)}</td><td class="num">${d.pp}</td></tr>`).join('')}
+    </tbody></table></div>`;
+}
+
+function tIssues(c, judge) {
+  return note(`<b>Where the judgment is actually made.</b> The app lays out each point with what either side said and the authorities cited, all taken from the record. The finding on each point is the judge's own and is typed or dictated here. The app does not suggest an outcome.`) +
+    (c.issues.length ? c.issues.map((x, i) => `<div class="card stack">
+      <div class="row" style="justify-content:space-between"><b>Point ${i + 1}. ${esc(x.q)}</b>${x.finding.trim() ? '<span class="chip ok">Finding recorded</span>' : '<span class="chip warn">Finding awaited</span>'}</div>
+      <div class="two"><div class="side"><b>${esc(c.la)}</b>${esc(x.a)} ${x.as.map(s => `<span class="src">${esc(s)}</span>`).join('')}</div><div class="side"><b>${esc(c.lb)}</b>${esc(x.b)} ${x.bs.map(s => `<span class="src">${esc(s)}</span>`).join('')}</div></div>
+      <div class="row"><span class="faint">Authorities:</span> ${x.auth.map(id => { const l = LIB.find(l => l.id === id); return `<span class="chip" title="${esc(l.note)}">${esc(l.name)} ${esc(l.cite)}</span>`; }).join(' ') || '<span class="faint">none cited</span>'}
+        <select data-act="auth-add" data-i="${i}" style="width:auto" aria-label="Add an authority from the library"><option value="">Add from library…</option>${LIB.filter(l => !x.auth.includes(l.id)).map(l => `<option value="${l.id}">${esc(l.name)}</option>`).join('')}</select></div>
+      ${judge ? `<label>Finding of the Bench on this point<textarea data-act="finding" data-i="${i}" id="finding-${c.id}-${i}" placeholder="Type or dictate the finding and the reasons in your own words">${esc(x.finding)}</textarea></label>` : `<p class="muted">The finding is recorded by the Bench.</p>`}
+    </div>`).join('') : '<div class="card muted">No points framed yet.</div>') +
+    `<div class="card row"><input type="text" id="issue-new" placeholder="Add a point for determination" style="flex:1"><button class="btn" data-act="issue-add">Add point</button></div>`;
+}
+
+// ---------- the draft: assembled from the record and the judge's findings ----------
+function buildDraft(c) {
+  const out = [], docRef = i => `Doc ${i + 1}`;
+  out.push({h: 'The application', p: [{t: `This is ${/^[AEIOU]/.test(TYPES[c.type].name) ? 'an' : 'a'} ${TYPES[c.type].name.split(' (')[0].toLowerCase()} under ${c.provision}, filed by ${c.a} (the ${c.la}) against ${c.b} (the ${c.lb}).`, s: [docRef(0)]}, {t: c.about, s: [docRef(0)]}]});
+  out.push({h: 'Proceedings', p: c.hearings.map(h => ({t: `On ${fd(h.d, {day: 'numeric', month: 'long', year: 'numeric'})}: ${h.sum} ${h.order}`, s: [`Order sheet ${fd(h.d, {day: '2-digit', month: '2-digit', year: 'numeric'})}`]}))});
+  out.push({h: `Case of the ${c.la}`, p: c.issues.map(x => ({t: x.a, s: x.as}))});
+  out.push({h: `Case of the ${c.lb}`, p: c.issues.map(x => ({t: x.b, s: x.bs}))});
+  out.push({h: 'Points for determination', p: c.issues.map((x, i) => ({t: `(${i + 1}) ${x.q}.`, s: []}))});
+  c.issues.forEach((x, i) => {
+    const p = [];
+    if (x.auth.length) p.push({t: 'On this point the Bench was referred to ' + x.auth.map(id => { const l = LIB.find(l => l.id === id); return `${l.name}, ${l.cite}`; }).join('; ') + '.', s: ['Library']});
+    p.push(x.finding.trim() ? {t: x.finding.trim(), s: ['Finding of the Bench'], own: true} : {hole: `Finding on point ${i + 1} is to be recorded by the Bench under Issues and findings.`});
+    out.push({h: `Point ${i + 1}: ${x.q}`, p});
+  });
+  out.push({h: 'Order', p: [c.operative.trim() ? {t: c.operative.trim(), s: ['Directions of the Bench'], own: true} : {hole: 'Operative directions are to be entered by the Bench (box above the draft).'}]});
+  return out;
+}
+function draftChecks(c) {
+  const missing = c.issues.filter(x => !x.finding.trim()).length;
+  return [
+    [c.issues.length > 0, 'Points for determination are framed'],
+    [missing === 0 && c.issues.length > 0, missing ? `Findings recorded on every point (${missing} awaited)` : 'Findings recorded on every point'],
+    [!!c.operative.trim(), 'Operative directions entered'],
+    [c.issues.every(x => x.auth.every(id => LIB.some(l => l.id === id))), 'Every authority cited is present in the library'],
+    [c.todo.every(x => x.done), 'No direction to the parties is outstanding'],
+  ];
+}
+function tDraft(c, judge) {
+  if (!judge) return `<div class="card muted">The judgment draft is visible only in the Judge's view.</div>`;
+  const checks = draftChecks(c), d = c.draft;
+  let n = 0;
+  return note(`<b>One click, with a boundary.</b> The draft is assembled from the record: the application, the proceedings, each side's case and the authorities cited, with a source beside every paragraph. The findings and the order are the judge's own words from the previous tab. Nothing in the draft decides a point; where a finding is missing the draft says so.`) +
+    `<div class="grid2">
+      <div class="card stack"><h2>Before the draft is complete</h2>${checks.map(([ok, t]) => `<div class="row"><span class="chip ${ok ? 'ok' : 'warn'}">${ok ? 'Done' : 'Open'}</span><span>${esc(t)}</span></div>`).join('')}</div>
+      <div class="card stack"><h2>Operative directions</h2><textarea id="operative" data-act="operative" placeholder="For example: The application is admitted. Moratorium under section 14 is declared. …">${esc(c.operative)}</textarea>
+        <div class="row"><button class="btn primary" data-act="draft-make">${d ? 'Prepare the draft again' : 'Prepare the draft'}</button>
+        ${d ? `<button class="btn" data-act="draft-copy">Copy text</button>${d.status === 'Draft for review' ? `<button class="btn" data-act="draft-status" data-v="Reviewed by the Bench">Mark as reviewed</button>` : ''}${d.status === 'Reviewed by the Bench' ? `<button class="btn" data-act="draft-status" data-v="Pronounced">Mark as pronounced</button>` : ''}<span class="chip ${d.status === 'Draft for review' ? 'warn' : 'ok'}">${esc(d.status)}</span>` : ''}</div>
+      </div>
+    </div>` +
+    (d ? `<div class="paper" id="paper">
+      <div class="cap"><b>BEFORE THE COMPANY LAW BENCH</b><span class="caseno">${esc(c.no)}</span><br>${esc(c.provision)}<br><br><b>${esc(c.a)}</b> … ${esc(c.la)}<br>versus<br><b>${esc(c.b)}</b> … ${esc(c.lb)}<br><br><span class="faint">For the ${esc(c.la)}: ${esc(c.ca)} · For the ${esc(c.lb)}: ${esc(c.cb)}</span><br><b style="margin-top:10px">O R D E R</b></div>
+      ${d.sections.map(s => `<h4>${esc(s.h)}</h4>${s.p.map(p => p.hole ? `<p class="hole">${esc(p.hole)}</p>` : `<p>${++n}. ${esc(p.t)}${(p.s || []).map(x => `<span class="src">${esc(x)}</span>`).join('')}</p>`).join('')}`).join('')}
+      <p class="faint" style="margin-top:22px;font-family:var(--sans)">Draft prepared ${esc(d.when)} for review by the Bench. Source tags are removed when the order is finalised.</p>
+    </div>` : `<div class="card muted">No draft yet. Prepare it whenever you like; it can be prepared again after findings are added.</div>`);
+}
+
+function pDiary() {
+  const byDay = {};
+  S.cases.forEach(c => { if (c.next != null && c.next >= 0) (byDay[c.next] ||= []).push(c); });
+  const res = reservedList();
+  return head('Diary', 'Every date given, and what is waiting for an order') +
+    note(`<b>The record officer's diary, kept by the app.</b> When a hearing is recorded with a next date, the matter appears here and on that day's cause list. Reserved matters are counted in days so none goes stale.`) +
+    `<h2>Upcoming</h2><div class="tablewrap"><table><thead><tr><th>Date</th><th>Matters</th><th></th></tr></thead><tbody>
+    ${Object.keys(byDay).map(Number).sort((a, b) => a - b).map(n => `<tr><td class="num"><b>${n === 0 ? 'Today' : fd(n)}</b><div class="faint">${day(n).toLocaleDateString('en-GB', {weekday: 'long'})}</div></td><td>${byDay[n].map(c => `<div><span class="caseno">${esc(c.no)}</span> ${esc(title(c))} <span class="faint">for ${esc(c.purpose || 'further proceedings')}</span></div>`).join('')}</td><td class="num">${byDay[n].length}</td></tr>`).join('') || '<tr><td colspan="3" class="muted">No dates given.</td></tr>'}
+    </tbody></table></div>
+    <h2>Reserved, order awaited</h2>
+    ${res.length ? `<div class="tablewrap"><table><thead><tr><th>Case no.</th><th>Parties</th><th>Reserved on</th><th>Days</th><th>Draft</th></tr></thead><tbody>${res.map(c => `<tr class="click" data-act="open" data-id="${c.id}" data-tab="draft"><td class="num caseno">${esc(c.no)}</td><td>${esc(title(c))}</td><td class="num">${fd(c.reserved)}</td><td class="num"><span class="chip ${-c.reserved > 30 ? 'bad' : 'warn'}">${-c.reserved}</span></td><td>${c.draft ? esc(c.draft.status) : 'Not started'}</td></tr>`).join('')}</tbody></table></div>` : '<div class="card muted">Nothing is reserved.</div>'}`;
+}
+
+function pLibrary() {
+  const q = S.libq.toLowerCase();
+  const rows = LIB.filter(l => !q || [l.name, l.cite, l.court, l.note, ...l.tags].join(' ').toLowerCase().includes(q));
+  const tags = [...new Set(LIB.flatMap(l => l.tags))];
+  return head('Library', `${LIB.length} judgments from the connected library folder`) +
+    note(`<b>Past cases, cross-referenced.</b> Judgments placed in the library folder are read once and indexed. From here, or from a point inside a matter, an authority can be cited; the app shows where this Bench has cited it before, and a citation that is not in the library is flagged in the draft checklist. The entries below are real reported judgments with notes written for this demo; the last one is a made-up example of the Bench's own past order.`) +
+    `<input type="search" id="libq" placeholder="Search by name, citation, topic or words in the note" value="${esc(S.libq)}" aria-label="Search the library">
+    <div class="row">${tags.map(t => `<button class="btn small" data-act="libtag" data-v="${esc(t)}">${esc(t)}</button>`).join('')}${S.libq ? `<button class="btn small" data-act="libtag" data-v="">Clear</button>` : ''}</div>
+    <div class="stack">${rows.map(l => { const used = citedIn(l.id); return `<div class="card"><div class="row" style="justify-content:space-between"><b style="font-family:var(--serif);font-size:16px">${esc(l.name)}</b><span class="caseno">${esc(l.cite)}</span></div>
+      <p style="margin-top:4px;max-width:78ch">${esc(l.note)}</p>
+      <div class="row" style="margin-top:8px"><span class="chip">${esc(l.court)}</span>${l.tags.map(t => `<span class="chip stage">${esc(t)}</span>`).join('')}
+      <span class="faint">${used.length ? 'Cited in ' + used.map(c => `<a href="#case" data-act="open" data-id="${c.id}" data-tab="issues">${esc(c.no)}</a>`).join(', ') : 'Not yet cited in a pending matter'}</span></div></div>`; }).join('') || '<div class="card muted">Nothing in the library matches.</div>'}</div>`;
+}
+
+function pInbox() {
+  return head('Inbox', `${S.inbox.length} files waiting to be placed`) +
+    note(`<b>The court officer's desk.</b> Anything saved into a connected folder lands here. The app reads it, proposes the matter it belongs to and says why. The officer confirms or corrects, and the document joins the matter's paper book with its summary. A file the app cannot place is never guessed at.`) +
+    (S.inbox.length ? `<div class="stack">${S.inbox.map(x => `<div class="card"><div class="row" style="justify-content:space-between"><div><b>${esc(x.file)}</b> <span class="chip">${esc(x.kind)}</span><div class="faint">From the ${esc(x.from)} · ${esc(x.why)}</div></div>
+      <div class="row"><select id="in-${x.id}" style="width:auto" aria-label="Matter">${x.guess ? '' : '<option value="">Choose the matter…</option>'}${S.cases.map(c => `<option value="${c.id}" ${c.id === x.guess ? 'selected' : ''}>${esc(c.no)}</option>`).join('')}</select>
+      ${x.sure ? `<span class="chip ${x.sure === 'High' ? 'ok' : 'warn'}">${esc(x.sure)} match</span>` : '<span class="chip bad">No match</span>'}
+      <button class="btn primary small" data-act="file" data-id="${x.id}">File it</button></div></div></div>`).join('')}</div>` : '<div class="card muted">The inbox is empty.</div>');
+}
+
+function pSources() {
+  const src = [
+    ['Case files folder', 'Pleadings, affidavits and reports, one sub-folder per case number', true, '7 matters, 21 documents'],
+    ['Orders folder', 'Signed orders downloaded from the tribunal\'s site by the court officer', true, '26 orders'],
+    ['Library folder', 'Judgments the Bench relies on, and its own past orders', true, LIB.length + ' judgments'],
+    ['Hearing recordings', 'Recordings or transcripts of video hearings, to fill "what happened" for each hearing', S.recordings, S.recordings ? 'Connected (sample)' : 'Not connected'],
+  ];
+  return head('Sources', 'The folders this desk reads, and a record of every reading') +
+    note(`<b>Connect once.</b> The app reads from folders the court already uses, by a shared-drive link or a folder on the computer; it does not replace them. Every reading by the model is logged, because the published judicial AI policies ask for exactly that record.`) +
+    `<div class="stack">${src.map(([n, d, on, meta], i) => `<div class="card row" style="justify-content:space-between"><div><b>${esc(n)}</b><div class="muted">${esc(d)}</div></div><div class="row"><span class="faint">${esc(meta)}</span>${on ? '<span class="chip ok">Connected</span>' : `<button class="btn small" data-act="connect">Connect</button>`}</div></div>`).join('')}</div>
+    <h2>Record of AI use</h2>
+    <div class="tablewrap"><table><thead><tr><th>When</th><th>What was done</th><th>Where</th></tr></thead><tbody>${[...S.log].reverse().map(l => `<tr><td class="num">${fd(l.d)}</td><td>${esc(l.what)}</td><td class="caseno">${esc(l.where)}</td></tr>`).join('')}</tbody></table></div>
+    <div class="card stack"><h2>How documents are read</h2><p class="muted" style="max-width:76ch">Two modes, chosen by the Bench. <b>On this computer:</b> rules and pattern matching, nothing leaves the machine; this already works for orders in the Case Register tool. <b>Approved model:</b> a language model reads each document, including scans, under whatever arrangement the tribunal approves. Private bench notes and findings are never sent for reading in either mode.</p></div>`;
+}
+
+const BENCH = [
+  ['NCLT Rules, 2016 and the listing circular of 12 Aug 2026', 'The registry scrutinises a filing, defects are cured within seven days, and only then is the matter registered and listed. Reply and rejoinder follow under Rules 41 and 42.', 'The desk starts where the Bench does, at "Registered", but shows the registry stages so a matter is never invisible. The daily cause list is the unit of work.', 'https://www.scconline.com/blog/post/2026/09/04/nclt-standardises-registry-and-case-listing-practices/'],
+  ['eCourts Digital Courts 2.1 (India)', 'A single window for the judge\'s case information and tasks, with dictation (ASR-SHRUTI) and translation (PANINI). Reported as still in pilot.', 'One window is the right shape. This desk adds what that one lacks: memory of each case, and a library.', 'https://static.pib.gov.in/WriteReadData/specificdocs/documents/2026/feb/doc2026211785401.pdf'],
+  ['SUPACE (Supreme Court of India, 2021)', 'Reads case files and extracts facts for judges and researchers. The government\'s stated position is that AI is not used in decision making.', 'Extract facts and chronology; leave the deciding alone.', 'https://indiaai.gov.in/case-study/enhancing-the-efficiency-of-india-s-courts-using-ai'],
+  ['Kerala High Court AI policy (July 2025)', 'AI must not be used to arrive at findings, reliefs, orders or judgments. Only approved tools; every use recorded.', 'The draft button assembles and never decides. Findings are typed by the judge. A record of AI use is kept under Sources.', 'https://www.livelaw.in/high-court/kerala-high-court/kerala-high-court-ai-use-district-judiciary-298139'],
+  ['UK Judicial AI Guidance (October 2025)', 'Outputs must be verified before use; judges should read the underlying documents and remain personally responsible.', 'Every line of a brief or draft carries its source, so checking takes one click.', 'https://www.judiciary.uk/guidance-and-resources/artificial-intelligence-ai-judicial-guidance-october-2025/'],
+  ['Singapore Small Claims Tribunals (2025)', 'A generative AI tool summarises case documents for tribunal magistrates, as factual summaries only.', 'Summaries stay factual. No assessment of who is right.', 'https://www.judiciary.gov.sg/news-and-resources/news/news-details/media-release--new-generative-ai-powered-case-summarisation-tool-to-help-small-claims-tribunals-users'],
+];
+const USES = [
+  ['Judge', [
+    ['See the day\'s cause list with a brief of each matter', 'today', 'Prototype; works today on real orders in Case Register'],
+    ['Open a matter on the day: last order, what was to be done, what was filed since', 'case:hearing', 'Prototype'],
+    ['Read the gist of each document with page references', 'case:docs', 'Prototype'],
+    ['Keep private notes on a matter', 'case:brief', 'Prototype'],
+    ['Record the hearing, the order and the next date', 'case:hearing', 'Prototype'],
+    ['See each point with both sides\' case and the authorities cited', 'case:issues', 'Prototype'],
+    ['Record findings point by point', 'case:issues', 'Prototype'],
+    ['Have the judgment draft assembled for review, then mark it reviewed and pronounced', 'case:draft', 'Prototype'],
+    ['Search the library and cite an authority into a matter', 'library', 'Prototype'],
+    ['Track reserved matters by days waiting', 'diary', 'Prototype'],
+    ['Watch statutory clocks, such as the CIRP day count', 'today', 'Prototype (shown, not computed)'],
+    ['Dictate notes, orders and findings by voice', '', 'Later'],
+    ['Ask a question of the file and get the answer with its page', '', 'Later'],
+    ['Share a draft with the other Member of the Bench and merge changes', '', 'Later'],
+    ['Group connected applications and hear them together', '', 'Later'],
+  ]],
+  ['Court officer', [
+    ['Create a matter from the registry\'s details', 'cases', 'Prototype'],
+    ['Add documents to a matter as they are filed', 'case:docs', 'Prototype'],
+    ['File documents and orders from the inbox, with the app proposing the matter', 'inbox', 'Prototype; works today for orders in Case Register'],
+    ['Keep the diary of dates', 'diary', 'Prototype'],
+    ['Track compliance with the Bench\'s directions', 'case:brief', 'Prototype'],
+    ['Check the day\'s list against the official cause list', '', 'Works today in Case Register'],
+    ['Attach hearing recordings or transcripts to a hearing', 'sources', 'Later'],
+    ['Upload the signed order and mark it as uploaded to the tribunal\'s site', '', 'Later'],
+  ]],
+  ['Setting up', [
+    ['Connect the folders the court already uses', 'sources', 'Prototype (shown)'],
+    ['Choose how documents are read: on this computer, or by an approved model', 'sources', 'Prototype (shown)'],
+    ['Keep a record of every AI reading', 'sources', 'Prototype'],
+    ['Define the stages for each kind of matter', 'blueprint', 'Prototype (shown)'],
+    ['Sign-in, roles and an audit trail', '', 'Later'],
+  ]],
+];
+function pBlueprint() {
+  return head('Blueprint', 'What this desk is modelled on, and everything it is meant to do') +
+    note(`<b>For whoever builds the full app.</b> Three things: the stages a matter moves through, what other courts' systems and AI policies teach, and the full list of use cases with where each one stands.`) +
+    `<h2>Stages, by kind of matter</h2>
+    <div class="stack">${Object.values(TYPES).map(t => `<div class="card"><b>${esc(t.name)}</b><div class="stepper" style="margin-top:8px">${t.stages.map(s => `<span class="done">${esc(s)}</span>`).join('')}</div></div>`).join('')}</div>
+    <p class="muted" style="max-width:78ch">Across courts the spine is the same: filing and scrutiny by the registry, registration, notice, pleadings, interim applications, hearing, reserved, order, and what follows the order. A tribunal deciding on affidavits skips oral evidence; an insolvency matter keeps living after admission through its applications. So stages are a setting per kind of matter, not fixed in the app.</p>
+    <h2>Benchmarks</h2>
+    <div class="tablewrap"><table><thead><tr><th>System or policy</th><th>What it does or says</th><th>What this desk takes from it</th></tr></thead><tbody>
+    ${BENCH.map(([n, w, t, u]) => `<tr><td><b>${esc(n)}</b><div><a href="${u}" target="_blank" rel="noopener">Source</a></div></td><td>${esc(w)}</td><td>${esc(t)}</td></tr>`).join('')}</tbody></table></div>
+    <h2>Use cases</h2>
+    ${USES.map(([who, list]) => `<div class="tablewrap"><table><thead><tr><th>${esc(who)}</th><th>Status</th><th></th></tr></thead><tbody>${list.map(([u, go, st]) => `<tr><td>${esc(u)}</td><td><span class="chip ${/^Later/.test(st) ? '' : /Works today/.test(st) ? 'ok' : 'stage'}">${esc(st)}</span></td><td class="num">${go ? `<a href="#${go.split(':')[0]}" data-act="go" data-v="${go}">Open</a>` : ''}</td></tr>`).join('')}</tbody></table></div>`).join('')}`;
+}
+
+// ---------- shell ----------
+const PAGES = {today: pToday, cases: pCases, case: pCase, diary: pDiary, library: pLibrary, inbox: pInbox, sources: pSources, blueprint: pBlueprint};
+function render(keepFocus) {
+  const page = PAGES[location.hash.slice(1)] ? location.hash.slice(1) : 'today';
+  const nav = [['today', 'Today', todays().length], ['cases', 'Matters', S.cases.length], ['diary', 'Diary', ''], ['library', 'Library', LIB.length], ['inbox', 'Inbox', S.inbox.length || ''], ['sources', 'Sources', ''], ['blueprint', 'Blueprint', '']];
+  $('#nav').innerHTML = nav.map(([k, l, n], i) => `${i === 5 ? '<div class="navsep"></div>' : ''}<a href="#${k}" ${k === page || (page === 'case' && k === 'cases') ? 'aria-current="page"' : ''}>${l}<span class="n">${n}</span></a>`).join('');
+  $('#role-judge').setAttribute('aria-pressed', S.role === 'judge'); $('#role-officer').setAttribute('aria-pressed', S.role === 'officer');
+  const active = keepFocus && document.activeElement?.id, pos = active ? document.activeElement.selectionStart : null;
+  $('#app').innerHTML = `<p class="sample">Prototype on sample data. The matters, parties and counsel are fictional. Nothing here is connected to a real court system.</p>` + PAGES[page]();
+  if (active) { const el = document.getElementById(active); if (el) { el.focus(); try { el.setSelectionRange(pos, pos); } catch {} } }
+  save();
+}
+function openCase(id, tab) { S.cur = id; S.tab = tab || 'brief'; if (location.hash === '#case') render(); else location.hash = '#case'; scrollTo(0, 0); }
+const val = id => ($('#' + id)?.value || '').trim();
+
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]'); if (!el || el.tagName === 'SELECT' || el.tagName === 'TEXTAREA' || el.type === 'checkbox') return;
+  const act = el.dataset.act, c = C();
+  if (act === 'open') { e.preventDefault(); return openCase(el.dataset.id, el.dataset.tab); }
+  if (act === 'go') { e.preventDefault(); const [p, t] = el.dataset.v.split(':'); if (p === 'case') return openCase('A', t); location.hash = '#' + p; return; }
+  if (act === 'role') { S.role = el.dataset.v; return render(); }
+  if (act === 'reset') { e.preventDefault(); try { localStorage.removeItem('benchdesk:v1'); } catch {} S = sample(); location.hash = '#today'; render(); return toast('Sample restored.'); }
+  if (act === 'tab') { S.tab = el.dataset.v; return render(); }
+  if (act === 'libtag') { S.libq = el.dataset.v; return render(); }
+  if (act === 'connect') { S.recordings = true; render(); return toast('Hearing recordings connected (sample).'); }
+  if (act === 'todo-add') { const t = val('todo-new'); if (t) { c.todo.push({t, done: false}); render(); } return; }
+  if (act === 'note-add') { const t = val('note-new'); if (t) { c.notes.push({d: 0, t}); render(); toast('Note saved. Only the Bench sees it.'); } return; }
+  if (act === 'issue-add') { const q = val('issue-new'); if (q) { c.issues.push({q, a: 'To be taken from the pleadings.', as: [], b: 'To be taken from the pleadings.', bs: [], auth: [], finding: ''}); render(); } return; }
+  if (act === 'doc-add') { const t = val('d-t'); if (!t) return toast('Give the document a name.'); c.docs.push({id: uid(), d: 0, t, by: val('d-by'), pp: Number(val('d-pp')) || 1, fresh: true, sum: 'Added just now. In the full app the summary appears here once the document has been read.'}); render(); return toast('Document added to ' + c.no + '.'); }
+  if (act === 'hearing-add') {
+    const sum = val('h-sum'), order = val('h-order'); if (!sum && !order) return toast('Say what happened or what was ordered.');
+    const reserved = $('#h-reserved').checked, nx = val('h-next'), d = val('h-date') ? offset(val('h-date')) : 0;
+    if (!reserved && !nx) return toast('Give the next date, or tick Order reserved.');
+    c.hearings.push({d, sum: sum || 'Matter taken up.', order: order || '', sa: val('h-sa'), sb: val('h-sb'), adj: val('h-adj')});
+    c.hearings.sort((x, y) => x.d - y.d); c.docs.forEach(x => x.fresh = false);
+    c.watch = c.watch.filter(w => !/^New since|waiting in the inbox|Part heard/.test(w));
+    if (reserved) { c.next = null; c.reserved = d; c.purpose = ''; c.stage = Math.max(c.stage, TYPES[c.type].stages.indexOf('Reserved')); c.watch.unshift('Reserved ' + ago(d)); }
+    else { c.next = offset(nx); c.purpose = val('h-purpose') || 'further proceedings'; }
+    S.log.push({d: 0, what: 'Brief rewritten after a new hearing', where: c.no});
+    S.tab = 'brief'; render(); return toast(reserved ? 'Hearing saved. The matter is now under Reserved in the diary.' : `Hearing saved. Next on ${fd(c.next)}; the diary is updated.`);
+  }
+  if (act === 'newcase') {
+    const no = val('nc-no'), a = val('nc-a'), b = val('nc-b'); if (!no || !a || !b) return toast('Case number and both parties are needed.');
+    const type = val('nc-type'), t = TYPES[type], nx = val('nc-next');
+    S.cases.push({id: uid(), type, stage: 1, no, a, b, la: t.a, lb: t.b, ca: val('nc-ca') || 'Not recorded', cb: 'None yet', provision: val('nc-prov') || t.name, next: nx ? offset(nx) : null, purpose: 'first hearing', about: val('nc-about') || 'Newly registered. The brief will be written when the petition is added.', watch: [], todo: [], notes: [], docs: [], hearings: [], issues: [], operative: '', draft: null});
+    render(); return toast(`${no} created. Add its petition under Documents.`);
+  }
+  if (act === 'file') {
+    const x = S.inbox.find(i => i.id === el.dataset.id), to = $('#in-' + x.id).value; if (!to) return toast('Choose the matter this belongs to.');
+    const m = C(to); m.docs.push({id: uid(), d: 0, t: `${x.kind === 'Unknown' ? 'Document' : x.kind} (${x.file})`, by: x.kind.includes('Regional') ? 'r' : 'b', pp: 8, fresh: true, sum: 'Filed from the inbox just now. In the full app the summary appears here once the document has been read.'});
+    m.watch = m.watch.filter(w => !/inbox/.test(w)); S.inbox = S.inbox.filter(i => i !== x); S.log.push({d: 0, what: 'Read and placed: ' + x.file, where: m.no});
+    render(); return toast(`Filed to ${m.no}.`);
+  }
+  if (act === 'draft-make') {
+    c.draft = {status: 'Draft for review', when: new Date().toLocaleString('en-GB', {dateStyle: 'medium', timeStyle: 'short'}), sections: buildDraft(c)};
+    S.log.push({d: 0, what: `Draft assembled from ${c.docs.length} documents, ${c.hearings.length} order sheets and ${new Set(c.issues.flatMap(i => i.auth)).size} authorities`, where: c.no});
+    render(); const miss = c.issues.filter(x => !x.finding.trim()).length; return toast(miss ? `Draft prepared. ${miss} finding${miss === 1 ? ' is' : 's are'} still to be recorded.` : 'Draft prepared for your review.');
+  }
+  if (act === 'draft-status') { c.draft.status = el.dataset.v; if (el.dataset.v === 'Pronounced') { c.stage = Math.min(TYPES[c.type].stages.length - 1, Math.max(c.stage, TYPES[c.type].stages.indexOf('Reserved') + 1)); } render(); return toast('Marked: ' + el.dataset.v + '.'); }
+  if (act === 'draft-copy') {
+    const text = $('#paper').innerText;
+    const fallback = () => { const r = document.createRange(); r.selectNodeContents($('#paper')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); toast('Draft selected. Press Ctrl or Cmd + C to copy.'); };
+    if (navigator.clipboard?.writeText) navigator.clipboard.writeText(text).then(() => toast('Draft copied.'), fallback); else fallback();
+  }
+});
+document.addEventListener('change', e => {
+  const el = e.target, c = C();
+  if (el.id === 'stage-set') { c.stage = Number(el.value); return render(); }
+  if (el.dataset.act === 'todo') { c.todo[el.dataset.i].done = el.checked; return render(); }
+  if (el.dataset.act === 'auth-add' && el.value) { c.issues[el.dataset.i].auth.push(el.value); return render(); }
+  if (el.dataset.act === 'finding') { c.issues[el.dataset.i].finding = el.value; return render(); }
+  if (el.dataset.act === 'operative') { c.operative = el.value; return render(); }
+});
+document.addEventListener('input', e => {
+  if (e.target.id === 'casesq') { S.casesq = e.target.value; render(true); }
+  if (e.target.id === 'libq') { S.libq = e.target.value; render(true); }
+});
+addEventListener('hashchange', () => { render(); scrollTo(0, 0); });
+loadState(); render();
+</script>
