@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Case Register</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%237a2e1f'/%3E%3Cpath d='M9 8h14v3H9zM9 14.5h14v3H9zM9 21h9v3H9z' fill='%23fff'/%3E%3C/svg%3E">
+<style>
+:root {
+  --bg: #f4f1ea; --surface: #fffdf8; --ink: #1c1a16; --muted: #6a655a; --faint: #8d877a;
+  --rule: #ddd6c7; --accent: #7a2e1f; --accent-soft: #f1e3dc; --flag: #8a5a00; --flag-bg: #fbf0d4;
+  --ok: #2f5d46; --ok-bg: #e3efe6; --focus: #1f5fbf;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14130f; --surface: #1d1b16; --ink: #ece7db; --muted: #a59f90; --faint: #7f7a6d;
+    --rule: #37332a; --accent: #e08c75; --accent-soft: #3a231c; --flag: #e9be62; --flag-bg: #3a2f14;
+    --ok: #8fc7a6; --ok-bg: #1d3327; --focus: #8ab4ff;
+  }
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 var(--sans); }
+a { color: inherit; }
+button, input, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+
+/* Top bar */
+.top { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
+.top .wrap { display: flex; align-items: center; gap: 6px 18px; flex-wrap: wrap; padding-top: 10px; padding-bottom: 10px; }
+.brand { font: 600 17px var(--serif); letter-spacing: .01em; text-decoration: none; margin-right: 6px; white-space: nowrap; }
+.brand small { display: block; font: 12px var(--sans); color: var(--muted); letter-spacing: 0; }
+.tabs { display: flex; gap: 2px; }
+.tabs a { padding: 6px 11px; border-radius: 7px; text-decoration: none; color: var(--muted); font-size: 14.5px; white-space: nowrap; }
+.tabs a:hover { color: var(--ink); background: var(--rule); }
+.tabs a[aria-current] { color: var(--ink); background: var(--surface); box-shadow: inset 0 0 0 1px var(--rule); font-weight: 600; }
+.count { display: inline-block; min-width: 18px; padding: 0 5px; margin-left: 4px; border-radius: 9px; background: var(--flag-bg); color: var(--flag); font-size: 12px; font-weight: 600; text-align: center; }
+.search { flex: 1 1 180px; min-width: 150px; }
+.search input { width: 100%; padding: 7px 11px; border: 1px solid var(--rule); border-radius: 8px; background: var(--surface); }
+.btn { padding: 7px 12px; border: 1px solid var(--rule); border-radius: 8px; background: var(--surface); cursor: pointer; font-size: 14.5px; white-space: nowrap; text-decoration: none; display: inline-block; }
+.btn:hover { border-color: var(--faint); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+@media (prefers-color-scheme: dark) { .btn.primary { color: #1a1410; } }
+.btn[disabled] { opacity: .55; cursor: default; }
+
+.banner { background: var(--flag-bg); color: var(--flag); font-size: 14px; }
+.banner .wrap { padding-top: 7px; padding-bottom: 7px; }
+
+/* Page heading */
+.head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px 20px; flex-wrap: wrap; padding: 26px 0 14px; }
+h1 { font: 600 clamp(24px, 4vw, 32px)/1.15 var(--serif); margin: 0; text-wrap: balance; }
+.sub { color: var(--muted); margin: 4px 0 0; font-size: 15px; }
+.datenav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.datenav input { padding: 6px 8px; border: 1px solid var(--rule); border-radius: 8px; background: var(--surface); }
+h2 { font: 600 13px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 30px 0 10px; }
+
+/* A matter */
+.matter { display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 0 14px; background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 16px 20px 14px 14px; margin: 0 0 12px; break-inside: avoid; }
+.sn { font: 600 22px/1.2 var(--serif); color: var(--accent); text-align: right; padding-top: 1px; font-variant-numeric: tabular-nums; }
+.meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; font-size: 13.5px; color: var(--muted); }
+.fileno { font: 600 13.5px var(--mono); color: var(--ink); letter-spacing: .01em; }
+.chip { padding: 1px 8px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); font-size: 12.5px; font-weight: 600; white-space: nowrap; }
+.chip.ok { background: var(--ok-bg); color: var(--ok); }
+.chip.flag { background: var(--flag-bg); color: var(--flag); }
+.title { font: 600 19px/1.3 var(--serif); margin: 5px 0 2px; text-wrap: balance; }
+.title a { text-decoration: none; }
+.title a:hover { text-decoration: underline; text-decoration-thickness: 1px; }
+.counsel { font-size: 14px; color: var(--muted); margin: 0 0 10px; }
+.counsel b { font-weight: 600; color: var(--ink); }
+.brief { margin: 0; display: grid; grid-template-columns: 124px minmax(0, 1fr); gap: 6px 14px; border-top: 1px solid var(--rule); padding-top: 11px; }
+.brief dt { font: 600 11.5px/1.9 var(--sans); letter-spacing: .07em; text-transform: uppercase; color: var(--faint); }
+.brief dt span { display: block; font: 12.5px/1.2 var(--sans); letter-spacing: 0; text-transform: none; color: var(--muted); }
+.brief dd { margin: 0; font-size: 15.5px; max-width: 74ch; }
+.brief dd.now { font-weight: 600; }
+.watch { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; padding: 0; list-style: none; }
+.note { margin: 12px 0 0; padding: 8px 12px; border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 8px 8px 0; font-size: 15px; white-space: pre-wrap; }
+.note b { font: 600 11.5px var(--sans); letter-spacing: .07em; text-transform: uppercase; color: var(--accent); display: block; }
+.noteedit textarea { width: 100%; min-height: 84px; margin: 10px 0 6px; padding: 9px 11px; border: 1px solid var(--rule); border-radius: 8px; background: var(--bg); }
+.acts { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 10px; }
+.link { background: none; border: 0; padding: 2px 0; color: var(--muted); cursor: pointer; font-size: 14px; text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 3px; }
+.link:hover { color: var(--ink); text-decoration-color: currentColor; }
+
+/* Order history */
+.history { list-style: none; margin: 12px 0 2px; padding: 0 0 0 16px; border-left: 2px solid var(--rule); }
+.history > li { position: relative; padding: 0 0 14px; font-size: 15px; }
+.history > li::before { content: ""; position: absolute; left: -22px; top: 8px; width: 10px; height: 10px; border-radius: 50%; background: var(--surface); border: 2px solid var(--accent); }
+.history .when { font-weight: 600; font-variant-numeric: tabular-nums; }
+.history .next { color: var(--muted); font-size: 14px; }
+.history p { margin: 2px 0; max-width: 74ch; }
+.history ul { margin: 4px 0; padding-left: 18px; color: var(--muted); font-size: 14.5px; }
+
+/* Paste box, diary, tables */
+.paste { background: var(--surface); border: 1px dashed var(--faint); border-radius: 12px; padding: 14px 16px; margin: 0 0 16px; }
+.paste p { margin: 0 0 8px; font-size: 14.5px; color: var(--muted); }
+.paste textarea { width: 100%; min-height: 120px; padding: 9px 11px; border: 1px solid var(--rule); border-radius: 8px; background: var(--bg); font: 13.5px/1.45 var(--mono); }
+.callout { background: var(--flag-bg); color: var(--flag); border-radius: 10px; padding: 10px 14px; margin: 0 0 14px; font-size: 14.5px; }
+.callout a { font-weight: 600; }
+.day { display: grid; grid-template-columns: 150px 44px minmax(0, 1fr); gap: 4px 14px; align-items: baseline; padding: 11px 14px; border: 1px solid var(--rule); border-radius: 10px; background: var(--surface); margin: 0 0 8px; text-decoration: none; }
+.day:hover { border-color: var(--faint); }
+.day .d { font-weight: 600; font-variant-numeric: tabular-nums; }
+.day .d small { display: block; font-weight: 400; color: var(--muted); font-size: 13px; }
+.day .n { font: 600 20px var(--serif); color: var(--accent); text-align: right; }
+.day .who { color: var(--muted); font-size: 14px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.day.today { box-shadow: inset 3px 0 0 var(--accent); }
+.tablewrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 12px; background: var(--surface); }
+table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+th { text-align: left; font: 600 11.5px var(--sans); letter-spacing: .07em; text-transform: uppercase; color: var(--faint); padding: 10px 14px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+td { padding: 10px 14px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+tbody tr { cursor: pointer; }
+tbody tr:hover { background: var(--bg); }
+td.num { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.empty { padding: 44px 20px; text-align: center; color: var(--muted); border: 1px dashed var(--rule); border-radius: 12px; }
+.empty code, .howto code { font: 13.5px var(--mono); background: var(--surface); padding: 1px 6px; border-radius: 5px; border: 1px solid var(--rule); }
+footer { color: var(--faint); font-size: 13px; padding: 26px 0 40px; }
+.toast { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-size: 14.5px; max-width: min(92vw, 560px); z-index: 9; }
+
+@media (max-width: 640px) {
+  .matter { grid-template-columns: minmax(0, 1fr); padding: 14px 16px; }
+  .sn { text-align: left; font-size: 17px; }
+  .brief { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .brief dt { margin-top: 8px; }
+  .brief dt span { display: inline; margin-left: 6px; }
+  .day { grid-template-columns: minmax(0, 1fr) 40px; }
+  .day .who { grid-column: 1 / -1; }
+}
+@media print {
+  :root { --bg: #fff; --surface: #fff; --ink: #000; --muted: #333; --faint: #555; --rule: #bbb; --accent: #000; --accent-soft: #fff; --flag: #000; --flag-bg: #fff; --ok: #000; --ok-bg: #fff; }
+  body { font-size: 11pt; }
+  .top, .banner, .acts, .datenav, .paste, footer, .toast, .noteedit { display: none !important; }
+  .wrap { max-width: none; padding: 0; }
+  .head { padding: 0 0 8pt; }
+  .matter { border: 0; border-top: 1px solid #999; border-radius: 0; padding: 8pt 0; margin: 0; }
+  .chip { border: 1px solid #777; }
+  .title { font-size: 13pt; } .brief dd { font-size: 10.5pt; }
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="#/">Case Register<small id="court"></small></a>
+  <nav class="tabs" aria-label="Sections">
+    <a href="#/list" data-tab="list">Cause list</a>
+    <a href="#/diary" data-tab="diary">Diary</a>
+    <a href="#/files" data-tab="files">All files</a>
+    <a href="#/attention" data-tab="attention">Attention<span class="count" id="attn" hidden></span></a>
+  </nav>
+  <label class="search"><input id="q" type="search" placeholder="File number, party or advocate" aria-label="Search files" autocomplete="off"></label>
+  <button class="btn" id="inbox" hidden>Check inbox</button>
+</div></header>
+<div class="banner" id="banner" hidden><div class="wrap"></div></div>
+<main class="wrap" id="app"><p class="sub" style="padding:40px 0">Opening the register…</p></main>
+<footer class="wrap" id="foot"></footer>
+
+<script>
+'use strict';
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+const asDate = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+const fmt = (s, o) => s ? asDate(s).toLocaleDateString('en-GB', o) : '';
+const short = s => fmt(s, {day: 'numeric', month: 'short', year: 'numeric'});
+const long = s => fmt(s, {weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'});
+const ordinal = n => n + (['th', 'st', 'nd', 'rd'][(n % 100 - 20) % 10] || ['th', 'st', 'nd', 'rd'][n % 100] || 'th');
+const TODAY = iso(new Date());
+const store = {
+  get(k) { try { return localStorage.getItem('casefile:' + k) || ''; } catch { return ''; } },
+  set(k, v) { try { v ? localStorage.setItem('casefile:' + k, v) : localStorage.removeItem('casefile:' + k); } catch {} },
+};
+
+let reg = null, base = '', live = false, byKey = new Map(), open = new Set(), pasting = false;
+
+async function load() {
+  for (const b of ['data/', 'sample/']) {
+    try {
+      const r = await fetch(b + 'register.json', {cache: 'no-store'});
+      if (r.ok) { reg = await r.json(); base = b; break; }
+    } catch {}
+  }
+  try { live = (await fetch('api/ping', {cache: 'no-store'})).ok; } catch { live = false; }
+  if (!reg) {
+    $('#app').innerHTML = `<div class="empty" style="margin-top:40px">No register found yet.<br>Run <code>python3 casefile.py serve</code> in this folder and open the address it prints.</div>`;
+    return;
+  }
+  reg.cases.sort((a, b) => (a.first_date || '9').localeCompare(b.first_date || '9') || a.key.localeCompare(b.key));
+  byKey = new Map(reg.cases.map(c => [c.key, c]));
+  $('#court').textContent = reg.court || '';
+  $('#inbox').hidden = !live;
+  const n = reg.attention.length + overdue().length;
+  $('#attn').hidden = !n; $('#attn').textContent = n;
+  const banner = $('#banner');
+  banner.hidden = base !== 'sample/';
+  banner.firstElementChild.textContent = 'Sample register. Every case, party and order shown here is fictional.';
+  $('#foot').textContent = `${reg.cases.length} files on the register. Orders read ${reg.reader === 'ai' ? 'by Claude' : 'offline, by rules'}. Updated ${new Date(reg.generated).toLocaleString('en-GB', {dateStyle: 'medium', timeStyle: 'short'})}.`;
+  route();
+}
+
+// ---- helpers over the register ----
+const hearingDays = () => [...new Set(reg.cases.filter(c => c.next_date).map(c => c.next_date))].sort();
+const overdue = () => reg.cases.filter(c => c.status === 'pending' && c.next_date && c.next_date < TODAY);
+const undated = () => reg.cases.filter(c => c.status === 'pending' && !c.next_date);
+function defaultDay() {
+  const days = hearingDays();
+  return days.find(d => d >= TODAY) || days[days.length - 1] || TODAY;
+}
+const norm = s => '-' + String(s).toUpperCase().replace(/\s+OF\s+/g, '/').replace(/[^A-Z0-9]+/g, '-').replace(/^-|-$/g, '') + '-';
+
+function matchPasted(text) {
+  // Which files on the register does a pasted cause list name, and in what order?
+  let hay = norm(text);
+  const found = [];
+  for (const c of [...reg.cases].sort((a, b) => b.key.length - a.key.length)) {
+    const at = hay.indexOf('-' + c.key + '-');
+    if (at >= 0) { found.push([at, c]); hay = hay.slice(0, at + 1) + '#'.repeat(c.key.length) + hay.slice(at + 1 + c.key.length); }
+  }
+  found.sort((a, b) => a[0] - b[0]);
+  const known = new Set(found.map(f => f[1].key));
+  const strangers = [];
+  for (const m of text.matchAll(/[A-Za-z0-9()]+(?:\s?[\/-]\s?[A-Za-z0-9()]+)+|\d+\s+of\s+\d{4}/gi)) {
+    const t = m[0].trim(), k = norm(t).slice(1, -1);
+    if (!/\d/.test(t) || /^\d{1,2}[\/-]\d{1,2}[\/-]\d{2,4}$/.test(t) || /^\d{1,2}[\/-]\d{1,2}$/.test(t)) continue;
+    if (!known.has(k) && !byKey.has(k) && !strangers.includes(t)) strangers.push(t);
+  }
+  return {cases: found.map(f => f[1]), strangers};
+}
+
+// ---- one matter ----
+function matter(c, sn, ctx = {}) {
+  const b = c.brief || {};
+  const chip = c.status === 'disposed' ? 'chip ok' : 'chip';
+  const upcoming = c.status === 'pending' && c.next_date;
+  const facts = [
+    upcoming ? `${ordinal(c.hearings + 1)} hearing` : `${c.hearings} order${c.hearings === 1 ? '' : 's'} on file`,
+    c.first_date ? `since ${fmt(c.first_date, {month: 'short', year: 'numeric'})}` : '',
+    ctx.showNext && c.next_date ? `next ${short(c.next_date)}` : '',
+  ].filter(Boolean);
+  const rows = [];
+  if (b.about) rows.push(['About', '', b.about, '']);
+  if (b.last) rows.push(['Last hearing', short(c.last_date), b.last, '']);
+  if (b.today) rows.push([c.status === 'pending' ? (upcoming ? 'This hearing' : 'Status') : 'Status', '', b.today, 'now']);
+  const flags = [...(b.watch || [])];
+  if (ctx.mismatch) flags.unshift(c.next_date ? `Register has next date ${short(c.next_date)}` : `Register has no next date (${c.stage.toLowerCase()})`);
+  const isOpen = open.has(c.key);
+  return `<article class="matter" id="m-${esc(c.key)}">
+    <div class="sn">${sn ? esc(sn) : ''}</div>
+    <div>
+      <div class="meta"><span class="fileno">${esc(c.file_no)}</span><span class="${chip}">${esc(c.stage)}</span><span>${esc(facts.join(' · '))}</span></div>
+      <h3 class="title"><a href="#/file/${esc(c.key)}">${esc(c.title)}</a></h3>
+      <p class="counsel">${esc(c.label_a)}: <b>${esc(c.counsel_a || 'not recorded')}</b> &nbsp;·&nbsp; ${esc(c.label_b)}: <b>${esc(c.counsel_b || 'not recorded')}</b></p>
+      <dl class="brief">${rows.map(([k, when, v, cls]) => `<dt>${k}${when ? `<span>${esc(when)}</span>` : ''}</dt><dd class="${cls}">${esc(v)}</dd>`).join('')}</dl>
+      ${flags.length ? `<ul class="watch">${flags.map(f => `<li class="chip flag">${esc(f)}</li>`).join('')}</ul>` : ''}
+      ${c.note ? `<div class="note"><b>Bench note</b>${esc(c.note)}</div>` : ''}
+      <div class="acts">
+        <button class="link" data-history="${esc(c.key)}" aria-expanded="${isOpen}">${isOpen ? 'Hide' : 'Show'} all ${c.hearings} order${c.hearings === 1 ? '' : 's'}</button>
+        ${live ? `<button class="link" data-note="${esc(c.key)}">${c.note ? 'Edit' : 'Add'} bench note</button>` : ''}
+      </div>
+      <div data-slot="${esc(c.key)}"></div>
+    </div>
+  </article>`;
+}
+
+async function showHistory(key, slot) {
+  slot.innerHTML = '<p class="sub">Opening the file…</p>';
+  let full;
+  try { full = await (await fetch(`${base}files/${encodeURIComponent(key)}/case.json`, {cache: 'no-store'})).json(); }
+  catch { slot.innerHTML = '<p class="sub">Could not open this file\'s record.</p>'; return; }
+  slot.innerHTML = `<ol class="history">${[...full.orders].reverse().map(o => {
+    const extra = (o.directions || []).filter(d => !o.summary.includes(d.slice(0, 40)));
+    const said = [[full.label_a, o.side_a_said], [full.label_b, o.side_b_said]].filter(x => x[1]);
+    return `<li><span class="when">${esc(short(o.order_date) || 'Undated')}</span>
+      <p>${esc(o.summary)}</p>
+      ${said.map(([who, what]) => `<p class="next"><b>${esc(who)}:</b> ${esc(what)}</p>`).join('')}
+      ${extra.length ? `<ul>${extra.map(d => `<li>${esc(d)}</li>`).join('')}</ul>` : ''}
+      <p class="next">${o.next_date ? `Next: ${esc(short(o.next_date))}${o.next_purpose ? ', ' + esc(o.next_purpose) : ''} &nbsp;·&nbsp; ` : ''}<a href="${base}files/${encodeURIComponent(key)}/orders/${encodeURIComponent(o.file)}" target="_blank" rel="noopener">Open the order</a></p></li>`;
+  }).join('')}</ol>`;
+}
+
+// ---- pages ----
+function pageList(day) {
+  const days = hearingDays();
+  day = /^\d{4}-\d\d-\d\d$/.test(day || '') ? day : defaultDay();
+  const prev = [...days].reverse().find(d => d < day), next = days.find(d => d > day);
+  const pasted = store.get('paste:' + day);
+  let listed = reg.cases.filter(c => c.next_date === day), extra = [], strangers = [];
+  const onRegister = new Set(listed.map(c => c.key));
+  if (pasted) {
+    const m = matchPasted(pasted);
+    extra = listed.filter(c => !m.cases.includes(c));
+    listed = m.cases; strangers = m.strangers;
+  }
+  const rel = day === TODAY ? 'Today' : day < TODAY ? 'Past date' : '';
+  return `<div class="head">
+      <div><h1>${esc(long(day))}</h1>
+      <p class="sub">${rel ? rel + ' · ' : ''}${listed.length} matter${listed.length === 1 ? '' : 's'}${pasted ? ' on the pasted cause list' : ' listed on the register'}</p></div>
+      <div class="datenav">
+        <a class="btn" ${prev ? `href="#/list/${prev}"` : 'aria-disabled="true" style="opacity:.4"'} title="Previous hearing day">‹</a>
+        <input type="date" id="day" value="${day}" aria-label="Hearing date">
+        <a class="btn" ${next ? `href="#/list/${next}"` : 'aria-disabled="true" style="opacity:.4"'} title="Next hearing day">›</a>
+        <button class="btn" id="pastebtn">${pasted ? 'Edit pasted list' : 'Paste cause list'}</button>
+        <button class="btn" onclick="print()">Print</button>
+      </div>
+    </div>
+    ${pasting ? `<div class="paste"><p>Paste the day's official cause list here. The matters are shown in its order, and any file on it with no order in the register is pointed out.</p>
+      <textarea id="pastebox" placeholder="1.  APL/1042/2023   Meridian Agro Foods v. Deputy Commissioner&#10;2.  218/2024   Harbans Lal v. Estate Officer">${esc(pasted)}</textarea>
+      <div class="acts"><button class="btn primary" id="pastesave">Use this list</button><button class="btn" id="pasteclear">Clear</button></div></div>` : ''}
+    ${strangers.length ? `<div class="callout">On the pasted list but no order on file yet: ${strangers.map(esc).join(', ')}</div>` : ''}
+    ${listed.length ? listed.map((c, i) => matter(c, i + 1, {mismatch: pasted && !onRegister.has(c.key)})).join('')
+      : `<div class="empty">Nothing is listed for this date on the register.</div>`}
+    ${extra.length ? `<h2>On the register for this date, not on the pasted list</h2>${extra.map(c => matter(c, '')).join('')}` : ''}`;
+}
+
+function pageDiary() {
+  const days = hearingDays().filter(d => d >= TODAY);
+  const late = overdue(), loose = undated(), reserved = reg.cases.filter(c => c.status === 'reserved');
+  const group = {};
+  for (const d of days) (group[d.slice(0, 7)] ||= []).push(d);
+  const row = d => {
+    const cs = reg.cases.filter(c => c.next_date === d);
+    return `<a class="day${d === TODAY ? ' today' : ''}" href="#/list/${d}">
+      <span class="d">${esc(fmt(d, {day: 'numeric', month: 'short'}))}<small>${esc(fmt(d, {weekday: 'long'}))}</small></span>
+      <span class="n">${cs.length}</span>
+      <span class="who">${cs.map(c => esc(c.title)).join(' · ')}</span></a>`;
+  };
+  return `<div class="head"><div><h1>Diary</h1><p class="sub">Every date given in the last order of each file.</p></div></div>
+    ${late.length ? `<div class="callout">${late.length} matter${late.length === 1 ? ' was' : 's were'} listed on a date that has passed and no later order is on file: ${late.map(c => `<a href="#/file/${esc(c.key)}">${esc(c.file_no)}</a> (${esc(short(c.next_date))})`).join(', ')}. Drop the order of that date into the inbox.</div>` : ''}
+    ${Object.keys(group).length ? Object.entries(group).map(([m, ds]) => `<h2>${esc(fmt(m + '-01', {month: 'long', year: 'numeric'}))}</h2>${ds.map(row).join('')}`).join('')
+      : '<div class="empty">No upcoming dates on the register.</div>'}
+    ${reserved.length ? `<h2>Order reserved</h2>${reserved.map(c => matter(c, '')).join('')}` : ''}
+    ${loose.length ? `<h2>Pending, no next date in the last order</h2>${loose.map(c => matter(c, '')).join('')}` : ''}`;
+}
+
+function pageFiles(q) {
+  const words = q.toLowerCase().split(/\s+/).filter(Boolean);
+  const hit = c => { const hay = [c.file_no, c.key, c.title, c.counsel_a, c.counsel_b, c.stage].join(' ').toLowerCase(); return words.every(w => hay.includes(w)); };
+  const rows = reg.cases.filter(hit);
+  if (q && rows.length && rows.length <= 5)
+    return `<div class="head"><div><h1>${rows.length} file${rows.length === 1 ? '' : 's'} found</h1><p class="sub">Search: ${esc(q)}</p></div></div>${rows.map(c => matter(c, '', {showNext: true})).join('')}`;
+  return `<div class="head"><div><h1>${q ? `${rows.length} files found` : 'All files'}</h1><p class="sub">${q ? 'Search: ' + esc(q) : reg.cases.length + ' on the register, oldest first'}</p></div></div>
+    ${rows.length ? `<div class="tablewrap"><table><thead><tr><th>File no.</th><th>Parties</th><th>Stage</th><th>Last heard</th><th>Next date</th></tr></thead><tbody>
+    ${rows.map(c => `<tr data-go="#/file/${esc(c.key)}"><td class="num"><a class="fileno" href="#/file/${esc(c.key)}" style="text-decoration:none">${esc(c.file_no)}</a></td><td>${esc(c.title)}</td><td><span class="${c.status === 'disposed' ? 'chip ok' : 'chip'}">${esc(c.stage)}</span></td><td class="num">${esc(short(c.last_date))}</td><td class="num">${esc(short(c.next_date)) || '<span style="color:var(--faint)">none</span>'}</td></tr>`).join('')}
+    </tbody></table></div>` : '<div class="empty">No file matches that search.</div>'}`;
+}
+
+function pageFile(key) {
+  const c = byKey.get(key);
+  if (!c) return `<div class="head"><h1>File not found</h1></div><div class="empty">There is no file ${esc(key)} on the register.</div>`;
+  open.add(key);
+  return `<div class="head"><div><h1>${esc(c.file_no)}</h1><p class="sub">${c.next_date ? `Next listed <a href="#/list/${c.next_date}">${esc(long(c.next_date))}</a>` : esc(c.stage)}</p></div><div class="datenav"><button class="btn" onclick="print()">Print</button></div></div>${matter(c, '')}`;
+}
+
+function pageAttention() {
+  const late = overdue();
+  return `<div class="head"><div><h1>Needs attention</h1><p class="sub">Orders the register could not place, and hearings with no order filed.</p></div></div>
+    ${reg.attention.length ? `<h2>Could not be filed</h2><div class="tablewrap"><table><thead><tr><th>File</th><th>Why</th></tr></thead><tbody>${reg.attention.map(a => `<tr style="cursor:default"><td class="num"><a href="${base}${esc(a.file)}" target="_blank" rel="noopener" class="fileno">${esc(a.file)}</a></td><td>${esc(a.reason)}</td></tr>`).join('')}</tbody></table></div>` : ''}
+    ${late.length ? `<h2>Hearing date passed, no order on file</h2>${late.map(c => matter(c, '', {showNext: true})).join('')}` : ''}
+    ${!reg.attention.length && !late.length ? '<div class="empty">Nothing needs attention.</div>' : ''}
+    <h2>How orders get here</h2>
+    <p class="howto sub">Save each downloaded order into the <code>inbox</code> folder, under any name. ${live ? 'Then press Check inbox.' : 'Then run <code>python3 casefile.py run</code>.'} The order is read, moved to the folder of its file number, and that file\'s brief and next date are updated.</p>`;
+}
+
+function route() {
+  if (!reg) return;
+  const [, page = 'list', arg = ''] = location.hash.split('?')[0].split('/');
+  const q = new URLSearchParams(location.hash.split('?')[1] || '').get('q') || '';
+  const app = $('#app');
+  app.innerHTML = page === 'diary' ? pageDiary() : page === 'files' ? pageFiles(q) : page === 'file' ? pageFile(decodeURIComponent(arg))
+    : page === 'attention' ? pageAttention() : pageList(arg);
+  document.querySelectorAll('.tabs a').forEach(a => a.toggleAttribute('aria-current', a.dataset.tab === (page === 'file' ? 'files' : page)));
+  if (page !== 'files' && document.activeElement !== $('#q')) $('#q').value = '';
+  document.title = (page === 'list' ? 'Cause list' : page === 'diary' ? 'Diary' : page === 'attention' ? 'Attention' : 'Files') + ' · Case Register';
+  for (const key of open) { const slot = $(`[data-slot="${CSS.escape(key)}"]`); if (slot) showHistory(key, slot); }
+}
+
+function toast(msg) {
+  document.querySelector('.toast')?.remove();
+  const t = Object.assign(document.createElement('div'), {className: 'toast', textContent: msg});
+  t.setAttribute('role', 'status');
+  document.body.append(t);
+  setTimeout(() => t.remove(), 5000);
+}
+
+// ---- events ----
+addEventListener('hashchange', () => { pasting = false; route(); scrollTo(0, 0); });
+document.addEventListener('click', async e => {
+  const t = e.target.closest('[data-history],[data-note],[data-go],#pastebtn,#pastesave,#pasteclear,#inbox');
+  if (!t) return;
+  if (t.dataset.history) {
+    const key = t.dataset.history, slot = $(`[data-slot="${CSS.escape(key)}"]`);
+    if (open.has(key)) { open.delete(key); slot.innerHTML = ''; } else { open.add(key); showHistory(key, slot); }
+    t.setAttribute('aria-expanded', open.has(key));
+    t.textContent = t.textContent.replace(/^(Show|Hide)/, open.has(key) ? 'Hide' : 'Show');
+  } else if (t.dataset.note) {
+    const c = byKey.get(t.dataset.note), box = t.closest('.matter').querySelector('.acts');
+    if (t.closest('.matter').querySelector('.noteedit')) return;
+    box.insertAdjacentHTML('afterend', `<div class="noteedit"><textarea aria-label="Bench note" placeholder="A few lines to yourself for the next hearing">${esc(c.note)}</textarea><div class="acts"><button class="btn primary" data-save="${esc(c.key)}">Save note</button></div></div>`);
+    t.closest('.matter').querySelector('textarea').focus();
+  } else if (t.dataset.go) {
+    if (!e.target.closest('a')) location.hash = t.dataset.go;
+  } else if (t.id === 'pastebtn') { pasting = !pasting; route(); $('#pastebox')?.focus(); }
+  else if (t.id === 'pastesave' || t.id === 'pasteclear') {
+    store.set('paste:' + $('#day').value, t.id === 'pastesave' ? $('#pastebox').value.trim() : '');
+    pasting = false; route();
+  } else if (t.id === 'inbox') {
+    t.disabled = true; t.textContent = 'Reading…';
+    try {
+      const r = await (await fetch('api/run', {method: 'POST'})).json();
+      toast(r.filed ? `${r.filed} new order${r.filed === 1 ? '' : 's'} filed.` : 'No new orders in the inbox.');
+      await load();
+    } catch { toast('Could not reach the register program. Is it still running?'); }
+    t.disabled = false; t.textContent = 'Check inbox';
+  }
+});
+document.addEventListener('click', async e => {
+  const t = e.target.closest('[data-save]');
+  if (!t) return;
+  const text = t.closest('.noteedit').querySelector('textarea').value;
+  t.disabled = true;
+  try {
+    const r = await fetch('api/note', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({key: t.dataset.save, text})});
+    if (!r.ok) throw 0;
+    await load();
+  } catch { toast('The note could not be saved.'); t.disabled = false; }
+});
+document.addEventListener('change', e => { if (e.target.id === 'day' && e.target.value) location.hash = '#/list/' + e.target.value; });
+$('#q').addEventListener('input', e => {
+  const q = e.target.value.trim();
+  history.replaceState(null, '', q ? '#/files?q=' + encodeURIComponent(q) : '#/files');
+  route();
+});
+addEventListener('keydown', e => {
+  if (e.key === '/' && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)) { e.preventDefault(); $('#q').focus(); }
+});
+load();
+</script>
+</body>
+</html>

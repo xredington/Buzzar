@@ -1,0 +1,119 @@
+{
+ "key": "APL-1042-2023",
+ "file_no": "APL/1042/2023",
+ "party_a": "Meridian Agro Foods Pvt. Ltd.",
+ "party_b": "Deputy Commissioner (Licensing)",
+ "label_a": "Appellant",
+ "label_b": "Respondent",
+ "counsel_a": "Mr. R. Khanna",
+ "counsel_b": "Ms. S. Iyer",
+ "status": "pending",
+ "stage": "Part heard",
+ "first_date": "2023-09-12",
+ "last_date": "2026-08-18",
+ "next_date": "2026-11-30",
+ "next_purpose": "arguments of the respondent",
+ "hearings": 5,
+ "note": "",
+ "sig": "804a1e47438ee9e80dc993f25c63838adc13379cf91e39a236ad0839da222f0b",
+ "title": "Meridian Agro Foods Pvt. Ltd. v. Deputy Commissioner (Licensing)",
+ "brief": {
+  "about": "This appeal is directed against the order dated 03.08.2023 cancelling the appellant's cold storage licence for non-payment of the renewal fee. The appellant says no show cause notice was ever served on it.",
+  "last": "Affidavit of the dealing clerk is on record. Arguments of the appellant heard and concluded on the question of service. The matter is part-heard.",
+  "today": "Listed for arguments of the respondent.",
+  "watch": [
+   "Part heard",
+   "Interim order in the file"
+  ]
+ },
+ "brief_by": "offline",
+ "orders": [
+  {
+   "order_date": "2023-09-12",
+   "summary": "This appeal is directed against the order dated 03.08.2023 cancelling the appellant's cold storage licence for non-payment of the renewal fee. The appellant says no show cause notice was ever served on it. Issue notice to the respondent.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [
+    "This appeal is directed against the order dated 03.08.2023 cancelling the appellant's cold storage licence for non-payment of the renewal fee.",
+    "Issue notice to the respondent.",
+    "The cancellation is stayed subject to the appellant depositing the renewal fee of Rs. 2,40,000 within two weeks."
+   ],
+   "next_date": "2024-02-06",
+   "next_purpose": "reply",
+   "coram": "",
+   "counsel_a": "Mr. R. Khanna",
+   "counsel_b": "Ms. S. Iyer",
+   "file": "2023-09-12.pdf",
+   "read_by": "offline",
+   "note": ""
+  },
+  {
+   "order_date": "2024-02-06",
+   "summary": "Reply has been filed by the respondent and a copy supplied. The respondent states the show cause notice was sent by registered post on 14.06.2023. Counsel for the appellant seeks time to file a rejoinder.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [
+    "Counsel for the appellant seeks time to file a rejoinder.",
+    "Time is granted."
+   ],
+   "next_date": "2024-07-16",
+   "next_purpose": "",
+   "coram": "",
+   "counsel_a": "Mr. R. Khanna",
+   "counsel_b": "Ms. S. Iyer",
+   "file": "2024-02-06.pdf",
+   "read_by": "offline",
+   "note": ""
+  },
+  {
+   "order_date": "2024-07-16",
+   "summary": "Rejoinder is taken on record. The appellant disputes that any registered article was received. The respondent is directed to produce the original dispatch register and the postal receipt on the next date.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [
+    "Rejoinder is taken on record.",
+    "The respondent is directed to produce the original dispatch register and the postal receipt on the next date."
+   ],
+   "next_date": "2025-03-04",
+   "next_purpose": "production of record",
+   "coram": "",
+   "counsel_a": "Mr. R. Khanna",
+   "counsel_b": "Ms. S. Iyer",
+   "file": "2024-07-16.pdf",
+   "read_by": "offline",
+   "note": ""
+  },
+  {
+   "order_date": "2025-03-04",
+   "summary": "The dispatch register has been produced. Counsel for the appellant points out that the acknowledgment card bears a signature that is not of any employee of the appellant. The respondent shall file an affidavit of the dealing clerk explaining how service was effected.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [
+    "The respondent shall file an affidavit of the dealing clerk explaining how service was effected."
+   ],
+   "next_date": "2026-08-18",
+   "next_purpose": "final arguments",
+   "coram": "",
+   "counsel_a": "Mr. R. Khanna",
+   "counsel_b": "Ms. S. Iyer",
+   "file": "2025-03-04.pdf",
+   "read_by": "offline",
+   "note": ""
+  },
+  {
+   "order_date": "2026-08-18",
+   "summary": "Affidavit of the dealing clerk is on record. Arguments of the appellant heard and concluded on the question of service. The matter is part-heard.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [],
+   "next_date": "2026-11-30",
+   "next_purpose": "arguments of the respondent",
+   "coram": "",
+   "counsel_a": "Mr. R. Khanna",
+   "counsel_b": "Ms. S. Iyer",
+   "file": "2026-08-18.pdf",
+   "read_by": "offline",
+   "note": ""
+  }
+ ]
+}

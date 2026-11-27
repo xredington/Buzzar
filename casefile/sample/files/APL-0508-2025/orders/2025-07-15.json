@@ -1,0 +1,29 @@
+{
+ "file_no": "APL/0508/2025",
+ "party_a": "Deepak Sood",
+ "party_b": "Municipal Assessor",
+ "label_a": "Appellant",
+ "label_b": "Respondent",
+ "counsel_a": "In person",
+ "counsel_b": "Ms. Kavita Rao",
+ "coram": "",
+ "order_date": "2025-07-15",
+ "summary": "The appellant disputes reassessment of property tax for House No. 1182 treating the first floor as let out. He says his son occupies it.",
+ "side_a_said": "",
+ "side_b_said": "",
+ "directions": [
+  "Issue notice.",
+  "The respondent shall file the inspection note relied on."
+ ],
+ "next_date": "2026-12-15",
+ "next_purpose": "reply",
+ "stage": "Pleadings",
+ "disposed": false,
+ "reserved": false,
+ "adjournment_by": "",
+ "read_by": "offline",
+ "key": "APL-0508-2025",
+ "sha256": "7acf7dccd7220ac939be21f728850e173a5cfb643ce2aa1bbc6dfe03063739b7",
+ "file": "2025-07-15.pdf",
+ "filed_at": "2026-11-27T17:07:40"
+}

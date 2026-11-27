@@ -1,0 +1,29 @@
+{
+ "file_no": "APL/0064/2025",
+ "party_a": "Kaveri Polymers",
+ "party_b": "Pollution Control Committee",
+ "label_a": "Appellant",
+ "label_b": "Respondent",
+ "counsel_a": "Mr. S. Raghavan",
+ "counsel_b": "Ms. Ritu Malhotra",
+ "coram": "",
+ "order_date": "2025-01-21",
+ "summary": "The appeal challenges a closure direction dated 06.01.2025 issued on the ground that the appellant's effluent treatment plant was found non-functional. The appellant says the plant was under scheduled maintenance for 48 hours. Issue notice.",
+ "side_a_said": "",
+ "side_b_said": "",
+ "directions": [
+  "Issue notice.",
+  "Operation of the closure direction is stayed for one production line only, subject to a joint inspection."
+ ],
+ "next_date": "2025-04-08",
+ "next_purpose": "the inspection report",
+ "stage": "Notice",
+ "disposed": false,
+ "reserved": false,
+ "adjournment_by": "",
+ "read_by": "offline",
+ "key": "APL-0064-2025",
+ "sha256": "ac77a7fa093e06e1761faba3e5a18982a12e2b5dea2a4434f271f8bac44f7d5f",
+ "file": "2025-01-21.pdf",
+ "filed_at": "2026-11-27T17:07:40"
+}

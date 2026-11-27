@@ -1,0 +1,102 @@
+{
+ "key": "218-2024",
+ "file_no": "218/2024",
+ "party_a": "Harbans Lal",
+ "party_b": "Estate Officer",
+ "label_a": "Appellant",
+ "label_b": "Respondent",
+ "counsel_a": "Mr. P. S. Gill",
+ "counsel_b": "Mr. Anil Verma",
+ "status": "pending",
+ "stage": "Final arguments",
+ "first_date": "2024-04-09",
+ "last_date": "2025-05-20",
+ "next_date": "2026-11-30",
+ "next_purpose": "production of record and final arguments",
+ "hearings": 4,
+ "note": "",
+ "sig": "40b40bd3861b0d83a9d07acb1f04f7db3f2c509872f908a23af1283eabbe91c0",
+ "title": "Harbans Lal v. Estate Officer",
+ "brief": {
+  "about": "The appellant challenges the resumption of Plot No. 47, Sector 9 for not completing construction within the period allowed. He says the delay was caused by the respondent's own failure to sanction the building plan for 19 months.",
+  "last": "The respondent has filed a short reply without the building plan record. Counsel for the respondent seeks further time to trace the record. A last opportunity is granted subject to costs of Rs. 5,000 to be paid to the appellant.",
+  "today": "Listed for production of record and final arguments.",
+  "watch": [
+   "3 adjournments at the respondent's request",
+   "Last opportunity already given",
+   "Costs imposed"
+  ]
+ },
+ "brief_by": "offline",
+ "orders": [
+  {
+   "order_date": "2024-04-09",
+   "summary": "The appellant challenges the resumption of Plot No. 47, Sector 9 for not completing construction within the period allowed. He says the delay was caused by the respondent's own failure to sanction the building plan for 19 months.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [
+    "Issue notice.",
+    "The respondent shall file the record of the building plan application."
+   ],
+   "next_date": "2024-07-23",
+   "next_purpose": "reply and record",
+   "coram": "",
+   "counsel_a": "Mr. P. S. Gill",
+   "counsel_b": "Mr. Anil Verma",
+   "file": "2024-04-09.pdf",
+   "read_by": "offline",
+   "note": ""
+  },
+  {
+   "order_date": "2024-07-23",
+   "summary": "No reply has been filed. Counsel for the respondent seeks time on the ground that the file is with the head office. Time is granted as a last indulgence.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [
+    "Time is granted as a last indulgence."
+   ],
+   "next_date": "2024-11-19",
+   "next_purpose": "",
+   "coram": "",
+   "counsel_a": "Mr. P. S. Gill",
+   "counsel_b": "Mr. Anil Verma",
+   "file": "2024-07-23.pdf",
+   "read_by": "offline",
+   "note": ""
+  },
+  {
+   "order_date": "2024-11-19",
+   "summary": "Reply is still not filed. Counsel for the respondent again requests an adjournment. The request is opposed.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [
+    "In the interest of justice one more opportunity is granted."
+   ],
+   "next_date": "2025-05-20",
+   "next_purpose": "reply",
+   "coram": "",
+   "counsel_a": "Mr. P. S. Gill",
+   "counsel_b": "Mr. Anil Verma",
+   "file": "2024-11-19.pdf",
+   "read_by": "offline",
+   "note": ""
+  },
+  {
+   "order_date": "2025-05-20",
+   "summary": "The respondent has filed a short reply without the building plan record. Counsel for the respondent seeks further time to trace the record. A last opportunity is granted subject to costs of Rs. 5,000 to be paid to the appellant.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [
+    "A last opportunity is granted subject to costs of Rs. 5,000 to be paid to the appellant."
+   ],
+   "next_date": "2026-11-30",
+   "next_purpose": "production of record and final arguments",
+   "coram": "",
+   "counsel_a": "Mr. P. S. Gill",
+   "counsel_b": "Mr. Anil Verma",
+   "file": "2025-05-20.txt",
+   "read_by": "offline",
+   "note": ""
+  }
+ ]
+}

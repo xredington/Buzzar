@@ -1,0 +1,29 @@
+{
+ "file_no": "218/2024",
+ "party_a": "Harbans Lal",
+ "party_b": "Estate Officer",
+ "label_a": "Appellant",
+ "label_b": "Respondent",
+ "counsel_a": "Mr. P. S. Gill",
+ "counsel_b": "Mr. Anil Verma",
+ "coram": "",
+ "order_date": "2024-04-09",
+ "summary": "The appellant challenges the resumption of Plot No. 47, Sector 9 for not completing construction within the period allowed. He says the delay was caused by the respondent's own failure to sanction the building plan for 19 months.",
+ "side_a_said": "",
+ "side_b_said": "",
+ "directions": [
+  "Issue notice.",
+  "The respondent shall file the record of the building plan application."
+ ],
+ "next_date": "2024-07-23",
+ "next_purpose": "reply and record",
+ "stage": "Pleadings",
+ "disposed": false,
+ "reserved": false,
+ "adjournment_by": "",
+ "read_by": "offline",
+ "key": "218-2024",
+ "sha256": "933e05dc4c0d3287b8f96ea28ccfc3fa135c540ff92370838e05ccf7f9391719",
+ "file": "2024-04-09.pdf",
+ "filed_at": "2026-11-27T17:07:40"
+}

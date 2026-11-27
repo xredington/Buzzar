@@ -1,0 +1,78 @@
+{
+ "key": "APL-0456-2023",
+ "file_no": "APL/0456/2023",
+ "party_a": "Blue Harbour Exports",
+ "party_b": "Joint Commissioner (Refunds)",
+ "label_a": "Appellant",
+ "label_b": "Respondent",
+ "counsel_a": "Mr. K. Narayan",
+ "counsel_b": "Ms. Pooja Chawla",
+ "status": "reserved",
+ "stage": "Order reserved",
+ "first_date": "2023-03-07",
+ "last_date": "2026-10-27",
+ "next_date": "",
+ "next_purpose": "",
+ "hearings": 3,
+ "note": "",
+ "sig": "920f55bfd6887e6b43dec2bb3cf6a11a5e67c88b1acf641c7215d1e4fc7bd300",
+ "title": "Blue Harbour Exports v. Joint Commissioner (Refunds)",
+ "brief": {
+  "about": "The appeal is against rejection of a refund claim of Rs. 42,10,000 for the quarter ending June 2021 on the ground that shipping bills were filed late. Issue notice.",
+  "last": "Arguments of both sides heard at length. The appellant relied on the circular dated 18.11.2021 extending time for filing. The respondent says the circular applies only prospectively.",
+  "today": "Order reserved; no date fixed.",
+  "watch": []
+ },
+ "brief_by": "offline",
+ "orders": [
+  {
+   "order_date": "2023-03-07",
+   "summary": "The appeal is against rejection of a refund claim of Rs. 42,10,000 for the quarter ending June 2021 on the ground that shipping bills were filed late. Issue notice.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [
+    "Issue notice."
+   ],
+   "next_date": "2023-07-25",
+   "next_purpose": "reply",
+   "coram": "",
+   "counsel_a": "Mr. K. Narayan",
+   "counsel_b": "Ms. Pooja Chawla",
+   "file": "2023-03-07.pdf",
+   "read_by": "offline",
+   "note": ""
+  },
+  {
+   "order_date": "2023-07-25",
+   "summary": "Reply and rejoinder are on record. The respondent is directed to place the verification report of the shipping bills on file.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [
+    "The respondent is directed to place the verification report of the shipping bills on file."
+   ],
+   "next_date": "2024-03-12",
+   "next_purpose": "final arguments",
+   "coram": "",
+   "counsel_a": "Mr. K. Narayan",
+   "counsel_b": "Ms. Pooja Chawla",
+   "file": "2023-07-25.pdf",
+   "read_by": "offline",
+   "note": ""
+  },
+  {
+   "order_date": "2026-10-27",
+   "summary": "Arguments of both sides heard at length. The appellant relied on the circular dated 18.11.2021 extending time for filing. The respondent says the circular applies only prospectively.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [],
+   "next_date": "",
+   "next_purpose": "",
+   "coram": "",
+   "counsel_a": "Mr. K. Narayan",
+   "counsel_b": "Ms. Pooja Chawla",
+   "file": "2026-10-27.pdf",
+   "read_by": "offline",
+   "note": ""
+  }
+ ]
+}

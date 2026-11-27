@@ -1,0 +1,28 @@
+{
+ "file_no": "APL/0845/2025",
+ "party_a": "Arvind Mehta",
+ "party_b": "Sub-Registrar, Zone IV",
+ "label_a": "Appellant",
+ "label_b": "Respondent",
+ "counsel_a": "In person",
+ "counsel_b": "None",
+ "coram": "",
+ "order_date": "2025-06-03",
+ "summary": "The appellant claims refund of excess stamp duty of Rs. 6,20,000 paid on a sale deed that was later cancelled by a decree. The refund application was rejected as time-barred.",
+ "side_a_said": "",
+ "side_b_said": "",
+ "directions": [
+  "Issue notice to the respondent."
+ ],
+ "next_date": "2025-09-16",
+ "next_purpose": "",
+ "stage": "Notice",
+ "disposed": false,
+ "reserved": false,
+ "adjournment_by": "",
+ "read_by": "offline",
+ "key": "APL-0845-2025",
+ "sha256": "83c296e5eca9c77b4801a5441d91fcfa8e41425fec3fce303f92fb182205ac30",
+ "file": "2025-06-03.pdf",
+ "filed_at": "2026-11-27T17:07:40"
+}

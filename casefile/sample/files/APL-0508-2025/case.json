@@ -1,0 +1,47 @@
+{
+ "key": "APL-0508-2025",
+ "file_no": "APL/0508/2025",
+ "party_a": "Deepak Sood",
+ "party_b": "Municipal Assessor",
+ "label_a": "Appellant",
+ "label_b": "Respondent",
+ "counsel_a": "In person",
+ "counsel_b": "Ms. Kavita Rao",
+ "status": "pending",
+ "stage": "Pleadings",
+ "first_date": "2025-07-15",
+ "last_date": "2025-07-15",
+ "next_date": "2026-12-15",
+ "next_purpose": "reply",
+ "hearings": 1,
+ "note": "",
+ "sig": "9b9b923e50ad6f88a546c14306132ae9d00af0b82d234b40af00d376bcf1d58d",
+ "title": "Deepak Sood v. Municipal Assessor",
+ "brief": {
+  "about": "The appellant disputes reassessment of property tax for House No. 1182 treating the first floor as let out. He says his son occupies it.",
+  "last": "",
+  "today": "Listed for reply.",
+  "watch": []
+ },
+ "brief_by": "offline",
+ "orders": [
+  {
+   "order_date": "2025-07-15",
+   "summary": "The appellant disputes reassessment of property tax for House No. 1182 treating the first floor as let out. He says his son occupies it.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [
+    "Issue notice.",
+    "The respondent shall file the inspection note relied on."
+   ],
+   "next_date": "2026-12-15",
+   "next_purpose": "reply",
+   "coram": "",
+   "counsel_a": "In person",
+   "counsel_b": "Ms. Kavita Rao",
+   "file": "2025-07-15.pdf",
+   "read_by": "offline",
+   "note": ""
+  }
+ ]
+}

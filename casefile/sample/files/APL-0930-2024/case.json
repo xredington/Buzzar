@@ -1,0 +1,79 @@
+{
+ "key": "APL-0930-2024",
+ "file_no": "APL/0930/2024",
+ "party_a": "Tarun Electricals",
+ "party_b": "Distribution Licensee (North)",
+ "label_a": "Appellant",
+ "label_b": "Respondent",
+ "counsel_a": "Mr. Manoj Tiwari",
+ "counsel_b": "Mr. H. S. Bedi",
+ "status": "pending",
+ "stage": "Settlement",
+ "first_date": "2024-11-05",
+ "last_date": "2025-10-14",
+ "next_date": "2026-12-01",
+ "next_purpose": "to report settlement, failing which for final arguments",
+ "hearings": 3,
+ "note": "",
+ "sig": "bc0b443e259a544fed9fa55e5dce3e586288c4f55c036dd03b11bfdbb21933ba",
+ "title": "Tarun Electricals v. Distribution Licensee (North)",
+ "brief": {
+  "about": "The appellant disputes a supplementary bill of Rs. 11,65,000 raised for alleged slow running of the meter between March 2022 and August 2023. Issue notice.",
+  "last": "Parties report that a revised bill of Rs. 4,10,000 has been proposed and is awaiting approval of the respondent's competent authority. Time is sought jointly.",
+  "today": "Listed to report settlement, failing which for final arguments.",
+  "watch": [
+   "Interim order in the file"
+  ]
+ },
+ "brief_by": "offline",
+ "orders": [
+  {
+   "order_date": "2024-11-05",
+   "summary": "The appellant disputes a supplementary bill of Rs. 11,65,000 raised for alleged slow running of the meter between March 2022 and August 2023. Issue notice.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [
+    "Issue notice.",
+    "Disconnection is stayed subject to deposit of 30 per cent of the bill."
+   ],
+   "next_date": "2025-03-25",
+   "next_purpose": "reply",
+   "coram": "",
+   "counsel_a": "Mr. Manoj Tiwari",
+   "counsel_b": "Mr. H. S. Bedi",
+   "file": "2024-11-05.pdf",
+   "read_by": "offline",
+   "note": ""
+  },
+  {
+   "order_date": "2025-03-25",
+   "summary": "Reply is filed with the meter testing report. The appellant says it was not present when the meter was tested. Both sides state that the matter may be settled if the billing period is restricted to six months.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [],
+   "next_date": "2025-10-14",
+   "next_purpose": "to report settlement",
+   "coram": "",
+   "counsel_a": "Mr. Manoj Tiwari",
+   "counsel_b": "Mr. H. S. Bedi",
+   "file": "2025-03-25.pdf",
+   "read_by": "offline",
+   "note": ""
+  },
+  {
+   "order_date": "2025-10-14",
+   "summary": "Parties report that a revised bill of Rs. 4,10,000 has been proposed and is awaiting approval of the respondent's competent authority. Time is sought jointly.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [],
+   "next_date": "2026-12-01",
+   "next_purpose": "to report settlement, failing which for final arguments",
+   "coram": "",
+   "counsel_a": "Mr. Manoj Tiwari",
+   "counsel_b": "Mr. H. S. Bedi",
+   "file": "2025-10-14.txt",
+   "read_by": "offline",
+   "note": ""
+  }
+ ]
+}

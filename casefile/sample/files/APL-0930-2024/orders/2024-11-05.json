@@ -1,0 +1,29 @@
+{
+ "file_no": "APL/0930/2024",
+ "party_a": "Tarun Electricals",
+ "party_b": "Distribution Licensee (North)",
+ "label_a": "Appellant",
+ "label_b": "Respondent",
+ "counsel_a": "Mr. Manoj Tiwari",
+ "counsel_b": "Mr. H. S. Bedi",
+ "coram": "",
+ "order_date": "2024-11-05",
+ "summary": "The appellant disputes a supplementary bill of Rs. 11,65,000 raised for alleged slow running of the meter between March 2022 and August 2023. Issue notice.",
+ "side_a_said": "",
+ "side_b_said": "",
+ "directions": [
+  "Issue notice.",
+  "Disconnection is stayed subject to deposit of 30 per cent of the bill."
+ ],
+ "next_date": "2025-03-25",
+ "next_purpose": "reply",
+ "stage": "Pleadings",
+ "disposed": false,
+ "reserved": false,
+ "adjournment_by": "",
+ "read_by": "offline",
+ "key": "APL-0930-2024",
+ "sha256": "f57d9a6e773bfe5081c97033050457c9c916a0d894948855560f3e1ffe12e1ac",
+ "file": "2024-11-05.pdf",
+ "filed_at": "2026-11-27T17:07:40"
+}

@@ -1,0 +1,29 @@
+{
+ "file_no": "APL/0064/2025",
+ "party_a": "Kaveri Polymers",
+ "party_b": "Pollution Control Committee",
+ "label_a": "Appellant",
+ "label_b": "Respondent",
+ "counsel_a": "Mr. S. Raghavan",
+ "counsel_b": "Ms. Ritu Malhotra",
+ "coram": "",
+ "order_date": "2025-04-08",
+ "summary": "The joint inspection could not be held as the respondent's laboratory was not available. The respondent is directed to carry out the inspection within four weeks and file the report with sample analysis. The interim order shall continue.",
+ "side_a_said": "",
+ "side_b_said": "",
+ "directions": [
+  "The respondent is directed to carry out the inspection within four weeks and file the report with sample analysis.",
+  "The interim order shall continue."
+ ],
+ "next_date": "2026-11-30",
+ "next_purpose": "the inspection report and hearing on continuation of stay",
+ "stage": "Hearing",
+ "disposed": false,
+ "reserved": false,
+ "adjournment_by": "",
+ "read_by": "offline",
+ "key": "APL-0064-2025",
+ "sha256": "724e3958eb756536f8878afb93cd11f461501ba7c177c08cfbe88cc99be82cd4",
+ "file": "2025-04-08.pdf",
+ "filed_at": "2026-11-27T17:07:40"
+}

@@ -1,0 +1,29 @@
+{
+ "file_no": "APL/0019/2026",
+ "party_a": "Orbit Diagnostics",
+ "party_b": "District Health Authority",
+ "label_a": "Appellant",
+ "label_b": "Respondent",
+ "counsel_a": "Mr. Tushar Goel",
+ "counsel_b": "Mr. B. L. Meena",
+ "coram": "",
+ "order_date": "2026-02-03",
+ "summary": "The appeal is against suspension of the appellant's registration for three months for incomplete record of procedures. Issue notice. Suspension is stayed till the next date.",
+ "side_a_said": "",
+ "side_b_said": "",
+ "directions": [
+  "Issue notice.",
+  "Suspension is stayed till the next date."
+ ],
+ "next_date": "2026-07-21",
+ "next_purpose": "reply",
+ "stage": "Pleadings",
+ "disposed": false,
+ "reserved": false,
+ "adjournment_by": "",
+ "read_by": "offline",
+ "key": "APL-0019-2026",
+ "sha256": "33a4de6a8a70559e789222932011fa721a844e6479c4ac1b546a3997600251c5",
+ "file": "2026-02-03.txt",
+ "filed_at": "2026-11-27T17:07:40"
+}

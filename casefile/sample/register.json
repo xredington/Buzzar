@@ -1,0 +1,397 @@
+{
+ "generated": "2026-11-27T17:07:40",
+ "court": "",
+ "reader": "offline",
+ "cases": [
+  {
+   "key": "218-2024",
+   "file_no": "218/2024",
+   "party_a": "Harbans Lal",
+   "party_b": "Estate Officer",
+   "label_a": "Appellant",
+   "label_b": "Respondent",
+   "counsel_a": "Mr. P. S. Gill",
+   "counsel_b": "Mr. Anil Verma",
+   "status": "pending",
+   "stage": "Final arguments",
+   "first_date": "2024-04-09",
+   "last_date": "2025-05-20",
+   "next_date": "2026-11-30",
+   "next_purpose": "production of record and final arguments",
+   "hearings": 4,
+   "note": "",
+   "title": "Harbans Lal v. Estate Officer",
+   "brief": {
+    "about": "The appellant challenges the resumption of Plot No. 47, Sector 9 for not completing construction within the period allowed. He says the delay was caused by the respondent's own failure to sanction the building plan for 19 months.",
+    "last": "The respondent has filed a short reply without the building plan record. Counsel for the respondent seeks further time to trace the record. A last opportunity is granted subject to costs of Rs. 5,000 to be paid to the appellant.",
+    "today": "Listed for production of record and final arguments.",
+    "watch": [
+     "3 adjournments at the respondent's request",
+     "Last opportunity already given",
+     "Costs imposed"
+    ]
+   },
+   "brief_by": "offline"
+  },
+  {
+   "key": "APL-0019-2026",
+   "file_no": "APL/0019/2026",
+   "party_a": "Orbit Diagnostics",
+   "party_b": "District Health Authority",
+   "label_a": "Appellant",
+   "label_b": "Respondent",
+   "counsel_a": "Mr. Tushar Goel",
+   "counsel_b": "Mr. B. L. Meena",
+   "status": "pending",
+   "stage": "Rejoinder",
+   "first_date": "2026-02-03",
+   "last_date": "2026-07-21",
+   "next_date": "2027-01-12",
+   "next_purpose": "rejoinder and final arguments",
+   "hearings": 2,
+   "note": "",
+   "title": "Orbit Diagnostics v. District Health Authority",
+   "brief": {
+    "about": "The appeal is against suspension of the appellant's registration for three months for incomplete record of procedures. Issue notice.",
+    "last": "Reply is filed. The appellant seeks time for rejoinder. Interim order to continue.",
+    "today": "Listed for rejoinder and final arguments.",
+    "watch": [
+     "Interim order in the file"
+    ]
+   },
+   "brief_by": "offline"
+  },
+  {
+   "key": "APL-0064-2025",
+   "file_no": "APL/0064/2025",
+   "party_a": "Kaveri Polymers",
+   "party_b": "Pollution Control Committee",
+   "label_a": "Appellant",
+   "label_b": "Respondent",
+   "counsel_a": "Mr. S. Raghavan",
+   "counsel_b": "Ms. Ritu Malhotra",
+   "status": "pending",
+   "stage": "Hearing",
+   "first_date": "2025-01-21",
+   "last_date": "2025-04-08",
+   "next_date": "2026-11-30",
+   "next_purpose": "the inspection report and hearing on continuation of stay",
+   "hearings": 2,
+   "note": "",
+   "title": "Kaveri Polymers v. Pollution Control Committee",
+   "brief": {
+    "about": "The appeal challenges a closure direction dated 06.01.2025 issued on the ground that the appellant's effluent treatment plant was found non-functional. The appellant says the plant was under scheduled maintenance for 48 hours.",
+    "last": "The joint inspection could not be held as the respondent's laboratory was not available. The respondent is directed to carry out the inspection within four weeks and file the report with sample analysis. The interim order shall continue.",
+    "today": "Listed for the inspection report and hearing on continuation of stay.",
+    "watch": [
+     "Interim order in the file"
+    ]
+   },
+   "brief_by": "offline"
+  },
+  {
+   "key": "APL-0122-2026",
+   "file_no": "APL/0122/2026",
+   "party_a": "Greenfield Schools Society",
+   "party_b": "Director of Education",
+   "label_a": "Appellant",
+   "label_b": "Respondent",
+   "counsel_a": "Ms. Anjali Deshmukh",
+   "counsel_b": "None",
+   "status": "pending",
+   "stage": "Pleadings",
+   "first_date": "2026-11-03",
+   "last_date": "2026-11-03",
+   "next_date": "2026-12-01",
+   "next_purpose": "reply and hearing on interim relief",
+   "hearings": 1,
+   "note": "",
+   "title": "Greenfield Schools Society v. Director of Education",
+   "brief": {
+    "about": "The appellant society challenges the order dated 12.10.2026 withdrawing recognition of its senior secondary section from the next academic session for shortfall in playground area. It says the adjoining plot was leased on 01.09.2026 and cures the shortfall.",
+    "last": "",
+    "today": "Listed for reply and hearing on interim relief.",
+    "watch": []
+   },
+   "brief_by": "offline"
+  },
+  {
+   "key": "APL-0301-2025",
+   "file_no": "APL/0301/2025",
+   "party_a": "Mohd. Irfan",
+   "party_b": "Licensing Inspector",
+   "label_a": "Appellant",
+   "label_b": "Respondent",
+   "counsel_a": "Mr. Yusuf Ali",
+   "counsel_b": "Mr. R. P. Joshi",
+   "status": "disposed",
+   "stage": "Disposed",
+   "first_date": "2025-02-18",
+   "last_date": "2026-09-15",
+   "next_date": "",
+   "next_purpose": "",
+   "hearings": 2,
+   "note": "",
+   "title": "Mohd. Irfan v. Licensing Inspector",
+   "brief": {
+    "about": "The appellant challenges the sealing of his eating house for want of a health trade licence. Issue notice.",
+    "last": "Counsel for the appellant states that the licence has since been granted and the premises de-sealed, and that he does not wish to press the appeal. The appeal is dismissed as withdrawn.",
+    "today": "",
+    "watch": []
+   },
+   "brief_by": "offline"
+  },
+  {
+   "key": "APL-0377-2024",
+   "file_no": "APL/0377/2024",
+   "party_a": "Northline Logistics LLP",
+   "party_b": "Assessing Authority, Circle II",
+   "label_a": "Appellant",
+   "label_b": "Respondent",
+   "counsel_a": "Ms. Farah Qureshi",
+   "counsel_b": "Mr. D. K. Bansal",
+   "status": "pending",
+   "stage": "Delay condonation",
+   "first_date": "2024-05-14",
+   "last_date": "2025-02-11",
+   "next_date": "2026-11-30",
+   "next_purpose": "arguments on condonation of delay",
+   "hearings": 3,
+   "note": "",
+   "title": "Northline Logistics LLP v. Assessing Authority, Circle II",
+   "brief": {
+    "about": "The appeal is against a penalty of Rs. 18,40,000 imposed for late filing of quarterly returns for 2021-22. The appeal is filed 212 days beyond limitation and is accompanied by an application for condonation of delay.",
+    "last": "The affidavit with discharge summaries has been filed. The respondent seeks time to verify the documents. Time is granted.",
+    "today": "Listed for arguments on condonation of delay.",
+    "watch": []
+   },
+   "brief_by": "offline"
+  },
+  {
+   "key": "APL-0456-2023",
+   "file_no": "APL/0456/2023",
+   "party_a": "Blue Harbour Exports",
+   "party_b": "Joint Commissioner (Refunds)",
+   "label_a": "Appellant",
+   "label_b": "Respondent",
+   "counsel_a": "Mr. K. Narayan",
+   "counsel_b": "Ms. Pooja Chawla",
+   "status": "reserved",
+   "stage": "Order reserved",
+   "first_date": "2023-03-07",
+   "last_date": "2026-10-27",
+   "next_date": "",
+   "next_purpose": "",
+   "hearings": 3,
+   "note": "",
+   "title": "Blue Harbour Exports v. Joint Commissioner (Refunds)",
+   "brief": {
+    "about": "The appeal is against rejection of a refund claim of Rs. 42,10,000 for the quarter ending June 2021 on the ground that shipping bills were filed late. Issue notice.",
+    "last": "Arguments of both sides heard at length. The appellant relied on the circular dated 18.11.2021 extending time for filing. The respondent says the circular applies only prospectively.",
+    "today": "Order reserved; no date fixed.",
+    "watch": []
+   },
+   "brief_by": "offline"
+  },
+  {
+   "key": "APL-0508-2025",
+   "file_no": "APL/0508/2025",
+   "party_a": "Deepak Sood",
+   "party_b": "Municipal Assessor",
+   "label_a": "Appellant",
+   "label_b": "Respondent",
+   "counsel_a": "In person",
+   "counsel_b": "Ms. Kavita Rao",
+   "status": "pending",
+   "stage": "Pleadings",
+   "first_date": "2025-07-15",
+   "last_date": "2025-07-15",
+   "next_date": "2026-12-15",
+   "next_purpose": "reply",
+   "hearings": 1,
+   "note": "",
+   "title": "Deepak Sood v. Municipal Assessor",
+   "brief": {
+    "about": "The appellant disputes reassessment of property tax for House No. 1182 treating the first floor as let out. He says his son occupies it.",
+    "last": "",
+    "today": "Listed for reply.",
+    "watch": []
+   },
+   "brief_by": "offline"
+  },
+  {
+   "key": "APL-0591-2022",
+   "file_no": "APL/0591/2022",
+   "party_a": "Sunita Devi",
+   "party_b": "Registrar of Co-operative Societies & Anr.",
+   "label_a": "Appellant",
+   "label_b": "Respondent",
+   "counsel_a": "Mr. Vikram Sethi",
+   "counsel_b": "Ms. Neha Arora",
+   "status": "pending",
+   "stage": "Part heard",
+   "first_date": "2022-08-02",
+   "last_date": "2024-12-03",
+   "next_date": "2026-11-30",
+   "next_purpose": "remaining arguments",
+   "hearings": 6,
+   "note": "",
+   "title": "Sunita Devi v. Registrar of Co-operative Societies & Anr.",
+   "brief": {
+    "about": "The appellant was removed from membership of the Shakti Nagar Co-operative House Building Society by a resolution dated 11.04.2022, confirmed by the Registrar on 20.06.2022, for alleged default in instalments. She says she paid Rs. 7,80,000 and holds receipts.",
+    "last": "Arguments of the appellant heard in part. Counsel relied on the bank statement showing withdrawals matching the four disputed receipts. Part-heard.",
+    "today": "Listed for remaining arguments.",
+    "watch": [
+     "Part heard"
+    ]
+   },
+   "brief_by": "offline"
+  },
+  {
+   "key": "APL-0660-2023",
+   "file_no": "APL/0660/2023",
+   "party_a": "Rajni Bala",
+   "party_b": "Regional Transport Authority",
+   "label_a": "Appellant",
+   "label_b": "Respondent",
+   "counsel_a": "Mr. Naveen Pathak",
+   "counsel_b": "Ms. Shalini Dutt",
+   "status": "pending",
+   "stage": "Final arguments",
+   "first_date": "2023-06-06",
+   "last_date": "2023-11-21",
+   "next_date": "2027-02-09",
+   "next_purpose": "verification report and final arguments",
+   "hearings": 2,
+   "note": "",
+   "title": "Rajni Bala v. Regional Transport Authority",
+   "brief": {
+    "about": "The appellant challenges refusal to renew her stage carriage permit on the Rampur to Kalka route on the ground of two pending challans. Issue notice.",
+    "last": "Reply is filed. The appellant states both challans stand compounded and produces receipts. The respondent is directed to verify the receipts.",
+    "today": "Listed for verification report and final arguments.",
+    "watch": []
+   },
+   "brief_by": "offline"
+  },
+  {
+   "key": "APL-0712-2024",
+   "file_no": "APL/0712/2024",
+   "party_a": "Lakshmi Textiles",
+   "party_b": "Labour Welfare Board",
+   "label_a": "Appellant",
+   "label_b": "Respondent",
+   "counsel_a": "Ms. Gauri Nair",
+   "counsel_b": "Mr. Sandeep Rana",
+   "status": "pending",
+   "stage": "Final arguments",
+   "first_date": "2024-08-20",
+   "last_date": "2025-02-04",
+   "next_date": "2026-11-24",
+   "next_purpose": "final arguments",
+   "hearings": 2,
+   "note": "",
+   "title": "Lakshmi Textiles v. Labour Welfare Board",
+   "brief": {
+    "about": "The appeal challenges a demand of Rs. 9,30,000 towards welfare cess for 2019-22 computed on the full wage bill including contract labour. Issue notice.",
+    "last": "Reply is filed. The appellant is directed to file the contractor-wise wage registers.",
+    "today": "Listed for final arguments.",
+    "watch": [
+     "Interim order in the file"
+    ]
+   },
+   "brief_by": "offline"
+  },
+  {
+   "key": "APL-0845-2025",
+   "file_no": "APL/0845/2025",
+   "party_a": "Arvind Mehta",
+   "party_b": "Sub-Registrar, Zone IV",
+   "label_a": "Appellant",
+   "label_b": "Respondent",
+   "counsel_a": "In person",
+   "counsel_b": "None",
+   "status": "pending",
+   "stage": "Hearing",
+   "first_date": "2025-06-03",
+   "last_date": "2026-02-10",
+   "next_date": "2026-11-30",
+   "next_purpose": "hearing",
+   "hearings": 3,
+   "note": "",
+   "title": "Arvind Mehta v. Sub-Registrar, Zone IV",
+   "brief": {
+    "about": "The appellant claims refund of excess stamp duty of Rs. 6,20,000 paid on a sale deed that was later cancelled by a decree. The refund application was rejected as time-barred.",
+    "last": "None is present for the respondent again though service is complete. In the interest of justice one more opportunity is given. If nobody appears on the next date the appeal will be heard ex parte.",
+    "today": "Listed for hearing.",
+    "watch": [
+     "A party did not appear last time",
+     "Ex parte proceedings mentioned"
+    ]
+   },
+   "brief_by": "offline"
+  },
+  {
+   "key": "APL-0930-2024",
+   "file_no": "APL/0930/2024",
+   "party_a": "Tarun Electricals",
+   "party_b": "Distribution Licensee (North)",
+   "label_a": "Appellant",
+   "label_b": "Respondent",
+   "counsel_a": "Mr. Manoj Tiwari",
+   "counsel_b": "Mr. H. S. Bedi",
+   "status": "pending",
+   "stage": "Settlement",
+   "first_date": "2024-11-05",
+   "last_date": "2025-10-14",
+   "next_date": "2026-12-01",
+   "next_purpose": "to report settlement, failing which for final arguments",
+   "hearings": 3,
+   "note": "",
+   "title": "Tarun Electricals v. Distribution Licensee (North)",
+   "brief": {
+    "about": "The appellant disputes a supplementary bill of Rs. 11,65,000 raised for alleged slow running of the meter between March 2022 and August 2023. Issue notice.",
+    "last": "Parties report that a revised bill of Rs. 4,10,000 has been proposed and is awaiting approval of the respondent's competent authority. Time is sought jointly.",
+    "today": "Listed to report settlement, failing which for final arguments.",
+    "watch": [
+     "Interim order in the file"
+    ]
+   },
+   "brief_by": "offline"
+  },
+  {
+   "key": "APL-1042-2023",
+   "file_no": "APL/1042/2023",
+   "party_a": "Meridian Agro Foods Pvt. Ltd.",
+   "party_b": "Deputy Commissioner (Licensing)",
+   "label_a": "Appellant",
+   "label_b": "Respondent",
+   "counsel_a": "Mr. R. Khanna",
+   "counsel_b": "Ms. S. Iyer",
+   "status": "pending",
+   "stage": "Part heard",
+   "first_date": "2023-09-12",
+   "last_date": "2026-08-18",
+   "next_date": "2026-11-30",
+   "next_purpose": "arguments of the respondent",
+   "hearings": 5,
+   "note": "",
+   "title": "Meridian Agro Foods Pvt. Ltd. v. Deputy Commissioner (Licensing)",
+   "brief": {
+    "about": "This appeal is directed against the order dated 03.08.2023 cancelling the appellant's cold storage licence for non-payment of the renewal fee. The appellant says no show cause notice was ever served on it.",
+    "last": "Affidavit of the dealing clerk is on record. Arguments of the appellant heard and concluded on the question of service. The matter is part-heard.",
+    "today": "Listed for arguments of the respondent.",
+    "watch": [
+     "Part heard",
+     "Interim order in the file"
+    ]
+   },
+   "brief_by": "offline"
+  }
+ ],
+ "attention": [
+  {
+   "file": "unfiled/scan_0042.txt",
+   "reason": "no file number found in the order; move it into data/files/<file no>/ by hand"
+  }
+ ]
+}

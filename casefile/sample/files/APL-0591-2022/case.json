@@ -1,0 +1,131 @@
+{
+ "key": "APL-0591-2022",
+ "file_no": "APL/0591/2022",
+ "party_a": "Sunita Devi",
+ "party_b": "Registrar of Co-operative Societies & Anr.",
+ "label_a": "Appellant",
+ "label_b": "Respondent",
+ "counsel_a": "Mr. Vikram Sethi",
+ "counsel_b": "Ms. Neha Arora",
+ "status": "pending",
+ "stage": "Part heard",
+ "first_date": "2022-08-02",
+ "last_date": "2024-12-03",
+ "next_date": "2026-11-30",
+ "next_purpose": "remaining arguments",
+ "hearings": 6,
+ "note": "",
+ "sig": "e1a2e661cb21a7f371bc701e01da055eacdbe0fd7a56bb4346035d59dcb3fb30",
+ "title": "Sunita Devi v. Registrar of Co-operative Societies & Anr.",
+ "brief": {
+  "about": "The appellant was removed from membership of the Shakti Nagar Co-operative House Building Society by a resolution dated 11.04.2022, confirmed by the Registrar on 20.06.2022, for alleged default in instalments. She says she paid Rs. 7,80,000 and holds receipts.",
+  "last": "Arguments of the appellant heard in part. Counsel relied on the bank statement showing withdrawals matching the four disputed receipts. Part-heard.",
+  "today": "Listed for remaining arguments.",
+  "watch": [
+   "Part heard"
+  ]
+ },
+ "brief_by": "offline",
+ "orders": [
+  {
+   "order_date": "2022-08-02",
+   "summary": "The appellant was removed from membership of the Shakti Nagar Co-operative House Building Society by a resolution dated 11.04.2022, confirmed by the Registrar on 20.06.2022, for alleged default in instalments. She says she paid Rs. 7,80,000 and holds receipts.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [
+    "Issue notice to both respondents.",
+    "The society shall not allot Flat No. B-204 to any other person till further orders."
+   ],
+   "next_date": "2022-12-13",
+   "next_purpose": "",
+   "coram": "",
+   "counsel_a": "Mr. Vikram Sethi",
+   "counsel_b": "Ms. Neha Arora",
+   "file": "2022-08-02.pdf",
+   "read_by": "offline",
+   "note": ""
+  },
+  {
+   "order_date": "2022-12-13",
+   "summary": "Reply of the society is filed. The Registrar adopts it. The society disputes four receipts as forged.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [
+    "The appellant is directed to produce the originals."
+   ],
+   "next_date": "2023-05-02",
+   "next_purpose": "production of original receipts",
+   "coram": "",
+   "counsel_a": "Mr. Vikram Sethi",
+   "counsel_b": "Ms. Neha Arora",
+   "file": "2022-12-13.pdf",
+   "read_by": "offline",
+   "note": ""
+  },
+  {
+   "order_date": "2023-05-02",
+   "summary": "Original receipts are produced and seen. The society is directed to produce its cash book and receipt counterfoils for the period January 2019 to March 2021.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [
+    "The society is directed to produce its cash book and receipt counterfoils for the period January 2019 to March 2021."
+   ],
+   "next_date": "2023-10-17",
+   "next_purpose": "",
+   "coram": "",
+   "counsel_a": "Mr. Vikram Sethi",
+   "counsel_b": "Ms. Neha Arora",
+   "file": "2023-05-02.pdf",
+   "read_by": "offline",
+   "note": ""
+  },
+  {
+   "order_date": "2023-10-17",
+   "summary": "The cash book is produced. The counterfoils for four receipts are stated to be missing. Counsel for the society seeks time to file an affidavit of the treasurer.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [
+    "Counsel for the society seeks time to file an affidavit of the treasurer.",
+    "Time is granted."
+   ],
+   "next_date": "2024-04-09",
+   "next_purpose": "",
+   "coram": "",
+   "counsel_a": "Mr. Vikram Sethi",
+   "counsel_b": "Ms. Neha Arora",
+   "file": "2023-10-17.pdf",
+   "read_by": "offline",
+   "note": ""
+  },
+  {
+   "order_date": "2024-04-09",
+   "summary": "Affidavit of the treasurer is filed. Parties state that pleadings are complete.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [],
+   "next_date": "2024-12-03",
+   "next_purpose": "final arguments",
+   "coram": "",
+   "counsel_a": "Mr. Vikram Sethi",
+   "counsel_b": "Ms. Neha Arora",
+   "file": "2024-04-09.pdf",
+   "read_by": "offline",
+   "note": ""
+  },
+  {
+   "order_date": "2024-12-03",
+   "summary": "Arguments of the appellant heard in part. Counsel relied on the bank statement showing withdrawals matching the four disputed receipts. Part-heard.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [],
+   "next_date": "2026-11-30",
+   "next_purpose": "remaining arguments",
+   "coram": "",
+   "counsel_a": "Mr. Vikram Sethi",
+   "counsel_b": "Ms. Neha Arora",
+   "file": "2024-12-03.txt",
+   "read_by": "offline",
+   "note": ""
+  }
+ ]
+}

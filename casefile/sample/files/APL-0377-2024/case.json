@@ -1,0 +1,78 @@
+{
+ "key": "APL-0377-2024",
+ "file_no": "APL/0377/2024",
+ "party_a": "Northline Logistics LLP",
+ "party_b": "Assessing Authority, Circle II",
+ "label_a": "Appellant",
+ "label_b": "Respondent",
+ "counsel_a": "Ms. Farah Qureshi",
+ "counsel_b": "Mr. D. K. Bansal",
+ "status": "pending",
+ "stage": "Delay condonation",
+ "first_date": "2024-05-14",
+ "last_date": "2025-02-11",
+ "next_date": "2026-11-30",
+ "next_purpose": "arguments on condonation of delay",
+ "hearings": 3,
+ "note": "",
+ "sig": "a5dc2cd96b9dcf55418e284e6919383e73f04b3b5570de80436a8d578a712009",
+ "title": "Northline Logistics LLP v. Assessing Authority, Circle II",
+ "brief": {
+  "about": "The appeal is against a penalty of Rs. 18,40,000 imposed for late filing of quarterly returns for 2021-22. The appeal is filed 212 days beyond limitation and is accompanied by an application for condonation of delay.",
+  "last": "The affidavit with discharge summaries has been filed. The respondent seeks time to verify the documents. Time is granted.",
+  "today": "Listed for arguments on condonation of delay.",
+  "watch": []
+ },
+ "brief_by": "offline",
+ "orders": [
+  {
+   "order_date": "2024-05-14",
+   "summary": "The appeal is against a penalty of Rs. 18,40,000 imposed for late filing of quarterly returns for 2021-22. The appeal is filed 212 days beyond limitation and is accompanied by an application for condonation of delay.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [],
+   "next_date": "2024-09-10",
+   "next_purpose": "reply to the application",
+   "coram": "",
+   "counsel_a": "Ms. Farah Qureshi",
+   "counsel_b": "Mr. D. K. Bansal",
+   "file": "2024-05-14.pdf",
+   "read_by": "offline",
+   "note": ""
+  },
+  {
+   "order_date": "2024-09-10",
+   "summary": "Reply to the condonation application is filed. The respondent says the penalty order was served by e-mail on 02.02.2023 and that the plea of the managing partner's illness is unsupported. The appellant is directed to file the medical record and proof of the date of knowledge by affidavit.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [
+    "The appellant is directed to file the medical record and proof of the date of knowledge by affidavit."
+   ],
+   "next_date": "2025-02-11",
+   "next_purpose": "",
+   "coram": "",
+   "counsel_a": "Ms. Farah Qureshi",
+   "counsel_b": "Mr. D. K. Bansal",
+   "file": "2024-09-10.pdf",
+   "read_by": "offline",
+   "note": ""
+  },
+  {
+   "order_date": "2025-02-11",
+   "summary": "The affidavit with discharge summaries has been filed. The respondent seeks time to verify the documents. Time is granted.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [
+    "Time is granted."
+   ],
+   "next_date": "2026-11-30",
+   "next_purpose": "arguments on condonation of delay",
+   "coram": "",
+   "counsel_a": "Ms. Farah Qureshi",
+   "counsel_b": "Mr. D. K. Bansal",
+   "file": "2025-02-11.pdf",
+   "read_by": "offline",
+   "note": ""
+  }
+ ]
+}

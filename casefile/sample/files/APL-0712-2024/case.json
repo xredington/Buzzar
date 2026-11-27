@@ -1,0 +1,66 @@
+{
+ "key": "APL-0712-2024",
+ "file_no": "APL/0712/2024",
+ "party_a": "Lakshmi Textiles",
+ "party_b": "Labour Welfare Board",
+ "label_a": "Appellant",
+ "label_b": "Respondent",
+ "counsel_a": "Ms. Gauri Nair",
+ "counsel_b": "Mr. Sandeep Rana",
+ "status": "pending",
+ "stage": "Final arguments",
+ "first_date": "2024-08-20",
+ "last_date": "2025-02-04",
+ "next_date": "2026-11-24",
+ "next_purpose": "final arguments",
+ "hearings": 2,
+ "note": "",
+ "sig": "42efcb60111d3aa9b904d8e7cca6170b9c6cbcef40b995993ea85a2c55b502d6",
+ "title": "Lakshmi Textiles v. Labour Welfare Board",
+ "brief": {
+  "about": "The appeal challenges a demand of Rs. 9,30,000 towards welfare cess for 2019-22 computed on the full wage bill including contract labour. Issue notice.",
+  "last": "Reply is filed. The appellant is directed to file the contractor-wise wage registers.",
+  "today": "Listed for final arguments.",
+  "watch": [
+   "Interim order in the file"
+  ]
+ },
+ "brief_by": "offline",
+ "orders": [
+  {
+   "order_date": "2024-08-20",
+   "summary": "The appeal challenges a demand of Rs. 9,30,000 towards welfare cess for 2019-22 computed on the full wage bill including contract labour. Issue notice.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [
+    "Issue notice.",
+    "Recovery is stayed subject to deposit of half the demand."
+   ],
+   "next_date": "2025-02-04",
+   "next_purpose": "reply",
+   "coram": "",
+   "counsel_a": "Ms. Gauri Nair",
+   "counsel_b": "Mr. Sandeep Rana",
+   "file": "2024-08-20.pdf",
+   "read_by": "offline",
+   "note": ""
+  },
+  {
+   "order_date": "2025-02-04",
+   "summary": "Reply is filed. The appellant is directed to file the contractor-wise wage registers.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [
+    "The appellant is directed to file the contractor-wise wage registers."
+   ],
+   "next_date": "2026-11-24",
+   "next_purpose": "final arguments",
+   "coram": "",
+   "counsel_a": "Ms. Gauri Nair",
+   "counsel_b": "Mr. Sandeep Rana",
+   "file": "2025-02-04.pdf",
+   "read_by": "offline",
+   "note": ""
+  }
+ ]
+}

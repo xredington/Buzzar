@@ -1,0 +1,46 @@
+{
+ "key": "APL-0122-2026",
+ "file_no": "APL/0122/2026",
+ "party_a": "Greenfield Schools Society",
+ "party_b": "Director of Education",
+ "label_a": "Appellant",
+ "label_b": "Respondent",
+ "counsel_a": "Ms. Anjali Deshmukh",
+ "counsel_b": "None",
+ "status": "pending",
+ "stage": "Pleadings",
+ "first_date": "2026-11-03",
+ "last_date": "2026-11-03",
+ "next_date": "2026-12-01",
+ "next_purpose": "reply and hearing on interim relief",
+ "hearings": 1,
+ "note": "",
+ "sig": "8280748aa115db92450a07dbdc1aae6f106e98de6fcff11a6e51e54ded6d721b",
+ "title": "Greenfield Schools Society v. Director of Education",
+ "brief": {
+  "about": "The appellant society challenges the order dated 12.10.2026 withdrawing recognition of its senior secondary section from the next academic session for shortfall in playground area. It says the adjoining plot was leased on 01.09.2026 and cures the shortfall.",
+  "last": "",
+  "today": "Listed for reply and hearing on interim relief.",
+  "watch": []
+ },
+ "brief_by": "offline",
+ "orders": [
+  {
+   "order_date": "2026-11-03",
+   "summary": "The appellant society challenges the order dated 12.10.2026 withdrawing recognition of its senior secondary section from the next academic session for shortfall in playground area. It says the adjoining plot was leased on 01.09.2026 and cures the shortfall. Issue notice to the respondent, returnable at an early date since admissions open in January.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [
+    "Issue notice to the respondent, returnable at an early date since admissions open in January."
+   ],
+   "next_date": "2026-12-01",
+   "next_purpose": "reply and hearing on interim relief",
+   "coram": "",
+   "counsel_a": "Ms. Anjali Deshmukh",
+   "counsel_b": "None",
+   "file": "2026-11-03.pdf",
+   "read_by": "offline",
+   "note": ""
+  }
+ ]
+}

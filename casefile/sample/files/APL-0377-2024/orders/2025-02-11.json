@@ -1,0 +1,28 @@
+{
+ "file_no": "APL/0377/2024",
+ "party_a": "Northline Logistics LLP",
+ "party_b": "Assessing Authority, Circle II",
+ "label_a": "Appellant",
+ "label_b": "Respondent",
+ "counsel_a": "Ms. Farah Qureshi",
+ "counsel_b": "Mr. D. K. Bansal",
+ "coram": "",
+ "order_date": "2025-02-11",
+ "summary": "The affidavit with discharge summaries has been filed. The respondent seeks time to verify the documents. Time is granted.",
+ "side_a_said": "",
+ "side_b_said": "",
+ "directions": [
+  "Time is granted."
+ ],
+ "next_date": "2026-11-30",
+ "next_purpose": "arguments on condonation of delay",
+ "stage": "Delay condonation",
+ "disposed": false,
+ "reserved": false,
+ "adjournment_by": "b",
+ "read_by": "offline",
+ "key": "APL-0377-2024",
+ "sha256": "a211c2af72a1fe3402c0fddfd653da1ead0a9be40c2c51f4ac0ee0bd514bbd02",
+ "file": "2025-02-11.pdf",
+ "filed_at": "2026-11-27T17:07:40"
+}

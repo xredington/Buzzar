@@ -1,0 +1,81 @@
+{
+ "key": "APL-0845-2025",
+ "file_no": "APL/0845/2025",
+ "party_a": "Arvind Mehta",
+ "party_b": "Sub-Registrar, Zone IV",
+ "label_a": "Appellant",
+ "label_b": "Respondent",
+ "counsel_a": "In person",
+ "counsel_b": "None",
+ "status": "pending",
+ "stage": "Hearing",
+ "first_date": "2025-06-03",
+ "last_date": "2026-02-10",
+ "next_date": "2026-11-30",
+ "next_purpose": "hearing",
+ "hearings": 3,
+ "note": "",
+ "sig": "0e14cdaec6318aa01432673a0ee979c7be71fc271b16bc90ef73f8d0d9588dee",
+ "title": "Arvind Mehta v. Sub-Registrar, Zone IV",
+ "brief": {
+  "about": "The appellant claims refund of excess stamp duty of Rs. 6,20,000 paid on a sale deed that was later cancelled by a decree. The refund application was rejected as time-barred.",
+  "last": "None is present for the respondent again though service is complete. In the interest of justice one more opportunity is given. If nobody appears on the next date the appeal will be heard ex parte.",
+  "today": "Listed for hearing.",
+  "watch": [
+   "A party did not appear last time",
+   "Ex parte proceedings mentioned"
+  ]
+ },
+ "brief_by": "offline",
+ "orders": [
+  {
+   "order_date": "2025-06-03",
+   "summary": "The appellant claims refund of excess stamp duty of Rs. 6,20,000 paid on a sale deed that was later cancelled by a decree. The refund application was rejected as time-barred.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [
+    "Issue notice to the respondent."
+   ],
+   "next_date": "2025-09-16",
+   "next_purpose": "",
+   "coram": "",
+   "counsel_a": "In person",
+   "counsel_b": "None",
+   "file": "2025-06-03.pdf",
+   "read_by": "offline",
+   "note": ""
+  },
+  {
+   "order_date": "2025-09-16",
+   "summary": "None appears for the respondent despite service. Fresh notice be issued by registered post and by e-mail.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [
+    "Fresh notice be issued by registered post and by e-mail."
+   ],
+   "next_date": "2026-02-10",
+   "next_purpose": "",
+   "coram": "",
+   "counsel_a": "In person",
+   "counsel_b": "None",
+   "file": "2025-09-16.pdf",
+   "read_by": "offline",
+   "note": ""
+  },
+  {
+   "order_date": "2026-02-10",
+   "summary": "None is present for the respondent again though service is complete. In the interest of justice one more opportunity is given. If nobody appears on the next date the appeal will be heard ex parte.",
+   "side_a_said": "",
+   "side_b_said": "",
+   "directions": [],
+   "next_date": "2026-11-30",
+   "next_purpose": "hearing",
+   "coram": "",
+   "counsel_a": "In person",
+   "counsel_b": "None",
+   "file": "2026-02-10.pdf",
+   "read_by": "offline",
+   "note": ""
+  }
+ ]
+}

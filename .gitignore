@@ -2,3 +2,7 @@ node_modules/
 .DS_Store
 snapshot/
 *.log
+
+# Case register: real orders stay on the machine that runs it
+casefile/data/
+__pycache__/
