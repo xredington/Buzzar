@@ -685,6 +685,7 @@ function pSources() {
 const PAGES = {today: pToday, matters: pMatters, matter: pMatter, diary: pDiary, library: pLibrary, inbox: pInbox, sources: pSources};
 let lastKey = '';
 function render() {
+  if (S.pointer) { S.pending = true; return; }   // never redraw under a click in progress
   const page = PAGES[location.hash.slice(1)] ? location.hash.slice(1) : 'today', app = $('#app'), key = page + '|' + S.cur + '|' + S.tab;
   $('#nav').innerHTML = [['today', 'Today', todays().length || ''], ['matters', 'Matters', S.matters.length || ''], ['diary', 'Diary', ''], ['library', 'Library', S.library.length || ''], ['inbox', 'Inbox', S.inbox.length || ''], ['sources', 'Sources', '']]
     .map(([k, l, n], i) => `${i === 5 ? '<div class="navsep"></div>' : ''}<a href="#${k}" ${k === page || (page === 'matter' && k === 'matters') ? 'aria-current="page"' : ''}>${l}<span class="n">${n}</span></a>`).join('');
@@ -824,5 +825,7 @@ document.addEventListener('dragover', e => { const z = e.target.closest?.('[data
 document.addEventListener('dragleave', e => e.target.closest?.('[data-drop]')?.classList.remove('over'));
 document.addEventListener('drop', e => { const z = e.target.closest?.('[data-drop]'); if (!z) return; e.preventDefault(); z.classList.remove('over'); const ctx = z.dataset.drop; takeFiles([...e.dataTransfer.files], ctx === 'library' ? {library: true} : ctx === 'matter' ? {matter: S.cur} : {}); });
 addEventListener('hashchange', () => { S.armed = ''; render(); scrollTo(0, 0); });
+addEventListener('pointerdown', () => { S.pointer = true; }, true);
+for (const ev of ['pointerup', 'pointercancel']) addEventListener(ev, () => setTimeout(() => { S.pointer = false; if (S.pending) { S.pending = false; render(); } }, 0), true);
 boot();
 </script>
